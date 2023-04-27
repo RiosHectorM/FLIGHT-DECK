@@ -3,7 +3,7 @@ import prisma from '@/pages/libs/prismadb';
 // import { ObjectId } from 'mongodb';
 import { useRouter } from 'next/router';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {
 
     try {
