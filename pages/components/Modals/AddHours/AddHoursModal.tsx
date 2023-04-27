@@ -70,7 +70,7 @@ const AddHoursModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    await axios.post(`http://localhost:3000//api/create-flight/`, data);
+    await axios.post(`http://localhost:3000/api/create-flight/`, data);
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
