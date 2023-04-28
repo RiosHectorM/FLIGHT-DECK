@@ -39,25 +39,25 @@ const LoginModal = () => {
     signIn('credentials', {
       ...data,
       redirect: false,
-    }).then((callback) => {
-      setIsLoading(false);
+    })
+      .then((callback) => {
+        setIsLoading(false);
 
-      if (callback?.ok) {
-        toast.success('Logged in');
-        if (data.role === 'PILOT')
-          router.push('/mainPilot');
-        else if (data.role === 'INSTRUCTOR')
-          router.push('/mainInstructor');
-        else 
-          router.push('/mainCompany');
-          
-        loginModal.onClose();
-      }
+        if (callback?.ok) {
+          toast.success('Logged in');
+          if (data.role === 'PILOT') router.push('/mainPilot');
+          else if (data.role === 'INSTRUCTOR') router.push('/mainInstructor');
+          else router.push('/mainCompany');
+          loginModal.onClose();
+        }
 
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
-    });
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
+      })
+      .catch(() => {
+        toast.error('callback.error');
+      });
   };
 
   const onToggle = useCallback(() => {
