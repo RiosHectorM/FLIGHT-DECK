@@ -12,67 +12,88 @@ datasource db {
 
 model User {
   id              String @id @default(auto()) @map("_id") @db.ObjectId
-  apellido        String?
-  name            String?
+  name            String
+  lastName        String?
+  role            String?
+  // userTypeId      String   @db.ObjectId
   email           String?   @unique
   emailVerified   DateTime?
   image           String?
   hashedPassword  String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  favoriteIds     String[] @db.ObjectId
-
-  //accounts Account[]
-  listings Listing[]
-  reservations Reservation[]
+  // userType UserType @relation(fields: [userTypeId], references: [id]) // onDelete: Cascade ?
+  accounts Account[]
+  flights Flight[]
 }
 
-// model Account {
-//   id String @id @default(auto()) @map("_id") @db.ObjectId
-//   userId             String   @db.ObjectId
-//   type               String
-//   provider           String
-//   providerAccountId  String
-//   refresh_token      String?  @db.String
-//   access_token       String?  @db.String
-//   expires_at         Int?
-//   token_type         String?
-//   scope              String?
-//   id_token           String?  @db.String
-//   session_state      String?
+// model UserType {
+//   id              String @id @default(auto()) @map("_id") @db.ObjectId
+//   userType        String
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-//   @@unique([provider, providerAccountId])
+//   users User[]
 // }
 
-model Listing {
-  id             String @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String
-  imageSrc String
-  createdAt DateTime @default(now())
-  category  String
-  roomCount Int
-  bathroomCount Int
-  guestCount Int
-  locationValue String
-  userId String @db.ObjectId
-  price Int
-
+model Flight {
+  id              String @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String @db.ObjectId
+  date            DateTime?  // Format: "2023-01-01T00:00:00.000Z"
+  aircraftId      String?
+  stages          String?
+  flightType      String?  // instructor, simulator, copilot, pilot in command
+  hourCount       Float?
+  folio           Int?
+  remarks         String?
+  createdAt       DateTime @default(now())
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  reservations Reservation[]
 }
 
-model Reservation {
+model Account {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId String @db.ObjectId
-  listingId String @db.ObjectId  
-  startDate DateTime
-  endDate DateTime
-  totalPrice Int
-  createdAt DateTime @default(now())
+  userId             String   @db.ObjectId
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?  @db.String
+  access_token       String?  @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?  @db.String
+  session_state      String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
+
+// model Listing {
+//   id             String @id @default(auto()) @map("_id") @db.ObjectId
+//   title String
+//   description String
+//   imageSrc String
+//   createdAt DateTime @default(now())
+//   category  String
+//   roomCount Int
+//   bathroomCount Int
+//   guestCount Int
+//   locationValue String
+//   userId String @db.ObjectId
+//   price Int
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   reservations Reservation[]
+// }
+
+// model Reservation {
+//   id String @id @default(auto()) @map("_id") @db.ObjectId
+//   userId String @db.ObjectId
+//   listingId String @db.ObjectId  
+//   startDate DateTime
+//   endDate DateTime
+//   totalPrice Int
+//   createdAt DateTime @default(now())
+
+//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   listing Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+// }

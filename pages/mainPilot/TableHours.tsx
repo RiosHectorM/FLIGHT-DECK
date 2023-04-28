@@ -66,6 +66,54 @@ const TableHoursPilot = () => {
       escuelaEntrenamiento: 'AviaSchool',
       copiloto: '6:00',
     },
+    {
+      folio: 1,
+      fecha: '2022-04-25',
+      marca: 'Airbus',
+      clase: 'A380',
+      tipo: 'Comercial',
+      matricula: 'XA-ABC',
+      marcaMotor: 'Rolls Royce',
+      hp: 500,
+      etapas: 'ARG-COL',
+      dobleComandoDia: '10:00',
+      soloNoche: '5:00',
+      instrSim: '3:00',
+      firmaInstructor: 'Juan Pérez',
+      dia: '8:00',
+      nocheInstr: '4:00',
+      diaInstr: '6:00',
+      noche: '2:00',
+      instr: '1:00',
+      autonomo: '3:00',
+      tiempoTotal: 30,
+      escuelaEntrenamiento: 'AviaSchool',
+      copiloto: '6:00',
+    },
+    {
+      folio: 1,
+      fecha: '2022-04-25',
+      marca: 'Airbus',
+      clase: 'A380',
+      tipo: 'Comercial',
+      matricula: 'XA-ABC',
+      marcaMotor: 'Rolls Royce',
+      hp: 500,
+      etapas: 'ARG-COL',
+      dobleComandoDia: '10:00',
+      soloNoche: '5:00',
+      instrSim: '3:00',
+      firmaInstructor: 'Juan Pérez',
+      dia: '8:00',
+      nocheInstr: '4:00',
+      diaInstr: '6:00',
+      noche: '2:00',
+      instr: '1:00',
+      autonomo: '3:00',
+      tiempoTotal: 30,
+      escuelaEntrenamiento: 'AviaSchool',
+      copiloto: '6:00',
+    },
   ];
 
   const rateInstructorModal = useRateInstructorModal();
@@ -79,30 +127,26 @@ const TableHoursPilot = () => {
     <div className='flex flex-col justify-between h-full'>
       <RateInstructorModal />
       <AddHoursModal />
-      <div className='max-w-7xl mx-auto pt-20 px-4 sm:px-6 lg:px-8'>
+      <div className='max-w-7xl mx-auto pt-20 px-4 sm:px-6 lg:px-8 w-full'>
         <Table className='table-auto w-full mx-auto bg-white shadow-md rounded my-6'>
-          <Thead>
+          <Thead className='w-full'>
             <Tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal'>
-              <Th className='w-1/12 text-center border text-xs'>FOLIO</Th>
-              <Th className='w-1/12 text-center border text-xs'>FECHA</Th>
-              <Th className='w-3/12 text-center border text-xs'>
+              <Th className='text-center border text-xs'>FOLIO</Th>
+              <Th className=' text-center border text-xs'>FECHA</Th>
+              <Th className=' text-center border text-xs'>
                 CARACTERISTICAS DEL AVION
               </Th>
-              <Th className='w-2/12 text-center border text-xs'>ETAPAS</Th>
-              <Th className='w-1/12 text-center border text-xs'>SIMULADOR</Th>
-              <Th className='w-1/12 text-center border text-xs'>AUTONOMO</Th>
-              <Th className='w-1/12 text-center border text-xs'>
-                TIEMPO TOTAL
-              </Th>
-              <Th className='w-1/12 text-center border text-xs'>COPILOTO</Th>
-              <Th className='w-1/12 text-center border text-xs'>AUTONOMO</Th>
-              <Th className='w-1/12 text-center border text-xs'>
-                TIEMPO TOTAL
-              </Th>
-              <Th className='w-1/12 text-center border text-xs'>FIRMA INST</Th>
+              <Th className='text-center border text-xs'>SIMULADOR</Th>
+              <Th className='text-center border text-xs'>AUTONOMO</Th>
+              <Th className='text-center border text-xs'>ETAPAS</Th>
+              <Th className='text-center border text-xs'>TIEMPO TOTAL</Th>
+              <Th className='text-center border text-xs'>COPILOTO</Th>
+              <Th className='text-center border text-xs'>AUTONOMO</Th>
+              <Th className='text-center border text-xs'>TIEMPO TOTAL</Th>
+              <Th className='text-center border text-xs'>FIRMA INST</Th>
             </Tr>
           </Thead>
-          <Tbody>
+          <Tbody className='w-full'>
             {datos.map((dato, index) => (
               <Tr
                 key={index}
@@ -129,14 +173,6 @@ const TableHoursPilot = () => {
                 </Td>
                 <Td className='text-center border text-xs'>
                   {dato.firmaInstructor}
-                </Td>
-                <Td className='text-center border text-2xl'>
-                  <AiFillSafetyCertificate
-                    onClick={() => {
-                      toast.success('Solicitar Certificacion');
-                      rateInstructorModal.onOpen();
-                    }}
-                  />
                 </Td>
                 <Td className='text-center border text-2xl'>
                   <AiFillEdit onClick={() => toast.success('Editar')} />
