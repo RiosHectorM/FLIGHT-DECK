@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(404).json({ message: 'No users with role INSTRUCTOR found' });
       }
 
-      // If users exist, return them as an array in a JSON response
+      // If instructor users exist, return them as an array in a JSON response
       res.json(instructorUsers);
     }
     catch (error) {
