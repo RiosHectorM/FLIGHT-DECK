@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 //import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -102,9 +103,15 @@ const RegisterModal = () => {
       <hr />
       <Button
         outline
+        label='Continue with Facebook'
+        icon={FaFacebook}
+        onClick={() => signIn('facebook')}
+      />
+      <Button
+        outline
         label='Continue with Google'
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() => signIn('google')}
       />
       <Button
         outline
