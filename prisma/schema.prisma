@@ -42,7 +42,7 @@ model Flight {
   date            DateTime?  // Format: "2023-01-01T00:00:00.000Z"
   aircraftId      String?
   stages          String?
-  flightType      String?  // instructor, simulator, copilot, pilot in command
+  flightType      String?  // instructor, simulator, copilot, pilot
   hourCount       Float?
   folio           Int?
   remarks         String?
