@@ -1,8 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/pages/libs/prismadb';
 import { ObjectId } from 'mongodb';
-import { useRouter } from 'next/router';
-
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,10 +8,28 @@ export default async function handler(
 ) {
   // - POST ------------------
   if (req.method === 'POST') {
-    const { userId, date, aircraftId, stages, flightType, hourCount, folio, remarks } = req.body;
+    console.log(req.body);
+    const {
+      userId,
+      date,
+      aircraftId,
+      stages,
+      flightType,
+      hourCount,
+      folio,
+      remarks,
+    } = req.body;
 
     // Verify existence of required fields
-    if (!userId || !date || !aircraftId || !stages || !flightType || !hourCount) {
+    if (
+      !userId ||
+      !date ||
+      !aircraftId ||
+      !stages ||
+      !flightType ||
+      !hourCount
+    ) {
+
       return res.status(400).json({ message: 'Required field missing' });
     }
 
@@ -21,7 +37,7 @@ export default async function handler(
       const flight = await prisma.flight.create({
         data: {
           userId,
-          date,
+          date: date + 'T00:00:00.000+00:00',
           aircraftId,
           stages,
           flightType,
@@ -66,6 +82,7 @@ export default async function handler(
   }
 
   else {
+
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }

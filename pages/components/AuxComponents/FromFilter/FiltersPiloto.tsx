@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import FilterToggle from './FilterToggle';
 import Dropdown from './Dropdown';
-import DateRangePicker from './FromFilter/DatePicker';
+import DateRangePicker from './DatePicker';
 
 enum FilterOption {
   All = 'All',
