@@ -31,26 +31,38 @@ export default async function handler(
         },
       });
       return res.status(201).json(flight);
-    } catch (error) {
+    }
+    catch (error) {
       // Handle flight creation error
       console.error(error);
       return res.status(500).json({ message: `Error creating flight` });
     }
+    finally {
+      await prisma.$disconnect();
+    }
   }
 
-  // - GET ------------------
+  // - GET all------------------
   else if (req.method === 'GET') {
 
-    // Use the Prisma Client to fetch all flights into an array
-    const allFlights = await prisma.flight.findMany();
+    try {
+      // Use the Prisma Client to fetch all flights into an array
+      const allFlights = await prisma.flight.findMany();
 
-    // If there are no flights, return a 404 error
-    if (!allFlights) {
-      return res.status(404).json({ message: 'No flights found' });
+      // If there are no flights, return a 404 error
+      if (!allFlights) {
+        return res.status(404).json({ message: 'No flights found' });
+      }
+
+      // If the flight exists, return it as a JSON response
+      res.json(allFlights);
     }
-
-    // If the flight exists, return it as a JSON response
-    res.json(allFlights);
+    catch (error) {
+      return res.status(500).json({ error });
+    }
+    finally {
+      await prisma.$disconnect();
+    }
   }
 
   else {
