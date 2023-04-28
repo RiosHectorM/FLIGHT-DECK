@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
@@ -101,9 +102,17 @@ const LoginModal = () => {
       <hr />
       <Button
         outline
+        label='Continue with Facebook'
+        icon={FaFacebook}
+        onClick={() => signIn('facebook')}
+      />
+      <Button
+        outline
         label='Continue with Google'
         icon={FcGoogle}
-        onClick={() => signIn('google')}
+        onClick={() =>
+          signIn('google', { callbackUrl: 'http://localhost:3000/mainPilot' })
+        }
       />
       <Button
         outline

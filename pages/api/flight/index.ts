@@ -29,6 +29,7 @@ export default async function handler(
       !flightType ||
       !hourCount
     ) {
+
       return res.status(400).json({ message: 'Required field missing' });
     }
 
@@ -46,35 +47,42 @@ export default async function handler(
         },
       });
       return res.status(201).json(flight);
-    } catch (error) {
+    }
+    catch (error) {
       // Handle flight creation error
       console.error(error);
       return res.status(500).json({ message: `Error creating flight` });
     }
-  }
-  // - GET ------------------
-  else if (req.method === 'GET') {
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-
-    const { id } = req.query;
-
-    const url_id = '6449aaa475ccb3e96b89fdec';
-
-    const flightId = new ObjectId(id as string).toString();
-
-    // Use the Prisma Client to fetch the flight data
-    const flight = await prisma.flight.findUnique({
-      where: { id: flightId },
-    });
-
-    // If the flight does not exist, return a 404 error
-    if (!flight) {
-      return res.status(404).json({ message: 'Flight not found' });
+    finally {
+      await prisma.$disconnect();
     }
+  }
 
-    // If the flight exists, return it as a JSON response
-    res.json(flight);
-  } else {
+  // - GET all------------------
+  else if (req.method === 'GET') {
+
+    try {
+      // Use the Prisma Client to fetch all flights into an array
+      const allFlights = await prisma.flight.findMany();
+
+      // If there are no flights, return a 404 error
+      if (!allFlights) {
+        return res.status(404).json({ message: 'No flights found' });
+      }
+
+      // If the flight exists, return it as a JSON response
+      res.json(allFlights);
+    }
+    catch (error) {
+      return res.status(500).json({ error });
+    }
+    finally {
+      await prisma.$disconnect();
+    }
+  }
+
+  else {
+
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
