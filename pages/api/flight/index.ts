@@ -37,11 +37,11 @@ export default async function handler(
       return res.status(500).json({ message: `Error creating flight` });
     }
   }
-  
+
   // - GET ------------------
   else if (req.method === 'GET') {
 
-    // Use the Prisma Client to fetch all flights data
+    // Use the Prisma Client to fetch all flights into an array
     const allFlights = await prisma.flight.findMany();
 
     // If there are no flights, return a 404 error
