@@ -1,15 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/pages/libs/prismadb';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse)
-{
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   // - GET Instructors------------------
   if (req.method === 'GET') {
 
     try {
       // Use the Prisma Client to fetch all users with role 'INSTRUCTOR'
-      const instructorUsers = await prisma.user.findMany();
-      // TODOOOOOOOOOOOOOOOOO
+      const instructorUsers = await prisma.user.findMany({
+        where: {
+          role: 'INSTRUCTOR'
+        }
+      });
 
       // If there are no users with that role, return a 404 error
       if (!instructorUsers) {
