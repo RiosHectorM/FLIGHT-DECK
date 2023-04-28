@@ -7,16 +7,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
 
     try {
-      // Use the Prisma Client to fetch all flights into an array
-      const allFlights = await prisma.flight.findMany();
+      // Use the Prisma Client to fetch all users with role 'INSTRUCTOR'
+      const instructorUsers = await prisma.user.findMany();
+      // TODOOOOOOOOOOOOOOOOO
 
-      // If there are no flights, return a 404 error
-      if (!allFlights) {
-        return res.status(404).json({ message: 'No flights found' });
+      // If there are no users with that role, return a 404 error
+      if (!instructorUsers) {
+        return res.status(404).json({ message: 'No users with role INSTRUCTOR found' });
       }
 
-      // If the flight exists, return it as a JSON response
-      res.json(allFlights);
+      // If users exist, return them as an array in a JSON response
+      res.json(instructorUsers);
     }
     catch (error) {
       return res.status(500).json({ error });
@@ -27,7 +28,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   else {
-
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
