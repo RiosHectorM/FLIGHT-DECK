@@ -12,9 +12,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
+import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 
 const AddHoursModal = () => {
   const addHoursModal = useAddHoursModal();
+  const addPlaneModal = useAddPlaneModal();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -60,13 +62,13 @@ const AddHoursModal = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }, reset
+    formState: { errors },
+    reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-
     reset();
     await axios
       .post(`http://localhost:3000/api/flight`, data)
@@ -170,9 +172,9 @@ const AddHoursModal = () => {
           </div>
           <p className='text-red-600'>{errors.hourCount?.message}</p>
         </div>
-
         <button>SEND</button>
       </form>
+        <button onClick={() => addPlaneModal.onOpen()}>avion</button>
     </div>
   );
 

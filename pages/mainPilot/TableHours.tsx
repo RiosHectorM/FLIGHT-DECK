@@ -8,12 +8,12 @@ import {
   AiFillCloseCircle,
 } from 'react-icons/ai';
 
-
 import { toast } from 'react-hot-toast';
 import useRateInstructorModal from '../hooks/useRateInstructorModal';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
 import useAddHoursModal from '../hooks/useAddHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
+import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -126,6 +126,7 @@ const TableHoursPilot = () => {
   return (
     <div className='flex flex-col justify-between h-full'>
       <RateInstructorModal />
+      <AddPlaneModal />
       <AddHoursModal />
       <div className='max-w-7xl mx-auto pt-20 px-4 sm:px-6 lg:px-8 w-full'>
         <Table className='table-auto w-full mx-auto bg-white shadow-md rounded my-6'>

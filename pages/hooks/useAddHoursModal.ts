@@ -11,3 +11,5 @@ const useAddHoursModal = create<AddHoursModalStore>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
+
+export default useAddHoursModal;
