@@ -54,7 +54,7 @@ const AddPlaneModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
-    await axios.post(`http://localhost:3000/api/create-plane/`, data);
+    await axios.post(`http://localhost:3000/api/plane/`, data);
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
