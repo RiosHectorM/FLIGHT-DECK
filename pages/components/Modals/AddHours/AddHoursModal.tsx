@@ -60,12 +60,14 @@ const AddHoursModal = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }, reset
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
+    reset();
     await axios
       .post(`http://localhost:3000/api/flight`, data)
       .then(() => {
