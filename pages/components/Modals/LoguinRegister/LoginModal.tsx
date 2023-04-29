@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
@@ -15,6 +16,7 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../AuxComponents/InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
+import axios from 'axios';
 
 const LoginModal = () => {
   const router = useRouter();
@@ -33,31 +35,50 @@ const LoginModal = () => {
     },
   });
 
+  const userByRole = async (email: string) => {
+    setIsLoading(true);
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch(() => {
+        toast.error('Error User Search');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
     signIn('credentials', {
       ...data,
       redirect: false,
-    }).then((callback) => {
-      setIsLoading(false);
+    })
+      .then((callback) => {
+        setIsLoading(false);
 
-      if (callback?.ok) {
-        toast.success('Logged in');
-        if (data.role === 'PILOT')
-          router.push('/mainPilot');
-        else if (data.role === 'INSTRUCTOR')
-          router.push('/mainInstructor');
-        else 
-          router.push('/mainCompany');
-          
-        loginModal.onClose();
-      }
-
-      if (callback?.error) {
-        toast.error(callback.error);
-      }
-    });
+        if (callback?.ok) {
+          // BUSCAR USUARIO POR MAIL Y TRAER EL CAMPO ROLE
+          let result = userByRole(data.email);
+          result.then((user) => {
+            toast.success('Logged in');
+            console.log(user);
+            if (user.role === 'PILOT') router.push('/mainPilot');
+            else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
+            else router.push('/mainCompany');
+          });
+          loginModal.onClose();
+        }
+        if (callback?.error) {
+          toast.error(callback.error);
+        }
+      })
+      .catch(() => {
+        toast.error('callback.error');
+      });
   };
 
   const onToggle = useCallback(() => {
@@ -85,14 +106,6 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <Input
-        id='role'
-        label='ROLE'
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
     </div>
   );
 
@@ -101,15 +114,33 @@ const LoginModal = () => {
       <hr />
       <Button
         outline
+        label='Continue with Facebook'
+        icon={FaFacebook}
+        onClick={() =>
+          signIn('facebook', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
+      />
+      <Button
+        outline
         label='Continue with Google'
         icon={FcGoogle}
-        onClick={() => signIn('google')}
+        onClick={() =>
+          signIn('google', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <Button
         outline
         label='Continue with Github'
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        onClick={() =>
+          signIn('github', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <div
         className='

@@ -10,6 +10,7 @@ import useRegisterModal from '@/pages/hooks/useRegisterModal';
 
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
+import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 interface UserMenuProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
@@ -19,12 +20,9 @@ interface UserMenuProps {
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
 
-  const handleDashboardClick = () => {
-    router.push('/dashboard');
-  };
-
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+  const addHoursModal = useAddHoursModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -36,7 +34,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         <div
-          onClick={() => { }}
+          onClick={() => {}}
           className='
             hidden
             md:block
@@ -100,10 +98,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label='My Profile'
                   onClick={() => router.push('/dashboardPilot')}
                 />
-                <MenuItem
-                  label='Add Hours'
-                  onClick={() => router.push('/favorites')}
-                />
+                <MenuItem label='Add Hours' onClick={addHoursModal.onOpen} />
                 <MenuItem
                   label='Search Instructor'
                   onClick={() => router.push('/reservations')}
@@ -114,12 +109,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   onClick={() => {
                     signOut({ redirect: false });
                     router.push('/');
+                    toggleOpen();
                   }}
                 />
-
               </>
             ) : (
               <>
+                <MenuItem label='Home' onClick={() => router.push('/home')} />
                 <MenuItem label='Login' onClick={loginModal.onOpen} />
                 <MenuItem label='Sign up' onClick={registerModal.onOpen} />
               </>

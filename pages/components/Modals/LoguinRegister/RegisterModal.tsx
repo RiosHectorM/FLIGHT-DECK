@@ -4,9 +4,16 @@ import axios from 'axios';
 import { AiFillGithub } from 'react-icons/ai';
 //import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import {
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  Controller,
+  UseFormSetValue,
+} from 'react-hook-form';
 
 import useLoginModal from '@/pages/hooks/useLoginModal';
 import useRegisterModal from '@/pages/hooks/useRegisterModal';
@@ -23,7 +30,9 @@ const RegisterModal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const {
+    control,
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>({
@@ -58,6 +67,11 @@ const RegisterModal = () => {
     loginModal.onOpen();
   }, [registerModal, loginModal]);
 
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setValue('role', value);
+  };
+
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading title='Welcome to Flight Deck' subtitle='Create your account' />
@@ -86,14 +100,56 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      <Input
+      {/* <Input
         id='role'
         label='Role'
         disabled={isLoading}
         register={register}
         errors={errors}
         required
-      />
+      /> */}
+      <div>
+        <h1 className='text-2xl font-bold pb-2'>Choose Your Role to Join Us</h1>
+        <Controller
+          name='role'
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { value } }) => (
+            <div className='flex justify-around gap-2'>
+              <label className='inline-flex items-center'>
+                <input
+                  type='radio'
+                  value='PILOT'
+                  checked={value === 'PILOT'}
+                  onChange={handleOptionChange}
+                  className='form-radio text-indigo-600 h-5 w-5'
+                />
+                <span className='ml-2 text-gray-700 text-xl'>Pilot</span>
+              </label>
+              <label className='inline-flex items-center'>
+                <input
+                  type='radio'
+                  value='INSTRUCTOR'
+                  checked={value === 'INSTRUCTOR'}
+                  onChange={handleOptionChange}
+                  className='form-radio text-indigo-600 h-5 w-5'
+                />
+                <span className='ml-2 text-gray-700 text-xl'>Instructor</span>
+              </label>
+              <label className='inline-flex items-center'>
+                <input
+                  type='radio'
+                  value='COMPANY'
+                  checked={value === 'COMPANY'}
+                  onChange={handleOptionChange}
+                  className='form-radio text-indigo-600 h-5 w-5'
+                />
+                <span className='ml-2 text-gray-700 text-xl'>Company</span>
+              </label>
+            </div>
+          )}
+        />
+      </div>
     </div>
   );
 
@@ -102,15 +158,33 @@ const RegisterModal = () => {
       <hr />
       <Button
         outline
+        label='Continue with Facebook'
+        icon={FaFacebook}
+        onClick={() =>
+          signIn('facebook', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
+      />
+      <Button
+        outline
         label='Continue with Google'
         icon={FcGoogle}
-        onClick={() => {}}
+        onClick={() =>
+          signIn('google', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <Button
         outline
         label='Continue with Github'
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        onClick={() =>
+          signIn('github', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <div
         className='

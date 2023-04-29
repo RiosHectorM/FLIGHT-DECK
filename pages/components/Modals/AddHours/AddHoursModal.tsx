@@ -11,6 +11,7 @@ import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
+import { toast } from 'react-hot-toast';
 
 const AddHoursModal = () => {
   const addHoursModal = useAddHoursModal();
@@ -37,14 +38,9 @@ const AddHoursModal = () => {
         .integer('Debe ser entero')
         .required()
         .typeError('Debe ser un número'),
-      userid: yup.string().required(),
-      date: yup
-        .string()
-        .required('Fecha es un campo obligatorio')
-        .matches(
-          /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
-          'La fecha debe estar en el formato aaaa-mm-dd'
-        ),
+      userId: yup.string().required(),
+      date: yup.string().required('Fecha es un campo obligatorio'),
+
       aircraftId: yup
         .mixed()
         .oneOf(Object.values(Matriculas), 'Avión no registrado (ej A003)'),
@@ -70,8 +66,15 @@ const AddHoursModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+
     reset();
-    await axios.post(`http://localhost:3000/api/create-flight/`, data);
+    await axios
+      .post(`http://localhost:3000/api/flight`, data)
+      .then(() => {
+        toast.success('Saved');
+        addHoursModal.onClose();
+      })
+      .catch(() => toast.error('Error Save Data'));
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -102,9 +105,9 @@ const AddHoursModal = () => {
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>User: </label>
-            <input className='border border-black' {...register('userid')} />
+            <input className='border border-black' {...register('userId')} />
           </div>
-          <p className='text-red-600'>{errors.userid?.message}</p>
+          <p className='text-red-600'>{errors.userId?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
@@ -116,14 +119,21 @@ const AddHoursModal = () => {
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>Fecha: </label>
-            <input className='border border-black' {...register('date')} />
+            <input
+              type='date'
+              className='border border-black'
+              {...register('date')}
+            />
           </div>
           <p className='text-red-600'>{errors.date?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>Matricula: </label>
-            <input className='border border-black' {...register('aircraftId')} />
+            <input
+              className='border border-black'
+              {...register('aircraftId')}
+            />
           </div>
           <p className='text-red-600'>{errors.aircraftId?.message}</p>
         </div>
