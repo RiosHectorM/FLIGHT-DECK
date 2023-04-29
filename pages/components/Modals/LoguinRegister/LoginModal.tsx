@@ -16,6 +16,7 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../AuxComponents/InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
+import axios from 'axios';
 
 const LoginModal = () => {
   const router = useRouter();
@@ -34,6 +35,21 @@ const LoginModal = () => {
     },
   });
 
+  const userByRole = async (email: string) => {
+    setIsLoading(true);
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch(() => {
+        toast.error('Error User Search');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
@@ -45,13 +61,17 @@ const LoginModal = () => {
         setIsLoading(false);
 
         if (callback?.ok) {
-          toast.success('Logged in');
-          if (data.role === 'PILOT') router.push('/mainPilot');
-          else if (data.role === 'INSTRUCTOR') router.push('/mainInstructor');
-          else router.push('/mainCompany');
+          // BUSCAR USUARIO POR MAIL Y TRAER EL CAMPO ROLE
+          let result = userByRole(data.email);
+          result.then((user) => {
+            toast.success('Logged in');
+            console.log(user);
+            if (user.role === 'PILOT') router.push('/mainPilot');
+            else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
+            else router.push('/mainCompany');
+          });
           loginModal.onClose();
         }
-
         if (callback?.error) {
           toast.error(callback.error);
         }
@@ -86,14 +106,6 @@ const LoginModal = () => {
         errors={errors}
         required
       />
-      <Input
-        id='role'
-        label='ROLE'
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
     </div>
   );
 
@@ -104,21 +116,31 @@ const LoginModal = () => {
         outline
         label='Continue with Facebook'
         icon={FaFacebook}
-        onClick={() => signIn('facebook')}
+        onClick={() =>
+          signIn('facebook', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <Button
         outline
         label='Continue with Google'
         icon={FcGoogle}
         onClick={() =>
-          signIn('google', { callbackUrl: 'http://localhost:3000/mainPilot' })
+          signIn('google', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
         }
       />
       <Button
         outline
         label='Continue with Github'
         icon={AiFillGithub}
-        onClick={() => signIn('github')}
+        onClick={() =>
+          signIn('github', {
+            callbackUrl: 'http://localhost:3000/home/chooseRole',
+          })
+        }
       />
       <div
         className='
