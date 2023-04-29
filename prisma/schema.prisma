@@ -11,22 +11,21 @@ datasource db {
 }
 
 model User {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  lastName        String?
-  role            String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  lastName       String?
+  role           String?
   // userTypeId      String   @db.ObjectId
-  email           String?   @unique
-  emailVerified   DateTime?
-  image           String?
-  hashedPassword  String?
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
 
   // userType UserType @relation(fields: [userTypeId], references: [id]) // onDelete: Cascade ?
   accounts Account[]
-  flights Flight[]
+  flights  Flight[]
 }
 
 // model UserType {
@@ -37,35 +36,35 @@ model User {
 // }
 
 model Flight {
-  id              String @id @default(auto()) @map("_id") @db.ObjectId
-  userId          String @db.ObjectId
-  date            DateTime?  // Format: "2023-01-01T00:00:00.000Z"
-  aircraftId      String
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String    @db.ObjectId
+  date       DateTime? // Format: "2023-01-01T00:00:00.000Z"
+  aircraftId String
   // aircraftId      String    @db.ObjectId    Leo: TO UNCOMMENT LATER AND REPLACE LINE ABOVE
-  stages          String?
-  flightType      String?  // instructor, simulator, copilot, pilot
-  hourCount       Float?
-  folio           Int?
-  remarks         String?
-  createdAt       DateTime @default(now())
+  stages     String?
+  flightType String? // instructor, simulator, copilot, pilot
+  hourCount  Float?
+  folio      Int?
+  remarks    String?
+  createdAt  DateTime  @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   // airplane Airplane @relation(fields: [aircraftId], references: [id])      Leo: TO UNCOMMENT LATER
 }
 
 model Account {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
-  userId             String   @db.ObjectId
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.String
-  access_token       String?  @db.String
-  expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.String
-  session_state      String?
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -73,17 +72,17 @@ model Account {
 }
 
 model Airplane {
-  id            String @id @default(auto()) @map("_id") @db.ObjectId
-  registration  String   // matricula
-  manufacturer  String?
-  class         String?
-  type          String?
-  engineBrand   String?
-  hp            String?
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  registration String // matricula
+  manufacturer String?
+  planeClass   String?
+  type         String?
+  engineBrand  String?
+  hp           String?
+  createdAt    DateTime @default(now())
 
   // flights Flight[]   Leo: TO UNCOMMENT LATER
 }
-
 
 // model Reservation {
 //   id String @id @default(auto()) @map("_id") @db.ObjectId
