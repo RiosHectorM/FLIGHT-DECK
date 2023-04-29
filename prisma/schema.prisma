@@ -73,7 +73,7 @@ model Account {
 
 model Airplane {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  registration String // matricula
+  registration String // matrícula
   manufacturer String?
   planeClass   String?
   type         String?
