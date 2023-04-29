@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/pages/libs/prismadb';
-import { ObjectId } from 'mongodb';
 
 export default async function handler(
   req: NextApiRequest,
