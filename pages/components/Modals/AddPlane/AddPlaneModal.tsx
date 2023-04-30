@@ -23,14 +23,13 @@ const AddPlaneModal = () => {
       brand: yup
       .string()
         .required("Brand is required"),
-      userid: yup.string().required(),
       model: yup
         .string()
         .required('Fecha es un campo obligatorio'),
-      aircraftId: yup
+      registrationId: yup
         .mixed()
         .required("Id is a mandatory field"),
-      class: yup.string().required('Class is a mandatory field'),
+      classPlane: yup.string().required('Class is a mandatory field'),
       remarks: yup.string(),
       engine: yup
       .string()
@@ -84,13 +83,6 @@ const AddPlaneModal = () => {
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
-            <label>User: </label>
-            <input className='border border-black' {...register('userid')} />
-          </div>
-          <p className='text-red-600'>{errors.userid?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
             <label>Brand: </label>
             <input className='border border-black' {...register('brand')} />
           </div>
@@ -99,9 +91,9 @@ const AddPlaneModal = () => {
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>Class: </label>
-            <input className='border border-black' {...register('class')} />
+            <input className='border border-black' {...register('classPlane')} />
           </div>
-          <p className='text-red-600'>{errors.class?.message}</p>
+          <p className='text-red-600'>{errors.classPlane?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
@@ -127,9 +119,9 @@ const AddPlaneModal = () => {
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>Plane Id: </label>
-            <input className='border border-black' {...register('aircraftId')} />
+            <input className='border border-black' {...register('registrationId')} />
           </div>
-          <p className='text-red-600'>{errors.aircraftId?.message}</p>
+          <p className='text-red-600'>{errors.registrationId?.message}</p>
         </div>
         <button>SEND</button>
       </form>

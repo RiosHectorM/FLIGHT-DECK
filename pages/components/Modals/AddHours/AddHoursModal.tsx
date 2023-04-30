@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
@@ -26,12 +26,23 @@ const AddHoursModal = () => {
     'Copiloto' = 'Copiloto',
     'Autonomo' = 'Autonomo',
   }
-  enum Matriculas {
-    'A003' = 'A003',
-    'A004' = 'A004',
-    'A005' = 'A005',
-    'A0006' = 'A0006',
-  }
+  interface Avion{registrationID:string, brand:string,model:string, planeClass:string, engine:string, HPs:BigInteger, remarks:string, id:string }
+  var matriculas:Array<string>=[]
+ 
+  useEffect(() => {
+    function getRegisteredID() {
+      axios.get(`http://localhost:3001/api/plane`)
+      .then((response) => response.data)
+      .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
+      // Pass data to the pae via props
+      return matriculas 
+      
+    }
+    matriculas= getRegisteredID()
+    console.log("Hola")
+  },[])
+
+
   const schema = yup
     .object({
       folio: yup
@@ -43,9 +54,9 @@ const AddHoursModal = () => {
       userId: yup.string().required(),
       date: yup.string().required('Fecha es un campo obligatorio'),
 
-      aircraftId: yup
+      registrationId: yup
         .mixed()
-        .oneOf(Object.values(Matriculas), 'Avión no registrado (ej A003)'),
+        .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
       stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
       flightType: yup
@@ -134,10 +145,10 @@ const AddHoursModal = () => {
             <label>Matricula: </label>
             <input
               className='border border-black'
-              {...register('aircraftId')}
+              {...register('registrationId')}
             />
           </div>
-          <p className='text-red-600'>{errors.aircraftId?.message}</p>
+          <p className='text-red-600'>{errors.registrationId?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
