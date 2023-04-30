@@ -1,7 +1,9 @@
-const index = () => {
-  return (
-    <div>COMPANY</div>
-  )
-}
+import MainCompanyPage from "./MainCompanyPage";
 
-export default index
+export default function index() {
+  return (
+    <div>
+      <MainCompanyPage />
+    </div>
+  );
+}
