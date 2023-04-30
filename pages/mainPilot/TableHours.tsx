@@ -17,17 +17,18 @@ import AddHoursModal from "../components/Modals/AddHours/AddHoursModal";
 import AddPlaneModal from "../components/Modals/AddPlane/AddPlaneModal";
 
 const TableHoursPilot = () => {
-  const [flight, setFlight] = useState();
   interface DatosEjemplo {
     folio: number;
-    fecha: string;
+    date: string;
     marca: string;
     clase: string;
     tipo: string;
+    aircraftId: string;
     matricula: string;
     marcaMotor: string;
+    flightType: string;
     hp: number;
-    etapas: string;
+    stages: string;
     dobleComandoDia: string;
     soloNoche: string;
     instrSim: string;
@@ -38,10 +39,13 @@ const TableHoursPilot = () => {
     noche: string;
     instr: string;
     autonomo: string;
+    hourCount: number;
     tiempoTotal: number;
     escuelaEntrenamiento: string;
     copiloto: string;
+    remarks: string;
   }
+  const [flight, setFlight] = useState<DatosEjemplo[]>([]);
 
   useEffect(() => {
     const result = axios
@@ -55,6 +59,7 @@ const TableHoursPilot = () => {
   }, []);
   console.log(flight);
 
+  /*
   const datos: DatosEjemplo[] = [
     {
       folio: 1,
@@ -129,6 +134,7 @@ const TableHoursPilot = () => {
       copiloto: "6:00",
     },
   ];
+*/
 
   const rateInstructorModal = useRateInstructorModal();
   const addHoursModal = useAddHoursModal();
@@ -151,14 +157,16 @@ const TableHoursPilot = () => {
               <Th className=" text-center border text-xs">
                 CARACTERISTICAS DEL AVION
               </Th>
-              <Th className="text-center border text-xs">SIMULADOR</Th>
-              <Th className="text-center border text-xs">AUTONOMO</Th>
+              {/* <Th className="text-center border text-xs">SIMULADOR</Th> */}
+              <Th className="text-center border text-xs">FLIGHT TYPE</Th>
+              {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
               <Th className="text-center border text-xs">ETAPAS</Th>
               <Th className="text-center border text-xs">TIEMPO TOTAL</Th>
-              <Th className="text-center border text-xs">COPILOTO</Th>
-              <Th className="text-center border text-xs">AUTONOMO</Th>
-              <Th className="text-center border text-xs">TIEMPO TOTAL</Th>
-              <Th className="text-center border text-xs">FIRMA INST</Th>
+              {/* <Th className="text-center border text-xs">COPILOTO</Th> */}
+              {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
+              {/* <Th className="text-center border text-xs">TIEMPO TOTAL</Th> */}
+              {/* <Th className="text-center border text-xs">FIRMA INST</Th> */}
+              <Th className="text-center border text-xs">OBSERVACIONES</Th>
             </Tr>
           </Thead>
           <Tbody className="w-full">
@@ -176,11 +184,14 @@ const TableHoursPilot = () => {
                   {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
                   {dato.marcaMotor} {dato.hp} HP
                 </Td>
-                <Td className="text-center border text-xs">{dato.instrSim}</Td>
-                <Td className="text-center border text-xs">{dato.autonomo}</Td>
+                <Td className="text-center border text-xs">
+                  {dato.flightType}
+                </Td>
+                {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
                 <Td className="text-center border text-xs">{dato.stages}</Td>
                 <Td className="text-center border text-xs">{dato.hourCount}</Td>
-                <Td className="text-center border text-xs">
+                <Td className="text-center border text-xs">{dato.remarks}</Td>
+                {/*  <Td className="text-center border text-xs">
                   {dato.tiempoTotal}
                 </Td>
                 <Td className="text-center border text-xs">{dato.copiloto}</Td>
@@ -190,7 +201,7 @@ const TableHoursPilot = () => {
                 </Td>
                 <Td className="text-center border text-xs">
                   {dato.firmaInstructor}
-                </Td>
+                </Td> */}
                 <Td className="text-center border text-2xl">
                   <AiFillEdit onClick={() => toast.success("Editar")} />
                 </Td>
