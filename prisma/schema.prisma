@@ -48,7 +48,7 @@ model Flight {
   remarks    String?
   createdAt  DateTime  @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id])
   // airplane Airplane @relation(fields: [aircraftId], references: [id])      Leo: TO UNCOMMENT LATER
 }
 
@@ -72,14 +72,15 @@ model Account {
 }
 
 model Airplane {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  registration String // matrícula
-  manufacturer String?
-  planeClass   String?
-  type         String?
-  engineBrand  String?
-  hp           String?
-  createdAt    DateTime @default(now())
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  aircraftId String // matrícula
+  brand      String
+  model      String
+  planeClass String
+  engine     String
+  HPs        Int
+  remarks    String?
+  createdAt  DateTime @default(now())
 
   // flights Flight[]   Leo: TO UNCOMMENT LATER
 }
