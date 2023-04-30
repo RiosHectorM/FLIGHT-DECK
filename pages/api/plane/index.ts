@@ -9,7 +9,7 @@ export default async function handler(
   if (req.method === 'POST') {
     console.log(req.body);
     const {
-      aircraftId,
+      registrationId,
       brand,
       model,
       planeClass,
@@ -19,14 +19,14 @@ export default async function handler(
     } = req.body;
 
     // Verify existence of required fields
-    if (!aircraftId || !brand || !model || !planeClass || !engine || !HPs) {
+    if (!registrationId || !brand || !model || !planeClass || !engine || !HPs) {
       return res.status(400).json({ message: 'Required field missing' });
     }
 
     try {
       const plane = await prisma.airplane.create({
         data: {
-          aircraftId,
+          registrationId,
           brand,
           model,
           planeClass,

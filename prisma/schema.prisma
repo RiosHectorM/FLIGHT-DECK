@@ -72,15 +72,15 @@ model Account {
 }
 
 model Airplane {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  aircraftId String // matrícula
-  brand      String
-  model      String
-  planeClass String
-  engine     String
-  HPs        Int
-  remarks    String?
-  createdAt  DateTime @default(now())
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  registrationId String   @unique // matrícula
+  brand          String
+  model          String
+  planeClass     String
+  engine         String
+  HPs            Int
+  remarks        String?
+  createdAt      DateTime @default(now())
 
   // flights Flight[]   Leo: TO UNCOMMENT LATER
 }
