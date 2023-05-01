@@ -52,18 +52,21 @@ const TableHoursPilot = () => {
 
   const userMail = data?.user?.email;
 
-  const userByRole = async (email: string) => {
-    return axios
-      .get(`/api/getUserByEmail/${email}`)
-      .then((result) => {
-        setId(result.data.id);
-        return result.data;
-      })
-      .catch(() => {
-        toast.error("Error User Search");
-      });
-  };
-  let result = userByRole(userMail);
+  useEffect(() => {
+    const userByRole = axios
+    .get(`/api/getUserByEmail/${userMail}`)
+    .then((result) => {
+      // setId(result.data.id);
+      setId('6445e4037b8984d3e367d374');
+      return result.data;
+    })
+    .catch(() => {
+      toast.error("Error User Search");
+    });
+  }, [])
+
+  
+  // let result = userByRole(userMail);
 
   useEffect(() => {
     const result = axios
@@ -74,7 +77,7 @@ const TableHoursPilot = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [flight]);
+  }, [flight, id]);
 
   /* DATOS HARDCODEADOSSSSSSSSSSSSSSSSSS
   const datos: DatosEjemplo[] = [
