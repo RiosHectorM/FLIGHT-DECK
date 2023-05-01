@@ -1,15 +1,13 @@
-
-
 import Link from 'next/link';
 import Image from 'next/image';
 import HomePageFeaturesSection from './FeaturesSection';
 import HomePageTestimonialsSection from './TestimonialsSection';
 import useRegisterModal from '../hooks/useRegisterModal';
 import RegisterModal from '../components/Modals/LoguinRegister/RegisterModal';
+import { motion } from 'framer-motion';
 
 const HomePage = () => {
   const registerModal = useRegisterModal();
-
 
   const handleRole = (myRole: string) => {
     console.log(myRole);
@@ -17,13 +15,21 @@ const HomePage = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen bg-blue-50'>
+    <div className='flex flex-col items-center justify-center min-h-screen' style={{backgroundImage: 'url("/images/backgroundhome.jpg")',backgroundSize: 'cover',
+    backgroundPosition: 'center'}}>
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2'>
-        <h2 className='text-4xl font-bold text-gray-800'>Join us as a</h2>
+        <motion.h2
+          className='text-4xl font-bold text-gray-200'
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.5 }}
+        >
+          Join us as a
+        </motion.h2>
         <div className='flex justify-center space-x-6 mt-8'>
           <div
-            className='relative flex flex-col items-center justify-center'
+            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
             onClick={() => handleRole('PILOT')}
           >
             <Image
@@ -38,7 +44,7 @@ const HomePage = () => {
             </h3>
           </div>
           <div
-            className='relative flex flex-col items-center justify-center'
+            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
             onClick={() => handleRole('INSTRUCTOR')}
           >
             <Image
@@ -53,7 +59,7 @@ const HomePage = () => {
             </h3>
           </div>
           <div
-            className='relative flex flex-col items-center justify-center'
+            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
             onClick={() => handleRole('COMPANY')}
           >
             <Image
