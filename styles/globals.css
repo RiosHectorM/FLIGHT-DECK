@@ -74,3 +74,13 @@ button:disabled {
   background-color: var(--color-button-disabled);
   cursor: wait
 }
+
+.relative:hover img {
+  transform: rotateY(15deg) rotateX(-15deg);
+  transition: transform 0.3s ease-out;
+}
+
+.relative img {
+  transition: transform 0.3s ease-out;
+}
+

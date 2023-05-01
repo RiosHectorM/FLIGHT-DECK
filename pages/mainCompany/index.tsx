@@ -1,4 +1,4 @@
-import MainCompanyPage from "../dashboardComany/MainCompanyPage";
+import MainCompanyPage from "./MainCompanyPage";
 
 export default function index() {
   return (
