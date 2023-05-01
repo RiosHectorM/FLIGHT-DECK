@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { useSession } from "next-auth/react";
 
 import {
   AiFillSafetyCertificate,
@@ -10,7 +11,6 @@ import {
 
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import useRateInstructorModal from "../hooks/useRateInstructorModal";
 import RateInstructorModal from "../components/Modals/InstHours/RateInstructorModal";
 import useAddHoursModal from "../hooks/useAddHoursModal";
 import AddHoursModal from "../components/Modals/AddHours/AddHoursModal";
@@ -47,18 +47,44 @@ const TableHoursPilot = () => {
   }
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
 
+  const { data } = useSession();
+  console.log(data?.user);
+  const userData = data?.user?.email;
+
+  /*  const userByRole = async (email: string) => {
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch(() => {
+        toast.error("Error User Search");
+      });
+  };
+
+  let result = userByRole(userData?.email);
+  result.then(async (user) => {
+    await axios
+      .post(`http://localhost:3000/api/getFlightsByUser/${user.id}`)
+      .then(() => {
+        toast.success("Saved");
+        addHoursModal.onClose();
+      })
+      .catch(() => toast.error("Error Save Data"));
+  });
+ */
   useEffect(() => {
     const result = axios
       .get("http://localhost:3000/api/flight")
       .then((response) => {
         setFlight(response.data);
       })
-      .then((err) => {
+      .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [flight]);
 
-  /*
+  /* DATOS HARDCODEADOSSSSSSSSSSSSSSSSSS
   const datos: DatosEjemplo[] = [
     {
       folio: 1,
@@ -135,7 +161,6 @@ const TableHoursPilot = () => {
   ];
 */
 
-  const rateInstructorModal = useRateInstructorModal();
   const addHoursModal = useAddHoursModal();
 
   const handleAddHours = () => {
