@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { useSession } from "next-auth/react";
 
 import {
   AiFillSafetyCertificate,
@@ -45,10 +46,28 @@ const TableHoursPilot = () => {
     remarks: string;
   }
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
+  const [id, setId] = useState("");
+
+  const { data } = useSession();
+
+  const userMail = data?.user?.email;
+
+  const userByRole = async (email: string) => {
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        setId(result.data.id);
+        return result.data;
+      })
+      .catch(() => {
+        toast.error("Error User Search");
+      });
+  };
+  let result = userByRole(userMail);
 
   useEffect(() => {
     const result = axios
-      .get("http://localhost:3000/api/flight")
+      .get(`http://localhost:3000/api/flight/getFlightsByUserId?id=${id}`)
       .then((response) => {
         setFlight(response.data);
       })
@@ -167,28 +186,33 @@ const TableHoursPilot = () => {
             </Tr>
           </Thead>
           <Tbody className="w-full">
-            {flight.map((dato, index) => (
-              <Tr
-                key={index}
-                className="hover:bg-gray-100 border-b border-gray-200 py-10"
-              >
-                <Td className="text-center border text-xs text-gray-700">
-                  {dato.folio}
-                </Td>
-                <Td className="text-center border text-xs">{dato.date}</Td>
-                <Td className="text-center border text-xs">
-                  {dato.aircraftId}
-                  {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
-                  {dato.marcaMotor} {dato.hp} HP
-                </Td>
-                <Td className="text-center border text-xs">
-                  {dato.flightType}
-                </Td>
-                {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
-                <Td className="text-center border text-xs">{dato.stages}</Td>
-                <Td className="text-center border text-xs">{dato.hourCount}</Td>
-                <Td className="text-center border text-xs">{dato.remarks}</Td>
-                {/*  <Td className="text-center border text-xs">
+            {flight.length === 0 ? (
+              <h1>LOADING....</h1>
+            ) : (
+              flight.map((dato, index) => (
+                <Tr
+                  key={index}
+                  className="hover:bg-gray-100 border-b border-gray-200 py-10"
+                >
+                  <Td className="text-center border text-xs text-gray-700">
+                    {dato.folio}
+                  </Td>
+                  <Td className="text-center border text-xs">{dato.date}</Td>
+                  <Td className="text-center border text-xs">
+                    {dato.aircraftId}
+                    {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
+                    {dato.marcaMotor} {dato.hp} HP
+                  </Td>
+                  <Td className="text-center border text-xs">
+                    {dato.flightType}
+                  </Td>
+                  {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
+                  <Td className="text-center border text-xs">{dato.stages}</Td>
+                  <Td className="text-center border text-xs">
+                    {dato.hourCount}
+                  </Td>
+                  <Td className="text-center border text-xs">{dato.remarks}</Td>
+                  {/*  <Td className="text-center border text-xs">
                   {dato.tiempoTotal}
                 </Td>
                 <Td className="text-center border text-xs">{dato.copiloto}</Td>
@@ -199,14 +223,15 @@ const TableHoursPilot = () => {
                 <Td className="text-center border text-xs">
                   {dato.firmaInstructor}
                 </Td> */}
-                <Td className="text-center border text-2xl">
-                  <AiFillEdit onClick={() => toast.success("Editar")} />
-                </Td>
-                <Td className="text-center border text-2xl">
-                  <AiFillCloseCircle onClick={() => toast.error("Borrar")} />
-                </Td>
-              </Tr>
-            ))}
+                  <Td className="text-center border text-2xl">
+                    <AiFillEdit onClick={() => toast.success("Editar")} />
+                  </Td>
+                  <Td className="text-center border text-2xl">
+                    <AiFillCloseCircle onClick={() => toast.error("Borrar")} />
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </div>
