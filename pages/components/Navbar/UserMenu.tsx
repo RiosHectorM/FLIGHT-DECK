@@ -96,12 +96,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               <>
                 <MenuItem
                   label='My Profile'
-                  onClick={() => router.push('/dashboardPilot')}
+                  onClick={() => {
+                    router.push('/dashboardPilot');
+                    toggleOpen();
+                  }}
                 />
                 <MenuItem label='Add Hours' onClick={addHoursModal.onOpen} />
                 <MenuItem
                   label='Search Instructor'
-                  onClick={() => router.push('/reservations')}
+                  onClick={() => {
+                    router.push('/reservations');
+                    toggleOpen();
+                  }}
                 />
                 <hr />
                 <MenuItem
