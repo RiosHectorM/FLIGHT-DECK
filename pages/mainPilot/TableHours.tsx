@@ -46,36 +46,28 @@ const TableHoursPilot = () => {
     remarks: string;
   }
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
+  const [id, setId] = useState("");
 
   const { data } = useSession();
-  console.log(data?.user);
-  const userData = data?.user?.email;
 
-  /*  const userByRole = async (email: string) => {
+  const userMail = data?.user?.email;
+
+  const userByRole = async (email: string) => {
     return axios
       .get(`/api/getUserByEmail/${email}`)
       .then((result) => {
+        setId(result.data.id);
         return result.data;
       })
       .catch(() => {
         toast.error("Error User Search");
       });
   };
+  let result = userByRole(userMail);
 
-  let result = userByRole(userData?.email);
-  result.then(async (user) => {
-    await axios
-      .post(`http://localhost:3000/api/getFlightsByUser/${user.id}`)
-      .then(() => {
-        toast.success("Saved");
-        addHoursModal.onClose();
-      })
-      .catch(() => toast.error("Error Save Data"));
-  });
- */
   useEffect(() => {
     const result = axios
-      .get("http://localhost:3000/api/flight")
+      .get(`http://localhost:3000/api/flight/getFlightsByUserId?id=${id}`)
       .then((response) => {
         setFlight(response.data);
       })
