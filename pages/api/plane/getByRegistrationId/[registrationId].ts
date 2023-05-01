@@ -14,25 +14,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
 
     try {
+      // Get the plane registration ID from the request parameters
+      const { registrationId } = req.query
+      if (!registrationId) {
+        return res.status(400).json({ message: 'Airplane registration ID is required' });
+      }
+
       // Use the Prisma Client to fetch a plane by registrationId
-      // TODO!!!!  
-
-
-
-
-      const instructorUsers = await prisma.user.findMany({
+      const plane = await prisma.airplane.findUnique({
         where: {
-          role: 'INSTRUCTOR'
+          registrationId: registrationId as string
         }
       });
 
-      // If there are no users with that role, return a 404 error
-      if (!instructorUsers) {
-        return res.status(404).json({ message: 'No users with role INSTRUCTOR found' });
+      // If there is no airplane with that registrationId, return a 404 error
+      if (!plane) {
+        return res.status(404).json({ message: 'No planes with that registration ID found' });
       }
 
-      // If instructor users exist, return them as an array in a JSON response
-      res.json(instructorUsers);
+      // If an airplane exists, return it in a JSON response
+      res.json(plane);
     }
     catch (error) {
       return res.status(500).json({ error });
