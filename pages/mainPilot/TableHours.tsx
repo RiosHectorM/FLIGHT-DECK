@@ -57,7 +57,6 @@ const TableHoursPilot = () => {
         console.log(err);
       });
   }, []);
-  console.log(flight);
 
   /*
   const datos: DatosEjemplo[] = [
@@ -170,28 +169,33 @@ const TableHoursPilot = () => {
             </Tr>
           </Thead>
           <Tbody className="w-full">
-            {flight.map((dato, index) => (
-              <Tr
-                key={index}
-                className="hover:bg-gray-100 border-b border-gray-200 py-10"
-              >
-                <Td className="text-center border text-xs text-gray-700">
-                  {dato.folio}
-                </Td>
-                <Td className="text-center border text-xs">{dato.date}</Td>
-                <Td className="text-center border text-xs">
-                  {dato.aircraftId}
-                  {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
-                  {dato.marcaMotor} {dato.hp} HP
-                </Td>
-                <Td className="text-center border text-xs">
-                  {dato.flightType}
-                </Td>
-                {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
-                <Td className="text-center border text-xs">{dato.stages}</Td>
-                <Td className="text-center border text-xs">{dato.hourCount}</Td>
-                <Td className="text-center border text-xs">{dato.remarks}</Td>
-                {/*  <Td className="text-center border text-xs">
+            {flight.length === 0 ? (
+              <h1>LOADING....</h1>
+            ) : (
+              flight.map((dato, index) => (
+                <Tr
+                  key={index}
+                  className="hover:bg-gray-100 border-b border-gray-200 py-10"
+                >
+                  <Td className="text-center border text-xs text-gray-700">
+                    {dato.folio}
+                  </Td>
+                  <Td className="text-center border text-xs">{dato.date}</Td>
+                  <Td className="text-center border text-xs">
+                    {dato.aircraftId}
+                    {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
+                    {dato.marcaMotor} {dato.hp} HP
+                  </Td>
+                  <Td className="text-center border text-xs">
+                    {dato.flightType}
+                  </Td>
+                  {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
+                  <Td className="text-center border text-xs">{dato.stages}</Td>
+                  <Td className="text-center border text-xs">
+                    {dato.hourCount}
+                  </Td>
+                  <Td className="text-center border text-xs">{dato.remarks}</Td>
+                  {/*  <Td className="text-center border text-xs">
                   {dato.tiempoTotal}
                 </Td>
                 <Td className="text-center border text-xs">{dato.copiloto}</Td>
@@ -202,14 +206,15 @@ const TableHoursPilot = () => {
                 <Td className="text-center border text-xs">
                   {dato.firmaInstructor}
                 </Td> */}
-                <Td className="text-center border text-2xl">
-                  <AiFillEdit onClick={() => toast.success("Editar")} />
-                </Td>
-                <Td className="text-center border text-2xl">
-                  <AiFillCloseCircle onClick={() => toast.error("Borrar")} />
-                </Td>
-              </Tr>
-            ))}
+                  <Td className="text-center border text-2xl">
+                    <AiFillEdit onClick={() => toast.success("Editar")} />
+                  </Td>
+                  <Td className="text-center border text-2xl">
+                    <AiFillCloseCircle onClick={() => toast.error("Borrar")} />
+                  </Td>
+                </Tr>
+              ))
+            )}
           </Tbody>
         </Table>
       </div>
