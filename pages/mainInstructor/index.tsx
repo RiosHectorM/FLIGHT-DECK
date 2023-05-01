@@ -1,7 +1,11 @@
-const index = () => {
+import MainInstructor from "./MainInstructor";
+
+const Index = () => {
   return (
-    <div>INSTRUCTOR</div>
+    <div>
+      <MainInstructor title="Instructor" />
+    </div>
   )
 }
 
-export default index
+export default Index;
