@@ -18,20 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // const { userId, date, aircraftId, folio }: Filters = req.body;
       const { userId, date, aircraftId, folio } = req.query;
 
-      console.log('AAAA----userId---: ' + req.query.userId);
-      console.log('EEEE----date-----: ' + req.query.date);
-      console.log('IIII--aircraftId-: ' + req.query.aircraftId);
-
-
       const filters = {
         userId: userId ? userId as string : undefined,
         date: date ? new Date(date as string) : undefined,
-        aircraftId: aircraftId ? aircraftId : undefined,
+        aircraftId: aircraftId ? aircraftId as string: undefined,
         folio: folio ? parseInt(folio as string, 10) : undefined,
       };
 
       console.log(filters);
-      
 
       // Use the Prisma Client to fetch all flights according to received filters
       const flights = await prisma.flight.findMany({
@@ -43,7 +37,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // },
       });
 
-      // res.status(200).json({ flights });
       res.status(200).json(flights);
     }
     catch (error) {
