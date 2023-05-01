@@ -34,9 +34,9 @@ export default function Form() {
   let email = '';
   if (data?.user?.email) {
     email = data?.user?.email;
-    console.log('tiene mail');
+    console.log('hay sesion iniciada');
   } else {
-    console.log('no tiene mail');
+    console.log('No hay sesion');
   }
 
   const onSubmit = (data: FormData) => {

@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
@@ -13,8 +13,12 @@ import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
 import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import { useSession } from 'next-auth/react';
 
 const AddHoursModal = () => {
+  const { data } = useSession();
+  const userData = data?.user
+
   const addHoursModal = useAddHoursModal();
   const addPlaneModal = useAddPlaneModal();
 
@@ -40,7 +44,7 @@ const AddHoursModal = () => {
         .integer('Debe ser entero')
         .required()
         .typeError('Debe ser un número'),
-      userId: yup.string().required(),
+      //userId: yup.string().required(),
       date: yup.string().required('Fecha es un campo obligatorio'),
 
       aircraftId: yup
@@ -68,15 +72,34 @@ const AddHoursModal = () => {
     resolver: yupResolver(schema),
   });
 
+  const userByRole = async (email: string) => {
+    setIsLoading(true);
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch(() => {
+        toast.error('Error User Search');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
-    await axios
-      .post(`http://localhost:3000/api/flight`, data)
-      .then(() => {
-        toast.success('Saved');
-        addHoursModal.onClose();
-      })
-      .catch(() => toast.error('Error Save Data'));
+    let result = userByRole(userData?.email);
+    result.then(async (user) => {
+       await axios
+         .post(`http://localhost:3000/api/flight`, {...data, userId:user.id})
+         .then(() => {
+           toast.success('Saved');
+           addHoursModal.onClose();
+         })
+         .catch(() => toast.error('Error Save Data'));
+    });
+   
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -104,13 +127,13 @@ const AddHoursModal = () => {
         subtitle='Fill in the fields that apply'
       />
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
-        <div className='flex flex-col text-center'>
+        {/* <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>User: </label>
             <input className='border border-black' {...register('userId')} />
           </div>
           <p className='text-red-600'>{errors.userId?.message}</p>
-        </div>
+        </div> */}
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
             <label>Folio: </label>
@@ -174,7 +197,7 @@ const AddHoursModal = () => {
         </div>
         <button>SEND</button>
       </form>
-        <button onClick={() => addPlaneModal.onOpen()}>avion</button>
+      <button onClick={() => addPlaneModal.onOpen()}>avion</button>
     </div>
   );
 
