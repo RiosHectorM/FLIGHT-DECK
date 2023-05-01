@@ -166,12 +166,17 @@ const AddPlaneModal = () => {
     </div>
   );
 
+  const handlerCloseModals = () => {
+    addPlaneModal.onClose()
+    addHoursModal.onOpen()
+  }
+
   return (
     <Modal
       disabled={isLoading}
       isOpen={addPlaneModal.isOpen}
       title='REGISTER A PLANE TO YOUR LOGBOOK'
-      onClose={addPlaneModal.onClose}
+      onClose={handlerCloseModals}
       body={bodyContent}
       footer={footerContent}
     />
