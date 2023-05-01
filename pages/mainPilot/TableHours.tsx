@@ -145,7 +145,7 @@ const TableHoursPilot = () => {
       <RateInstructorModal />
       <AddPlaneModal />
       <AddHoursModal />
-      <div className="max-w-7xl mx-auto pt-20 px-4 sm:px-6 lg:px-8 w-full">
+      <div className="max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full">
         <Table className="table-auto w-full mx-auto bg-white shadow-md rounded my-6">
           <Thead className="w-full">
             <Tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
