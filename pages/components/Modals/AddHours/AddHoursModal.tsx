@@ -17,7 +17,7 @@ import { useSession } from 'next-auth/react';
 
 const AddHoursModal = () => {
   const { data } = useSession();
-  const userData = data?.user
+  const userData = data?.user;
 
   const addHoursModal = useAddHoursModal();
   const addPlaneModal = useAddPlaneModal();
@@ -30,12 +30,24 @@ const AddHoursModal = () => {
     'Copiloto' = 'Copiloto',
     'Autonomo' = 'Autonomo',
   }
-  enum Matriculas {
-    'A003' = 'A003',
-    'A004' = 'A004',
-    'A005' = 'A005',
-    'A0006' = 'A0006',
-  }
+
+  const [aviones, setAviones] = useState([]);
+  
+ useEffect(() => {
+   async function getRegisteredID() {
+     return await axios
+       .get(`http://localhost:3000/api/plane`)
+       .then((response) => response.data);
+     // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
+   }
+   const airplanes = getRegisteredID();
+   airplanes.then((data) => setAviones(data));
+ }, [aviones]);
+
+ const matriculas = aviones.map(
+   (avion: { registrationId: string }) => avion.registrationId
+ );
+
   const schema = yup
     .object({
       folio: yup
@@ -49,7 +61,7 @@ const AddHoursModal = () => {
 
       aircraftId: yup
         .mixed()
-        .oneOf(Object.values(Matriculas), 'Avión no registrado (ej A003)'),
+        .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
       stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
       flightType: yup
@@ -91,15 +103,14 @@ const AddHoursModal = () => {
     reset();
     let result = userByRole(userData?.email);
     result.then(async (user) => {
-       await axios
-         .post(`http://localhost:3000/api/flight`, {...data, userId:user.id})
-         .then(() => {
-           toast.success('Saved');
-           addHoursModal.onClose();
-         })
-         .catch(() => toast.error('Error Save Data'));
+      await axios
+        .post(`http://localhost:3000/api/flight`, { ...data, userId: user.id })
+        .then(() => {
+          toast.success('Saved');
+          addHoursModal.onClose();
+        })
+        .catch(() => toast.error('Error Save Data'));
     });
-   
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -119,6 +130,13 @@ const AddHoursModal = () => {
   //     setIsLoading(false);
   //   });
   //};
+
+ 
+
+  const openRegisterAirplane: () => void = () => {
+    addPlaneModal.onOpen();
+    addHoursModal.onClose();
+  };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -197,7 +215,7 @@ const AddHoursModal = () => {
         </div>
         <button>SEND</button>
       </form>
-      <button onClick={() => addPlaneModal.onOpen()}>avion</button>
+      <button onClick={openRegisterAirplane}>Registrar avion</button>
     </div>
   );
 

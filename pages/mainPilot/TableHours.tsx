@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { useSession } from 'next-auth/react';
 
 import {
   AiFillSafetyCertificate,
@@ -46,6 +47,33 @@ const TableHoursPilot = () => {
   }
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
 
+  const { data } = useSession();
+  const userData = data?.user;
+
+  const userByRole = async (email: string) => {
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
+      })
+      .catch(() => {
+        toast.error('Error User Search');
+      })
+
+  };
+
+  let result = userByRole(userData?.email);
+  result.then(async (user) => {
+    await axios
+      .post(`http://localhost:3000/api/getFlightsByUser/${user.id}`)
+      .then(() => {
+        toast.success('Saved');
+        addHoursModal.onClose();
+      })
+      .catch(() => toast.error('Error Save Data'));
+  });
+
+  
   useEffect(() => {
     const result = axios
       .get('http://localhost:3000/api/flight')

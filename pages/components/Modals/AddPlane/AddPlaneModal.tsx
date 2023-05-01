@@ -1,70 +1,35 @@
 'use client';
 
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
-import { toast } from 'react-hot-toast';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 
-const AddHoursModal = () => {
-  const addHoursModal = useAddHoursModal();
+const AddPlaneModal = () => {
   const addPlaneModal = useAddPlaneModal();
-  const [aviones, setAviones] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
-  enum TypeHours {
-    'Simulador' = 'Simulador',
-    'Escuela' = 'Escuela',
-    'Copiloto' = 'Copiloto',
-    'Autonomo' = 'Autonomo',
-  }
-
-  useEffect(() => {
-    async function getRegisteredID() {
-      return await axios
-        .get(`http://localhost:3000/api/plane`)
-        .then((response) => response.data);
-      // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
-    }
-    const airplanes = getRegisteredID();
-    airplanes.then((data) => setAviones(data));
-  }, []);
-
-  const matriculas = aviones.map(
-    (avion: { registrationId: string }) => avion.registrationId
-  );
   const schema = yup
     .object({
-      folio: yup
-        .number()
-        .positive('Debe ser positivo')
-        .integer('Debe ser entero')
-        .required()
-        .typeError('Debe ser un número'),
-      userId: yup.string().required(),
-      date: yup.string().required('Fecha es un campo obligatorio'),
-
-      registrationId: yup
-        .mixed()
-        .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
-      stages: yup.string().required('Debe ingresar las etapas'),
+      brand: yup.string().required('Brand is required'),
+      model: yup.string().required('Model is mandatory'),
+      registrationId: yup.mixed().required('Id is a mandatory field'),
+      planeClass: yup.string().required('Class is a mandatory field'),
       remarks: yup.string(),
-      flightType: yup
-        .mixed()
-        .oneOf(Object.values(TypeHours), 'Debe ser un tipo definido'),
-      hourCount: yup
+      engine: yup.string().required('Engine is a mandatory Field'),
+      HPs: yup
         .number()
-        .positive('Debe ser positivo')
-        .typeError('Debe ser un número. La coma es el punto'),
+        .positive('Must be positive')
+        .integer('Must be Integer')
+        .required('HP is a mandatory field'),
     })
     .required();
   type FormData = yup.InferType<typeof schema>;
@@ -80,13 +45,7 @@ const AddHoursModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
-    await axios
-      .post(`http://localhost:3000/api/flight`, data)
-      .then(() => {
-        toast.success('Saved');
-        addHoursModal.onClose();
-      })
-      .catch(() => toast.error('Error Save Data'));
+    await axios.post(`http://localhost:3000/api/plane/`, data);
   };
 
   //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
@@ -109,39 +68,49 @@ const AddHoursModal = () => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
-      <Heading
-        title='Add Hours to your log'
-        subtitle='Fill in the fields that apply'
-      />
+      <Heading title='Add Plane to DB' subtitle='Fill in all the fields' />
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
-            <label>User: </label>
-            <input className='border border-black' {...register('userId')} />
+            <label>Brand: </label>
+            <input className='border border-black' {...register('brand')} />
           </div>
-          <p className='text-red-600'>{errors.userId?.message}</p>
+          <p className='text-red-600'>{errors.brand?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
-            <label>Folio: </label>
-            <input className='border border-black' {...register('folio')} />
-          </div>
-          <p className='text-red-600'>{errors.folio?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Fecha: </label>
+            <label>Class: </label>
             <input
-              type='date'
               className='border border-black'
-              {...register('date')}
+              {...register('planeClass')}
             />
           </div>
-          <p className='text-red-600'>{errors.date?.message}</p>
+          <p className='text-red-600'>{errors.planeClass?.message}</p>
         </div>
         <div className='flex flex-col text-center'>
           <div className='flex justify-between'>
-            <label>Matricula: </label>
+            <label>Model: </label>
+            <input className='border border-black' {...register('model')} />
+          </div>
+          <p className='text-red-600'>{errors.model?.message}</p>
+        </div>
+        <div className='flex flex-col text-center'>
+          <div className='flex justify-between'>
+            <label>Engine´s Brand: </label>
+            <input className='border border-black' {...register('engine')} />
+          </div>
+          <p className='text-red-600'>{errors.engine?.message}</p>
+        </div>
+        <div className='flex flex-col text-center'>
+          <div className='flex justify-between'>
+            <label>HPs: </label>
+            <input className='border border-black' {...register('HPs')} />
+          </div>
+          <p className='text-red-600'>{errors.HPs?.message}</p>
+        </div>
+        <div className='flex flex-col text-center'>
+          <div className='flex justify-between'>
+            <label>Plane Id: </label>
             <input
               className='border border-black'
               {...register('registrationId')}
@@ -149,42 +118,8 @@ const AddHoursModal = () => {
           </div>
           <p className='text-red-600'>{errors.registrationId?.message}</p>
         </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Etapas: </label>
-            <input className='border border-black' {...register('stages')} />
-          </div>
-          <p className='text-red-600'>{errors.stages?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Observaciones: </label>
-            <input className='border border-black' {...register('remarks')} />
-          </div>
-          <p className='text-red-600'>{errors.remarks?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Tipo de Horas:</label>
-            <select {...register('flightType')}>
-              <option value='Simulador'>Simulador</option>
-              <option value='Escuela'>Escuela</option>
-              <option value='Copiloto'>Copiloto</option>
-              <option value='Autónomo'>Autónomo</option>
-            </select>
-          </div>
-          <p className='text-red-600'>{errors.flightType?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Horas a Cargar: </label>
-            <input className='border border-black' {...register('hourCount')} />
-          </div>
-          <p className='text-red-600'>{errors.hourCount?.message}</p>
-        </div>
         <button>SEND</button>
       </form>
-      <button onClick={() => addPlaneModal.onOpen()}>avion</button>
     </div>
   );
 
@@ -199,7 +134,7 @@ const AddHoursModal = () => {
           font-light
         '
       >
-        <p>Footer de Add Hours</p>
+        <p>Add Plane's Footer</p>
       </div>
     </div>
   );
@@ -207,13 +142,13 @@ const AddHoursModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={addHoursModal.isOpen}
-      title='ADD HOURS'
-      onClose={addHoursModal.onClose}
+      isOpen={addPlaneModal.isOpen}
+      title='ADD PLANE'
+      onClose={addPlaneModal.onClose}
       body={bodyContent}
       footer={footerContent}
     />
   );
 };
 
-export default AddHoursModal;
+export default AddPlaneModal;
