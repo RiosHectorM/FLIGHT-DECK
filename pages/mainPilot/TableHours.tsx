@@ -45,39 +45,82 @@ const TableHoursPilot = () => {
     copiloto: string;
     remarks: string;
   }
+
+  interface Filtros {
+    filter: {
+      userId: string | undefined;
+      date: string | undefined;
+      aircraftId: string | undefined;
+      folio: string | undefined;
+    } | null;
+  }
+
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
   const [id, setId] = useState("");
+  const [filters, setFilters] = useState<Filtros>({  // Estado con los filtros del LocalStorage
+    filter: {
+      userId: undefined,
+      date: undefined,
+      aircraftId: undefined,
+      folio: undefined,
+    },
+  });
 
   const { data } = useSession();
 
   const userMail = data?.user?.email;
 
   useEffect(() => {
-    const userByRole = axios
-    .get(`/api/getUserByEmail/${userMail}`)
-    .then((result) => {
-      // setId(result.data.id);
-      setId('6445e4037b8984d3e367d374');
-      return result.data;
-    })
-    .catch(() => {
-      toast.error("Error User Search");
-    });
-  }, [])
+    console.log("ID: ", id);
+    console.log("FLIGHT: ", flight);
 
-  
-  // let result = userByRole(userMail);
+    
+    if (typeof window !== "undefined" && window.localStorage) {
+      const filter = localStorage.getItem("filters");
+      console.log("FILTRO: ", filter);
+      
+      if (filter) {
+        setFilters(JSON.parse(filter));
+      }
+    }
+  }, []);
 
   useEffect(() => {
-    const result = axios
-      .get(`http://localhost:3000/api/flight/getFlightsByUserId?id=${id}`)
-      .then((response) => {
-        setFlight(response.data);
+    const userByRole = axios
+      .get(`/api/getUserByEmail/${userMail}`)
+      .then((result) => {
+        setId(result.data.id);
+        // setId('6445e4037b8984d3e367d374');
+
+        // let folioForAPI = (Number.isFinite(filters.filter?.folio)) ? filters.filter?.folio : undefined;  PARA EL CASO DEL FOLIO VACIO EN EL FILTRO
+
+        axios
+          .get(
+            `http://localhost:3000/api/flight/getFilteredFlights?userId=${result.data.id}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
+          )
+          .then((response) => {
+            setFlight(response.data);
+          });
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        toast.error("Error User Search");
       });
-  }, [flight, id]);
+
+    return;
+  }, [flight]);
+
+  // let result = userByRole(userMail);
+
+  // useEffect(() => {
+  //   const result = axios
+  //     .get(`http://localhost:3000/api/flight/getFlightsByUserId?id=${id}`)
+  //     .then((response) => {
+  //       setFlight(response.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, [flight, id]);
 
   /* DATOS HARDCODEADOSSSSSSSSSSSSSSSSSS
   const datos: DatosEjemplo[] = [
