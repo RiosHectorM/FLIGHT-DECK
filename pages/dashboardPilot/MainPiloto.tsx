@@ -39,7 +39,7 @@ const MainPiloto = () => {
       <main>
         <div className="grid grid-cols-2 gap-4 w-full">
           <div className="w-full">
-            <div className="grid grid-cols-2 gap-4 w-full">
+            <div className="grid grid-cols-2 gap-2 w-full">
               <div className="flex w-full">
                 <FormPhoto className="w-full" />
               </div>

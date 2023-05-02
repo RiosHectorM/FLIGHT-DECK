@@ -15,7 +15,7 @@ import { toast } from 'react-hot-toast';
 import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
 
-const AddHoursModal = () => {
+const AddHoursModal = ({ getFlights, id }) => {
   const { data } = useSession();
   const userData = data?.user;
 
@@ -111,6 +111,7 @@ const AddHoursModal = () => {
         .then(() => {
           toast.success('Saved');
           addHoursModal.onClose();
+          getFlights(id);
         })
         .catch(() => toast.error('Error Save Data'));
     });

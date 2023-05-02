@@ -9,14 +9,14 @@ type FormValues = {
 
 interface Filtros {
   filter: {
-  userId: string | undefined;
-  date: string | undefined;
-  aircraftId: string | undefined;
-  folio: string | undefined;
-  } | null
-};
+    userId: string | undefined;
+    date: string | undefined;
+    aircraftId: string | undefined;
+    folio: string | undefined;
+  } | null;
+}
 
-const FilterPilotBar: FC = () => {
+const FilterPilotBar: FC = ({ updateFilters }) => {
   const {
     register,
     handleSubmit,
@@ -24,38 +24,39 @@ const FilterPilotBar: FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const [filters, setFilters] = useState<Filtros>({  // Estado con los filtros del LocalStorage
+  const [filters, setFilters] = useState<Filtros>({
+    // Estado con los filtros del LocalStorage
     filter: {
       userId: undefined,
       date: undefined,
       aircraftId: undefined,
       folio: undefined,
-    }
+    },
   });
 
   const onSubmit = (data: FormValues) => {
-    console.log("DATA: ", data);
+    console.log('DATA: ', data);
 
-    const newFilter:Filtros = {
+    let newFilter: Filtros = {
       filter: {
-        userId: '64501738bf775f644956b98f',
+        userId: '64501738bf775f644956b98g',
         date: data.fechaFilter,
         aircraftId: data.avionFilter,
         folio: data.folioFilter,
-      }
-    }
-
-    localStorage.setItem("filters", JSON.stringify(newFilter));
+      },
+    };
+    localStorage.setItem('filters', JSON.stringify(newFilter));
+    updateFilters();
   };
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
-      const filter = localStorage.getItem("filters");
-      
+      const filter = localStorage.getItem('filters');
+
       if (filter) {
         setFilters(JSON.parse(filter));
         console.log('FILTERS HOLA: ', JSON.parse(filter));
-      } 
+      }
     }
   }, []);
 
@@ -69,10 +70,9 @@ const FilterPilotBar: FC = () => {
         <label htmlFor='folioFilter'>Folio:</label>
         <input
           defaultValue={filters.filter?.folio}
-          type='number'
           id='folioFilter'
           className='w-full border-gray-300 focus:ring-2 focus:ring-blue-500 rounded-md shadow-sm'
-          {...register('folioFilter', { valueAsNumber: true })}
+          {...register('folioFilter')}
         />
       </div>
 
