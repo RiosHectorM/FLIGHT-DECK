@@ -56,6 +56,7 @@ const TableHoursPilot = () => {
   }
 
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
+
   const [id, setId] = useState("");
   const [filters, setFilters] = useState<Filtros>({  // Estado con los filtros del LocalStorage
     filter: {
@@ -67,14 +68,13 @@ const TableHoursPilot = () => {
   });
 
   const { data } = useSession();
-
   const userMail = data?.user?.email;
 
   useEffect(() => {
+
     console.log("ID: ", id);
     console.log("FLIGHT: ", flight);
 
-    
     if (typeof window !== "undefined" && window.localStorage) {
       const filter = localStorage.getItem("filters");
       console.log("FILTRO: ", filter);
@@ -86,10 +86,12 @@ const TableHoursPilot = () => {
   }, []);
 
   useEffect(() => {
+
     const userByRole = axios
       .get(`/api/getUserByEmail/${userMail}`)
       .then((result) => {
         setId(result.data.id);
+
         // setId('6445e4037b8984d3e367d374');
 
         // let folioForAPI = (Number.isFinite(filters.filter?.folio)) ? filters.filter?.folio : undefined;  PARA EL CASO DEL FOLIO VACIO EN EL FILTRO
@@ -101,6 +103,7 @@ const TableHoursPilot = () => {
           .then((response) => {
             setFlight(response.data);
           });
+
       })
       .catch(() => {
         toast.error("Error User Search");
@@ -108,6 +111,7 @@ const TableHoursPilot = () => {
 
     return;
   }, [flight]);
+
 
   // let result = userByRole(userMail);
 
