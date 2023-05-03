@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -10,7 +10,7 @@ import useRegisterModal from '@/pages/hooks/useRegisterModal';
 
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import axios from 'axios';
 interface UserMenuProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
@@ -22,13 +22,47 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-  const addHoursModal = useAddHoursModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
+
+  console.log('currentUser');
+  console.log(currentUser);
+
+  const [role, setRole] = useState('');
+
+  useEffect(() => {
+    if (currentUser?.email !== undefined) {
+      axios
+        .get(`/api/getUserByEmail/${currentUser.email}`)
+        .then((result) => {
+          if (result && result.data && result.data.role) {
+            setRole(result.data.role);
+            console.log(result);
+          } else {
+            console.error('Invalid User');
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [currentUser?.email]);
+
+  const handlerMains = () => {
+    if (role === 'PILOT') router.push('/mainPilot');
+    else if (role === 'INSTRUCTOR') router.push('/mainInstructor');
+    else if (role === 'COMPANY') router.push('/mainCompany');
+  };
+
+  const handlerProfiles = () => {
+    if (role === 'PILOT') router.push('/dashboardPilot');
+    else if (role === 'INSTRUCTOR') router.push('/dashboardInstructor');
+    else if (role === 'COMPANY') router.push('/dashboardCompany');
+  };
 
   return (
     <div className='relative'>
@@ -95,20 +129,42 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             {currentUser ? (
               <>
                 <MenuItem
+                  label='Home'
+                  onClick={() => {
+                    router.push('/home');
+                    toggleOpen();
+                  }}
+                />
+                <MenuItem
+                  label='Main Role'
+                  onClick={() => {
+                    handlerMains();
+                    toggleOpen();
+                  }}
+                />
+                <MenuItem
                   label='My Profile'
                   onClick={() => {
-                    router.push('/dashboardPilot');
+                    handlerProfiles();
                     toggleOpen();
                   }}
                 />
-                <MenuItem label='Add Hours' onClick={addHoursModal.onOpen} />
-                <MenuItem
+                {role === 'PILOT' && <MenuItem
                   label='Search Instructor'
                   onClick={() => {
-                    router.push('/reservations');
+                    // ('LLAMAR AL MODAL DE SAMIR ej: onClick={addHoursModal.onOpen}')
+                    toggleOpen();
+                  }}
+                />}
+                <hr />
+                <MenuItem
+                  label='About Flight Deck'
+                  onClick={() => {
+                    router.push('/about');
                     toggleOpen();
                   }}
                 />
+                <hr />
                 <hr />
                 <MenuItem
                   label='Logout'
