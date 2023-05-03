@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Loader from '@/pages/components/Loader';
+import ToasterProvider from '@/pages/providers/ToasterProvider';
 
 const roles = [
   {
@@ -39,6 +42,8 @@ const userByRole = async (email: string) => {
 };
 
 export default function Form() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { handleSubmit, register } = useForm<FormData>();
   const router = useRouter();
   const { data } = useSession();
@@ -57,6 +62,7 @@ export default function Form() {
   }
 
   const onSubmit = (data: FormData) => {
+    setIsLoading(true);
     axios
       .put('http://localhost:3000/api/postRoleByEmail', {
         email: email,
@@ -68,44 +74,53 @@ export default function Form() {
           router.push('/mainInstructor');
         else router.push('/mainCompany');
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
-      <div className='flex'>
-        {roles.map((item) => (
-          <div
-            key={item.alt}
-            className='p-2 flex flex-col justify-center text-center'
-          >
-            <Image
-              src={item.image}
-              alt={item.alt}
-              width={400}
-              height={400}
-              className='rounded-full shadow-md'
-            />
-            <div className='flex p-4 justify-center w-full'>
-              <input
-                type='radio'
-                id={item.alt}
-                value={item.role}
-                {...register('role', { required: true })}
-              />
-              <label htmlFor={item.alt} className='pl-2'>
-                {item.role}
-              </label>
-            </div>
+    <div>
+      <ToasterProvider />
+      {!isLoading && <Loader />}
+      {isLoading && (
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
+          <div className='flex'>
+            {roles.map((item) => (
+              <div
+                key={item.alt}
+                className='p-2 flex flex-col justify-center text-center'
+              >
+                <Image
+                  src={item.image}
+                  alt={item.alt}
+                  width={400}
+                  height={400}
+                  className='rounded-full shadow-md'
+                />
+                <div className='flex p-4 justify-center w-full'>
+                  <input
+                    type='radio'
+                    id={item.alt}
+                    value={item.role}
+                    {...register('role', { required: true })}
+                  />
+                  <label htmlFor={item.alt} className='pl-2'>
+                    {item.role}
+                  </label>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <button
-        type='submit'
-        className='bg-blue-300 text-black text-2xl rounded-xl'
-      >
-        GET IN
-      </button>
-    </form>
+          <button
+            type='submit'
+            className='bg-blue-300 text-black text-2xl rounded-xl'
+          >
+            GET IN
+          </button>
+        </form>
+      )}
+    </div>
   );
 }

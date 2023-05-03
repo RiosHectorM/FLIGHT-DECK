@@ -35,8 +35,8 @@ const MainCompanyPage: React.FC = () => {
         <PilotProfile name="Jane Smith" photoUrl="/images/pilot2.jpg" location="Los Angeles, CA" hoursOfFlight={3000} />
         <PilotProfile name="Bob Johnson" photoUrl="/images/pilot3.jpg" location="New York, NY" hoursOfFlight={2000} />
       </div>
-      <PilotList />
-      <FlightLog {...flightData} pilotName="John Doe" />
+     {/*  <PilotList /> */}
+      {/* <FlightLog {...flightData} pilotName="John Doe" /> */}
       <RequestFlightLog pilotName="John Doe" />
       <ContactPilot name="Jane Smith" pilotName="John Doe" email="jane.smith@example.com" />
       <FilterByLocation onFilterChange={handleLocationFilterChange} />

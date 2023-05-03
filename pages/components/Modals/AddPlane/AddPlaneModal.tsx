@@ -12,6 +12,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import Loader from '../../Loader';
 
 const AddPlaneModal = () => {
   const addPlaneModal = useAddPlaneModal();
@@ -47,13 +48,17 @@ const AddPlaneModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
-    await axios.post(`http://localhost:3000/api/plane/`, data);
+    setIsLoading(true);
+    await axios.post(`http://localhost:3000/api/plane/`, data).finally(() => {
+      setIsLoading(false);
+    });
     addPlaneModal.onClose();
     addHoursModal.onOpen();
   };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
+      {isLoading && <Loader />}
       <Heading
         title='Fill in the details of the plane'
         subtitle='Fill all fields'
@@ -167,9 +172,9 @@ const AddPlaneModal = () => {
   );
 
   const handlerCloseModals = () => {
-    addPlaneModal.onClose()
-    addHoursModal.onOpen()
-  }
+    addPlaneModal.onClose();
+    addHoursModal.onOpen();
+  };
 
   return (
     <Modal
