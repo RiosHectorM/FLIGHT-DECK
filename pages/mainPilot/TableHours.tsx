@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-import { useSession } from "next-auth/react";
+import React, { useEffect, useState } from 'react';
+import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { useSession } from 'next-auth/react';
 
 import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-} from "react-icons/ai";
+} from 'react-icons/ai';
 
-import { toast } from "react-hot-toast";
-import axios from "axios";
-import RateInstructorModal from "../components/Modals/InstHours/RateInstructorModal";
-import useAddHoursModal from "../hooks/useAddHoursModal";
-import AddHoursModal from "../components/Modals/AddHours/AddHoursModal";
-import AddPlaneModal from "../components/Modals/AddPlane/AddPlaneModal";
-import SearchFlightInstructorModal from "../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal";
-import FilterPilotBar from "./FilterPilotBar";
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
+import useAddHoursModal from '../hooks/useAddHoursModal';
+import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
+import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
+import SearchFlightInstructorModal from '../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal';
+import FilterPilotBar from './FilterPilotBar';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -70,15 +70,15 @@ const TableHoursPilot = () => {
   const userMail = data?.user?.email;
 
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
 
   useEffect(() => {
-    console.log("ID: ", id);
-    console.log("FLIGHT: ", flight);
+    console.log('ID: ', id);
+    console.log('FLIGHT: ', flight);
 
-    if (typeof window !== "undefined" && window.localStorage) {
-      const filter = localStorage.getItem("filters");
-      console.log("FILTRO: ", filter);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const filter = localStorage.getItem('filters');
+      console.log('FILTRO: ', filter);
       if (filter) {
         setFilters(JSON.parse(filter));
       }
@@ -86,7 +86,7 @@ const TableHoursPilot = () => {
   }, []);
 
   let getFlights = async (idF) => {
-    console.log("llega al GetFlight");
+    console.log('llega al GetFlight');
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
@@ -105,26 +105,26 @@ const TableHoursPilot = () => {
           if (result && result.data && result.data.id) {
             setId(result.data.id);
           } else {
-            toast.error("Invalid User");
+            toast.error('Invalid User');
           }
         })
         .catch((error) => {
           console.error(error);
-          toast.error("Error User Search");
+          toast.error('Error User Search');
         });
     }
   }, [userMail]);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && userMail !== undefined && id) {
+    if (typeof window !== 'undefined' && userMail !== undefined && id) {
       getFlights(id);
     }
   }, [id, filters]);
 
   const updateFilters = () => {
-    const filter = localStorage.getItem("filters");
+    const filter = localStorage.getItem('filters');
     if (filter) {
-      console.log("entra al if");
+      console.log('entra al if');
       setFilters(JSON.parse(filter));
     }
   };
@@ -268,7 +268,7 @@ const TableHoursPilot = () => {
                     <Td className="text-center border text-xs">{dato.date}</Td>
                     <Td className="text-center border text-xs">
                       {dato.aircraftId}
-                      {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
+                      {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{' '}
                       {dato.marcaMotor} {dato.hp} HP
                     </Td>
                     <Td className="text-center border text-xs">
@@ -296,11 +296,11 @@ const TableHoursPilot = () => {
                   {dato.firmaInstructor}
                 </Td> */}
                     <Td className="text-center border text-2xl">
-                      <AiFillEdit onClick={() => toast.success("Editar")} />
+                      <AiFillEdit onClick={() => toast.success('Editar')} />
                     </Td>
                     <Td className="text-center border text-2xl">
                       <AiFillCloseCircle
-                        onClick={() => toast.error("Borrar")}
+                        onClick={() => toast.error('Borrar')}
                       />
                     </Td>
                   </Tr>
