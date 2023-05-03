@@ -1,16 +1,17 @@
-'use client';
+"use client";
 
-import { useCallback, useState } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { signOut } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useCallback, useState } from "react";
+import { AiOutlineMenu } from "react-icons/ai";
+import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
-import useLoginModal from '@/pages/hooks/useLoginModal';
-import useRegisterModal from '@/pages/hooks/useRegisterModal';
+import useLoginModal from "@/pages/hooks/useLoginModal";
+import useRegisterModal from "@/pages/hooks/useRegisterModal";
 
-import MenuItem from './MenuItem';
-import Avatar from '../AuxComponents/Avatar';
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import MenuItem from "./MenuItem";
+import Avatar from "../AuxComponents/Avatar";
+import useAddHoursModal from "@/pages/hooks/useAddHoursModal";
+import useSearchFlightInstructorModal from "@/pages/hooks/useSearchFlightInstructorModal";
 interface UserMenuProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
@@ -23,6 +24,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
   const addHoursModal = useAddHoursModal();
+  const searchFlightInstructorModal = useSearchFlightInstructorModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,11 +33,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   }, []);
 
   return (
-    <div className='relative'>
-      <div className='flex flex-row items-center gap-3'>
+    <div className="relative">
+      <div className="flex flex-row items-center gap-3">
         <div
           onClick={() => {}}
-          className='
+          className="
             hidden
             md:block
             text-sm 
@@ -46,15 +48,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             hover:bg-neutral-100 
             transition 
             cursor-pointer
-          '
+          "
         >
           {currentUser
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
-            : 'Go to Login'}
+            : "Go to Login"}
         </div>
         <div
           onClick={toggleOpen}
-          className='
+          className="
           p-4
           md:py-1
           md:px-2
@@ -68,17 +70,17 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           cursor-pointer 
           hover:shadow-md 
           transition
-          '
+          "
         >
           <AiOutlineMenu />
-          <div className='hidden md:block'>
+          <div className="hidden md:block">
             <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
       {isOpen && (
         <div
-          className='
+          className="
             absolute 
             rounded-xl 
             shadow-md
@@ -89,41 +91,44 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             right-0 
             top-12 
             text-sm
-          '
+          "
         >
-          <div className='flex flex-col cursor-pointer'>
+          <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
                 <MenuItem
-                  label='My Profile'
+                  label="My Profile"
                   onClick={() => {
-                    router.push('/dashboardPilot');
+                    router.push("/dashboardPilot");
                     toggleOpen();
                   }}
                 />
-                <MenuItem label='Add Hours' onClick={addHoursModal.onOpen} />
+                <MenuItem label="Add Hours" onClick={addHoursModal.onOpen} />
                 <MenuItem
-                  label='Search Instructor'
-                  onClick={() => {
-                    router.push('/reservations');
+                  label="Search Instructor"
+                  onClick={searchFlightInstructorModal.onOpen}
+                  /*  onClick={() => {
+                    searchFlightInstructorModal.onOpen;
+                    console.log("CLICK ON SEARCH");
+                    //router.push("/reservations");
                     toggleOpen();
-                  }}
+                  }} */
                 />
                 <hr />
                 <MenuItem
-                  label='Logout'
+                  label="Logout"
                   onClick={() => {
                     signOut({ redirect: false });
-                    router.push('/');
+                    router.push("/");
                     toggleOpen();
                   }}
                 />
               </>
             ) : (
               <>
-                <MenuItem label='Home' onClick={() => router.push('/home')} />
-                <MenuItem label='Login' onClick={loginModal.onOpen} />
-                <MenuItem label='Sign up' onClick={registerModal.onOpen} />
+                <MenuItem label="Home" onClick={() => router.push("/home")} />
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
               </>
             )}
           </div>

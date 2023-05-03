@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { useSession } from 'next-auth/react';
+import React, { useEffect, useState } from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { useSession } from "next-auth/react";
 
 import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 
-import { toast } from 'react-hot-toast';
-import axios from 'axios';
-import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
-import useAddHoursModal from '../hooks/useAddHoursModal';
-import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
-import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import FilterPilotBar from './FilterPilotBar';
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import RateInstructorModal from "../components/Modals/InstHours/RateInstructorModal";
+import useAddHoursModal from "../hooks/useAddHoursModal";
+import AddHoursModal from "../components/Modals/AddHours/AddHoursModal";
+import AddPlaneModal from "../components/Modals/AddPlane/AddPlaneModal";
+import SearchFlightInstructorModal from "../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal";
+import FilterPilotBar from "./FilterPilotBar";
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -69,15 +70,15 @@ const TableHoursPilot = () => {
   const userMail = data?.user?.email;
 
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
-  const [id, setId] = useState('');
+  const [id, setId] = useState("");
 
   useEffect(() => {
-    console.log('ID: ', id);
-    console.log('FLIGHT: ', flight);
+    console.log("ID: ", id);
+    console.log("FLIGHT: ", flight);
 
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const filter = localStorage.getItem('filters');
-      console.log('FILTRO: ', filter);
+    if (typeof window !== "undefined" && window.localStorage) {
+      const filter = localStorage.getItem("filters");
+      console.log("FILTRO: ", filter);
       if (filter) {
         setFilters(JSON.parse(filter));
       }
@@ -85,7 +86,7 @@ const TableHoursPilot = () => {
   }, []);
 
   let getFlights = async (idF) => {
-    console.log('llega al GetFlight');
+    console.log("llega al GetFlight");
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
@@ -104,26 +105,26 @@ const TableHoursPilot = () => {
           if (result && result.data && result.data.id) {
             setId(result.data.id);
           } else {
-            toast.error('Invalid User');
+            toast.error("Invalid User");
           }
         })
         .catch((error) => {
           console.error(error);
-          toast.error('Error User Search');
+          toast.error("Error User Search");
         });
     }
   }, [userMail]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && userMail !== undefined && id) {
+    if (typeof window !== "undefined" && userMail !== undefined && id) {
       getFlights(id);
     }
   }, [id, filters]);
 
   const updateFilters = () => {
-    const filter = localStorage.getItem('filters');
+    const filter = localStorage.getItem("filters");
     if (filter) {
-      console.log('entra al if');
+      console.log("entra al if");
       setFilters(JSON.parse(filter));
     }
   };
@@ -224,62 +225,63 @@ const TableHoursPilot = () => {
   };
 
   return (
-    <div className='flex flex-col justify-between h-full'>
+    <div className="flex flex-col justify-between h-full">
       <RateInstructorModal />
       <FilterPilotBar updateFilters={updateFilters} />
       <AddPlaneModal />
+      <SearchFlightInstructorModal />
       <AddHoursModal getFlights={getFlights} id={id} />
       {flight.length ? (
-        <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>
-          <Table className='table-auto w-full mx-auto bg-white shadow-md rounded my-6'>
-            <Thead className='w-full'>
-              <Tr className='bg-gray-200 text-gray-600 uppercase text-sm leading-normal'>
-                <Th className='text-center border text-xs'>FOLIO</Th>
-                <Th className=' text-center border text-xs'>FECHA</Th>
-                <Th className=' text-center border text-xs'>
+        <div className="max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full">
+          <Table className="table-auto w-full mx-auto bg-white shadow-md rounded my-6">
+            <Thead className="w-full">
+              <Tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <Th className="text-center border text-xs">FOLIO</Th>
+                <Th className=" text-center border text-xs">FECHA</Th>
+                <Th className=" text-center border text-xs">
                   CARACTERISTICAS DEL AVION
                 </Th>
                 {/* <Th className="text-center border text-xs">SIMULADOR</Th> */}
-                <Th className='text-center border text-xs'>FLIGHT TYPE</Th>
+                <Th className="text-center border text-xs">FLIGHT TYPE</Th>
                 {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
-                <Th className='text-center border text-xs'>ETAPAS</Th>
-                <Th className='text-center border text-xs'>TIEMPO TOTAL</Th>
+                <Th className="text-center border text-xs">ETAPAS</Th>
+                <Th className="text-center border text-xs">TIEMPO TOTAL</Th>
                 {/* <Th className="text-center border text-xs">COPILOTO</Th> */}
                 {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
                 {/* <Th className="text-center border text-xs">TIEMPO TOTAL</Th> */}
                 {/* <Th className="text-center border text-xs">FIRMA INST</Th> */}
-                <Th className='text-center border text-xs'>OBSERVACIONES</Th>
+                <Th className="text-center border text-xs">OBSERVACIONES</Th>
               </Tr>
             </Thead>
-            <Tbody className='w-full'>
+            <Tbody className="w-full">
               {flight.length === 0 ? (
                 <h1>LOADING....</h1>
               ) : (
                 flight.map((dato, index) => (
                   <Tr
                     key={index}
-                    className='hover:bg-gray-100 border-b border-gray-200 py-10'
+                    className="hover:bg-gray-100 border-b border-gray-200 py-10"
                   >
-                    <Td className='text-center border text-xs text-gray-700'>
+                    <Td className="text-center border text-xs text-gray-700">
                       {dato.folio}
                     </Td>
-                    <Td className='text-center border text-xs'>{dato.date}</Td>
-                    <Td className='text-center border text-xs'>
+                    <Td className="text-center border text-xs">{dato.date}</Td>
+                    <Td className="text-center border text-xs">
                       {dato.aircraftId}
-                      {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{' '}
+                      {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{" "}
                       {dato.marcaMotor} {dato.hp} HP
                     </Td>
-                    <Td className='text-center border text-xs'>
+                    <Td className="text-center border text-xs">
                       {dato.flightType}
                     </Td>
                     {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
-                    <Td className='text-center border text-xs'>
+                    <Td className="text-center border text-xs">
                       {dato.stages}
                     </Td>
-                    <Td className='text-center border text-xs'>
+                    <Td className="text-center border text-xs">
                       {dato.hourCount}
                     </Td>
-                    <Td className='text-center border text-xs'>
+                    <Td className="text-center border text-xs">
                       {dato.remarks}
                     </Td>
                     {/*  <Td className="text-center border text-xs">
@@ -293,12 +295,12 @@ const TableHoursPilot = () => {
                 <Td className="text-center border text-xs">
                   {dato.firmaInstructor}
                 </Td> */}
-                    <Td className='text-center border text-2xl'>
-                      <AiFillEdit onClick={() => toast.success('Editar')} />
+                    <Td className="text-center border text-2xl">
+                      <AiFillEdit onClick={() => toast.success("Editar")} />
                     </Td>
-                    <Td className='text-center border text-2xl'>
+                    <Td className="text-center border text-2xl">
                       <AiFillCloseCircle
-                        onClick={() => toast.error('Borrar')}
+                        onClick={() => toast.error("Borrar")}
                       />
                     </Td>
                   </Tr>
@@ -309,7 +311,7 @@ const TableHoursPilot = () => {
         </div>
       ) : null}
       <div>
-        <button className='flex mx-auto' onClick={handleAddHours}>
+        <button className="flex mx-auto" onClick={handleAddHours}>
           ADD HOURS
         </button>
       </div>
