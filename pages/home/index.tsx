@@ -5,6 +5,7 @@ import HomePageTestimonialsSection from './TestimonialsSection';
 import useRegisterModal from '../hooks/useRegisterModal';
 import RegisterModal from '../components/Modals/LoguinRegister/RegisterModal';
 import { motion } from 'framer-motion';
+import ToasterProvider from '../providers/ToasterProvider';
 
 const HomePage = () => {
   const registerModal = useRegisterModal();
@@ -15,8 +16,15 @@ const HomePage = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen' style={{backgroundImage: 'url("/images/backgroundhome.jpg")',backgroundSize: 'cover',
-    backgroundPosition: 'center'}}>
+    <div
+      className='flex flex-col items-center justify-center min-h-screen'
+      style={{
+        backgroundImage: 'url("/images/backgroundhome.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <ToasterProvider />
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2'>
         <motion.h2

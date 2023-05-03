@@ -16,6 +16,8 @@ import useAddHoursModal from '../hooks/useAddHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import FilterPilotBar from './FilterPilotBar';
+import Pagination from '../components/Pagination/Pagination';
+import Loader from '../components/Loader';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -47,6 +49,7 @@ const TableHoursPilot = () => {
     remarks: string;
   }
 
+  const [isLoading, setIsLoading] = useState(false);
   interface Filtros {
     filter: {
       userId: string | undefined;
@@ -85,7 +88,7 @@ const TableHoursPilot = () => {
   }, []);
 
   let getFlights = async (idF) => {
-    console.log('llega al GetFlight');
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
@@ -94,10 +97,12 @@ const TableHoursPilot = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     if (userMail !== undefined) {
+      setIsLoading(true);
       axios
         .get(`/api/getUserByEmail/${userMail}`)
         .then((result) => {
@@ -110,6 +115,9 @@ const TableHoursPilot = () => {
         .catch((error) => {
           console.error(error);
           toast.error('Error User Search');
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [userMail]);
@@ -223,10 +231,18 @@ const TableHoursPilot = () => {
     addHoursModal.onOpen();
   };
 
+  const flightsPerPage = 4;
   return (
     <div className='flex flex-col justify-between h-full'>
+      {isLoading && <Loader />}
       <RateInstructorModal />
       <FilterPilotBar updateFilters={updateFilters} />
+      {/* <Pagination
+        flightsPerPage={flightsPerPage}
+        totalItems={flight.length}
+        currentPage={currentPage}
+        paginate={paginate}
+      /> */}
       <AddPlaneModal />
       <AddHoursModal getFlights={getFlights} id={id} />
       {flight.length ? (
@@ -307,7 +323,10 @@ const TableHoursPilot = () => {
             </Tbody>
           </Table>
         </div>
-      ) : null}
+      ) : 
+      // was ---> null
+      <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>NO FLIGHTS TO SHOW</div>
+      }
       <div>
         <button className='flex mx-auto' onClick={handleAddHours}>
           ADD HOURS
