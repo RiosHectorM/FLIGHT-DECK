@@ -34,6 +34,20 @@ const FilterPilotBar: FC = ({ updateFilters }) => {
     },
   });
 
+  function handleReset (e) {
+    e.preventDefault()
+    let newFilter: Filtros = {
+      filter: {
+        userId: "", //'64501738bf775f644956b98g'
+        date: "",
+        aircraftId: "",
+        folio: "",
+      },
+    };
+    localStorage.setItem('filters', JSON.stringify(newFilter));
+    updateFilters();
+  }
+
   const onSubmit = (data: FormValues) => {
     console.log('DATA: ', data);
 
@@ -129,7 +143,7 @@ const FilterPilotBar: FC = ({ updateFilters }) => {
       {/* Botón de Reset Filters */}
       <button
         type='button'
-        onClick={() => reset()}
+        onClick={(e) => handleReset(e)}
         className='sm:w-auto w-full mt-2 sm:mt-0 px-2 py-1 text-sm text-gray-700 bg-blue-300 rounded-lg hover:bg-blue-400 focus:outline-none'
       >
         Reset Filters
