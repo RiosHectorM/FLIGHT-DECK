@@ -1,16 +1,16 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-import Heading from "../../AuxComponents/ModalsGenerator/Heading";
+import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useSearchFlightInstructorModal from "@/pages/hooks/useSearchFlightInstructorModal";
+import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
 
-import Modal from "../../AuxComponents/ModalsGenerator/Modal";
-import { toast } from "react-hot-toast";
-import useAddPlaneModal from "@/pages/hooks/useAddPlaneModal";
-import { useSession } from "next-auth/react";
+import Modal from '../../AuxComponents/ModalsGenerator/Modal';
+import { toast } from 'react-hot-toast';
+import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import { useSession } from 'next-auth/react';
 
 const SearchFlightInstructorModal = () => {
   const { data } = useSession();
@@ -42,7 +42,7 @@ const SearchFlightInstructorModal = () => {
         return result.data;
       })
       .catch(() => {
-        toast.error("Error User Search");
+        toast.error('Error User Search');
       })
       .finally(() => {
         setIsLoading(false);
@@ -52,7 +52,7 @@ const SearchFlightInstructorModal = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/api/instructor")
+      .get('http://localhost:3000/api/instructor')
       .then((response) => {
         setInstructors(response.data);
       })
