@@ -16,6 +16,7 @@ import useAddHoursModal from '../hooks/useAddHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import FilterPilotBar from './FilterPilotBar';
+import Pagination from '../components/Pagination/Pagination';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -223,10 +224,17 @@ const TableHoursPilot = () => {
     addHoursModal.onOpen();
   };
 
+  const flightsPerPage = 4;
   return (
     <div className='flex flex-col justify-between h-full'>
       <RateInstructorModal />
       <FilterPilotBar updateFilters={updateFilters} />
+      {/* <Pagination
+        flightsPerPage={flightsPerPage}
+        totalItems={flight.length}
+        currentPage={currentPage}
+        paginate={paginate}
+      /> */}
       <AddPlaneModal />
       <AddHoursModal getFlights={getFlights} id={id} />
       {flight.length ? (
