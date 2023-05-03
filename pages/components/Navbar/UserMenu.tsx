@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useCallback, useState } from "react";
-import { AiOutlineMenu } from "react-icons/ai";
-import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useCallback, useState } from 'react';
+import { AiOutlineMenu } from 'react-icons/ai';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
-import useLoginModal from "@/pages/hooks/useLoginModal";
-import useRegisterModal from "@/pages/hooks/useRegisterModal";
+import useLoginModal from '@/pages/hooks/useLoginModal';
+import useRegisterModal from '@/pages/hooks/useRegisterModal';
 
-import MenuItem from "./MenuItem";
-import Avatar from "../AuxComponents/Avatar";
-import useAddHoursModal from "@/pages/hooks/useAddHoursModal";
-import useSearchFlightInstructorModal from "@/pages/hooks/useSearchFlightInstructorModal";
+import MenuItem from './MenuItem';
+import Avatar from '../AuxComponents/Avatar';
+import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
 interface UserMenuProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
@@ -52,7 +52,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         >
           {currentUser
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
-            : "Go to Login"}
+            : 'Go to Login'}
         </div>
         <div
           onClick={toggleOpen}
@@ -99,7 +99,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem
                   label="My Profile"
                   onClick={() => {
-                    router.push("/dashboardPilot");
+                    router.push('/dashboardPilot');
                     toggleOpen();
                   }}
                 />
@@ -119,14 +119,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label="Logout"
                   onClick={() => {
                     signOut({ redirect: false });
-                    router.push("/");
+                    router.push('/');
                     toggleOpen();
                   }}
                 />
               </>
             ) : (
               <>
-                <MenuItem label="Home" onClick={() => router.push("/home")} />
+                <MenuItem label="Home" onClick={() => router.push('/home')} />
                 <MenuItem label="Login" onClick={loginModal.onOpen} />
                 <MenuItem label="Sign up" onClick={registerModal.onOpen} />
               </>
