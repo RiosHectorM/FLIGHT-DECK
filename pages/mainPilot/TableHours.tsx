@@ -323,10 +323,14 @@ const TableHoursPilot = () => {
             </Tbody>
           </Table>
         </div>
-      ) : 
-      // was ---> null
-      <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>NO FLIGHTS TO SHOW</div>
-      }
+      ) : (
+        // was ---> null
+        <div className='mx-auto p-8 rounded-3xl shadow-xl bg-gradient-to-t from-zinc-300 to-indigo-600'>
+          <div className='relative w-96 h-96 mx-auto text-center'>
+            <h3 className='text-white font-bold text-7xl'>No Flights Found</h3>
+          </div>
+        </div>
+      )}
       <div>
         <button className='flex mx-auto' onClick={handleAddHours}>
           ADD HOURS
