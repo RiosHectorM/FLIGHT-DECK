@@ -60,8 +60,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   const handlerProfiles = () => {
     if (role === 'PILOT') router.push('/dashboardPilot');
-    else if (role === 'INSTRUCTOR') router.push('/dashboardInstructor');
-    else if (role === 'COMPANY') router.push('/dashboardCompany');
+    else if (role === 'INSTRUCTOR')
+      router.push('/mainInstructor/DashboardInstructor');
+    else if (role === 'COMPANY') router.push('/mainCompany/DashBoardCompany');
   };
 
   return (
@@ -153,7 +154,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     toggleOpen();
                   }}
                 />
-                {role === 'PILOT' && (
+                {role === 'PILO' && (
                   <MenuItem
                     label='Search Instructor'
                     onClick={() => {
