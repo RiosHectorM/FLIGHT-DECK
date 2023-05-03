@@ -1,9 +1,5 @@
-import MainCompanyPage from "./MainCompanyPage";
+const index = () => {
+  return <div>COMPANY</div>;
+};
 
-export default function index() {
-  return (
-    <div>
-      <MainCompanyPage />
-    </div>
-  );
-}
+export default index;

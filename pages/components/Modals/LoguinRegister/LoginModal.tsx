@@ -68,7 +68,7 @@ const LoginModal = () => {
             console.log(user);
             if (user.role === 'PILOT') router.push('/mainPilot');
             else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
-            else router.push('/mainCompany');
+            else if (user.role === 'COMPANY') router.push('/mainCompany');
           });
           loginModal.onClose();
         }

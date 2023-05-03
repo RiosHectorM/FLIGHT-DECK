@@ -27,6 +27,17 @@ type FormData = {
   role: string;
 };
 
+const userByRole = async (email: string) => {
+  return axios
+    .get(`/api/getUserByEmail/${email}`)
+    .then((result) => {
+      return result.data;
+    })
+    .catch(() => {
+      console.error('Error User Search');
+    });
+};
+
 export default function Form() {
   const { handleSubmit, register } = useForm<FormData>();
   const router = useRouter();
@@ -34,9 +45,15 @@ export default function Form() {
   let email = '';
   if (data?.user?.email) {
     email = data?.user?.email;
-    console.log('tiene mail');
+    let result = userByRole(email);
+    result.then((user) => {
+      console.log(user);
+      if (user.role === 'PILOT') router.push('/mainPilot');
+      else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
+      else if (user.role === 'COMPANY') router.push('/mainCompany');
+    });
   } else {
-    console.log('no tiene mail');
+    console.log('No hay sesion');
   }
 
   const onSubmit = (data: FormData) => {
