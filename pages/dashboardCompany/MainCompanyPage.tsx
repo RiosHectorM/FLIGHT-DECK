@@ -29,11 +29,11 @@ const MainCompanyPage: React.FC = () => {
     backgroundSize: 'cover',
     backgroundPosition: 'center' }}>
 
-      <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Dashboard de la empresa</h1>
+      <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
       <div className="grid grid-cols-3 gap-8">
-        <PilotProfile name="John Doe" photoUrl="/pilot1.jpg" location="Miami, FL" hoursOfFlight={2500} />
-        <PilotProfile name="Jane Smith" photoUrl="/pilot2.jpg" location="Los Angeles, CA" hoursOfFlight={3000} />
-        <PilotProfile name="Bob Johnson" photoUrl="/pilot3.jpg" location="New York, NY" hoursOfFlight={2000} />
+        <PilotProfile name="John Doe" photoUrl="/images/pilot1.jpg" location="Miami, FL " hoursOfFlight={2500} />
+        <PilotProfile name="Jane Smith" photoUrl="/images/pilot2.jpg" location="Los Angeles, CA" hoursOfFlight={3000} />
+        <PilotProfile name="Bob Johnson" photoUrl="/images/pilot3.jpg" location="New York, NY" hoursOfFlight={2000} />
       </div>
       <PilotList />
       <FlightLog {...flightData} pilotName="John Doe" />
@@ -42,7 +42,7 @@ const MainCompanyPage: React.FC = () => {
       <FilterByLocation onFilterChange={handleLocationFilterChange} />
       <PilotDetails
         name="John Doe"
-        photoUrl="/pilot1.jpg"
+        photoUrl="/images/pilot1.jpg"
         location="Miami, FL"
         hoursOfFlight={2500}
         aircraftType="Boeing 737"
