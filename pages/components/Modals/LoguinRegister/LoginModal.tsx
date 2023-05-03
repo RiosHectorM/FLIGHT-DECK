@@ -17,6 +17,7 @@ import Input from '../../AuxComponents/InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
 import axios from 'axios';
+import Loader from '../../Loader';
 
 const LoginModal = () => {
   const router = useRouter();
@@ -52,14 +53,11 @@ const LoginModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-
     signIn('credentials', {
       ...data,
       redirect: false,
     })
       .then((callback) => {
-        setIsLoading(false);
-
         if (callback?.ok) {
           // BUSCAR USUARIO POR MAIL Y TRAER EL CAMPO ROLE
           let result = userByRole(data.email);
@@ -78,6 +76,9 @@ const LoginModal = () => {
       })
       .catch(() => {
         toast.error('callback.error');
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -88,6 +89,7 @@ const LoginModal = () => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
+      {isLoading && <Loader />}
       <Heading title='Welcome back' subtitle='Login to your account!' />
       <Input
         id='email'
@@ -114,30 +116,10 @@ const LoginModal = () => {
       <hr />
       <Button
         outline
-        label='Continue with Facebook'
-        icon={FaFacebook}
-        onClick={() =>
-          signIn('facebook', {
-            callbackUrl: 'http://localhost:3000/home/chooseRole',
-          })
-        }
-      />
-      <Button
-        outline
         label='Continue with Google'
         icon={FcGoogle}
         onClick={() =>
           signIn('google', {
-            callbackUrl: 'http://localhost:3000/home/chooseRole',
-          })
-        }
-      />
-      <Button
-        outline
-        label='Continue with Github'
-        icon={AiFillGithub}
-        onClick={() =>
-          signIn('github', {
             callbackUrl: 'http://localhost:3000/home/chooseRole',
           })
         }

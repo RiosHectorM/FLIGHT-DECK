@@ -17,6 +17,7 @@ import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import FilterPilotBar from './FilterPilotBar';
 import Pagination from '../components/Pagination/Pagination';
+import Loader from '../components/Loader';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -48,6 +49,7 @@ const TableHoursPilot = () => {
     remarks: string;
   }
 
+  const [isLoading, setIsLoading] = useState(false);
   interface Filtros {
     filter: {
       userId: string | undefined;
@@ -86,7 +88,7 @@ const TableHoursPilot = () => {
   }, []);
 
   let getFlights = async (idF) => {
-    console.log('llega al GetFlight');
+    setIsLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
@@ -95,10 +97,12 @@ const TableHoursPilot = () => {
     } catch (error) {
       console.error(error);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     if (userMail !== undefined) {
+      setIsLoading(true);
       axios
         .get(`/api/getUserByEmail/${userMail}`)
         .then((result) => {
@@ -111,6 +115,9 @@ const TableHoursPilot = () => {
         .catch((error) => {
           console.error(error);
           toast.error('Error User Search');
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     }
   }, [userMail]);
@@ -227,6 +234,7 @@ const TableHoursPilot = () => {
   const flightsPerPage = 4;
   return (
     <div className='flex flex-col justify-between h-full'>
+      {isLoading && <Loader />}
       <RateInstructorModal />
       <FilterPilotBar updateFilters={updateFilters} />
       {/* <Pagination

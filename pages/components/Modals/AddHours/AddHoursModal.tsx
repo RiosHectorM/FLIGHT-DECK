@@ -14,6 +14,7 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
 import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
+import Loader from '../../Loader';
 
 const AddHoursModal = ({ getFlights, id }) => {
   const { data } = useSession();
@@ -103,6 +104,7 @@ const AddHoursModal = ({ getFlights, id }) => {
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
     reset();
     let result = userByRole(userData?.email);
     result.then(async (user) => {
@@ -113,7 +115,10 @@ const AddHoursModal = ({ getFlights, id }) => {
           addHoursModal.onClose();
           getFlights(id);
         })
-        .catch(() => toast.error('Error Save Data'));
+        .catch(() => toast.error('Error Save Data'))
+        .finally(() => {
+          setIsLoading(false);
+        });
     });
   };
 
@@ -124,6 +129,7 @@ const AddHoursModal = ({ getFlights, id }) => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
+      {isLoading && <Loader />}
       <Heading
         title='Add your Flight Hours in your LogBook'
         subtitle='Fill all fields'

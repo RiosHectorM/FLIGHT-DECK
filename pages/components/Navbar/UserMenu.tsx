@@ -68,7 +68,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     <div className='relative'>
       <div className='flex flex-row items-center gap-3'>
         <div
-          onClick={() => {}}
+          onClick={() => {
+            currentUser ? null : loginModal.onOpen();
+          }}
           className='
             hidden
             md:block
@@ -86,9 +88,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
             : 'Go to Login'}
         </div>
-        <div
-          onClick={toggleOpen}
-          className='
+        {currentUser ? (
+          <div
+            onClick={toggleOpen}
+            className='
           p-4
           md:py-1
           md:px-2
@@ -103,12 +106,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           hover:shadow-md 
           transition
           '
-        >
-          <AiOutlineMenu />
-          <div className='hidden md:block'>
-            <Avatar src={currentUser?.image} />
+          >
+            <AiOutlineMenu />
+            <div className='hidden md:block'>
+              <Avatar src={currentUser?.image} />
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
       {isOpen && (
         <div
@@ -149,13 +153,15 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     toggleOpen();
                   }}
                 />
-                {role === 'PILOT' && <MenuItem
-                  label='Search Instructor'
-                  onClick={() => {
-                    // ('LLAMAR AL MODAL DE SAMIR ej: onClick={addHoursModal.onOpen}')
-                    toggleOpen();
-                  }}
-                />}
+                {role === 'PILOT' && (
+                  <MenuItem
+                    label='Search Instructor'
+                    onClick={() => {
+                      // ('LLAMAR AL MODAL DE SAMIR ej: onClick={addHoursModal.onOpen}')
+                      toggleOpen();
+                    }}
+                  />
+                )}
                 <hr />
                 <MenuItem
                   label='About Flight Deck'
