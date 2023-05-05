@@ -110,7 +110,7 @@ const Footer = () => {
           <div className="px-5 py-2">
             <Link href="/privacy">
               <span className="text-base text-gray-500 hover:text-gray-900">Privacy Policy</span>
-            </Link */}>
+            </Link> */}
           </div>
         </nav>
         <p className="mt-8 text-center text-base text-gray-400">&copy; 2023 My Company, Inc. All rights reserved.</p>
