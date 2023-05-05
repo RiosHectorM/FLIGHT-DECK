@@ -23,6 +23,7 @@ import Input from '../../AuxComponents/InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
 import { signIn } from 'next-auth/react';
+import Loader from '../../Loader';
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -55,7 +56,7 @@ const RegisterModal = () => {
         loginModal.onOpen();
       })
       .catch((error) => {
-        toast.error('Error Login');
+        toast.error('Email in Use');
       })
       .finally(() => {
         setIsLoading(false);
@@ -74,6 +75,7 @@ const RegisterModal = () => {
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
+      {isLoading && <Loader />}
       <Heading title='Welcome to Flight Deck' subtitle='Create your account' />
       <Input
         id='email'
@@ -100,55 +102,43 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      {/* <Input
-        id='role'
-        label='Role'
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      /> */}
       <div>
         <h1 className='text-2xl font-bold pb-2'>Choose Your Role to Join Us</h1>
-        <Controller
-          name='role'
-          control={control}
-          rules={{ required: true }}
-          render={({ field: { value } }) => (
-            <div className='flex justify-around gap-2'>
-              <label className='inline-flex items-center'>
-                <input
-                  type='radio'
-                  value='PILOT'
-                  checked={value === 'PILOT'}
-                  onChange={handleOptionChange}
-                  className='form-radio text-indigo-600 h-5 w-5'
-                />
-                <span className='ml-2 text-gray-700 text-xl'>Pilot</span>
-              </label>
-              <label className='inline-flex items-center'>
-                <input
-                  type='radio'
-                  value='INSTRUCTOR'
-                  checked={value === 'INSTRUCTOR'}
-                  onChange={handleOptionChange}
-                  className='form-radio text-indigo-600 h-5 w-5'
-                />
-                <span className='ml-2 text-gray-700 text-xl'>Instructor</span>
-              </label>
-              <label className='inline-flex items-center'>
-                <input
-                  type='radio'
-                  value='COMPANY'
-                  checked={value === 'COMPANY'}
-                  onChange={handleOptionChange}
-                  className='form-radio text-indigo-600 h-5 w-5'
-                />
-                <span className='ml-2 text-gray-700 text-xl'>Company</span>
-              </label>
-            </div>
-          )}
-        />
+        <div
+          className='flex justify-around gap-2'
+          style={errors?.role ? { background: 'red' } : null}
+        >
+          <label className='inline-flex items-center'>
+            <input
+              type='radio'
+              value='PILOT'
+              {...register('role', { required: true })}
+              className='form-radio text-indigo-600 h-5 w-5'
+            />
+            <span className='ml-2 text-gray-700 text-xl'>Pilot</span>
+          </label>
+          <label className='inline-flex items-center'>
+            <input
+              type='radio'
+              value='INSTRUCTOR'
+              {...register('role', { required: true })}
+              className='form-radio text-indigo-600 h-5 w-5'
+            />
+            <span className='ml-2 text-gray-700 text-xl'>Instructor</span>
+          </label>
+          <label className='inline-flex items-center'>
+            <input
+              type='radio'
+              value='COMPANY'
+              {...register('role', { required: true })}
+              className='form-radio text-indigo-600 h-5 w-5'
+            />
+            <span className='ml-2 text-gray-700 text-xl'>Company</span>
+          </label>
+        </div>
+        {errors.role && (
+          <p className='text-red-600 text-center'>Choose Your Role</p>
+        )}
       </div>
     </div>
   );
@@ -158,30 +148,10 @@ const RegisterModal = () => {
       <hr />
       <Button
         outline
-        label='Continue with Facebook'
-        icon={FaFacebook}
-        onClick={() =>
-          signIn('facebook', {
-            callbackUrl: 'http://localhost:3000/home/chooseRole',
-          })
-        }
-      />
-      <Button
-        outline
         label='Continue with Google'
         icon={FcGoogle}
         onClick={() =>
           signIn('google', {
-            callbackUrl: 'http://localhost:3000/home/chooseRole',
-          })
-        }
-      />
-      <Button
-        outline
-        label='Continue with Github'
-        icon={AiFillGithub}
-        onClick={() =>
-          signIn('github', {
             callbackUrl: 'http://localhost:3000/home/chooseRole',
           })
         }
