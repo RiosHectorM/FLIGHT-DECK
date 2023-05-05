@@ -1,21 +1,17 @@
-
 import { FormPilot } from './formpilot';
 import { FormPassword } from './formpassword';
 
 import Chat from '../mainInstructor/Chat';
+
 import Notification from '../mainInstructor/Notification';
 import ProfileSection from '../mainInstructor/ProfileSection';
+
 import FormPhoto from './formphoto';
 
-
-
-
-
 const MainPiloto = () => {
-
-
+  
   return (
-    <div className='min-h-screen' >
+    <div className='min-h-screen'>
       {/* <nav className='bg-white border-b border-gray-200'>
         <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
           <div className='flex justify-between h-16'>
@@ -38,29 +34,25 @@ const MainPiloto = () => {
         </div>
       </nav> */}
       <main>
-        <div className="grid grid-cols-2 gap-4 w-full">
-          <div className="w-full">
-            <div className="grid grid-cols-2 gap-2 w-full">
-              <div className="flex w-full">
-                <FormPhoto onChange={function (value: string): void {
-                  throw new Error('Function not implemented.');
-                } } value={''} />
+        <div className='grid grid-cols-2 gap-4 w-full'>
+          <div className='w-full'>
+            <div className='grid grid-cols-2 gap-2 w-full'>
+              <div className='flex w-full'>
+                <FormPhoto />
               </div>
-              <div className="w-full">
-                <FormPassword className="w-full" />
+              <div className='w-full'>
+                <FormPassword className='w-full' />
               </div>
             </div>
-            <div className="w-full">
-
-            <FormPilot />
+            <div className='w-full'>
+              <FormPilot />
             </div>
           </div>
-          <div className="w-full">
+          <div className='w-full'>
             <Chat />
           </div>
         </div>
       </main>
-
     </div>
   );
 };
