@@ -10,7 +10,12 @@ import useRegisterModal from '@/pages/hooks/useRegisterModal';
 
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
+
+import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
+
 import axios from 'axios';
+
 interface UserMenuProps {
   name?: string | null | undefined;
   email?: string | null | undefined;
@@ -22,6 +27,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
+
+  const addHoursModal = useAddHoursModal();
+  const searchFlightInstructorModal = useSearchFlightInstructorModal();
+
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,13 +75,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className='relative'>
-      <div className='flex flex-row items-center gap-3'>
+    <div className="relative">
+      <div className="flex flex-row items-center gap-3">
         <div
+
           onClick={() => {
             currentUser ? null : loginModal.onOpen();
           }}
-          className='
+          className="
             hidden
             md:block
             text-sm 
@@ -83,16 +93,17 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             hover:bg-neutral-100 
             transition 
             cursor-pointer
-          '
+          "
         >
           {currentUser
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
             : 'Go to Login'}
         </div>
+
         {currentUser ? (
           <div
             onClick={toggleOpen}
-            className='
+            className="
           p-4
           md:py-1
           md:px-2
@@ -106,7 +117,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           cursor-pointer 
           hover:shadow-md 
           transition
-          '
+          "
           >
             <AiOutlineMenu />
             <div className='hidden md:block'>
@@ -117,7 +128,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
       {isOpen && (
         <div
-          className='
+          className="
             absolute 
             rounded-xl 
             shadow-md
@@ -128,9 +139,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             right-0 
             top-12 
             text-sm
-          '
+          "
         >
-          <div className='flex flex-col cursor-pointer'>
+          <div className="flex flex-col cursor-pointer">
             {currentUser ? (
               <>
                 <MenuItem
@@ -154,11 +165,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     toggleOpen();
                   }}
                 />
-                {role === 'PILO' && (
+
+                {role === 'PILOT' && (
                   <MenuItem
                     label='Search Instructor'
                     onClick={() => {
-                      // ('LLAMAR AL MODAL DE SAMIR ej: onClick={addHoursModal.onOpen}')
+                      searchFlightInstructorModal.onOpen();
                       toggleOpen();
                     }}
                   />
@@ -174,7 +186,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <hr />
                 <hr />
                 <MenuItem
-                  label='Logout'
+                  label="Logout"
                   onClick={() => {
                     signOut({ redirect: false });
                     router.push('/');
@@ -184,9 +196,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               </>
             ) : (
               <>
-                <MenuItem label='Home' onClick={() => router.push('/home')} />
-                <MenuItem label='Login' onClick={loginModal.onOpen} />
-                <MenuItem label='Sign up' onClick={registerModal.onOpen} />
+                <MenuItem label="Home" onClick={() => router.push('/home')} />
+                <MenuItem label="Login" onClick={loginModal.onOpen} />
+                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
               </>
             )}
           </div>

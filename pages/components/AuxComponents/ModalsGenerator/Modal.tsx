@@ -70,22 +70,22 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <div
-        className='
-          justify-center 
-          items-center 
-          flex 
-          overflow-x-hidden 
-          overflow-y-auto 
-          fixed 
-          inset-0 
-          z-50 
-          outline-none 
-          focus:outline-none
-          bg-violet-300/70
-        '
+        className="        
+        justify-center 
+        items-center 
+        flex 
+        overflow-x-hidden 
+        overflow-y-auto 
+        fixed 
+        inset-0 
+        z-50 
+        outline-none 
+        focus:outline-none
+        bg-violet-300/70
+        "
       >
         <div
-          className='
+          className="
           relative 
           w-full
           md:w-4/6
@@ -96,7 +96,7 @@ const Modal: React.FC<ModalProps> = ({
           h-full 
           lg:h-full
           md:h-5/6
-          '
+          "
         >
           {/*content*/}
           <div
@@ -109,7 +109,7 @@ const Modal: React.FC<ModalProps> = ({
           `}
           >
             <div
-              className='
+              className="
               translate
               h-full
               lg:h-auto
@@ -124,47 +124,47 @@ const Modal: React.FC<ModalProps> = ({
               bg-white 
               outline-none 
               focus:outline-none
-            '
+            "
             >
               {/*header*/}
               <div
-                className='
+                className="
                 flex 
                 items-center 
                 p-6
                 rounded-t
                 justify-center
                 relative
-                border-b-[1px]
-                '
+                border-b-[1px]                
+                "
               >
                 <button
                   onClick={handleClose}
-                  className='
+                  className="
                     p-1
                     border-0 
                     hover:opacity-70
                     transition
                     absolute
                     left-9
-                  '
+                  "
                 >
                   <IoMdClose size={18} />
                 </button>
-                <div className='text-lg font-semibold'>{title}</div>
+                <div className="text-lg font-semibold">{title}</div>
               </div>
               {/*body*/}
-              <div className='relative p-6 flex-auto'>{body}</div>
+              <div className="relative p-6 flex-auto">{body}</div>
               {/*footer*/}
-              <div className='flex flex-col gap-2 p-6'>
+              <div className="flex flex-col gap-2 p-6">
                 <div
-                  className='
+                  className="
                     flex 
                     flex-row 
                     items-center 
                     gap-4 
                     w-full
-                  '
+                  "
                 >
                   {secondaryAction && secondaryActionLabel && (
                     <Button
