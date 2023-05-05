@@ -20,54 +20,62 @@ export const FormPhoto = () => {
   };
 
   return (
-    <CldUploadWidget
-      onUpload={handleUpload}
-      uploadPreset={uploadPreset}
-      options={{
-        maxFiles: 1,
-      }}
-    >
-      {({ open }) => {
-        return (
-          <div
-            onClick={() => open?.()}
-            className='
-              relative
-              cursor-pointer
-              hover:opacity-70
-              transition
-              border-dashed 
-              border-2 
-              p-20 
-              border-neutral-300
-              flex
-              flex-col
-              justify-center
-              items-center
-              gap-4
-              text-neutral-600
-            '
-          >
-            <TbPhotoPlus size={50} />
-            <div className='font-semibold text-lg'>Click to upload</div>
-            {value && (
-              <div
-                className='
-              absolute inset-0 w-full h-full'
-              >
-                <Image
-                  fill
-                  style={{ objectFit: 'cover' }}
-                  src={value}
-                  alt='ProfileImage'
-                />
-              </div>
-            )}
-          </div>
-        );
-      }}
-    </CldUploadWidget>
+    <div className='flex flex-col items-center'>
+      <h2 className='font-semibold text-lg mb-2'>Profile Picture</h2>
+      <CldUploadWidget
+        onUpload={handleUpload}
+        uploadPreset={uploadPreset}
+        options={{
+          maxFiles: 1,
+        }}
+      >
+        {({ open }) => {
+          return (
+            <div
+              title='Profile Picture'
+              onClick={() => open?.()}
+              className='
+                relative
+                cursor-pointer
+                hover:opacity-70
+                transition
+                border-dashed 
+                border-2 
+                p-20 
+                border-neutral-300
+                flex
+                flex-col
+                justify-center
+                items-center
+                gap-4
+                text-neutral-600
+                rounded-full   /* para hacer la imagen circular */
+                w-80 h-80      /* para establecer un tamaño fijo */
+              '
+            >
+              <TbPhotoPlus size={50} />
+              <div className='font-semibold text-lg text-center'>Click to upload</div>
+              {value && (
+                <div
+                  className='
+                    absolute inset-0 w-full h-full rounded-full
+                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                  '
+                >
+                  <Image
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    src={value}
+                    alt='ProfileImage'
+                  />
+                </div>
+              )}
+            </div>
+          );
+        }}
+      </CldUploadWidget>
+    </div>
   );
-};
+};  
 
 export default FormPhoto;

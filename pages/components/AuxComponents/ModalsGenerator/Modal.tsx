@@ -52,7 +52,7 @@ const Modal: React.FC<ModalProps> = ({
       return;
     }
 
-    onSubmit();
+    onSubmit?.();
   }, [onSubmit, disabled]);
 
   const handleSecondaryAction = useCallback(() => {

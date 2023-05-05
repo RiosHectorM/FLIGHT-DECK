@@ -144,7 +144,7 @@ export const FormPilot = () => {
             </svg>
             Members only
           </p>
-          <div className="text-gray-900 font-bold text-xl mb-2">Informacion Personal</div>
+          <div className="text-gray-900 font-bold text-xl mb-2">Personal information</div>
           <form className="w-full px-3 mb-6 md:mb-0" onSubmit={handleFormSubmit}>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full md:w-1/2 px-3">

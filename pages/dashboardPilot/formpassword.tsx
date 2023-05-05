@@ -60,7 +60,7 @@ export const FormPassword = (props: { className: string }) => {
     <div className={`w-full lg:flex h-full justify-center aling-middle ${props.className}`}>
       <div className="border border-gray-400 lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
         <div className="mb-0">
-          <div className="text-gray-900 font-bold text-xl mb-5">Actualizar Contraseña</div>
+          <div className="text-gray-900 font-bold text-xl mb-5">Update Password</div>
           <form className="w-full" onSubmit={handleUpdatePassword}>
             <div className="flex flex-wrap -mx-3 mb-6">
               <div className="w-full px-3">
