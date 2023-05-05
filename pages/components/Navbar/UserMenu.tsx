@@ -107,12 +107,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem
                   label="Search Instructor"
                   onClick={searchFlightInstructorModal.onOpen}
-                  /*  onClick={() => {
-                    searchFlightInstructorModal.onOpen;
-                    console.log("CLICK ON SEARCH");
-                    //router.push("/reservations");
-                    toggleOpen();
-                  }} */
                 />
                 <hr />
                 <MenuItem

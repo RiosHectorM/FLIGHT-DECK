@@ -239,7 +239,7 @@ const TableHoursPilot = () => {
                 <Th className="text-center border text-xs">FOLIO</Th>
                 <Th className=" text-center border text-xs">FECHA</Th>
                 <Th className=" text-center border text-xs">
-                  CARACTERISTICAS DEL AVION
+                  CARACTERISTICAS DEL AVIONÑ
                 </Th>
                 {/* <Th className="text-center border text-xs">SIMULADOR</Th> */}
                 <Th className="text-center border text-xs">FLIGHT TYPE</Th>
