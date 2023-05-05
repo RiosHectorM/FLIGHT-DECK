@@ -1,10 +1,11 @@
 
 import { FormPilot } from './formpilot';
 import { FormPassword } from './formpassword';
-import { FormPhoto } from './formphoto';
+
 import Chat from '../mainInstructor/Chat';
 import Notification from '../mainInstructor/Notification';
 import ProfileSection from '../mainInstructor/ProfileSection';
+import FormPhoto from './formphoto';
 
 
 
@@ -41,7 +42,9 @@ const MainPiloto = () => {
           <div className="w-full">
             <div className="grid grid-cols-2 gap-2 w-full">
               <div className="flex w-full">
-                <FormPhoto className="w-full" />
+                <FormPhoto onChange={function (value: string): void {
+                  throw new Error('Function not implemented.');
+                } } value={''} />
               </div>
               <div className="w-full">
                 <FormPassword className="w-full" />
