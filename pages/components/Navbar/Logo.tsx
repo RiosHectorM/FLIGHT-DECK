@@ -1,20 +1,20 @@
-'use client';
-
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-const Logo = () => {
+interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+const Logo = (props: LogoProps) => {
   const router = useRouter();
 
   return (
-    <Image
+    <div
       onClick={() => router.push('/')}
-      className='hidden md:block cursor-pointer rounded-full'
-      src='/images/logo.png'
-      height='50'
-      width='50'
-      alt='Logo'
-    />
+      className={`${props.className} cursor-pointer rounded-full shadow-md`}
+      {...props}
+    >
+      <Image src='/images/flight-logo.svg' alt='Logo' layout='fill' objectFit='contain' />
+    </div>
   );
 };
 
