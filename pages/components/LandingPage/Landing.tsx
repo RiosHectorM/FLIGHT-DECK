@@ -11,7 +11,7 @@ const LandingPage = () => {
     setStartAnimation(true);
     setTimeout(() => {
       router.push('/home');
-    }, 2000);
+    }, 1000);
   };
 
   const logoAnimation = useSpring({
@@ -22,15 +22,15 @@ const LandingPage = () => {
   return (
     <div className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
       style={{
-        backgroundImage: "url('/images/clouds.jpg')",
+        backgroundImage: "url('/images/cloud.png')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className='flex flex-col items-center justify-center h-full'>
+      <div className='flex flex-col items-center justify-center h-full '>
         <animated.div style={logoAnimation} className='z-10 flex flex-col items-center mb-8'>
-          <div className='p-4 border-8 border-white shadow-2xl rounded-full animate-pulse'>
+          <div className='p-4 border-8 border-white shadow-2xl animate-pulse'>
             <Image
               src='/images/flight-logo.png'
               alt='Flight logo'
@@ -40,11 +40,16 @@ const LandingPage = () => {
           </div>
           <h2 className='text-4xl font-bold text-white mt-4'>FLIGHTDECK</h2>
         </animated.div>
-        <div className='z-10 max-w-md mb-8 p-6 bg-white rounded-lg shadow-xl'>
-          <p className='text-center text-blue-900 text-xl font-medium mb-4'>
+        <div
+          className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.2)', // Cambia el valor 0.2 para ajustar la transparencia
+          }}
+        >
+          <p className='text-center text-white text-xl font-medium mb-4'>
             Welcome to Flight Deck, the ultimate flight log app.
           </p>
-          <p className='text-center text-blue-900 text-xl font-medium mb-4'>
+          <p className='text-center text-white text-xl font-medium mb-4'>
             Sign up now and start organizing your travels!
           </p>
           <button

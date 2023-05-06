@@ -16,26 +16,36 @@ const HomePage = () => {
   };
 
   return (
-<div
-  className='flex flex-col items-center justify-center min-h-screen'
-  style={{
-    backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image.jpg")',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  }}
->
+    <div
+      className='flex flex-col items-center justify-center min-h-screen'
+      style={{
+        backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <ToasterProvider />
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2'>
-        <motion.h2
-          className='text-4xl font-bold text-gray-200 mt-6'
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Join us as a
-        </motion.h2>
-        <div className='flex items-center space-x-8 mt-8'>
+        <div className='text-4xl font-bold text-gray-200 mt-9'>
+          {Array.from('Ready to fly?').map((char, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.2 + index * 0.1,
+                duration: 2, // Aumenta la duración aquí
+                repeat: Infinity,
+                repeatType: 'reverse',
+              }}
+            >
+              {char}
+            </motion.span>
+            
+          ))}
+        </div>
+        <div className='flex items-center space-x-8 mt-0 mb-5 '>
           {['PILOT', 'INSTRUCTOR', 'COMPANY'].map((role, index) => (
             <div
               key={role}
@@ -59,7 +69,7 @@ const HomePage = () => {
       <HomePageFeaturesSection />
       <HomePageTestimonialsSection />
       <div className='flex flex-col items-center justify-center my-16'>
-        <h2 className='text-4xl font-bold text-gray-800 mb-8'>
+        <h2 className='text-4xl font-bold text-white mb-8'>
           Ready to get started?
         </h2>
         <Link href='/mainPilot'>
