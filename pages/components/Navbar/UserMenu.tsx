@@ -17,10 +17,13 @@ import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstruc
 import axios from 'axios';
 
 interface UserMenuProps {
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
+  currentUser: {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+  } | undefined;
 }
+
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
