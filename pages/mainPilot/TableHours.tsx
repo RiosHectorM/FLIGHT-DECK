@@ -13,7 +13,9 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
 import useAddHoursModal from '../hooks/useAddHoursModal';
+import useEditHoursModal from '../hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
+import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import SearchFlightInstructorModal from '../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
@@ -59,6 +61,8 @@ const TableHoursPilot = () => {
       folio: string | undefined;
     } | null;
   }
+
+  const [selectedFlight, setSelectedFlight] = useState();
 
   const [filters, setFilters] = useState<Filtros>({
     // Estado con los filtros del LocalStorage
@@ -227,10 +231,25 @@ const TableHoursPilot = () => {
 */
 
   const addHoursModal = useAddHoursModal();
-
+  const editHoursModal = useEditHoursModal();
+  
   const handleAddHours = () => {
     addHoursModal.onOpen();
   };
+
+  const handleEditHours = (flight) => {
+    setSelectedFlight(flight);
+    editHoursModal.onOpen();
+  }
+
+  const handleDeleteHours = async (flight) => {
+    try {
+      await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
+      getFlights(id);
+    } catch (error) {
+      toast.error("Error deleting flight");
+    }
+  }
 
   const flightsPerPage = 4;
   return (
@@ -247,6 +266,7 @@ const TableHoursPilot = () => {
       <AddPlaneModal />
       <SearchFlightInstructorModal />
       <AddHoursModal getFlights={getFlights} id={id} />
+      <EditHoursModal selectedFlight={selectedFlight} getFlights={getFlights} id={id} />
       {flight.length ? (
         <div className="max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full">
           <Table className="table-auto w-full mx-auto bg-white shadow-md rounded my-6">
@@ -312,11 +332,12 @@ const TableHoursPilot = () => {
                   {dato.firmaInstructor}
                 </Td> */}
                     <Td className="text-center border text-2xl">
-                      <AiFillEdit onClick={() => toast.success('Editar')} />
+                      <AiFillEdit 
+                        onClick={() => handleEditHours(dato)} />
                     </Td>
                     <Td className="text-center border text-2xl">
                       <AiFillCloseCircle
-                        onClick={() => toast.error('Borrar')}
+                        onClick={() => handleDeleteHours(dato)}
                       />
                     </Td>
                   </Tr>
