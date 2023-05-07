@@ -153,14 +153,18 @@ const TableHoursPilot = () => {
   const aproveModal = useApproveModal();
   const rateInstructor = useRateInstructorModal();
 
+  const handlerCertify = () => {
+    aproveModal.onOpen();
+  };
+
   return (
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
       <RateInstructorModal />
       <ApproveModal />
       <FilterPilotBar updateFilters={updateFilters} />
-      {/* <button onClick={() => aproveModal.onOpen()}>aprove</button>
-      <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
+
+      <button onClick={() => rateInstructor.onOpen()}>calificar</button>
       <AddPlaneModal />
       <SearchFlightInstructorModal />
       <AddHoursModal getFlights={getFlights} id={user?.id} />
@@ -222,6 +226,7 @@ const TableHoursPilot = () => {
                           onClick={() => handleDeleteHours(dato)}
                           className='text-red-600 w-5 h-5'
                         />
+                        <button onClick={handlerCertify}>Certify</button>
                       </div>
                     </Td>
                   </Tr>
