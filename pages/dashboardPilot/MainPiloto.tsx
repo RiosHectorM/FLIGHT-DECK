@@ -41,7 +41,7 @@ const MainPiloto = () => {
                 <FormPhoto />
               </div>
               <div className='w-full'>
-                <FormPassword className='w-full' />
+                <FormPassword className='w-full' userId={''} />
               </div>
             </div>
             <div className='w-full'>
