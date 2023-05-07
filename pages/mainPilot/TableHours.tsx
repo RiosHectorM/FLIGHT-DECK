@@ -23,6 +23,9 @@ import FilterPilotBar from './FilterPilotBar';
 import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
+import ApproveModal from '../components/Modals/InstHours/ApproveModal';
+import useApproveModal from '../hooks/useApproveModal';
+import useRateInstructorModal from '../hooks/useRateInstructorModal';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -147,12 +150,17 @@ const TableHoursPilot = () => {
       toast.error('Error deleting flight');
     }
   };
+  const aproveModal = useApproveModal();
+  const rateInstructor = useRateInstructorModal();
 
   return (
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
       <RateInstructorModal />
+      <ApproveModal />
       <FilterPilotBar updateFilters={updateFilters} />
+      {/* <button onClick={() => aproveModal.onOpen()}>aprove</button>
+      <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
       <AddPlaneModal />
       <SearchFlightInstructorModal />
       <AddHoursModal getFlights={getFlights} id={user?.id} />
