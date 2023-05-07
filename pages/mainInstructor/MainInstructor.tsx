@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { FaBell } from 'react-icons/fa';
+import { FaComment } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import CertificationRequests from './CertificationRequests';
 import Notification from './Notification';
 import ProfileSection from './ProfileSection';
+import Chat from './Chat';
+import Calendar from './Calendar';
 
 type MainInstructorProps = {
   title: string;
@@ -32,38 +34,42 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
     },
   ]);
 
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [showChat, setShowChat] = useState(true);
+
+  const handleChatToggle = () => {
+    setShowChat(!showChat);
+  };
+
   return (
-    <div className='min-h-screen' style={{ backgroundImage: "url('/images/backgroundinst.jpg')",backgroundSize: 'cover', backgroundPosition: 'center' }}>
-
-      {/* <nav className='bg-white border-b border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between h-16'>
-            <div className='flex'>
-              <div className='flex-shrink-0 flex items-center'>
-                <h1 className='text-xl font-bold text-gray-800'>{title}</h1>
-              </div>
+    <div className='min-h-screen flex flex-col md:flex-row bg-black'>
+      <div className='flex-1'>
+        <main>
+          <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
+            <div className='px-4 py-6 sm:px-0'>
+              <CertificationRequests requests={requests} />
             </div>
-            <div className='flex items-center ml-auto'>
-              <Notification />
+          </div>
+        </main>
+      </div>
+      <div className='md:w-1/3 bg-white h-full overflow-hidden'>
+        <div className='flex flex-col h-full'>
+          <div className='px-4 py-6 border-b border-gray-200 flex items-center justify-between'>
+            <h2 className='text-2xl font-bold text-gray-800 mb-2'>Chat</h2>
+            <button className='text-gray-400 hover:text-gray-800 focus:outline-none' onClick={handleChatToggle}>
+              {showChat ? <FontAwesomeIcon icon={faTimes} /> : <FaComment />}
+            </button>
+          </div>
+          {showChat && (
+            <div className='px-4 flex-1 overflow-y-auto'>
+              <Chat />
             </div>
-            <div className='ml-4 flex items-center md:ml-6'>
-              <ProfileSection 
-                name='John Doe'
-                email='johndoe@example.com'
-                avatarUrl='/images/profile.jpg'
-              />
-            </div>
-
+          )}
+          <div className={`px-4 flex-1 overflow-y-auto ${showChat ? 'hidden' : 'block'}`}>
+            <Calendar currentDate={currentDate} onDateChange={setCurrentDate} />
           </div>
         </div>
-      </nav> */}
-      <main>
-        <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
-          <div className='px-4 py-6 sm:px-0'>
-            <CertificationRequests requests={requests} />
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   );
 };

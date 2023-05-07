@@ -27,11 +27,11 @@ const Navbar = () => {
   return (
     <div
       className={`fixed w-full z-10 transition-all duration-300 ${
-        isVisible ? 'bg-black bg-opacity-50' : 'bg-opacity-0'
+        isVisible ? 'bg-black bg-opacity-60' : 'bg-opacity-0'
       }`}
     >
       <div
-        className={`py-4 ${
+        className={`py-0 ${
           isVisible ? '' : 'border-b-0'
         }`}
       >
