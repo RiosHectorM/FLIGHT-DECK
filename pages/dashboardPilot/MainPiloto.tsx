@@ -61,7 +61,7 @@ const MainPiloto = () => {
                   {showChat ? 'Ocultar' : 'Mostrar'}
                 </button>
               </div>
-              {showChat && <ChatComponent />}
+              {/* {showChat && <ChatComponent />} */}
             </div>
           </div>
           <div className='flex justify-end mt-8'>
