@@ -28,17 +28,32 @@ const MainPiloto = () => {
             </div>
           </div>
         </div>
-      </nav> 
-      <main>
-        <div className='grid grid-cols-2 gap-4 w-full'>
-          <div className='w-full'>
-            <div className='grid grid-cols-2 gap-2 w-full'>
-              <div className='flex w-full'>
-                <FormPhoto />
+      </nav>
+      <main className="py-10">
+        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <div className="bg-white rounded-lg shadow-lg p-6">
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="flex flex-col">
+                  <div className="w-24 h-24 rounded-full mx-auto overflow-hidden">
+                    <img src="/images/Pilo.jpeg" alt="Profile" className="h-full w-full object-cover" />
+                  </div>
+                  <button
+                    className="mt-2 bg-indigo-500 text-white rounded-full px-6 py-2 font-semibold hover:bg-indigo-600 focus:outline-none"
+                  >
+                    Cambiar foto
+                  </button>
+                </div>
+                <div>
+                  <FormPassword className="my-class" userId={`${123}`} />
+                </div>
+
               </div>
               <div className='w-full'>
                 <FormPassword className='w-full' userId={''} />
               </div>
+            </div>
+            <div className='w-full'>
               <FormPilot />
             </div>
             <div className="bg-white rounded-lg shadow-lg p-6 relative">
