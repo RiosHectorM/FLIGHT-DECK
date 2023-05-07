@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 import {
   AiFillSafetyCertificate,
@@ -269,93 +270,73 @@ const TableHoursPilot = () => {
       <EditHoursModal selectedFlight={selectedFlight} getFlights={getFlights} id={id} />
       {flight.length ? (
         <div className="max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full">
-          <Table className="table-auto w-full mx-auto bg-white shadow-md rounded my-6">
-            <Thead className="w-full">
-              <Tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <Th className="text-center border text-xs">FOLIO</Th>
-                <Th className=" text-center border text-xs">FECHA</Th>
-                <Th className=" text-center border text-xs">
-                  CARACTERISTICAS DEL AVIONÑ
-                </Th>
-                {/* <Th className="text-center border text-xs">SIMULADOR</Th> */}
-                <Th className="text-center border text-xs">FLIGHT TYPE</Th>
-                {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
-                <Th className="text-center border text-xs">ETAPAS</Th>
-                <Th className="text-center border text-xs">TIEMPO TOTAL</Th>
-                {/* <Th className="text-center border text-xs">COPILOTO</Th> */}
-                {/* <Th className="text-center border text-xs">AUTONOMO</Th> */}
-                {/* <Th className="text-center border text-xs">TIEMPO TOTAL</Th> */}
-                {/* <Th className="text-center border text-xs">FIRMA INST</Th> */}
-                <Th className="text-center border text-xs">OBSERVACIONES</Th>
-              </Tr>
-            </Thead>
-            <Tbody className="w-full">
-              {flight.length === 0 ? (
-                <h1>LOADING....</h1>
-              ) : (
-                flight.map((dato, index) => (
-                  <Tr
-                    key={index}
-                    className="hover:bg-gray-100 border-b border-gray-200 py-10"
-                  >
-                    <Td className="text-center border text-xs text-gray-700">
-                      {dato.folio}
-                    </Td>
-                    <Td className="text-center border text-xs">{dato.date}</Td>
-                    <Td className="text-center border text-xs">
-                      {dato.aircraftId}
-                      {dato.marca} {dato.clase} {dato.tipo} {dato.matricula}{' '}
-                      {dato.marcaMotor} {dato.hp} HP
-                    </Td>
-                    <Td className="text-center border text-xs">
-                      {dato.flightType}
-                    </Td>
-                    {/* <Td className="text-center border text-xs">{dato.autonomo}</Td> */}
-                    <Td className="text-center border text-xs">
-                      {dato.stages}
-                    </Td>
-                    <Td className="text-center border text-xs">
-                      {dato.hourCount}
-                    </Td>
-                    <Td className="text-center border text-xs">
-                      {dato.remarks}
-                    </Td>
-                    {/*  <Td className="text-center border text-xs">
-                  {dato.tiempoTotal}
-                </Td>
-                <Td className="text-center border text-xs">{dato.copiloto}</Td>
-                <Td className="text-center border text-xs">{dato.autonomo}</Td>
-                <Td className="text-center border text-xs">
-                  {dato.tiempoTotal}
-                </Td>
-                <Td className="text-center border text-xs">
-                  {dato.firmaInstructor}
-                </Td> */}
-                    <Td className="text-center border text-2xl">
-                      <AiFillEdit 
-                        onClick={() => handleEditHours(dato)} />
-                    </Td>
-                    <Td className="text-center border text-2xl">
-                      <AiFillCloseCircle
-                        onClick={() => handleDeleteHours(dato)}
-                      />
-                    </Td>
-                  </Tr>
-                ))
-              )}
-            </Tbody>
-          </Table>
+
+<Table className="table-auto w-full mx-auto bg-white shadow-md rounded my-6 divide-y divide-gray-200">
+  <Thead className="bg-gray-50">
+    <Tr className="text-gray-500 text-xs uppercase tracking-wide font-medium">
+      <Th className="px-2 py-3">FOLIO</Th>
+      <Th className="px-2 py-3">FECHA</Th>
+      <Th className="px-2 py-3">CARACTERISTICAS DEL AVION</Th>
+      <Th className="px-2 py-3">FLIGHT TYPE</Th>
+      <Th className="px-2 py-3">ETAPAS</Th>
+      <Th className="px-2 py-3">TIEMPO TOTAL</Th>
+      <Th className="px-2 py-3">OBSERVACIONES</Th>
+      <Th className="px-2 py-3">ACCIONES</Th>
+    </Tr>
+  </Thead>
+  <Tbody className="bg-white divide-y divide-gray-200">
+    {flight.length === 0 ? (
+      <h1>LOADING....</h1>
+    ) : (
+      flight.map((dato, index) => (
+        <Tr key={index} className="hover:bg-gray-100">
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.folio}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.date}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.aircraftId} {dato.marca} {dato.clase} {dato.tipo} {dato.matricula} {dato.marcaMotor} {dato.hp} HP
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.flightType}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.stages}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.hourCount}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm text-gray-500">
+            {dato.remarks}
+          </Td>
+          <Td className="px-2 py-4 whitespace-nowrap text-sm font-medium">
+            <div className="flex justify-center items-center space-x-2">
+              <AiFillEdit onClick={() => toast.success('Editar')} className="text-indigo-600 w-5 h-5" />
+              <AiFillCloseCircle onClick={() => toast.error('Borrar')} className="text-red-600 w-5 h-5" />
+            </div>
+          </Td>
+        </Tr>
+      ))
+    )}
+  </Tbody>
+</Table>
+
         </div>
       ) : (
         // was ---> null
-        <div className='mx-auto p-8 rounded-3xl shadow-xl bg-gradient-to-t from-zinc-300 to-indigo-600'>
-          <div className='relative w-96 h-96 mx-auto text-center'>
-            <h3 className='text-white font-bold text-7xl'>No Flights Found</h3>
+        <div className="flex justify-center items-center h-screen">
+          <div className="text-center mt-0">
+            <Image src="/images/flight.png" alt="Imagen de un avión" width={200} height={200}/>
+
+              <h3 className="text-3xl font-bold text-gray-800 mb-4">No se encontraron vuelos</h3>
+              <p className="text-lg text-gray-600 mb-8">Lo sentimos, no se encontraron vuelos que coincidan con sus criterios de  búsqueda. Por favor, ajuste sus criterios de búsqueda e inténtelo de nuevo.</p>
           </div>
         </div>
       )}
       <div>
-        <button className="flex mx-auto" onClick={handleAddHours}>
+        <button className="flex mx-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300   ease-in-out" onClick={handleAddHours}>
           ADD HOURS
         </button>
       </div>
