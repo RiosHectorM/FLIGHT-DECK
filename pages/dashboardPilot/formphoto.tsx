@@ -1,75 +1,108 @@
+import { TbPhotoPlus } from 'react-icons/tb';
+import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
-import { useState } from 'react';
 
-export const FormPhoto = (props: { className: string }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string | null>('/images/Pilo.jpeg');
+import { useUserStore } from '../../store/userStore';
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = event.target.files;
-    if (fileList && fileList[0]) {
-      const reader = new FileReader();
-      reader.readAsDataURL(fileList[0]);
-      reader.onloadend = () => {
-        setSelectedFile(fileList[0]);
-        setImageUrl(reader.result as string);
-      };
-    }
+import axios from 'axios';
+
+declare global {
+  var cloudinary: any;
+}
+
+const uploadPreset = 'ctpmpppl';
+
+export const FormPhoto = () => {
+  const { user, updateUserImage } = useUserStore();
+
+  console.log('user', user);
+
+  let value = user?.image;
+  const handleUpload = async (response: any) => {
+    console.log(response.info.secure_url);
+    console.log(`/api/user/${user?.id}`);
+    value = response.info.secure_url;
+    updateUserImage(value?.toString());
+    await axios.put(`/api/user/${user?.id}`, { image: value?.toString() });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (selectedFile) {
-      // Handle file upload here
-    }
-  };
+  if (!user) {
+    return <div>Loading user data...</div>;
+  }
 
   return (
-    <div className='max-w-full lg:max-w-full lg:flex w-full'>
-      <div className='border-r border-b border-l border-t border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal w-full'>
-        <div className='mb-8'>
-          <div className='text-gray-900 font-bold text-xl mb-6'>
-            Editar Foto de Perfil
-          </div>
-          <form className='w-full max-w-lg' onSubmit={handleSubmit}>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block text-gray-700 text-sm font-bold mb-2'
-                  htmlFor='profilePicture'
+    <div className='flex flex-col items-center'>
+      <h2 className='font-semibold text-lg mb-2'>Profile Picture</h2>
+      <CldUploadWidget
+        onUpload={handleUpload}
+        uploadPreset={uploadPreset}
+        options={{
+          maxFiles: 1,
+        }}
+      >
+        {({ open }) => {
+          return (
+            <div
+              title='Profile Picture'
+              onClick={() => open?.()}
+              className='
+                relative
+                cursor-pointer
+                hover:opacity-70
+                transition
+                border-dashed 
+                border-2 
+                p-20 
+                border-neutral-300
+                flex
+                flex-col
+                justify-center
+                items-center
+                gap-4
+                text-neutral-600
+                rounded-full   /* para hacer la imagen circular */
+                w-full h-full      /* para establecer un tamaño fijo */
+              '
+            >
+              <TbPhotoPlus size={50} />
+              <div className='font-semibold text-lg text-center'>
+                Click to upload
+              </div>
+              {value ? (
+                <div
+                  className='
+                    absolute inset-0 w-full h-full rounded-full
+                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                  '
                 >
-                  Foto de Perfil
-                </label>
-                <label htmlFor='profilePicture' className='cursor-pointer'>
-                  <span className='bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow'>
-                    Subir Foto
-                  </span>
-                  <input
-                    type='file'
-                    className='hidden'
-                    id='profilePicture'
-                    onChange={handleFileSelect}
+                  <Image
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    src={value}
+                    alt='ProfileImage'
                   />
-                </label>
-              </div>
+                </div>
+              ) : (
+                <div
+                  className='
+                    absolute inset-0 w-full h-full rounded-full
+                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                  '
+                >
+                  <Image
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    src={user?.image}
+                    alt='ProfileImage'
+                  />
+                </div>
+              )}
             </div>
-            <div className='w-full px-3 flex justify-center items-center mt-12'>
-              <div className='flex space-x-4'>
-                <button className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'>
-                  Guardar
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-        <Image
-          src={imageUrl ?? '/images/Pilo.jpeg'}
-          alt='Foto de Perfil'
-          width={200}
-          height={300}
-          className='rounded-t lg:rounded-t-none lg:rounded-l'
-        />
-      </div>
+          );
+        }}
+      </CldUploadWidget>
     </div>
   );
 };
+
+export default FormPhoto;

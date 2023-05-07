@@ -19,7 +19,7 @@ const HomePage = () => {
     <div
       className='flex flex-col items-center justify-center min-h-screen'
       style={{
-        backgroundImage: 'url("/images/backgroundhome.jpg")',
+        backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -27,66 +27,49 @@ const HomePage = () => {
       <ToasterProvider />
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2'>
-        <motion.h2
-          className='text-4xl font-bold text-gray-200'
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-        >
-          Join us as a
-        </motion.h2>
-        <div className='flex justify-center space-x-6 mt-8'>
-          <div
-            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
-            onClick={() => handleRole('PILOT')}
-          >
-            <Image
-              src='/images/pilot.png'
-              alt='pilot'
-              width={400}
-              height={400}
-              className='rounded-full shadow-md'
-            />
-            <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
-              PILOT
-            </h3>
-          </div>
-          <div
-            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
-            onClick={() => handleRole('INSTRUCTOR')}
-          >
-            <Image
-              src='/images/instructor.png'
-              alt='instructor'
-              width={400}
-              height={400}
-              className='rounded-full shadow-md'
-            />
-            <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
-              INSTRUCTOR
-            </h3>
-          </div>
-          <div
-            className='relative flex flex-col items-center justify-center transform hover:scale-105 cursor-pointer'
-            onClick={() => handleRole('COMPANY')}
-          >
-            <Image
-              src='/images/company.png'
-              alt='company'
-              width={400}
-              height={400}
-              className='rounded-full shadow-md'
-            />
-            <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
-              COMPANY
-            </h3>
-          </div>
+        <div className='text-4xl font-bold text-gray-200 mt-9'>
+          {Array.from('Ready to fly?').map((char, index) => (
+            <motion.span
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.2 + index * 0.1,
+                duration: 2, // Aumenta la duración aquí
+                repeat: Infinity,
+                repeatType: 'reverse',
+              }}
+            >
+              {char}
+            </motion.span>
+            
+          ))}
+        </div>
+        <div className='flex items-center space-x-8 mt-0 mb-5 '>
+          {['PILOT', 'INSTRUCTOR', 'COMPANY'].map((role, index) => (
+            <div
+              key={role}
+              className='relative w-96 h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300'
+              onClick={() => handleRole(role)}
+            >
+              <Image
+                src={`/images/${role.toLowerCase()}.png`}
+                alt={role.toLowerCase()}
+                width={500}
+                height={500}
+                className='rounded-full shadow-md object-cover'
+              />
+              <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
+                {role}
+              </h3>
+            </div>
+          ))}
         </div>
       </div>
       <HomePageFeaturesSection />
       <HomePageTestimonialsSection />
       <div className='flex flex-col items-center justify-center my-16'>
-        <h2 className='text-4xl font-bold text-gray-800 mb-8'>
+        <h2 className='text-4xl font-bold text-white mb-8'>
           Ready to get started?
         </h2>
         <Link href='/mainPilot'>

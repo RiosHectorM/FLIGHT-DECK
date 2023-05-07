@@ -10,11 +10,20 @@ import useRegisterModal from '@/pages/hooks/useRegisterModal';
 
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
+
+import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
+
 import axios from 'axios';
+
 interface UserMenuProps {
-  name?: string | null | undefined;
-  email?: string | null | undefined;
-  image?: string | null | undefined;
+  currentUser:
+    | {
+        name?: string | null | undefined;
+        email?: string | null | undefined;
+        image?: string | null | undefined;
+      }
+    | undefined;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
@@ -23,14 +32,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
 
+  const addHoursModal = useAddHoursModal();
+  const searchFlightInstructorModal = useSearchFlightInstructorModal();
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-
-  console.log('currentUser');
-  console.log(currentUser);
 
   const [role, setRole] = useState('');
 
@@ -41,7 +50,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         .then((result) => {
           if (result && result.data && result.data.role) {
             setRole(result.data.role);
-            console.log(result);
           } else {
             console.error('Invalid User');
           }
@@ -89,6 +97,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
             : 'Go to Login'}
         </div>
+
         {currentUser ? (
           <div
             onClick={toggleOpen}
@@ -154,11 +163,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     toggleOpen();
                   }}
                 />
-                {role === 'PILO' && (
+
+                {role === 'PILOT' && (
                   <MenuItem
                     label='Search Instructor'
                     onClick={() => {
-                      // ('LLAMAR AL MODAL DE SAMIR ej: onClick={addHoursModal.onOpen}')
+                      searchFlightInstructorModal.onOpen();
                       toggleOpen();
                     }}
                   />
