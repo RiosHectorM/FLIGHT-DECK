@@ -17,13 +17,14 @@ import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstruc
 import axios from 'axios';
 
 interface UserMenuProps {
-  currentUser: {
-    name?: string | null | undefined;
-    email?: string | null | undefined;
-    image?: string | null | undefined;
-  } | undefined;
+  currentUser:
+    | {
+        name?: string | null | undefined;
+        email?: string | null | undefined;
+        image?: string | null | undefined;
+      }
+    | undefined;
 }
-
 
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
@@ -34,15 +35,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const addHoursModal = useAddHoursModal();
   const searchFlightInstructorModal = useSearchFlightInstructorModal();
 
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
   }, []);
-
-  console.log('currentUser');
-  console.log(currentUser);
 
   const [role, setRole] = useState('');
 
@@ -53,7 +50,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         .then((result) => {
           if (result && result.data && result.data.role) {
             setRole(result.data.role);
-            console.log(result);
           } else {
             console.error('Invalid User');
           }
@@ -78,14 +74,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className="relative">
-      <div className="flex flex-row items-center gap-3">
+    <div className='relative'>
+      <div className='flex flex-row items-center gap-3'>
         <div
-
           onClick={() => {
             currentUser ? null : loginModal.onOpen();
           }}
-          className="
+          className='
             hidden
             md:block
             text-sm 
@@ -96,7 +91,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             hover:bg-neutral-100 
             transition 
             cursor-pointer
-          "
+          '
         >
           {currentUser
             ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
@@ -106,7 +101,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
         {currentUser ? (
           <div
             onClick={toggleOpen}
-            className="
+            className='
           p-4
           md:py-1
           md:px-2
@@ -120,7 +115,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           cursor-pointer 
           hover:shadow-md 
           transition
-          "
+          '
           >
             <AiOutlineMenu />
             <div className='hidden md:block'>
@@ -131,7 +126,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
       {isOpen && (
         <div
-          className="
+          className='
             absolute 
             rounded-xl 
             shadow-md
@@ -142,9 +137,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             right-0 
             top-12 
             text-sm
-          "
+          '
         >
-          <div className="flex flex-col cursor-pointer">
+          <div className='flex flex-col cursor-pointer'>
             {currentUser ? (
               <>
                 <MenuItem
@@ -189,7 +184,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <hr />
                 <hr />
                 <MenuItem
-                  label="Logout"
+                  label='Logout'
                   onClick={() => {
                     signOut({ redirect: false });
                     router.push('/');
@@ -199,9 +194,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
               </>
             ) : (
               <>
-                <MenuItem label="Home" onClick={() => router.push('/home')} />
-                <MenuItem label="Login" onClick={loginModal.onOpen} />
-                <MenuItem label="Sign up" onClick={registerModal.onOpen} />
+                <MenuItem label='Home' onClick={() => router.push('/home')} />
+                <MenuItem label='Login' onClick={loginModal.onOpen} />
+                <MenuItem label='Sign up' onClick={registerModal.onOpen} />
               </>
             )}
           </div>
