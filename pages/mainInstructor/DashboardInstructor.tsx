@@ -5,39 +5,17 @@ import Link from 'next/link';
 import Calendar from './Calendar';
 import Chat from './Chat';
 import ProfileSection from './ProfileSection';
+import InstructorProfile from './InstructorProfile';
+
+type InstructorProfileProps = {
+  name: string;
+  email: string;
+  avatarUrl: string;
+};
 
 const DashboardInstructor: FC = () => {
   return (
     <div className='min-h-screen bg-gray-100'>
-      {/* <nav className='bg-white border-b border-gray-200'>
-        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
-          <div className='flex justify-between h-16'>
-            <div className='flex'>
-            <div className='hidden md:flex md:ml-10 md:space-x-10' style={{ marginTop: '10px' }}>
-                <Link href='/courses'>
-                  <span className='font-medium text-gray-500 hover:text-gray-900'>Courses</span>
-                </Link>
-                <Link href='/students'>
-                  <span className='font-medium text-gray-500 hover:text-gray-900'>Students</span>
-                </Link>
-                <Link href='/reports'>
-                  <span className='font-medium text-gray-500 hover:text-gray-900'>Reports</span>
-                </Link>
-              </div>
-            </div>
-            <div className='flex items-center'>
-            
-            </div>
-            <div className='ml-4 flex items-center md:ml-6'>
-              <ProfileSection 
-                name='John Doe'
-                email='johndoe@example.com'
-                avatarUrl='/images/profile.jpg'
-              />
-            </div>
-          </div>
-        </div>
-      </nav> */}
       <main>
         <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
           <div className='px-4 py-6 sm:px-0'>
@@ -54,6 +32,7 @@ const DashboardInstructor: FC = () => {
                         <div className='text-lg font-medium text-gray-900'>425</div>
                       </dd>
                     </div>
+                    
                   </div>
                 </div>
               </div>
@@ -84,10 +63,12 @@ const DashboardInstructor: FC = () => {
                         <div className='text-lg font-medium text-gray-900'>12</div>
                       </dd>
                     </div>
+                    
                   </div>
                 </div>
               </div>
             </div>
+            
           </div>
         </div>
       </main>
