@@ -22,21 +22,20 @@ const Logo = (props: LogoProps) => {
 
   return (
     <div
-      onClick={() => router.push('/')}
-      className={`${
-        scrolled
-          ? 'bg-transparent'
-          : 'bg-white'
-      }  cursor-pointer rounded-full p-2 w-20 h-20 relative transition-all duration-300 transform hover:scale-110 mt-8`}
-      {...props}
-    >
-      <Image
-        src='/images/flight-logo.svg'
-        alt='Logo'
-        fill
-        style={{ objectFit: 'contain' }}
-      />
-    </div>
+  onClick={() => router.push('/')}
+  className={`${
+    scrolled ? 'bg-transparent' : 'bg-white'
+  } cursor-pointer rounded-full p-2 w-16 h-16 relative transition-all duration-300 transform hover:scale-110  md:ml-0`}
+  {...props}
+>
+  <Image
+    src='/images/flight-logo.svg'
+    alt='Logo'
+    fill
+    className="w-full h-full object-contain"
+  />
+</div>
+
   );
 };
 

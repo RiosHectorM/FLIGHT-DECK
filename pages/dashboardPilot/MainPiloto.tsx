@@ -46,6 +46,11 @@ const MainPiloto = () => {
                   <FormPassword />{' '}
                 </div>
               </div>
+              <div className='w-full'>
+                <FormPassword className='w-full' userId={''} />
+              </div>
+            </div>
+            <div className='w-full'>
               <FormPilot />
             </div>
             <div className='bg-white rounded-lg shadow-lg p-6 relative'>

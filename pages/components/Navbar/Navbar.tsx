@@ -40,6 +40,13 @@ const Navbar = () => {
             <div className='flex items-center'>
               <Logo />
               <div className='ml-4'>
+                <Link href='/home'>
+                  <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                    Home
+                  </span>
+                </Link>
+              </div>
+              <div className='ml-4'>
                 <Link href='/about'>
                   <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     About
