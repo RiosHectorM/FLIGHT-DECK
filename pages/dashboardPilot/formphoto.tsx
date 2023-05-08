@@ -17,12 +17,12 @@ export const FormPhoto = () => {
 
   console.log('user', user);
 
-  let value = user?.image;
+  let value: string | null = user?.image || null;
   const handleUpload = async (response: any) => {
     console.log(response.info.secure_url);
     console.log(`/api/user/${user?.id}`);
     value = response.info.secure_url;
-    updateUserImage(value?.toString());
+    updateUserImage(value?.toString() ?? '');
     await axios.put(`/api/user/${user?.id}`, { image: value?.toString() });
   };
 
@@ -64,7 +64,7 @@ export const FormPhoto = () => {
                 w-full h-full      /* para establecer un tamaño fijo */
               '
             >
-              <TbPhotoPlus size={50} />
+              <TbPhotoPlus size={20} />
               <div className='font-semibold text-lg text-center'>
                 Click to upload
               </div>
@@ -85,14 +85,14 @@ export const FormPhoto = () => {
               ) : (
                 <div
                   className='
-                    absolute inset-0 w-full h-full rounded-full
+                    absolute inset-0 w-150 h-150 rounded-full
                     overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
                   '
                 >
                   <Image
                     fill
                     style={{ objectFit: 'cover' }}
-                    src={user?.image}
+                    src={value ? value.toString() : ''}
                     alt='ProfileImage'
                   />
                 </div>
