@@ -70,19 +70,21 @@ export default async function handler(
       stages,
       flightType,
       hourCount,
+      certifierId,
       folio,
       remarks,
     } = req.body;
 
     // Verify existence of required fields
     if (
-      !id ||
-      !userId ||
-      !date ||
-      !aircraftId ||
-      !stages ||
-      !flightType ||
-      !hourCount
+      !id
+      // !id ||
+      // !userId ||
+      // !date ||
+      // !aircraftId ||
+      // !stages ||
+      // !flightType ||
+      // !hourCount
     ) {
 
       return res.status(400).json({ message: 'Required field missing' });
@@ -98,6 +100,7 @@ export default async function handler(
           stages,
           flightType,
           hourCount,
+          certifierId,
           folio,
           remarks,
       }});
@@ -106,7 +109,7 @@ export default async function handler(
     catch (error) {
       // Handle flight creation error
       console.error(error);
-      return res.status(500).json({ message: `Error creating flight` });
+      return res.status(500).json({ message: `Error updating flight` });
     }
     finally {
       await prisma.$disconnect();
