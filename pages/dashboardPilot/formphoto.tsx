@@ -2,6 +2,10 @@ import { TbPhotoPlus } from 'react-icons/tb';
 import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
 
+import { useUserStore } from '../../store/userStore';
+
+import axios from 'axios';
+
 declare global {
   var cloudinary: any;
 }
@@ -9,15 +13,22 @@ declare global {
 const uploadPreset = 'ctpmpppl';
 
 export const FormPhoto = () => {
+  const { user, updateUserImage } = useUserStore();
 
-  // 'esto harcodea una imagen pero se deberia tomar de la base de datos de mongo de la propiedad image de cada usuario..... DEJO PENDIENTE ESTA IMPLEMENTACION PARA VER SI USAMOS ZUSTAND (durante el dia de hoy lo analizo y se los comento)'
-  let value =
-    'https://res.cloudinary.com/dvm47pxdm/image/upload/v1683276810/ktof9o3m2kowyn9eabgr.jpg';
-  const handleUpload = (response: any) => {
+  console.log('user', user);
+
+  let value = user?.image;
+  const handleUpload = async (response: any) => {
     console.log(response.info.secure_url);
+    console.log(`/api/user/${user?.id}`);
     value = response.info.secure_url;
-    //este response.info.secure_url es la imagen subida por el usuario es lo q hay q guardar en la BD de mongo en el campo IMAGE
+    updateUserImage(value?.toString());
+    await axios.put(`/api/user/${user?.id}`, { image: value?.toString() });
   };
+
+  if (!user) {
+    return <div>Loading user data...</div>;
+  }
 
   return (
     <div className='flex flex-col items-center'>
@@ -50,12 +61,14 @@ export const FormPhoto = () => {
                 gap-4
                 text-neutral-600
                 rounded-full   /* para hacer la imagen circular */
-                w-80 h-80      /* para establecer un tamaño fijo */
+                w-full h-full      /* para establecer un tamaño fijo */
               '
             >
               <TbPhotoPlus size={50} />
-              <div className='font-semibold text-lg text-center'>Click to upload</div>
-              {value && (
+              <div className='font-semibold text-lg text-center'>
+                Click to upload
+              </div>
+              {value ? (
                 <div
                   className='
                     absolute inset-0 w-full h-full rounded-full
@@ -69,6 +82,20 @@ export const FormPhoto = () => {
                     alt='ProfileImage'
                   />
                 </div>
+              ) : (
+                <div
+                  className='
+                    absolute inset-0 w-full h-full rounded-full
+                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                  '
+                >
+                  <Image
+                    fill
+                    style={{ objectFit: 'cover' }}
+                    src={user?.image}
+                    alt='ProfileImage'
+                  />
+                </div>
               )}
             </div>
           );
@@ -76,6 +103,6 @@ export const FormPhoto = () => {
       </CldUploadWidget>
     </div>
   );
-};  
+};
 
 export default FormPhoto;
