@@ -1,6 +1,14 @@
 import React from 'react';
+import { checkout } from './checkout';
 
 const Membership: React.FC = () => {
+
+  interface items {
+    price: string;
+    quantity: number;
+  }
+  interface lineItems extends Array<items> {}
+
   return (
     <div className="px-4 sm:px-10 lg:px-8 py-20" style={{backgroundImage: "url('/images/payment.jpg')", backgroundSize: 'cover', backgroundPosition: 'center'}}>
 
