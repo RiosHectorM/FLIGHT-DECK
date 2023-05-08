@@ -147,6 +147,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
 
       {/* Botón de Reset Filters */}
       <button
+
         type="button"
         onClick={(e) => handleReset(e)}
         className="sm:w-auto w-full mt-2 sm:mt-0 px-2 py-1 text-sm text-gray-700 bg-red-300 rounded-lg hover:bg-red-400 focus:outline-none transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
