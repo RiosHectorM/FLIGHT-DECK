@@ -76,7 +76,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-wrap justify-between items-center px-4 py-2 bg-white rounded-lg shadow-lg w-full mt-9"
+      className='flex flex-wrap justify-between items-center px-4 py-2 bg-white rounded-lg shadow-lg w-full mt-9'
     >
       {/* Filtro de FOLIO */}
       <div className="w-full sm:w-1/5 flex items-center space-x-2 rounded-lg hover:shadow-lg p-2">
@@ -153,7 +153,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
       >
         Reset Filters
       </button>
-
+      
       <button
         onClick={handleSubmit(onSubmit)}
         type="submit"
@@ -161,7 +161,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
       >
         Apply Filters
       </button>
-    </form>
+    </form >
   );
 };
 
