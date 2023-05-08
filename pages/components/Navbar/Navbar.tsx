@@ -6,6 +6,7 @@ import UserMenu from './UserMenu';
 import Notification from '../../mainInstructor/Notification';
 import Link from 'next/link';
 
+
 const Navbar = () => {
   const { data } = useSession();
   const [scrollPos, setScrollPos] = useState(0);
@@ -43,6 +44,13 @@ const Navbar = () => {
                 <Link href='/about'>
                   <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     About
+                  </span>
+                </Link>
+              </div>
+              <div className='ml-4'>
+              <Link href='/membership'>
+                  <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                    Pricing
                   </span>
                 </Link>
               </div>

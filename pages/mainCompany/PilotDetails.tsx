@@ -55,14 +55,14 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
       </div>
       {showContact && <ContactPilot name={name}  pilotName={name} email={email} />}
       {showFlightLog && <FlightLog
-  pilotName={name}
-  flightNumber="AC1234"
-  date="2023-05-01"
-  duration="2 horas 30 minutos"
-  origin="Toronto, Canada"
-  destination="London, UK"
-  aircraft="Boeing 777"
-  flightLogUrl={flightLogUrl}
+          pilotName={name}
+          flightNumber="AC1234"
+          date="2023-05-01"
+          duration="2 horas 30 minutos"
+          origin="Toronto, Canada"
+          destination="London, UK"
+          aircraft="Boeing 777"
+          flightLogUrl={flightLogUrl}
 />
 }
     </div>
