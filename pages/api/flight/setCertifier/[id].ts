@@ -7,13 +7,16 @@ export default async function handler(
 ) {
   // - PUT ------------------
   if (req.method === 'PUT') {
-    console.log(req.body);
-    console.log('HOLA SOY EL BODY QUE SETEA EL INSTRUCTOR EN EL VUELO');
+    const { id } = req.query;
+    console.log('HOLA SOY EL QUERY QUE SETEA EL INSTRUCTOR EN EL VUELO:');
+    console.log(id);
     const {
-      id,
+      certified,
       certifierId,
     } = req.body;
-
+    console.log('HOLA SOY EL BODY QUE SETEA EL INSTRUCTOR EN EL VUELO:');
+    console.log(req.body);
+    
     // Verify existence of required fields
     if (
       !id ||
@@ -27,6 +30,7 @@ export default async function handler(
       const flight = await prisma.flight.update({
         where: {id},
         data: {
+          certified,
           certifierId
       }});
       return res.status(201).json(flight);
@@ -42,7 +46,6 @@ export default async function handler(
   }
 
   else {
-
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
