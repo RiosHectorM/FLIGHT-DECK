@@ -25,22 +25,21 @@ const MainCompanyPage: React.FC = () => {
   };
   
   return (
-    <div className="flex flex-col items-center space-y-8 p-8" style={{ backgroundImage: 'url("/images/background-image.jpg")',
+    <div className="flex flex-col items-center space-y-8 p-8" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center' }}>
 
       <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
-      <div className="grid grid-cols-3 gap-8">
+      <div className="flex flex-wrap justify-center gap-8">
         <PilotProfile name="John Doe" photoUrl="/images/pilot1.jpg" location="Miami, FL" hoursOfFlight={2500} />
         <PilotProfile name="Jane Smith" photoUrl="/images/pilot2.jpg" location="Los Angeles, CA" hoursOfFlight={3000} />
         <PilotProfile name="Bob Johnson" photoUrl="/images/pilot3.jpg" location="New York, NY" hoursOfFlight={2000} />
+        <FilterByLocation onFilterChange={handleLocationFilterChange} />
       </div>
-     {/*  <PilotList /> */}
-      {/* <FlightLog {...flightData} pilotName="John Doe" /> */}
-      <RequestFlightLog pilotName="John Doe" />
-      <ContactPilot name="Jane Smith" pilotName="John Doe" email="jane.smith@example.com" />
-      <FilterByLocation onFilterChange={handleLocationFilterChange} />
-      <PilotDetails
+      
+      <div className="flex flex-wrap justify-center gap-8">
+        <RequestFlightLog pilotName="John Doe" />
+        <PilotDetails
         name="John Doe"
         photoUrl="/images/pilot1.jpg"
         location="Miami, FL"
@@ -51,8 +50,10 @@ const MainCompanyPage: React.FC = () => {
         flightLogUrl="/john-doe-flight-log.pdf"
         email="john.doe@example.com"
       />
+      </div>
+      
     </div>
   );
 };
-//para push
+
 export default MainCompanyPage;
