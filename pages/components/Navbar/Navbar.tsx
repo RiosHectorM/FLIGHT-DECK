@@ -26,11 +26,9 @@ const Navbar = () => {
   }, [scrollPos]);
 
   return (
-    <div
-      className={`fixed w-full z-10 transition-all duration-300 ${
-        isVisible ? 'bg-black bg-opacity-60' : 'bg-opacity-0'
-      }`}
-    >
+    <div className={`fixed w-full z-10 transition-all duration-500 transform ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       <div
         className={`py-0 ${
           isVisible ? '' : 'border-b-0'
