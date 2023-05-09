@@ -19,6 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Use the Prisma Client to fetch the flights
       const flights = await prisma.flight.findMany({
         where: { userId: userId },
+        include: { certifier: true },
       });
 
       res.json(flights);
