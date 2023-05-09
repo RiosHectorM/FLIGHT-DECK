@@ -125,7 +125,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
 
     const values = {
       name: 'Flight Deck App',
-      email: 'flightdeck2023@gmail.com',
+      email: userData?.email,
       subject: 'New flight created',
       message: 'You have created a new flight in Flight Deck App',
     };
@@ -141,7 +141,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
         })
         .then(
           // Nodemailer: send mail
-          await sendContactForm(values)
+          await sendContactForm(values )
         )
 
         .catch(() => toast.error('Error Save Data'))

@@ -55,7 +55,7 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
           </div>
         </main>
       </div>
-      <div className='md:w-1/3 bg-white h-full overflow-hidden'>
+      {/* <div className='md:w-1/3 bg-white h-full overflow-hidden'>
         <div className='flex flex-col h-full'>
           <div className='px-4 py-6 border-b border-gray-200 flex justify-between'>
             <h2 className='text-2xl font-bold text-gray-800 mb-2'>Chat</h2>
@@ -65,7 +65,7 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
             <Chat />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

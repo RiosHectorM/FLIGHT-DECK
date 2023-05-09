@@ -31,6 +31,7 @@ const handler = async (req, res) => {
     }
 
     try {
+      mailOptions.to = data.email
       await transporter.sendMail({
         ...mailOptions,
         ...generateEmailContent(data),
