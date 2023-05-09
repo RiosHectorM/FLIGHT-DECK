@@ -30,19 +30,19 @@ type FormData = {
   role: string;
 };
 
-const userByRole = async (email: string) => {
-  return axios
-    .get(`/api/getUserByEmail/${email}`)
-    .then((result) => {
-      return result.data;
-    })
-    .catch(() => {
-      console.error('Error User Search');
-    });
-};
-
 export default function Form() {
-  const [isLoading, setIsLoading] = useState(false);
+  const userByRole = async (email: string) => {
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => result.data)
+      .catch(() => {
+        console.error('Error User Search');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  const [isLoading, setIsLoading] = useState(true);
 
   const { handleSubmit, register } = useForm<FormData>();
   const router = useRouter();
@@ -83,8 +83,8 @@ export default function Form() {
   return (
     <div>
       <ToasterProvider />
-      {!isLoading && <Loader />}
-      {isLoading && (
+      {isLoading && <Loader />}
+      {!isLoading && (
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
           <div className='flex'>
             {roles.map((item) => (
