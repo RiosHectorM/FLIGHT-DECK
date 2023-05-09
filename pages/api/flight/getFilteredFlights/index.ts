@@ -32,6 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         where: {
           ...filters,
         },
+        include: {
+          certifier: true,
+        },
         // include: {
         //   user: true,
         // },

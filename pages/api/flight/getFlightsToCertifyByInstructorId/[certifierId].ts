@@ -5,13 +5,13 @@ import { ObjectId } from 'mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
-  // - GET Flights by InstructorId ------------------
-  // Get the instructor ID from the request parameters
-  const { id } = req.query
-  if (!id) {
-    return res.status(400).json({ message: 'Instructor ID is required' });
+  // - GET Flights by InstructorId (certifierId field of flight) ------------------
+  // Get the certifier ID from the request parameters
+  const { certifierId } = req.query
+  if (!certifierId) {
+    return res.status(400).json({ message: 'Certifier Instructor ID is required' });
   }
-  const instructorId = new ObjectId(id as string).toString();
+  // const instructorId = new ObjectId(certifierId as string).toString();
 
   if (req.method === 'GET') {
     try {
@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Use the Prisma Client to fetch the flights
       const flights = await prisma.flight.findMany({
         where: {
-          certifierId: instructorId,
+          certifierId: certifierId as string, 
           certified: false
       },
       });
