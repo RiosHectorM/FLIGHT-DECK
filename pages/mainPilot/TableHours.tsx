@@ -1,31 +1,32 @@
-import React, { useEffect, useState } from 'react';
-import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { useSession } from 'next-auth/react';
-import Image from 'next/image';
+import React, { useEffect, useState } from "react";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-} from 'react-icons/ai';
+} from "react-icons/ai";
 
-import { toast } from 'react-hot-toast';
-import axios from 'axios';
-import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
-import useAddHoursModal from '../hooks/useAddHoursModal';
-import useEditHoursModal from '../hooks/useEditHoursModal';
-import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
-import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
-import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import SearchFlightInstructorModal from '../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal';
-import FilterPilotBar from './FilterPilotBar';
-import Pagination from '../components/Pagination/Pagination';
-import Loader from '../components/Loader';
-import { useUserStore } from '@/store/userStore';
-import ApproveModal from '../components/Modals/InstHours/ApproveModal';
-import useApproveModal from '../hooks/useApproveModal';
-import useRateInstructorModal from '../hooks/useRateInstructorModal';
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import RateInstructorModal from "../components/Modals/InstHours/RateInstructorModal";
+import useAddHoursModal from "../hooks/useAddHoursModal";
+import useEditHoursModal from "../hooks/useEditHoursModal";
+import AddHoursModal from "../components/Modals/AddHours/AddHoursModal";
+import EditHoursModal from "../components/Modals/EditHours/EditHoursModal";
+import AddPlaneModal from "../components/Modals/AddPlane/AddPlaneModal";
+import useSelectFlightInstructorModal from "../hooks/useSelectFlightInstructorModal";
+import SelectFlightInstructorModal from "../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal";
+import FilterPilotBar from "./FilterPilotBar";
+import Pagination from "../components/Pagination/Pagination";
+import Loader from "../components/Loader";
+import { useUserStore } from "@/store/userStore";
+import ApproveModal from "../components/Modals/InstHours/ApproveModal";
+import useApproveModal from "../hooks/useApproveModal";
+import useRateInstructorModal from "../hooks/useRateInstructorModal";
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -84,16 +85,16 @@ const TableHoursPilot = () => {
   const [flight, setFlight] = useState<DatosEjemplo[]>([]);
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const filter = localStorage.getItem('filters');
-      console.log('FILTRO: ', filter);
+    if (typeof window !== "undefined" && window.localStorage) {
+      const filter = localStorage.getItem("filters");
+      console.log("FILTRO: ", filter);
       if (filter) {
         setFilters(JSON.parse(filter));
       }
     }
   }, []);
 
-  let getFlights = async (idF) => {
+ let getFlights = async (idF) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
@@ -115,7 +116,7 @@ const TableHoursPilot = () => {
 
   useEffect(() => {
     if (
-      typeof window !== 'undefined' &&
+      typeof window !== "undefined" &&
       user?.email !== undefined &&
       user?.id
     ) {
@@ -124,7 +125,7 @@ const TableHoursPilot = () => {
   }, [user?.id, filters]);
 
   const updateFilters = () => {
-    const filter = localStorage.getItem('filters');
+    const filter = localStorage.getItem("filters");
     if (filter) {
       setFilters(JSON.parse(filter));
     }
@@ -132,6 +133,7 @@ const TableHoursPilot = () => {
 
   const addHoursModal = useAddHoursModal();
   const editHoursModal = useEditHoursModal();
+  const selectFlightInstructorModal = useSelectFlightInstructorModal();
 
   const handleAddHours = () => {
     addHoursModal.onOpen();
@@ -147,16 +149,19 @@ const TableHoursPilot = () => {
       await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
       getFlights(user?.id);
     } catch (error) {
-      toast.error('Error deleting flight');
+      toast.error("Error deleting flight");
     }
   };
   const aproveModal = useApproveModal();
   const rateInstructor = useRateInstructorModal();
 
-  const handlerCertify = () => {
-    aproveModal.onOpen();
+  const handlerCertify = (flight) => {
+    setSelectedFlight(flight);
+    selectFlightInstructorModal.onOpen();
   };
 
+  const [aviones, setAviones] = useState([]);
+  
   return (
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
@@ -164,20 +169,21 @@ const TableHoursPilot = () => {
       <ApproveModal />
       <FilterPilotBar updateFilters={updateFilters} />
 
-      <button 
-  onClick={() => rateInstructor.onOpen()} 
-  style={{
-    
-    padding: '10px 20px',
-    fontSize: '24px', // aumentar tamaño de letra
-    color: 'White' // cambiar color de letra
-  }}>
-  Calificar ✅
-</button>
 
-      <AddPlaneModal />
-      <SearchFlightInstructorModal />
-      <AddHoursModal getFlights={getFlights} id={user?.id} />
+      {/* <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
+      <AddPlaneModal setAviones={setAviones} />
+      <SelectFlightInstructorModal
+        selectedFlight={selectedFlight}
+        getFlights={getFlights}
+        id={user?.id}
+      />
+      <AddHoursModal
+        getFlights={getFlights}
+        id={user?.id}
+        aviones={aviones}
+        setAviones={setAviones}
+      />
+
       <EditHoursModal
         selectedFlight={selectedFlight}
         getFlights={getFlights}
@@ -236,7 +242,9 @@ const TableHoursPilot = () => {
                           onClick={() => handleDeleteHours(dato)}
                           className='text-red-600 w-5 h-5'
                         />
-                        <button onClick={handlerCertify}>Certify</button>
+                        <button onClick={() => handlerCertify(dato)}>
+                          Certify
+                        </button>
                       </div>
                     </Td>
                   </Tr>

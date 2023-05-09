@@ -2,8 +2,11 @@ import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
 import bcrypt from 'bcryptjs';
 import { useState } from 'react';
+import { signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export const FormPassword = () => {
+  const router = useRouter();
   const { user, updateUserHashedPasword } = useUserStore();
 
   const [oldPassword, setOldPassword] = useState('');
@@ -47,6 +50,8 @@ export const FormPassword = () => {
 
         if (response.status === 200) {
           alert('La contraseña se ha actualizado correctamente.');
+          signOut({ redirect: false });
+          router.push('/home');
         }
       } else {
         alert(

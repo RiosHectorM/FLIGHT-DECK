@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import Heading from "../../AuxComponents/ModalsGenerator/Heading";
+import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useAddHoursModal from "@/pages/hooks/useAddHoursModal";
+import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import Modal from "../../AuxComponents/ModalsGenerator/Modal";
-import { toast } from "react-hot-toast";
-import useAddPlaneModal from "@/pages/hooks/useAddPlaneModal";
-import { useSession } from "next-auth/react";
-import Loader from "../../Loader";
-import { sendContactForm } from "@/lib/api";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import Modal from '../../AuxComponents/ModalsGenerator/Modal';
+import { toast } from 'react-hot-toast';
+import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import { useSession } from 'next-auth/react';
+import Loader from '../../Loader';
+import { sendContactForm } from '@/lib/api';
 
-const AddHoursModal = ({ getFlights, id }) => {
+const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
   const { data } = useSession();
   const userData = data?.user;
 
@@ -27,52 +27,67 @@ const AddHoursModal = ({ getFlights, id }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   enum TypeHours {
-    "Simulador" = "Simulador",
-    "Escuela" = "Escuela",
-    "Copiloto" = "Copiloto",
-    "Autonomo" = "Autonomo",
+    'Simulador' = 'Simulador',
+    'Escuela' = 'Escuela',
+    'Copiloto' = 'Copiloto',
+    'Autonomo' = 'Autonomo',
   }
 
-  const [aviones, setAviones] = useState([]);
+  const [matriculas, setMatriculas] = useState([]);
 
-  const matriculas = aviones.map(
-    (avion: { registrationId: string }) => avion.registrationId
-  );
+  useEffect(() => {
+    const mat = aviones.map(
+      (avion: { registrationId: string }) => avion.registrationId
+    );
+    setMatriculas(mat);
+  }, [aviones]);
 
   useEffect(() => {
     async function getRegisteredID() {
-      return await axios
-        .get(`http://localhost:3000/api/plane`)
-        .then((response) => response.data);
-      // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
+      try {
+        const response = await axios.get(`http://localhost:3000/api/plane`);
+        return response.data;
+      } catch (error) {
+        // Manejar el error de la solicitud
+        console.error(error);
+        return [];
+      }
     }
-    const airplanes = getRegisteredID();
-    airplanes.then((data) => setAviones(data));
-  }, [matriculas]);
+
+    const fetchData = async () => {
+      const airplanes = await getRegisteredID();
+      setAviones(airplanes);
+    };
+
+    fetchData();
+  }, [aviones.length]);
 
   const schema = yup
     .object({
       folio: yup
         .number()
-        .positive("Debe ser positivo")
-        .integer("Debe ser entero")
+        .positive('Debe ser positivo')
+        .integer('Debe ser entero')
         .required()
-        .typeError("Debe ser un número"),
+        .typeError('Debe ser un número'),
       //userId: yup.string().required(),
-      date: yup.string().required("Fecha es un campo obligatorio"),
+      date: yup.string().required('Fecha es un campo obligatorio'),
 
       // aircraftId: yup
       //   .mixed()
       //   .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
-      stages: yup.string().required("Debe ingresar las etapas"),
+      stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
       flightType: yup
         .mixed()
-        .oneOf(Object.values(TypeHours), "Debe ser un tipo definido"),
+        .oneOf(Object.values(TypeHours), 'Debe ser un tipo definido'),
+      aircraftId: yup
+        .mixed()
+        .oneOf(Object.values(matriculas), 'Debe registrar el avion'),
       hourCount: yup
         .number()
-        .positive("Debe ser positivo")
-        .typeError("Debe ser un número. La coma es el punto"),
+        .positive('Debe ser positivo')
+        .typeError('Debe ser un número. La coma es el punto'),
     })
     .required();
   type FormData = yup.InferType<typeof schema>;
@@ -87,7 +102,7 @@ const AddHoursModal = ({ getFlights, id }) => {
     resolver: yupResolver(schema),
   });
 
-  const aircraftId = watch("aircraftId");
+  let aircraftId = watch('aircraftId');
 
   const userByRole = async (email: string) => {
     setIsLoading(true);
@@ -97,7 +112,7 @@ const AddHoursModal = ({ getFlights, id }) => {
         return result.data;
       })
       .catch(() => {
-        toast.error("Error User Search");
+        toast.error('Error User Search');
       })
       .finally(() => {
         setIsLoading(false);
@@ -109,10 +124,10 @@ const AddHoursModal = ({ getFlights, id }) => {
     reset();
 
     const values = {
-      name: "Flight Deck App",
-      email: "flightdeck2023@gmail.com",
-      subject: "New flight created",
-      message: "You have created a new flight in Flight Deck App",
+      name: 'Flight Deck App',
+      email: 'flightdeck2023@gmail.com',
+      subject: 'New flight created',
+      message: 'You have created a new flight in Flight Deck App',
     };
 
     let result = userByRole(userData?.email);
@@ -120,7 +135,7 @@ const AddHoursModal = ({ getFlights, id }) => {
       await axios
         .post(`http://localhost:3000/api/flight`, { ...data, userId: user.id })
         .then(() => {
-          toast.success("Saved");
+          toast.success('Saved');
           addHoursModal.onClose();
           getFlights(id);
         })
@@ -129,7 +144,7 @@ const AddHoursModal = ({ getFlights, id }) => {
           await sendContactForm(values)
         )
 
-        .catch(() => toast.error("Error Save Data"))
+        .catch(() => toast.error('Error Save Data'))
         .finally(() => {
           setIsLoading(false);
         });
@@ -142,115 +157,115 @@ const AddHoursModal = ({ getFlights, id }) => {
   };
 
   const bodyContent = (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       {isLoading && <Loader />}
       <Heading
-        title="Add your Flight Hours in your LogBook"
-        subtitle="Fill all fields"
+        title='Add your Flight Hours in your LogBook'
+        subtitle='Fill all fields'
       />
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col ">
-        <div className="grid md:grid-cols-2 md:gap-6">
-          <div className="relative z-0 w-full mb-6 group">
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
               required
-              {...register("folio")}
+              {...register('folio')}
             />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Folio:{" "}
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Folio:{' '}
             </label>
-            <p className="text-red-600">{errors.folio?.message}</p>
+            <p className='text-red-600'>{errors.folio?.message}</p>
           </div>
-          <div className="relative z-0 w-full mb-6 group">
+          <div className='relative z-0 w-full mb-6 group'>
             <input
-              type="date"
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              type='date'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
               required
-              {...register("date")}
+              {...register('date')}
             />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Fecha:{" "}
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Fecha:{' '}
             </label>
-            <p className="text-red-600">{errors.date?.message}</p>
+            <p className='text-red-600'>{errors.date?.message}</p>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 md:gap-6">
-          <div className="relative z-0 w-full mb-6 group">
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
               required
-              {...register("aircraftId")}
+              {...register('aircraftId')}
             />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Matricula:{" "}
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Matricula:{' '}
             </label>
-            <p className="text-red-600">{errors.aircraftId?.message}</p>
+            <p className='text-red-600'>{errors.aircraftId?.message}</p>
           </div>
-          <div className="relative z-0 w-full mb-6 group flex justify-center">
+          <div className='relative z-0 w-full mb-6 group flex justify-center'>
             {!matriculas.includes(aircraftId) && (
               <button onClick={openRegisterAirplane}>Register Airplane</button>
             )}
           </div>
         </div>
-        <div className="relative z-0 w-full mb-6 group">
-          <div className="flex justify-between">
+        <div className='relative z-0 w-full mb-6 group'>
+          <div className='flex justify-between'>
             <input
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
               required
-              {...register("stages")}
+              {...register('stages')}
             />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
               Etapas:
             </label>
           </div>
-          <p className="text-red-600">{errors.stages?.message}</p>
+          <p className='text-red-600'>{errors.stages?.message}</p>
         </div>
-        <div className="relative z-0 w-full mb-6 group">
+        <div className='relative z-0 w-full mb-6 group'>
           <textarea
             rows={2}
-            className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            {...register("remarks")}
+            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+            placeholder=' '
+            {...register('remarks')}
           />
-          <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+          <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
             Observaciones:
           </label>
-          <p className="text-red-600">{errors.remarks?.message}</p>
+          <p className='text-red-600'>{errors.remarks?.message}</p>
         </div>
 
-        <div className="grid md:grid-cols-2 md:gap-6">
-          <div className="relative z-0 w-full mb-6 group">
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
             <select
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
-              {...register("flightType")}
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              {...register('flightType')}
             >
-              <option value="Simulador">Simulador</option>
-              <option value="Escuela">Escuela</option>
-              <option value="Copiloto">Copiloto</option>
-              <option value="Autónomo">Autónomo</option>
+              <option value='Simulador'>Simulador</option>
+              <option value='Escuela'>Escuela</option>
+              <option value='Copiloto'>Copiloto</option>
+              <option value='Autonomo'>Autónomo</option>
             </select>
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
               Tipo de Horas:
             </label>
-            <p className="text-red-600">{errors.flightType?.message}</p>
+            <p className='text-red-600'>{errors.flightType?.message}</p>
           </div>
 
-          <div className="relative z-0 w-full mb-6 group">
+          <div className='relative z-0 w-full mb-6 group'>
             <input
-              className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-              placeholder=" "
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
               required
-              {...register("hourCount")}
+              {...register('hourCount')}
             />
-            <label className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
-              Horas a Cargar:{" "}
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Horas a Cargar:{' '}
             </label>
-            <p className="text-red-600">{errors.hourCount?.message}</p>
+            <p className='text-red-600'>{errors.hourCount?.message}</p>
           </div>
         </div>
         <button>SEND</button>
@@ -259,15 +274,15 @@ const AddHoursModal = ({ getFlights, id }) => {
   );
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className='flex flex-col gap-4 mt-3'>
       <hr />
       <div
-        className="
+        className='
           text-neutral-500 
           text-center 
           mt-4 
           font-light
-        "
+        '
       >
         <p>Add a Flight record to your Database to record your Flight Hours</p>
       </div>
@@ -278,7 +293,7 @@ const AddHoursModal = ({ getFlights, id }) => {
     <Modal
       disabled={isLoading}
       isOpen={addHoursModal.isOpen}
-      title="NEW FLIGHT"
+      title='NEW FLIGHT'
       onClose={addHoursModal.onClose}
       body={bodyContent}
       footer={footerContent}
