@@ -164,7 +164,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   }}
                 />
 
-                {role === 'PILOT' && (
+                {/* {role === 'PILOT' && (
                   <MenuItem
                     label='Search Instructor'
                     onClick={() => {
@@ -172,7 +172,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                       toggleOpen();
                     }}
                   />
-                )}
+                )} */}
                 <hr />
                 <MenuItem
                   label='About Flight Deck'
