@@ -7,6 +7,8 @@ import ProfileSection from '../mainInstructor/ProfileSection';
 import Notification from '../mainInstructor/Notification';
 import FormPhoto from './formphoto';
 import ChatComponent from '../Chat';
+import { useSession } from 'next-auth/react';
+import { useUserStore } from '@/store/userStore';
 
 const MainPiloto = () => {
   const [showProfile, setShowProfile] = useState(false);
@@ -20,28 +22,41 @@ const MainPiloto = () => {
     setShowChat(!showChat);
   };
 
+  const { data } = useSession();
+  const userData = data?.user;
+
+  const { user, fetchUserByEmail } = useUserStore();
+
+  useEffect(() => {
+    if (data?.user?.email) {
+      console.log(data.user.email);
+      const email = data.user.email;
+      fetchUserByEmail(email);
+    }
+  }, [data]);
+
   return (
-
     <div
-  className="min-h-screen bg-gray-100"
-  style={{
-    backgroundImage: "url('/images/pilotomain.jpg')",
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  }}
->
-      <nav className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <h1 className="text-xl font-bold text-gray-800">Dashboard-Pilot</h1>
-
+      className='min-h-screen bg-gray-100'
+      style={{
+        backgroundImage: "url('/images/pilotomain.jpg')",
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      <nav className='bg-white border-b border-gray-200'>
+        <div className='max-w-7xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='flex justify-between h-16'>
+            <div className='flex items-center'>
+              <h1 className='text-xl font-bold text-gray-800'>
+                Dashboard-Pilot
+              </h1>
             </div>
           </div>
         </div>
       </nav>
-      <main className='py-10'>
+      {user?.id && <main className='py-10'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
             <div className='bg-white rounded-lg shadow-lg p-6'>
@@ -56,7 +71,6 @@ const MainPiloto = () => {
                   <FormPassword />{' '}
                 </div>
               </div>
-              
             </div>
             <div className='w-full'>
               <FormPilot />
@@ -71,7 +85,7 @@ const MainPiloto = () => {
                   {showChat ? 'Ocultar' : 'Mostrar'}
                 </button>
               </div>
-              {/* {showChat && <ChatComponent />} */}
+              {showChat && <ChatComponent />}
             </div>
           </div>
           <div className='flex justify-end mt-8'>
@@ -92,7 +106,7 @@ const MainPiloto = () => {
             </div>
           )}
         </div>
-      </main>
+      </main>}
     </div>
   );
 };
