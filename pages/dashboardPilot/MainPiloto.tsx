@@ -23,7 +23,6 @@ const MainPiloto = () => {
   };
 
   const { data } = useSession();
-  const userData = data?.user;
 
   const { user, fetchUserByEmail } = useUserStore();
 

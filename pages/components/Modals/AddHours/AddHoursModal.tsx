@@ -128,6 +128,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
       email: userData?.email,
       subject: 'New flight created',
       message: 'You have created a new flight in Flight Deck App',
+      html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡Nuevo Vuelo Registrado!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">Registraste n vuelo el dia ${data.date} con una duracion de ${data.hourCount}hrs, entre las etapas ${data.stages} y del tipo ${data.flightType}.</p><p>¡Muchas gracias por utilizar la Aplicacion!</p></div>`,
     };
 
     let result = userByRole(userData?.email);
@@ -141,7 +142,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
         })
         .then(
           // Nodemailer: send mail
-          await sendContactForm(values )
+          await sendContactForm(values)
         )
 
         .catch(() => toast.error('Error Save Data'))
@@ -163,6 +164,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
         title='Add your Flight Hours in your LogBook'
         subtitle='Fill all fields'
       />
+
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
