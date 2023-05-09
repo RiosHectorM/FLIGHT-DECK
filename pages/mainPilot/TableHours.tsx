@@ -164,7 +164,17 @@ const TableHoursPilot = () => {
       <ApproveModal />
       <FilterPilotBar updateFilters={updateFilters} />
 
-      <button onClick={() => rateInstructor.onOpen()}>calificar</button>
+      <button 
+  onClick={() => rateInstructor.onOpen()} 
+  style={{
+    
+    padding: '10px 20px',
+    fontSize: '24px', // aumentar tamaño de letra
+    color: 'White' // cambiar color de letra
+  }}>
+  Calificar ✅
+</button>
+
       <AddPlaneModal />
       <SearchFlightInstructorModal />
       <AddHoursModal getFlights={getFlights} id={user?.id} />
@@ -245,10 +255,10 @@ const TableHoursPilot = () => {
               height={200}
             />
 
-            <h3 className='text-3xl font-bold text-gray-800 mb-4'>
+            <h3 className='text-3xl font-bold text-white mb-4'>
               No se encontraron vuelos
             </h3>
-            <p className='text-lg text-gray-600 mb-8'>
+            <p className='text-lg text-white mb-8'>
               Lo sentimos, no se encontraron vuelos que coincidan con sus
               criterios de búsqueda. Por favor, ajuste sus criterios de búsqueda
               e inténtelo de nuevo.
