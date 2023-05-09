@@ -60,6 +60,7 @@ const TableHoursPilot = () => {
       name: string;
       lastName: string;
     };
+    certified: boolean;
   }
 
   const [isLoading, setIsLoading] = useState(false);
@@ -251,9 +252,11 @@ const TableHoursPilot = () => {
                           onClick={() => handleDeleteHours(dato)}
                           className="text-red-600 w-5 h-5"
                         />
-                        <button onClick={() => handlerCertify(dato)}>
-                          Certify
-                        </button>
+                        {dato.flightType == "Escuela" ? (
+                          <button onClick={() => handlerCertify(dato)}>
+                            Certify
+                          </button>
+                        ) : null}
                       </div>
                     </Td>
                   </Tr>
