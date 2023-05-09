@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FaBell, FaComment } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -7,32 +7,49 @@ import Notification from './Notification';
 import ProfileSection from './ProfileSection';
 import Chat from './Chat';
 import Calendar from './Calendar';
-
+import { useSession } from "next-auth/react";
+import { useUserStore } from "@/store/userStore";
+import axios from "axios"
 type MainInstructorProps = {
   title: string;
 };
 
 const MainInstructor = ({ title }: MainInstructorProps) => {
-  const [requests, setRequests] = useState([
-    {
-      id: '1',
-      date: new Date(),
-      pilotName: 'John Doe',
-      flightHours: 100,
-    },
-    {
-      id: '2',
-      date: new Date(),
-      pilotName: 'Jane Doe',
-      flightHours: 150,
-    },
-    {
-      id: '3',
-      date: new Date(),
-      pilotName: 'David Smith',
-      flightHours: 200,
-    },
-  ]);
+  const [requests, setRequests] = useState()
+  const { data: session } = useSession();
+  const { user, fetchUserByEmail } = useUserStore();
+  const [toggle, setToggle]=useState(1)
+function toggler(){
+  if (toggle==1){setToggle(0)}
+  else {setToggle(1)}
+}
+  let getFlightsToCertify= async(id: string)=>{
+    try {
+      const response = await axios.get(
+          `http://localhost:3000/api/flight/getFlightsToCertify?certifier=${id}`
+        )
+        console.log(response.data)
+       setRequests(response.data)
+      // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
+    }
+    catch (error) {
+      console.error(error);
+    }
+  }
+  useEffect(() => {
+    if (session?.user?.email) {
+      const email = session.user.email;
+      fetchUserByEmail(email);
+  }}, [session,fetchUserByEmail]);
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      user?.email !== undefined &&
+      user?.id
+    ) {
+    getFlightsToCertify(user?.id)
+    }
+  }, [user?.id, toggle]);
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showChat, setShowChat] = useState(true);
@@ -47,7 +64,7 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
         <main>
           <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 flex'>
             <div className='w-1/2 px-4 py-6 sm:px-0'>
-              <CertificationRequests requests={requests} />
+              <CertificationRequests requests={requests} toggler={toggler} />
             </div>
             <div className='w-1/2 px-4 py-6 sm:px-0'>
               <Calendar currentDate={currentDate} onDateChange={setCurrentDate} />
