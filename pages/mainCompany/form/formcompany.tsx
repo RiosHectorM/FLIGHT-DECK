@@ -1,6 +1,6 @@
+import { useUserStore } from '@/store/userStore';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useUserStore } from '../../store/userStore';
 
 type User = {
   id: string | undefined | null;
@@ -26,7 +26,7 @@ type FormData = {
   nationality: string;
 };
 
-export function FormPilot() {
+export function FormCompany() {
   const { user, updateUser } = useUserStore();
 
   const {
@@ -60,7 +60,7 @@ export function FormPilot() {
 
   return (
     <div className='max-w-sm lg:max-w-full lg:flex w-full'>
-      <div className='border border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal'>
+      <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-6 flex flex-col justify-center'>
         <div className='mb-8'>
           <p className='text-sm text-gray-600 flex items-center'>
             <svg
@@ -73,59 +73,34 @@ export function FormPilot() {
             Members only
           </p>
           <div className='text-gray-900 font-bold text-xl mb-2'>
-            Personal information
+            Company Information
           </div>
           <form onSubmit={onSubmit} className='w-full px-3 mb-6 md:mb-0'>
             <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/2 px-3'>
+              <div className='w-full px-3'>
                 <label
                   className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                   htmlFor='name'
                 >
-                  Name:
+                  Name of the Company or Organization:
                   <input
-                    placeholder='First Name'
+                    placeholder='Name of the company'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
                     {...register('name')}
                   />
                 </label>
               </div>
-              <div className='w-full md:w-1/2 px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='lastName'
-                >
-                  Last Name:
-                  <input
-                    placeholder='Last Name'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                    {...register('lastName')}
-                  />
-                </label>
-              </div>
+              
             </div>
             <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/2 px-3 mb-6'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='phoneNumber'
-                >
-                  Phone Number:
-                  <input
-                    placeholder='Phone Number'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                    {...register('phoneNumber')}
-                  />
-                </label>
-              </div>
-              <div className='w-full md:w-1/2 px-3'>
+              <div className='w-full px-3'>
                 <label
                   className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
                   htmlFor='address'
                 >
                   Address:
                   <input
-                    placeholder='Address'
+                    placeholder='Company Address'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
                     {...register('address')}
                   />
@@ -140,22 +115,22 @@ export function FormPilot() {
                 >
                   City:
                   <input
-                    placeholder='Address'
+                    placeholder='City'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
                     {...register('city')}
                   />
                 </label>
               </div>
-              <div className='w-full md:w-1/2 px-3 '>
+              <div className='w-full md:w-1/2 px-3 mb-6'>
                 <label
                   className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='nationality'
+                  htmlFor='phoneNumber'
                 >
-                  Nationality:
+                  Phone Number:
                   <input
-                    placeholder='Address'
+                    placeholder='Phone Number'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
-                    {...register('nationality')}
+                    {...register('phoneNumber')}
                   />
                 </label>
               </div>
