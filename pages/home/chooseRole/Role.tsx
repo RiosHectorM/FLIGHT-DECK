@@ -43,6 +43,7 @@ export default function Form() {
       });
   };
   const [isLoading, setIsLoading] = useState(true);
+  const [roleNoExist, setRoleNoExist] = useState(true);
 
   const { handleSubmit, register } = useForm<FormData>();
   const router = useRouter();
@@ -53,6 +54,7 @@ export default function Form() {
     let result = userByRole(email);
     result.then((user) => {
       console.log(user);
+      if (user.role) setRoleNoExist(false);
       if (user.role === 'PILOT') router.push('/mainPilot');
       else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
       else if (user.role === 'COMPANY') router.push('/mainCompany');
@@ -84,7 +86,7 @@ export default function Form() {
     <div>
       <ToasterProvider />
       {isLoading && <Loader />}
-      {!isLoading && (
+      {roleNoExist && (
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col'>
           <div className='flex'>
             {roles.map((item) => (
