@@ -6,6 +6,9 @@ import Calendar from './Calendar';
 import Chat from './Chat';
 import ProfileSection from './ProfileSection';
 import InstructorProfile from './InstructorProfile';
+import FormPhoto from './form/formphoto';
+import { FromInstructor } from './form/forminstructor';
+import { FormPassword } from './form/formpassword';
 
 type InstructorProfileProps = {
   name: string;
@@ -32,7 +35,7 @@ const DashboardInstructor: FC = () => {
                         <div className='text-lg font-medium text-gray-900'>425</div>
                       </dd>
                     </div>
-                    
+
                   </div>
                 </div>
               </div>
@@ -63,12 +66,27 @@ const DashboardInstructor: FC = () => {
                         <div className='text-lg font-medium text-gray-900'>12</div>
                       </dd>
                     </div>
-                    
                   </div>
                 </div>
               </div>
             </div>
-            
+          </div>
+          <div className="flex justify-center">
+            <div className="bg-white bg-opacity-70 rounded-lg shadow-lg p-6">
+              <h2 className="text-xl font-bold mb-10 w-full">Instructor Information</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-full mx-auto">
+                <div className="mx-auto max-w-80 h-80">
+                  <FormPhoto />
+                </div>
+                <div className="mx-auto max-w-md">
+                  <FromInstructor />
+                </div>
+                <div className="mx-auto max-w-md">
+                  <FormPassword />
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </main>

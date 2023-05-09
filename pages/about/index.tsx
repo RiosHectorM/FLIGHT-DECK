@@ -68,10 +68,11 @@ const integrantes: Integrante[] = [
 const About: React.FC = () => {
     return (
         <div className="mx-auto px-4 py-12 bg-cover bg-fixed bg-[url('/images/background-image2.jpg')]">
-            <h1 className="text-7xl font-bold text-black-600 mb-20 text-center transform scale-90 md:scale-100">
+            
+            <h1 className="text-7xl font-bold text-gray-100 mb-20 text-center transform scale-90 md:scale-100">
                 About Us
             </h1>
-            <div className='text-4xl font-bold text-slate-900 mt-9 text-center'>
+            <div className='text-4xl font-bold text-center text-gray-100 mt-9'>
                 {Array.from('FLIGHT DECK').map((char, index) => (
                     <motion.span
                         key={index}
@@ -108,7 +109,7 @@ const About: React.FC = () => {
 
             <br>
             </br>
-            <h1 className="flex justify-center text-5xl font-bold mt-24 text-slate-900 mb-6">
+            <h1 className="flex justify-center text-5xl font-bold mt-24 text-gray-200 mb-6">
                 Our Team
             </h1>
 
