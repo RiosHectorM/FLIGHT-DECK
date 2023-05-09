@@ -108,7 +108,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
       {/* Filtro de AVION */}
       <div className="w-full sm:w-1/5 flex items-center space-x-2 rounded-lg hover:shadow-lg p-2">
         <label htmlFor="tipoAvion" className="text-gray-600">
-          Avión:
+          Airplane:
         </label>
         <input
           defaultValue={filters.filter?.aircraftId}

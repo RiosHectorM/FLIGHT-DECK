@@ -59,7 +59,7 @@ const selectFlightInstructorModal = ({ selectedFlight, getFlights, id }) => {
         selectFlightInstructorModal.onClose();
         getFlights(id);
       })
-      // .then(
+      // .then(  
       //   // Nodemailer: send mail
       //   await sendContactForm(values)
       // )
