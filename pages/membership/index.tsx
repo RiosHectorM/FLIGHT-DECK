@@ -146,9 +146,7 @@ const Membership: React.FC = () => {
                 Action:
               </td>
               <td className='border px-4 py-2 text-center'>
-                <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
-                  Get Free Plan
-                </button>
+                
               </td>
               <td className='border px-4 py-2 text-center'>
                 <button

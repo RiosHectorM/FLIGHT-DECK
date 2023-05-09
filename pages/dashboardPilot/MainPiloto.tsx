@@ -7,6 +7,8 @@ import ProfileSection from '../mainInstructor/ProfileSection';
 import Notification from '../mainInstructor/Notification';
 import FormPhoto from './formphoto';
 import ChatComponent from '../Chat';
+import { useSession } from 'next-auth/react';
+import { useUserStore } from '@/store/userStore';
 
 const MainPiloto = () => {
   const [showProfile, setShowProfile] = useState(false);
@@ -19,6 +21,19 @@ const MainPiloto = () => {
   const handleShowChat = () => {
     setShowChat(!showChat);
   };
+
+  const { data } = useSession();
+  const userData = data?.user;
+
+  const { user, fetchUserByEmail } = useUserStore();
+
+  useEffect(() => {
+    if (data?.user?.email) {
+      console.log(data.user.email);
+      const email = data.user.email;
+      fetchUserByEmail(email);
+    }
+  }, [data]);
 
   return (
     <div
@@ -41,7 +56,7 @@ const MainPiloto = () => {
           </div>
         </div>
       </nav>
-      <main className='py-10'>
+      {user?.id && <main className='py-10'>
         <div className='max-w-7xl mx-auto sm:px-6 lg:px-8'>
           <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
             <div className='bg-white rounded-lg shadow-lg p-6'>
@@ -91,7 +106,7 @@ const MainPiloto = () => {
             </div>
           )}
         </div>
-      </main>
+      </main>}
     </div>
   );
 };
