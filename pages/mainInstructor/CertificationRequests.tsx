@@ -3,11 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
-
+import RejectModal from '../components/Modals/RejectModal/RejectModal';
+import useRejectModal from '../hooks/useRejectModal';
 type Request = {
   id: string;
   date: string;
-  user:{name:string};
+  user:{name:string, email:string};
   hourCount: number;
   certifierID: string
 };
@@ -28,6 +29,7 @@ const CertificationRequests = ({ requests,  toggler} ) => {
     if (selectedRequest) {
      console.log(`Request with id ${selectedRequest.id} approved`);
      toggler()
+     toast.success('updating request')
      await axios
         .put(`http://localhost:3000/api/flight/putFlightsCertified`, {
           id: selectedRequest.id,
@@ -38,15 +40,25 @@ const CertificationRequests = ({ requests,  toggler} ) => {
 ;
     }
   };
+  const rejectModal = useRejectModal();
+  const handleRejectRequest = async() => {
 
-  const handleRejectRequest = () => {
     if (selectedRequest) {
-      console.log(`Request with id ${selectedRequest.id} rejected`);
+      await axios
+      .put(`http://localhost:3000/api/flight/putFlightsCertified2`, {
+        id: selectedRequest.id,
+        certifierId: null,
+      })
+      .then(() => {
+        toast.success('Saved')})
+        toggler()
+        rejectModal.onOpen();
     }
   };
 
   return (
     <div className='flex flex-col items-center justify-center'>
+            <RejectModal email={selectedRequest?.user.email}/>
       <h2 className='text-2xl font-bold mb-4 text-red-600 animate-bounce'>Certification Requests</h2>
 
       <div className='w-full max-w-md overflow-hidden bg-white rounded-lg shadow-md'>
