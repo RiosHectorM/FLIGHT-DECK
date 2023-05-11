@@ -29,36 +29,42 @@ const PilotList: React.FC = () => {
   }, []);
 
   return (
-    <div className="mx-auto w-3/4 bg-white bg-opacity-70 rounded-lg shadow-lg p-6 scale-80">
-      <h2 className="text-center font-bold mb-10">Lista de pilotos</h2>
-      <table className="table-auto w-full">
+    <div className='mx-auto w-3/4 bg-white bg-opacity-70 rounded-lg shadow-lg p-6 '>
+      <h2 className='text-center font-bold mb-10 uppercase'>
+        Lista de pilotos
+      </h2>
+      <table className='table-auto w-full'>
         <thead>
-          <tr className="text-left">
-            <th className="px-4 py-2 font-medium">Nombre</th>
-            <th className="px-4 py-2 font-medium">Ubicación</th>
-            <th className="px-4 py-2 font-medium">Horas de vuelo</th>
-            <th className="px-4 py-2 font-medium">Detalles</th>
+          <tr className='text-left'>
+            <th className='px-4 py-2 font-medium'>Nombre</th>
+            <th className='px-4 py-2 font-medium'>Ubicación</th>
+            <th className='px-4 py-2 font-medium'>Horas de vuelo</th>
+            <th className='px-4 py-2 font-medium'>Detalles</th>
           </tr>
         </thead>
         <tbody>
           {pilots.map((pilot) => (
             <React.Fragment key={pilot.id}>
               <tr>
-                <td className="border px-4 py-2">{pilot.name}</td>
-                <td className="border px-4 py-2">{pilot.location}</td>
-                <td className="border px-4 py-2">{pilot.hoursOfFlight}</td>
-                <td className="border px-4 py-2">
+                <td className='border px-4 py-2'>{pilot.name}</td>
+                <td className='border px-4 py-2'>{pilot.location}</td>
+                <td className='border px-4 py-2'>{pilot.hoursOfFlight}</td>
+                <td className='border px-4 py-2'>
                   <button
-                    className="text-blue-500"
+                    className='text-blue-500'
                     onClick={() => {
                       if (expandedPilots.includes(pilot.id)) {
-                        setExpandedPilots(expandedPilots.filter(id => id !== pilot.id));
+                        setExpandedPilots(
+                          expandedPilots.filter((id) => id !== pilot.id)
+                        );
                       } else {
                         setExpandedPilots([...expandedPilots, pilot.id]);
                       }
                     }}
                   >
-                    {expandedPilots.includes(pilot.id) ? 'Cerrar detalles' : 'Ver detalles'}
+                    {expandedPilots.includes(pilot.id)
+                      ? 'Cerrar detalles'
+                      : 'Ver detalles'}
                   </button>
                 </td>
               </tr>
@@ -75,7 +81,6 @@ const PilotList: React.FC = () => {
       </table>
       {selectedPilot && <PilotDetails {...selectedPilot} />}
     </div>
-
   );
 };
 
