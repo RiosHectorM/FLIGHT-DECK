@@ -17,7 +17,17 @@ import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
 
-const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
+const AddHoursModal = ({
+  getFlights,
+  id,
+  aviones,
+  setAviones,
+}: {
+  getFlights: (id: string) => void;
+  id: string;
+  aviones: { registrationId: string }[];
+  setAviones: (airplanes: { registrationId: string }[]) => void;
+}) => {
   const { data } = useSession();
   const userData = data?.user;
 
@@ -33,7 +43,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
     'Autonomo' = 'Autonomo',
   }
 
-  const [matriculas, setMatriculas] = useState([]);
+  const [matriculas, setMatriculas] = useState<string[]>([]);
 
   useEffect(() => {
     const mat = aviones.map(
@@ -106,17 +116,14 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
 
   const userByRole = async (email: string) => {
     setIsLoading(true);
-    return axios
-      .get(`/api/getUserByEmail/${email}`)
-      .then((result) => {
-        return result.data;
-      })
-      .catch(() => {
-        toast.error('Error User Search');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      const result = await axios.get(`/api/getUserByEmail/${email}`);
+      return result.data;
+    } catch (error) {
+      toast.error('Error User Search');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -131,25 +138,30 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
       html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡Nuevo Vuelo Registrado!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">Registraste n vuelo el dia ${data.date} con una duracion de ${data.hourCount}hrs, entre las etapas ${data.stages} y del tipo ${data.flightType}.</p><p>¡Muchas gracias por utilizar la Aplicacion!</p></div>`,
     };
 
-    let result = userByRole(userData?.email);
-    result.then(async (user) => {
-      await axios
-        .post(`http://localhost:3000/api/flight`, { ...data, userId: user.id })
-        .then(() => {
-          toast.success('Saved');
-          addHoursModal.onClose();
-          getFlights(id);
-        })
-        .then(
-          // Nodemailer: send mail
-          await sendContactForm(values)
-        )
+    if (userData?.email) {
+      let result = userByRole(userData?.email);
+      result.then(async (user) => {
+        await axios
+          .post(`http://localhost:3000/api/flight`, {
+            ...data,
+            userId: user.id,
+          })
+          .then(() => {
+            toast.success('Saved');
+            addHoursModal.onClose();
+            getFlights(id);
+          })
+          .then(
+            // Nodemailer: send mail
+            await sendContactForm(values)
+          )
 
-        .catch(() => toast.error('Error Save Data'))
-        .finally(() => {
-          setIsLoading(false);
-        });
-    });
+          .catch(() => toast.error('Error Save Data'))
+          .finally(() => {
+            setIsLoading(false);
+          });
+      });
+    }
   };
 
   const openRegisterAirplane: () => void = () => {
@@ -207,7 +219,7 @@ const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
             <p className='text-red-600'>{errors.aircraftId?.message}</p>
           </div>
           <div className='relative z-0 w-full mb-6 group flex justify-center'>
-            {!matriculas.includes(aircraftId) && (
+            {!matriculas.includes(aircraftId as string) && (
               <button onClick={openRegisterAirplane}>Register Airplane</button>
             )}
           </div>
