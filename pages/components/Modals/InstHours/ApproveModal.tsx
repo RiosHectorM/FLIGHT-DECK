@@ -1,6 +1,5 @@
 'use client';
 
-import axios from 'axios';
 //import { signIn } from 'next-auth/react';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
@@ -10,7 +9,6 @@ import useApproveModal from '@/pages/hooks/useApproveModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
-import Button from '../../AuxComponents/Button';
 
 interface ProfileData {
   name: string;
@@ -47,42 +45,14 @@ const ApproveModal = () => {
     },
   });
 
-  const onSubmitOK: SubmitHandler<FieldValues> = (data) => {
-    //setIsLoading(true);
+  const onSubmitOK = (data: FieldValues) => {
     console.log('APPROVE');
     toast.success('APPROVE!');
-    // axios
-    //   .post('/api/register', data)
-    //   .then(() => {
-    //     toast.success('Registered!');
-    //     approveModal.onClose();
-    //     //loginModal.onOpen();
-    //   })
-    //   .catch((error) => {
-    //     toast.error('Error Login');
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
   };
 
-  const onSubmitFail: SubmitHandler<FieldValues> = (data) => {
-    //setIsLoading(true);
+  const onSubmitFail = (data: FieldValues) => {
     console.log('DONT APPROVE');
     toast.success('DONT APPROVE');
-    // axios
-    //   .post('/api/register', data)
-    //   .then(() => {
-    //     toast.success('Registered!');
-    //     approveModal.onClose();
-    //     //loginModal.onOpen();
-    //   })
-    //   .catch((error) => {
-    //     toast.error('Error Login');
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
   };
 
   const onToggle = useCallback(() => {

@@ -12,35 +12,56 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
-import { getDate } from 'date-fns/esm';
-import { getMonth } from 'date-fns';
+import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
 
-const EditHoursModal = ({ selectedFlight, getFlights, id }) => {
+interface Flight {
+  id: string;
+  date: string;
+  aircraftId: string;
+  stages: string;
+  remarks: string;
+  flightType: TypeHours;
+  hourCount: number;
+  folio: string;
+}
 
+interface Airplane {
+  registrationId: string;
+}
+
+enum TypeHours {
+  Simulador = 'Simulador',
+  Escuela = 'Escuela',
+  Copiloto = 'Copiloto',
+  Autonomo = 'Autonomo',
+}
+
+interface EditHoursModalProps {
+  selectedFlight: Flight;
+  getFlights: (id: string) => void;
+  id: string;
+}
+
+const EditHoursModal = ({
+  selectedFlight,
+  getFlights,
+  id,
+}: EditHoursModalProps) => {
   const { data } = useSession();
   const userData = data?.user;
 
   const editHoursModal = useEditHoursModal();
-  // const addPlaneModal = useAddPlaneModal();
 
   const [isLoading, setIsLoading] = useState(false);
 
-  enum TypeHours {
-    'Simulador' = 'Simulador',
-    'Escuela' = 'Escuela',
-    'Copiloto' = 'Copiloto',
-    'Autonomo' = 'Autonomo',
-  }
-
   const [aviones, setAviones] = useState([]);
 
-  const [formattedDate, setFormattedDate] = useState();
-
-  // const [folio, setFolio] = useState();
+  const [formattedDate, setFormattedDate] = useState<string | undefined>(
+    undefined
+  );
 
   const matriculas = aviones.map(
     (avion: { registrationId: string }) => avion.registrationId
@@ -141,6 +162,8 @@ const EditHoursModal = ({ selectedFlight, getFlights, id }) => {
       });
   };
 
+  const addPlaneModal = useAddPlaneModal();
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     setIsLoading(true);
     reset();
@@ -152,7 +175,7 @@ const EditHoursModal = ({ selectedFlight, getFlights, id }) => {
       message: 'You have created a new flight in Flight Deck App',
     };
 
-    let result = userByRole(userData?.email);
+    let result = userByRole(userData?.email as string);
     result.then(async (user) => {
       await axios
         .put(`http://localhost:3000/api/flight`, {
@@ -234,7 +257,7 @@ const EditHoursModal = ({ selectedFlight, getFlights, id }) => {
             <p className='text-red-600'>{errors.aircraftId?.message}</p>
           </div>
           <div className='relative z-0 w-full mb-6 group flex justify-center'>
-            {!matriculas.includes(aircraftId) && (
+            {!matriculas.includes(aircraftId as string) && (
               <button onClick={openRegisterAirplane}>Register Airplane</button>
             )}
           </div>

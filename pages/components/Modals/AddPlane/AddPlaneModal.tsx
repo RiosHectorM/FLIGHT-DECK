@@ -14,7 +14,11 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 import Loader from '../../Loader';
 
-const AddPlaneModal = ({ setAviones }) => {
+interface Props {
+  setAviones: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const AddPlaneModal: React.FC<Props> = ({ setAviones }) => {
   const addPlaneModal = useAddPlaneModal();
   const addHoursModal = useAddHoursModal();
 

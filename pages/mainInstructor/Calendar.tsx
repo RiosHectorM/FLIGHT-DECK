@@ -33,20 +33,27 @@ const Calendar: FC<CalendarProps> = ({ currentDate, onDateChange }) => {
     setSelectedDate(null);
     setShowReminderForm(false);
   };
-  const handleReminderFormSubmit = (text: string, color: string) => {
+
+  const handleReminderFormSubmit = (text: string, date: Date) => {
     // Aquí puedes hacer lo que necesites con los datos del recordatorio, como guardarlos en el estado de la app
-    console.log(text, color, selectedDate);
+    console.log(text, date);
     handleReminderFormClose();
   };
 
   return (
     <div className='border rounded-lg p-4'>
       <div className='flex items-center justify-between mb-4'>
-        <button className='text-white focus:outline-none' onClick={handlePrevClick}>
+        <button
+          className='text-white focus:outline-none'
+          onClick={handlePrevClick}
+        >
           {'<'}
         </button>
         <h2 className='text-lg font-bold text-white'>{monthName}</h2>
-        <button className='text-white focus:outline-none' onClick={handleNextClick}>
+        <button
+          className='text-white focus:outline-none'
+          onClick={handleNextClick}
+        >
           {'>'}
         </button>
       </div>
@@ -59,8 +66,19 @@ const Calendar: FC<CalendarProps> = ({ currentDate, onDateChange }) => {
         <div className='text-sm font-bold text-white'>F</div>
         <div className='text-sm font-bold text-white'>S</div>
         {Array.from({ length: 42 }).map((_, index) => {
-          const dayOfMonth = index - new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay() + 1;
-          const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), dayOfMonth);
+          const dayOfMonth =
+            index -
+            new Date(
+              currentMonth.getFullYear(),
+              currentMonth.getMonth(),
+              1
+            ).getDay() +
+            1;
+          const date = new Date(
+            currentMonth.getFullYear(),
+            currentMonth.getMonth(),
+            dayOfMonth
+          );
           const isCurrentMonth = date.getMonth() === currentMonth.getMonth();
           const isToday = date.toDateString() === new Date().toDateString();
           const className = `
@@ -69,25 +87,28 @@ const Calendar: FC<CalendarProps> = ({ currentDate, onDateChange }) => {
             text-sm border rounded-full h-8 w-8 flex items-center justify-center
           `;
           const isDisabled = date < new Date();
-  
+
           return (
-            <div key={index} className={className} onClick={() => !isDisabled && handleDateClick(date)}>
+            <div
+              key={index}
+              className={className}
+              onClick={() => !isDisabled && handleDateClick(date)}
+            >
               {dayOfMonth > 0 && isCurrentMonth && dayOfMonth}
             </div>
           );
         })}
       </div>
       {showReminderForm && selectedDate && (
-        <ReminderForm 
+        <ReminderForm
           date={selectedDate}
-          onSubmit={handleReminderFormSubmit} 
+          onSubmit={handleReminderFormSubmit}
           onCancel={handleReminderFormClose}
           onClose={handleReminderFormClose} // Agregar esta línea
         />
       )}
     </div>
   );
-  
 };
 
 export default Calendar;

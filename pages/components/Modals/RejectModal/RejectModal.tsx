@@ -14,17 +14,16 @@ import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
 
-const RejectModal = ({ email }) => {
+interface RejectModalProps {
+  email: string;
+}
 
+const RejectModal: React.FC<RejectModalProps> = ({ email }) => {
   const rejectModal = useRejectModal();
-
-
 
   const schema = yup
     .object({
-
       reason: yup.string().required('please indicate the reject reason'),
-
     })
     .required();
   type FormData = yup.InferType<typeof schema>;
@@ -39,7 +38,6 @@ const RejectModal = ({ email }) => {
     resolver: yupResolver(schema),
   });
 
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
 
@@ -47,19 +45,14 @@ const RejectModal = ({ email }) => {
       name: 'Flight Deck App',
       email: email,
       subject: 'Hours Rejected',
-      message: 'The instructor has rejected the Hour you have sent for certification',
-    
+      message:
+        'The instructor has rejected the Hour you have sent for certification',
     };
 
+    await sendContactForm(values);
 
-          await sendContactForm(values)
-
-rejectModal.onClose()
- 
-          
-    };
-
-
+    rejectModal.onClose();
+  };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
@@ -70,19 +63,18 @@ rejectModal.onClose()
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
         <div className='grid md:grid-cols-2 md:gap-6'>
-
-        <div className='relative z-0 w-full mb-6 group'>
-          <textarea
-            rows={2}
-            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-            placeholder=' '
-            {...register('reason')}
-          />
-          <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-            Reject Reson:
-          </label>
-          <p className='text-red-600'>{errors.reason?.message}</p>
-        </div>
+          <div className='relative z-0 w-full mb-6 group'>
+            <textarea
+              rows={2}
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              {...register('reason')}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Reject Reson:
+            </label>
+            <p className='text-red-600'>{errors.reason?.message}</p>
+          </div>
         </div>
         <button>SEND</button>
       </form>
