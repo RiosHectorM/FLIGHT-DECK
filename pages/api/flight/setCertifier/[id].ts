@@ -7,15 +7,14 @@ export default async function handler(
 ) {
   // - PUT ------------------
   if (req.method === 'PUT') {
-    const { id } = req.query;
-    console.log('HOLA SOY EL QUERY QUE SETEA EL INSTRUCTOR EN EL VUELO:');
-    console.log(id);
+    const { id } = req.query as { id: string | string[] | undefined };
+    const idString = Array.isArray(id) ? id[0] : id;
+
     const {
       certified,
       certifierId,
     } = req.body;
-    console.log('HOLA SOY EL BODY QUE SETEA EL INSTRUCTOR EN EL VUELO:');
-    console.log(req.body);
+
     
     // Verify existence of required fields
     if (
@@ -28,11 +27,12 @@ export default async function handler(
 
     try {
       const flight = await prisma.flight.update({
-        where: {id},
+        where: { id: idString },
         data: {
           certified,
-          certifierId
-      }});
+          certifierId,
+        },
+      });
       return res.status(201).json(flight);
     }
     catch (error) {
