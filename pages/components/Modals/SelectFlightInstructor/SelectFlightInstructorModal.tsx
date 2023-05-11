@@ -51,11 +51,16 @@ const SelectFlightInstructorModal = ({
 
   const handleSelect = async (instructorId: string) => {
     setIsLoading(true);
+    
+    const flightId = Array.isArray(selectedFlight.id)
+      ? selectedFlight.id[0]
+      : selectedFlight.id;
+
     await axios
-      .put(
-        `http://localhost:3000/api/flight/setCertifier/${selectedFlight.id}`,
-        { certifierId: instructorId, certified: false }
-      )
+      .put(`http://localhost:3000/api/flight/setCertifier/${flightId}`, {
+        certifierId: instructorId,
+        certified: false,
+      })
       .then(() => {
         toast.success('Certification Requirement Saved');
         selectFlightInstructorModal.onClose();
