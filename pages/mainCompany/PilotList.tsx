@@ -28,6 +28,11 @@ const PilotList: React.FC = () => {
     fetchPilots();
   }, []);
 
+
+
+
+
+  
   return (
     <div className='mx-auto w-3/4 bg-white bg-opacity-70 rounded-lg shadow-lg p-6 '>
       <h2 className='text-center font-bold mb-10 uppercase'>
