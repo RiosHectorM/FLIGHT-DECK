@@ -1,21 +1,32 @@
-import { mailOptions, transporter } from "../../../lib/nodemailer";
+import { mailOptions, transporter } from '../../../lib/nodemailer';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-const CONTACT_MESSAGE_FIELDS = {
-  name: "Name",
-  email: "Email",
-  subject: "Subject",
-  message: "Message",
+interface ContactMessageFields {
+  [key: string]: string;
+}
+interface ContactData {
+  name: string;
+  email: string;
+  subject: string;
+  message: string;
+}
+
+const CONTACT_MESSAGE_FIELDS: ContactMessageFields = {
+  name: 'Name',
+  email: 'Email',
+  subject: 'Subject',
+  message: 'Message',
 };
 
 const generateEmailContent = (data: any) => {
   const stringData = Object.entries(data).reduce(
     (str, [key, val]) =>
       (str += `${CONTACT_MESSAGE_FIELDS[key]}: \n${val} \n \n`),
-    ""
+    ''
   );
   const htmlData = Object.entries(data).reduce((str, [key, val]) => {
     return (str += `<h3 class="form-heading" align="left">${CONTACT_MESSAGE_FIELDS[key]}</h3><p class="form-answer" align="left">${val}</p>`);
-  }, "");
+  }, '');
 
   return {
     text: stringData,
@@ -23,15 +34,15 @@ const generateEmailContent = (data: any) => {
   };
 };
 
-const handler = async (req, res) => {
-  if (req.method === "POST") {
-    const data = req.body;
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method === 'POST') {
+    const data: ContactData = req.body;
     if (!data || !data.name || !data.email || !data.subject || !data.message) {
-      return res.status(400).send({ message: "Bad request" });
+      return res.status(400).send({ message: 'Bad request' });
     }
 
     try {
-      mailOptions.to = data.email
+      mailOptions.to = data.email;
       await transporter.sendMail({
         ...mailOptions,
         ...generateEmailContent(data),
@@ -39,11 +50,12 @@ const handler = async (req, res) => {
       });
 
       return res.status(200).json({ success: true });
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       return res.status(400).json({ message: err.message });
     }
   }
-  return res.status(400).json({ message: "Bad request" });
+  return res.status(400).json({ message: 'Bad request' });
 };
+
 export default handler;
