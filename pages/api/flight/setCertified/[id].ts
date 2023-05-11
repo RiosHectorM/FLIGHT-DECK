@@ -17,13 +17,15 @@ export default async function handler(
     }
 
     try {
-      const flight = await prisma.flight.update({
-        where: { id: idString },
-        data: {
-          certified,
-        },
-      });
-      return res.status(201).json(flight);
+      if (idString) {
+        const flight = await prisma.flight.update({
+          where: { id: idString },
+          data: {
+            certified,
+          },
+        });
+        return res.status(201).json(flight);
+      }
     } catch (error) {
       // Handle flight creation error
       console.error(error);
