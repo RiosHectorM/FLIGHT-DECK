@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 
 import Heading from "../../AuxComponents/ModalsGenerator/Heading";
 
-import useselectFlightInstructorModal from "@/pages/hooks/useSelectFlightInstructorModal";
+import useSelectFlightInstructorModal from "@/pages/hooks/useSelectFlightInstructorModal";
 
 import Modal from "../../AuxComponents/ModalsGenerator/Modal";
 import { toast } from "react-hot-toast";
-import useAddPlaneModal from "@/pages/hooks/useAddPlaneModal";
 import { useSession } from "next-auth/react";
 
-const selectFlightInstructorModal = ({ selectedFlight, getFlights, id }) => {
+const SelectFlightInstructorModal = ({ selectedFlight, getFlights, id }) => {
   const { data } = useSession();
-  const userData = data?.user;
+  const [isLoading, setIsLoading] = useState(false);
+  const [instructors, setInstructors] = useState<Instructor[]>([]);
 
   interface Instructor {
     id: string | null;
@@ -24,16 +24,7 @@ const selectFlightInstructorModal = ({ selectedFlight, getFlights, id }) => {
     email: string | null;
   }
 
-  const selectFlightInstructorModal = useselectFlightInstructorModal();
-  //const addPlaneModal = useAddPlaneModal();
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [instructors, setInstructors] = useState<Instructor[]>([]);
-
-  /*  const matriculas = aviones.map(
-    (avion: { registrationId: string }) => avion.registrationId
-  ); */
+  const selectFlightInstructorModal = useSelectFlightInstructorModal();
 
   const userByRole = async (email: string) => {
     setIsLoading(true);
@@ -137,4 +128,4 @@ const selectFlightInstructorModal = ({ selectedFlight, getFlights, id }) => {
   );
 };
 
-export default selectFlightInstructorModal;
+export default SelectFlightInstructorModal;
