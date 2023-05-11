@@ -85,7 +85,7 @@ export function FormCompany() {
                   Name of the Company or Organization:
                   <input
                     placeholder='Name of the company'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('name')}
                   />
                 </label>
@@ -101,7 +101,7 @@ export function FormCompany() {
                   Address:
                   <input
                     placeholder='Company Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('address')}
                   />
                 </label>
@@ -116,7 +116,7 @@ export function FormCompany() {
                   City:
                   <input
                     placeholder='City'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('city')}
                   />
                 </label>
@@ -129,7 +129,7 @@ export function FormCompany() {
                   Phone Number:
                   <input
                     placeholder='Phone Number'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('phoneNumber')}
                   />
                 </label>
