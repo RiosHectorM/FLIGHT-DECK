@@ -62,7 +62,7 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
           Ver Bitácora de vuelo de {name}
         </button>
       </div>
-      {showContact && (
+      {showContact && userData?.name && (
         <ContactPilot name={userData?.name} pilotName={name} email={email} />
       )}
       {showFlightLog && (

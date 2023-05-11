@@ -25,8 +25,6 @@ import FilterPilotBar from './FilterPilotBar';
 import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
-import ApproveModal from '../components/Modals/InstHours/ApproveModal';
-import useApproveModal from '../hooks/useApproveModal';
 import useRateInstructorModal from '../hooks/useRateInstructorModal';
 
 const TableHoursPilot = () => {
@@ -100,7 +98,7 @@ const TableHoursPilot = () => {
     }
   }, []);
 
-  let getFlights = async (idF) => {
+  let getFlights = async (idF: string) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
@@ -145,23 +143,22 @@ const TableHoursPilot = () => {
     addHoursModal.onOpen();
   };
 
-  const handleEditHours = (flight) => {
+  const handleEditHours = (flight: string) => {
     setSelectedFlight(flight);
     editHoursModal.onOpen();
   };
 
-  const handleDeleteHours = async (flight) => {
+  const handleDeleteHours = async (flight: string) => {
     try {
       await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
-      getFlights(user?.id);
+      getFlights(user?.id as string);
     } catch (error) {
       toast.error('Error deleting flight');
     }
   };
-  const aproveModal = useApproveModal();
   const rateInstructor = useRateInstructorModal();
 
-  const handlerCertify = (flight) => {
+  const handlerCertify = (flight: string) => {
     setSelectedFlight(flight);
     selectFlightInstructorModal.onOpen();
   };
@@ -172,7 +169,6 @@ const TableHoursPilot = () => {
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
       <RateInstructorModal />
-      <ApproveModal />
       <FilterPilotBar updateFilters={updateFilters} />
 
       {/* <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
@@ -180,11 +176,11 @@ const TableHoursPilot = () => {
       <SelectFlightInstructorModal
         selectedFlight={selectedFlight}
         getFlights={getFlights}
-        id={user?.id}
+        id={user?.id as string}
       />
       <AddHoursModal
         getFlights={getFlights}
-        id={user?.id}
+        id={user?.id as string}
         aviones={aviones}
         setAviones={setAviones}
       />
@@ -192,7 +188,7 @@ const TableHoursPilot = () => {
       <EditHoursModal
         selectedFlight={selectedFlight}
         getFlights={getFlights}
-        id={user?.id}
+        id={user?.id as string}
       />
       {flight.length ? (
         <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>

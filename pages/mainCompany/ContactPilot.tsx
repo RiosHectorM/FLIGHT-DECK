@@ -14,7 +14,9 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
 }) => {
   let [message, setMessage] = useState('');
 
-  const handleMessageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setMessage(event.target.value);
   };
 
@@ -26,7 +28,9 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
     html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡${name} te esta buscando!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">${message}</p></div>`,
   };
 
-  const handlerSend = (event: React.FormEvent<HTMLFormElement>) => {
+  const handlerSend = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     event.preventDefault();
     sendContactForm(values);
     setMessage('');
@@ -81,7 +85,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
           <textarea
             id='contactMessage'
             placeholder='Ingrese su mensaje'
-            values={message}
+            value={message}
             onChange={handleMessageChange}
             className='w-full h-32 bg-gray-500 border-gray-400 border rounded-md py-2 px-3 text-white'
           ></textarea>

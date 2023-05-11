@@ -1,53 +1,50 @@
 import { useState, useEffect } from 'react';
-import { FaBell, FaComment } from 'react-icons/fa';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import CertificationRequests from './CertificationRequests';
-import Notification from './Notification';
-import ProfileSection from './ProfileSection';
-import Chat from './Chat';
 import Calendar from './Calendar';
 import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/userStore";
-import axios from "axios"
+import axios from "axios";
+
 type MainInstructorProps = {
   title: string;
 };
 
 const MainInstructor = ({ title }: MainInstructorProps) => {
-  const [requests, setRequests] = useState()
+  const [requests, setRequests] = useState<Request[]>([]);
   const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
-  const [toggle, setToggle]=useState(1)
-function toggler(){
-  if (toggle==1){setToggle(0)}
-  else {setToggle(1)}
-}
-  let getFlightsToCertify= async(id: string)=>{
-    try {
-      const response = await axios.get(
-          `http://localhost:3000/api/flight/getFlightsToCertify?certifier=${id}`
-        )
-        console.log(response.data)
-       setRequests(response.data)
-      // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))
-    }
-    catch (error) {
-      console.error(error);
+  const [toggle, setToggle] = useState(1);
+
+  function toggler() {
+    if (toggle === 1) {
+      setToggle(0);
+    } else {
+      setToggle(1);
     }
   }
+
+  let getFlightsToCertify = async (id: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/flight/getFlightsToCertify?certifier=${id}`
+      );
+      console.log(response.data);
+      setRequests(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (session?.user?.email) {
       const email = session.user.email;
       fetchUserByEmail(email);
-  }}, [session,fetchUserByEmail]);
+    }
+  }, [session, fetchUserByEmail]);
+
   useEffect(() => {
-    if (
-      typeof window !== "undefined" &&
-      user?.email !== undefined &&
-      user?.id
-    ) {
-    getFlightsToCertify(user?.id)
+    if (typeof window !== "undefined" && user?.email !== undefined && user?.id) {
+      getFlightsToCertify(user?.id);
     }
   }, [user?.id, toggle]);
 

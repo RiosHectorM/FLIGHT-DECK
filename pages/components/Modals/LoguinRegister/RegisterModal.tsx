@@ -106,7 +106,7 @@ const RegisterModal = () => {
         <h1 className='text-2xl font-bold pb-2'>Choose Your Role to Join Us</h1>
         <div
           className='flex justify-around gap-2'
-          style={errors?.role ? { background: 'red' } : null}
+          style={errors?.role ? { background: 'red' } : undefined}
         >
           <label className='inline-flex items-center'>
             <input

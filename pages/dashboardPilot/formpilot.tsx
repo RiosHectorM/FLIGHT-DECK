@@ -3,18 +3,18 @@ import { useForm } from 'react-hook-form';
 import { useUserStore } from '../../store/userStore';
 
 type User = {
-  id: string | undefined | null;
-  name: string | undefined | null;
-  lastName: string | undefined | null;
-  role: string | undefined | null;
-  email: string | undefined | null;
-  emailVerified: string | undefined | null;
-  image: string | undefined | null;
-  hashedPassword: string | undefined | null;
-  phoneNumber: string | undefined | null;
-  address: string | undefined | null;
-  city: string | undefined | null;
-  nationality: string | undefined | null;
+  id?: string | undefined;
+  name?: string | undefined | null;
+  lastName?: string | undefined | null;
+  role?: string | undefined | null;
+  email?: string | undefined | null;
+  emailVerified?: string | undefined | null;
+  image?: string | undefined | null;
+  hashedPassword?: string | undefined | null;
+  phoneNumber?: string | undefined | null;
+  address?: string | undefined | null;
+  city?: string | undefined | null;
+  nationality?: string | undefined | null;
 };
 
 type FormData = {
@@ -45,17 +45,20 @@ export function FormPilot() {
   });
 
   const onSubmit = handleSubmit((data) => {
-    let newUserState: User = {
-      ...user,
-      name: data.name,
-      lastName: data.lastName,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      city: data.city,
-      nationality: data.nationality,
-    };
-    updateUser(newUserState);
-    alert('Info Updated');
+    if (user && user?.id !== undefined) {
+      let newUserState: User = {
+        ...user,
+        id: user.id || '', // Asignar valor predeterminado si es undefined
+        name: data.name,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        city: data.city,
+        nationality: data.nationality,
+      };
+      updateUser(newUserState);
+      alert('Info Updated');
+    }
   });
 
   return (

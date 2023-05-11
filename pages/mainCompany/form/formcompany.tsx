@@ -3,18 +3,18 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 type User = {
-  id: string | undefined | null;
-  name: string | undefined | null;
-  lastName: string | undefined | null;
-  role: string | undefined | null;
-  email: string | undefined | null;
-  emailVerified: string | undefined | null;
-  image: string | undefined | null;
-  hashedPassword: string | undefined | null;
-  phoneNumber: string | undefined | null;
-  address: string | undefined | null;
-  city: string | undefined | null;
-  nationality: string | undefined | null;
+  id?: string | undefined | null;
+  name?: string | undefined | null;
+  lastName?: string | undefined | null;
+  role?: string | undefined | null;
+  email?: string | undefined | null;
+  emailVerified?: string | undefined | null;
+  image?: string | undefined | null;
+  hashedPassword?: string | undefined | null;
+  phoneNumber?: string | undefined | null;
+  address?: string | undefined | null;
+  city?: string | undefined | null;
+  nationality?: string | undefined | null;
 };
 
 type FormData = {

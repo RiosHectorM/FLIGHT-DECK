@@ -11,7 +11,6 @@ import Link from 'next/link';
 import Calendar from './Calendar';
 import Chat from './Chat';
 import ProfileSection from './ProfileSection';
-import InstructorProfile from './InstructorProfile';
 import FormPhoto from './form/formphoto';
 import { FromInstructor } from './form/forminstructor';
 import { FormPassword } from './form/formpassword';
