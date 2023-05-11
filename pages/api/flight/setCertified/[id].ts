@@ -7,7 +7,8 @@ export default async function handler(
 ) {
   // - PUT --- Set certified field (to true or false) ---------------
   if (req.method === 'PUT') {
-    const { id } = req.query as { id: string };
+    const { id } = req.query as { id: string | string[] };
+    const idString = Array.isArray(id) ? id[0] : id;
     const { certified } = req.body as { certified: boolean };
 
     // Verify existence of required fields
@@ -17,7 +18,7 @@ export default async function handler(
 
     try {
       const flight = await prisma.flight.update({
-        where: { id },
+        where: { id: idString },
         data: {
           certified,
         },
