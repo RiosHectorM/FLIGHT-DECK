@@ -79,7 +79,7 @@ export function FormPilot() {
                   Name:
                   <input
                     placeholder='First Name'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight focus:bg-white focus:border-gray-500 focus:border-black`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('name')}
                   />
                 </label>
@@ -92,7 +92,7 @@ export function FormPilot() {
                   Last Name:
                   <input
                     placeholder='Last Name'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-gray-500 focus:border-black focus:border-black`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('lastName')}
                   />
                 </label>
@@ -107,7 +107,7 @@ export function FormPilot() {
                   City:
                   <input
                     placeholder='Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white`}
                     {...register('city')}
                   />
                 </label>
@@ -120,7 +120,7 @@ export function FormPilot() {
                   Nationality:
                   <input
                     placeholder='Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white`}
                     {...register('nationality')}
                   />
                 </label>
@@ -135,7 +135,7 @@ export function FormPilot() {
                   Address:
                   <input
                     placeholder='Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white`}
                     {...register('address')}
                   />
                 </label>
@@ -148,7 +148,7 @@ export function FormPilot() {
                   Phone Number:
                   <input
                     placeholder='Phone Number'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:border-black focus:bg-white`}
                     {...register('phoneNumber')}
                   />
                 </label>
