@@ -1,14 +1,14 @@
 
-export const validateFirstName = (firstName: string): { isValid: boolean, errorMessage?: string } => {
-    if (!firstName) {
+export const validateName = (Name: string): { isValid: boolean, errorMessage?: string } => {
+    if (!Name) {
       return { isValid: false, errorMessage: 'First Name is required' };
     }
   
-    if (firstName.length > 50) {
+    if (Name.length > 50) {
       return { isValid: false, errorMessage: 'First Name should be at most 50 characters long' };
     }
   
-    if (!/^[a-zA-Z]+$/.test(firstName)) {
+    if (!/^[a-zA-Z]+$/.test(Name)) {
       return { isValid: false, errorMessage: 'First Name should only contain letters' };
     }
   
