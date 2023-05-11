@@ -1,0 +1,8 @@
+get http://localhost:3000/api/flight/pruebaMartin?certifier=645a57aab7880c37980c2ef6
+//Content-Type: application/json
+//
+//{"countries":["Argentina", "Colombia"],"name": "FLy & Dream", "difficulty": "5", "duration": "2", "season": "Summer" }
+
+
+###
+get http://localhost:3000/api/instructor

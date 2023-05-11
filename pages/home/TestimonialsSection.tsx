@@ -1,37 +1,64 @@
-import Image from 'next/image'
+import Image from 'next/image';
+import { useState } from 'react';
 
 const TestimonialsSection = () => {
+  const [activeIndex, setActiveIndex] = useState(-1);
+
+  const testimonials = [
+    {
+      image: '/images/testimonial1.png',
+      alt: 'testimonial1',
+      text: 'Es genial!, te permite hacer un seguimiento personalizado de las horas de vuelo, conectarse con instructores y programar sesiones de capacitación fácilmente. Además, se pueden generar registros en PDF para presentarlos en cualquier entidad.',
+      name: 'John Doe',
+      role: 'PILOT',
+    },
+    {
+      image: '/images/testimonial2.png',
+      alt: 'testimonial2',
+      text: 'Desde que la comence a usar ha mejorado la gestión de las horas de vuelo de los estudiantes y permite dedicar más tiempo a la enseñanza y menos a la burocracia, por lo que el autor la recomienda a otros instructores de vuelo.',
+      name: 'Jane Doe',
+      role: 'INSTRUCTOR',
+    },
+    {
+      image: '/images/testimonial3.png',
+      alt: 'testimonial3',
+      text: 'Nuestra empresa ha utilizado esta aplicación de registro de horas de vuelo para optimizar la gestión de horas de vuelo de nuestros pilotos, y ha sido una herramienta invaluable.',
+      name: 'James Smith',
+      role: 'CTO, Company Inc.',
+    },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center my-16">
       <h2 className="text-4xl font-bold text-gray-200 mb-8">Testimonials</h2>
       <div className="flex flex-col md:flex-row items-center justify-center w-full space-y-8 md:space-y-0 md:space-x-8">
-        <div className="w-full md:w-1/3">
-          <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-8">
-            <Image src="/images/testimonial1.png" alt="testimonial1" width={100} height={100} className="rounded-full mb-4" />
-            <p className="text-lg text-gray-600 text-center">Esta aplicación de registro de horas de vuelo es increíblemente útil para llevar un seguimiento personalizado de mis horas de vuelo. Con la capacidad de conectarme con instructores y programar sesiones de capacitación en un abrir y cerrar de ojos, ¡me siento más seguro y confiado en mi habilidad para volar! También aprecio mucho la capacidad de generar un documento PDF de mis registros de horas de vuelo para presentarlo en cualquier entidad que lo requiera.</p>
-            <h4 className="text-xl font-bold text-gray-800 mt-4">John Doe</h4>
-            <p className="text-gray-600">PILOT.</p>
+        {testimonials.map((testimonial, index) => (
+          <div
+            key={index}
+            className="w-full md:w-1/3"
+            onMouseEnter={() => setActiveIndex(index)}
+            onMouseLeave={() => setActiveIndex(-1)}
+          >
+            <div
+              className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-8"
+              style={{
+                transform: activeIndex === index ? 'translateX(-25%)' : 'translateX(0)',
+                marginLeft: activeIndex === index ? '25%' : '0',
+                opacity: activeIndex === index || activeIndex === -1 ? 1 : 0.5,
+                backgroundColor: 'rgba(255, 255, 255, 0.7)', // Agregue esta línea
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <Image src={testimonial.image} alt={testimonial.alt} width={100} height={100} className="rounded-full mb-4" />
+              <p className="text-lg text-gray-600 text-center">{testimonial.text}</p>
+              <h4 className="text-xl font-bold text-gray-800 mt-4">{testimonial.name}</h4>
+              <p className="text-gray-600">{testimonial.role}</p>
+            </div>
           </div>
-        </div>
-        <div className="w-full md:w-1/3">
-          <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-8">
-            <Image src="/images/testimonial2.png" alt="testimonial2" width={100} height={100} className="rounded-full mb-4" />
-            <p className="text-lg text-gray-600 text-center">Desde que empecé a usar esta aplicación de registro de horas de vuelo, ha sido un cambio radical en la forma en que gestiono las horas de vuelo de mis estudiantes. Ahora puedo validar sus horas de vuelo de forma rápida y eficiente, lo que me permite dedicar más tiempo a la enseñanza y menos tiempo a la burocracia. ¡Recomiendo encarecidamente esta aplicación a todos los instructores de vuelo!</p>
-            <h4 className="text-xl font-bold text-gray-800 mt-4">Jane Doe</h4>
-            <p className="text-gray-600">INSTRUCTOR.</p>
-          </div>
-        </div>
-        <div className="w-full md:w-1/3">
-          <div className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-8">
-            <Image src="/images/testimonial3.png" alt="testimonial3" width={100} height={100} className="rounded-full mb-4" />
-            <p className="text-lg text-gray-600 text-center">Nuestra empresa ha utilizado esta aplicación de registro de horas de vuelo para optimizar la gestión de horas de vuelo de nuestros pilotos, y ha sido una herramienta invaluable. Ahora podemos aprobar las horas de vuelo de los pilotos de manera rápida y eficiente, y acceder a la base de datos de pilotos registrados para descargar un historial de horas de vuelo certificadas y no certificadas según sea necesario. ¡Esta aplicación ha mejorado significativamente la forma en que gestionamos las horas de vuelo de nuestros pilotos y la recomendamos altamente a otras empresas de aviación!</p>
-            <h4 className="text-xl font-bold text-gray-800 mt-4">James Smith</h4>
-            <p className="text-gray-600">CTO, Company Inc.</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default TestimonialsSection
+export default TestimonialsSection;

@@ -1,7 +1,7 @@
 'use client';
 
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
@@ -13,8 +13,14 @@ import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
 import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import { useSession } from 'next-auth/react';
+import Loader from '../../Loader';
+import { sendContactForm } from '@/lib/api';
 
-const AddHoursModal = () => {
+const AddHoursModal = ({ getFlights, id, aviones, setAviones }) => {
+  const { data } = useSession();
+  const userData = data?.user;
+
   const addHoursModal = useAddHoursModal();
   const addPlaneModal = useAddPlaneModal();
 
@@ -26,12 +32,36 @@ const AddHoursModal = () => {
     'Copiloto' = 'Copiloto',
     'Autonomo' = 'Autonomo',
   }
-  enum Matriculas {
-    'A003' = 'A003',
-    'A004' = 'A004',
-    'A005' = 'A005',
-    'A0006' = 'A0006',
-  }
+
+  const [matriculas, setMatriculas] = useState([]);
+
+  useEffect(() => {
+    const mat = aviones.map(
+      (avion: { registrationId: string }) => avion.registrationId
+    );
+    setMatriculas(mat);
+  }, [aviones]);
+
+  useEffect(() => {
+    async function getRegisteredID() {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/plane`);
+        return response.data;
+      } catch (error) {
+        // Manejar el error de la solicitud
+        console.error(error);
+        return [];
+      }
+    }
+
+    const fetchData = async () => {
+      const airplanes = await getRegisteredID();
+      setAviones(airplanes);
+    };
+
+    fetchData();
+  }, [aviones.length]);
+
   const schema = yup
     .object({
       folio: yup
@@ -40,17 +70,20 @@ const AddHoursModal = () => {
         .integer('Debe ser entero')
         .required()
         .typeError('Debe ser un número'),
-      userId: yup.string().required(),
+      //userId: yup.string().required(),
       date: yup.string().required('Fecha es un campo obligatorio'),
 
-      aircraftId: yup
-        .mixed()
-        .oneOf(Object.values(Matriculas), 'Avión no registrado (ej A003)'),
+      // aircraftId: yup
+      //   .mixed()
+      //   .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
       stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
       flightType: yup
         .mixed()
         .oneOf(Object.values(TypeHours), 'Debe ser un tipo definido'),
+      aircraftId: yup
+        .mixed()
+        .oneOf(Object.values(matriculas), 'Debe registrar el avion'),
       hourCount: yup
         .number()
         .positive('Debe ser positivo')
@@ -60,121 +93,185 @@ const AddHoursModal = () => {
   type FormData = yup.InferType<typeof schema>;
 
   const {
+    reset,
+    watch,
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    reset();
-    await axios
-      .post(`http://localhost:3000/api/flight`, data)
-      .then(() => {
-        toast.success('Saved');
-        addHoursModal.onClose();
+  let aircraftId = watch('aircraftId');
+
+  const userByRole = async (email: string) => {
+    setIsLoading(true);
+    return axios
+      .get(`/api/getUserByEmail/${email}`)
+      .then((result) => {
+        return result.data;
       })
-      .catch(() => toast.error('Error Save Data'));
+      .catch(() => {
+        toast.error('Error User Search');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
-  //  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-  //setIsLoading(true);
-  //console.log('data');
-  // axios
-  //   .post('/api/register', data)
-  //   .then(() => {
-  //     toast.success('Registered!');
-  //     registerModal.onClose();
-  //     loginModal.onOpen();
-  //   })
-  //   .catch((error) => {
-  //     toast.error('Error Login');
-  //   })
-  //   .finally(() => {
-  //     setIsLoading(false);
-  //   });
-  //};
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    setIsLoading(true);
+    reset();
+
+    const values = {
+      name: 'Flight Deck App',
+      email: userData?.email,
+      subject: 'New flight created',
+      message: 'You have created a new flight in Flight Deck App',
+      html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡Nuevo Vuelo Registrado!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">Registraste n vuelo el dia ${data.date} con una duracion de ${data.hourCount}hrs, entre las etapas ${data.stages} y del tipo ${data.flightType}.</p><p>¡Muchas gracias por utilizar la Aplicacion!</p></div>`,
+    };
+
+    let result = userByRole(userData?.email);
+    result.then(async (user) => {
+      await axios
+        .post(`http://localhost:3000/api/flight`, { ...data, userId: user.id })
+        .then(() => {
+          toast.success('Saved');
+          addHoursModal.onClose();
+          getFlights(id);
+        })
+        .then(
+          // Nodemailer: send mail
+          await sendContactForm(values)
+        )
+
+        .catch(() => toast.error('Error Save Data'))
+        .finally(() => {
+          setIsLoading(false);
+        });
+    });
+  };
+
+  const openRegisterAirplane: () => void = () => {
+    addPlaneModal.onOpen();
+    addHoursModal.onClose();
+  };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>
+      {isLoading && <Loader />}
       <Heading
-        title='Add Hours to your log'
-        subtitle='Fill in the fields that apply'
+        title='Add your Flight Hours in your LogBook'
+        subtitle='Fill all fields'
       />
+
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>User: </label>
-            <input className='border border-black' {...register('userId')} />
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
+            <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
+              {...register('folio')}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Folio:{' '}
+            </label>
+            <p className='text-red-600'>{errors.folio?.message}</p>
           </div>
-          <p className='text-red-600'>{errors.userId?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Folio: </label>
-            <input className='border border-black' {...register('folio')} />
-          </div>
-          <p className='text-red-600'>{errors.folio?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Fecha: </label>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
               type='date'
-              className='border border-black'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
               {...register('date')}
             />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Fecha:{' '}
+            </label>
+            <p className='text-red-600'>{errors.date?.message}</p>
           </div>
-          <p className='text-red-600'>{errors.date?.message}</p>
         </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Matricula: </label>
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='border border-black'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
               {...register('aircraftId')}
             />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Matricula:{' '}
+            </label>
+            <p className='text-red-600'>{errors.aircraftId?.message}</p>
           </div>
-          <p className='text-red-600'>{errors.aircraftId?.message}</p>
+          <div className='relative z-0 w-full mb-6 group flex justify-center'>
+            {!matriculas.includes(aircraftId) && (
+              <button onClick={openRegisterAirplane}>Register Airplane</button>
+            )}
+          </div>
         </div>
-        <div className='flex flex-col text-center'>
+        <div className='relative z-0 w-full mb-6 group'>
           <div className='flex justify-between'>
-            <label>Etapas: </label>
-            <input className='border border-black' {...register('stages')} />
+            <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
+              {...register('stages')}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Etapas:
+            </label>
           </div>
           <p className='text-red-600'>{errors.stages?.message}</p>
         </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Observaciones: </label>
-            <input className='border border-black' {...register('remarks')} />
-          </div>
+        <div className='relative z-0 w-full mb-6 group'>
+          <textarea
+            rows={2}
+            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+            placeholder=' '
+            {...register('remarks')}
+          />
+          <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+            Observaciones:
+          </label>
           <p className='text-red-600'>{errors.remarks?.message}</p>
         </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Tipo de Horas:</label>
-            <select {...register('flightType')}>
+
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
+            <select
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              {...register('flightType')}
+            >
               <option value='Simulador'>Simulador</option>
               <option value='Escuela'>Escuela</option>
               <option value='Copiloto'>Copiloto</option>
-              <option value='Autónomo'>Autónomo</option>
+              <option value='Autonomo'>Autónomo</option>
             </select>
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Tipo de Horas:
+            </label>
+            <p className='text-red-600'>{errors.flightType?.message}</p>
           </div>
-          <p className='text-red-600'>{errors.flightType?.message}</p>
-        </div>
-        <div className='flex flex-col text-center'>
-          <div className='flex justify-between'>
-            <label>Horas a Cargar: </label>
-            <input className='border border-black' {...register('hourCount')} />
+
+          <div className='relative z-0 w-full mb-6 group'>
+            <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
+              {...register('hourCount')}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Horas a Cargar:{' '}
+            </label>
+            <p className='text-red-600'>{errors.hourCount?.message}</p>
           </div>
-          <p className='text-red-600'>{errors.hourCount?.message}</p>
         </div>
         <button>SEND</button>
       </form>
-        <button onClick={() => addPlaneModal.onOpen()}>avion</button>
     </div>
   );
 
@@ -189,7 +286,7 @@ const AddHoursModal = () => {
           font-light
         '
       >
-        <p>Footer de Add Hours</p>
+        <p>Add a Flight record to your Database to record your Flight Hours</p>
       </div>
     </div>
   );
@@ -198,7 +295,7 @@ const AddHoursModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={addHoursModal.isOpen}
-      title='ADD HOURS'
+      title='NEW FLIGHT'
       onClose={addHoursModal.onClose}
       body={bodyContent}
       footer={footerContent}

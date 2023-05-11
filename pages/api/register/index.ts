@@ -7,7 +7,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { email, name, password, role } = req.body;
+    const { email, name, lastName, password, role, image, phoneNumber, address, city, nationality } = req.body;
 
     // Verificar si los campos requeridos están presentes
     if (!email || !name || !password) {
@@ -21,8 +21,14 @@ export default async function handler(
         data: {
           email,
           name,
+          lastName,
           hashedPassword,
           role,
+          image,
+          phoneNumber,
+          address,
+          city,
+          nationality,
         },
       });
       return res.status(201).json(user);

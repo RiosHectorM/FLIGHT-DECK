@@ -35,7 +35,7 @@ const ProfileSection: FC<ProfileSectionProps> = ({ name, email, avatarUrl }) => 
         </button>
         {isDropdownOpen && (
           <div className='absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-md z-10'>
-            <Link href='/DashboardInstructor'>
+            <Link href='/mainInstructor/DashboardInstructor'>
               <div className='cursor-pointer px-4 py-2 text-gray-700 hover:bg-gray-100'>
                 <div className='flex items-center'>
                   <FaCog className='w-4 h-4 mr-2' />
