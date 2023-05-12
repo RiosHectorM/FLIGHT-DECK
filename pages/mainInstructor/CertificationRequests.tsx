@@ -15,7 +15,7 @@ type Request = {
 };
 
 type CertificationRequestsProps = {
-  requests: Request[];
+  requests: Request[] | undefined;
   toggler: () => void;
 };
 
