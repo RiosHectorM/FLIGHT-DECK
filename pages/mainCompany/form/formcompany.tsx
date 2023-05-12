@@ -26,7 +26,7 @@ type FormData = {
   nationality: string;
 };
 
-export function FormCompany() {
+export default function FormCompany() {
   const { user, updateUser } = useUserStore();
 
   const {

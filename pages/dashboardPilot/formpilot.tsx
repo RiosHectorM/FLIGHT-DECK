@@ -26,7 +26,7 @@ type FormData = {
   nationality: string;
 };
 
-export function FormPilot() {
+function FormPilot() {
   const { user, updateUser } = useUserStore();
 
   const {
@@ -65,7 +65,6 @@ export function FormPilot() {
     <div className='max-w-sm lg:max-w-full lg:flex w-full'>
       <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-4 flex flex-col justify-center'>
         <div className='mb-8'>
-         
           <div className='text-gray-900 font-bold text-xl mb-6'>
             Personal information
           </div>
@@ -168,3 +167,5 @@ export function FormPilot() {
     </div>
   );
 }
+
+export default FormPilot;

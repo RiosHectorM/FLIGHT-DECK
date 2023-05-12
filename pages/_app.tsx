@@ -9,8 +9,6 @@ import type { Session } from 'next-auth';
 import LoginModal from './components/Modals/LoguinRegister/LoginModal';
 import RegisterModal from './components/Modals/LoguinRegister/RegisterModal';
 import Navbar from './components/Navbar/Navbar';
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
 
 export default function App({
   Component,

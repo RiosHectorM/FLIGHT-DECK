@@ -2,9 +2,9 @@ import Head from 'next/head';
 import Main from './Main';
 import PilotList from './PilotList';
 import React, { useEffect, useState } from 'react';
-import { FormPassword } from './form/formpassword';
+import  FormPassword from './form/formpassword';
 import { FormPhoto } from './form/formphoto';
-import { FormCompany } from './form/formcompany';
+import  FormCompany  from './form/formcompany';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 
