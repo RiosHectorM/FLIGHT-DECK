@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 type User = {
-  id?: string | undefined | null;
+  id?: string | undefined;
   name?: string | undefined | null;
   lastName?: string | undefined | null;
   role?: string | undefined | null;

@@ -2,18 +2,18 @@ import { create } from 'zustand';
 import axios from 'axios';
 
 type User = {
-  id: string;
-  name: string;
-  lastName: string | undefined | null;
-  role: string | undefined | null;
-  email: string | undefined | null;
-  emailVerified: string | undefined | null;
-  image: string | undefined | null;
-  hashedPassword: string | undefined | null;
-  phoneNumber: string | undefined | null;
-  address: string | undefined | null;
-  city: string | undefined | null;
-  nationality: string | undefined | null;
+  id?: string | undefined;
+  name?: string | undefined | null;
+  lastName?: string | undefined | null;
+  role?: string | undefined | null;
+  email?: string | undefined | null;
+  emailVerified?: string | undefined | null;
+  image?: string | undefined | null;
+  hashedPassword?: string | undefined | null;
+  phoneNumber?: string | undefined | null;
+  address?: string | undefined | null;
+  city?: string | undefined | null;
+  nationality?: string | undefined | null;
 };
 
 type UserStore = {
