@@ -16,13 +16,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     try {
       // const { userId, date, aircraftId, folio }: Filters = req.body;
-      const { userId, date, aircraftId, folio } = req.query;
+      const { userId, date, aircraftId, folio, certified } = req.query;
 
       const filters = {
         userId: userId ? userId as string : undefined,
         date: date ? new Date(date as string) : undefined,
         aircraftId: aircraftId ? aircraftId as string: undefined,
         folio: folio ? parseInt(folio as string, 10) : undefined,
+        certified: certified === 'true' ? true : certified === 'false' ? false : undefined,
       };
 
       console.log(filters);
@@ -31,6 +32,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const flights = await prisma.flight.findMany({
         where: {
           ...filters,
+        },
+        include: {
+          certifier: true,
         },
         // include: {
         //   user: true,

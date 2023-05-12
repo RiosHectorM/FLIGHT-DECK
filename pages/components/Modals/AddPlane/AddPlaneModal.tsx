@@ -14,7 +14,11 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 import Loader from '../../Loader';
 
-const AddPlaneModal = () => {
+interface Props {
+  setAviones: React.Dispatch<React.SetStateAction<any[]>>;
+}
+
+const AddPlaneModal: React.FC<Props> = ({ setAviones }) => {
   const addPlaneModal = useAddPlaneModal();
   const addHoursModal = useAddHoursModal();
 
@@ -49,9 +53,18 @@ const AddPlaneModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
     setIsLoading(true);
-    await axios.post(`http://localhost:3000/api/plane/`, data).finally(() => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/plane/`,
+        data
+      );
+      setAviones((prevAviones) => [...prevAviones, response.data]);
+    } catch (error) {
+      // Manejar el error de la solicitud
+      console.error(error);
+    } finally {
       setIsLoading(false);
-    });
+    }
     addPlaneModal.onClose();
     addHoursModal.onOpen();
   };

@@ -8,6 +8,7 @@ import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
+  AiFillSchedule,
 } from 'react-icons/ai';
 
 import { toast } from 'react-hot-toast';
@@ -18,11 +19,13 @@ import useEditHoursModal from '../hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import SearchFlightInstructorModal from '../components/Modals/SearchFlightInstructor/SearchFlightInstructorModal';
+import useSelectFlightInstructorModal from '../hooks/useSelectFlightInstructorModal';
+import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
 import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
+import useRateInstructorModal from '../hooks/useRateInstructorModal';
 
 const TableHoursPilot = () => {
   interface DatosEjemplo {
@@ -52,6 +55,11 @@ const TableHoursPilot = () => {
     escuelaEntrenamiento: string;
     copiloto: string;
     remarks: string;
+    certifier: {
+      name: string;
+      lastName: string;
+    };
+    certified: boolean;
   }
 
   const [isLoading, setIsLoading] = useState(false);
@@ -90,7 +98,7 @@ const TableHoursPilot = () => {
     }
   }, []);
 
-  let getFlights = async (idF) => {
+  let getFlights = async (idF: string) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
@@ -129,37 +137,58 @@ const TableHoursPilot = () => {
 
   const addHoursModal = useAddHoursModal();
   const editHoursModal = useEditHoursModal();
+  const selectFlightInstructorModal = useSelectFlightInstructorModal();
 
   const handleAddHours = () => {
     addHoursModal.onOpen();
   };
 
-  const handleEditHours = (flight) => {
+  const handleEditHours = (flight: string) => {
     setSelectedFlight(flight);
     editHoursModal.onOpen();
   };
 
-  const handleDeleteHours = async (flight) => {
+  const handleDeleteHours = async (flight: string) => {
     try {
       await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
-      getFlights(user?.id);
+      getFlights(user?.id as string);
     } catch (error) {
       toast.error('Error deleting flight');
     }
   };
+  const rateInstructor = useRateInstructorModal();
+
+  const handlerCertify = (flight: string) => {
+    setSelectedFlight(flight);
+    selectFlightInstructorModal.onOpen();
+  };
+
+  const [aviones, setAviones] = useState([]);
 
   return (
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
       <RateInstructorModal />
       <FilterPilotBar updateFilters={updateFilters} />
-      <AddPlaneModal />
-      <SearchFlightInstructorModal />
-      <AddHoursModal getFlights={getFlights} id={user?.id} />
+
+      {/* <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
+      <AddPlaneModal setAviones={setAviones} />
+      <SelectFlightInstructorModal
+        selectedFlight={selectedFlight}
+        getFlights={getFlights}
+        id={user?.id as string}
+      />
+      <AddHoursModal
+        getFlights={getFlights}
+        id={user?.id as string}
+        aviones={aviones}
+        setAviones={setAviones}
+      />
+
       <EditHoursModal
         selectedFlight={selectedFlight}
         getFlights={getFlights}
-        id={user?.id}
+        id={user?.id as string}
       />
       {flight.length ? (
         <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>
@@ -167,13 +196,14 @@ const TableHoursPilot = () => {
             <Thead className='bg-gray-50'>
               <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
                 <Th className='px-2 py-3'>FOLIO</Th>
-                <Th className='px-2 py-3'>FECHA</Th>
-                <Th className='px-2 py-3'>CARACTERISTICAS DEL AVION</Th>
+                <Th className='px-2 py-3'>DATE</Th>
+                <Th className='px-2 py-3'>AIRPLANE</Th>
                 <Th className='px-2 py-3'>FLIGHT TYPE</Th>
-                <Th className='px-2 py-3'>ETAPAS</Th>
-                <Th className='px-2 py-3'>TIEMPO TOTAL</Th>
-                <Th className='px-2 py-3'>OBSERVACIONES</Th>
-                <Th className='px-2 py-3'>ACCIONES</Th>
+                <Th className='px-2 py-3'>INSTRUCTOR</Th>
+                <Th className='px-2 py-3'>STAGES</Th>
+                <Th className='px-2 py-3'>HOUR COUNT</Th>
+                <Th className='px-2 py-3'>REMARKS</Th>
+                <Th className='px-2 py-3'>ACTIONS</Th>
               </Tr>
             </Thead>
             <Tbody className='bg-white divide-y divide-gray-200'>
@@ -196,6 +226,11 @@ const TableHoursPilot = () => {
                       {dato.flightType}
                     </Td>
                     <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                      {dato.certifier
+                        ? dato.certifier.name + ' ' + dato.certifier?.lastName
+                        : ''}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
                       {dato.stages}
                     </Td>
                     <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
@@ -214,6 +249,12 @@ const TableHoursPilot = () => {
                           onClick={() => handleDeleteHours(dato)}
                           className='text-red-600 w-5 h-5'
                         />
+                        {dato.flightType == 'Escuela' ? (
+                          <AiFillSafetyCertificate
+                            onClick={() => handlerCertify(dato)}
+                            className='text-green-600 w-5 h-5'
+                          />
+                        ) : null}
                       </div>
                     </Td>
                   </Tr>
@@ -232,10 +273,10 @@ const TableHoursPilot = () => {
               height={200}
             />
 
-            <h3 className='text-3xl font-bold text-gray-800 mb-4'>
+            <h3 className='text-3xl font-bold text-white mb-4'>
               No se encontraron vuelos
             </h3>
-            <p className='text-lg text-gray-600 mb-8'>
+            <p className='text-lg text-white mb-8'>
               Lo sentimos, no se encontraron vuelos que coincidan con sus
               criterios de búsqueda. Por favor, ajuste sus criterios de búsqueda
               e inténtelo de nuevo.
@@ -245,11 +286,14 @@ const TableHoursPilot = () => {
       )}
       <div>
         <button
-          className='flex mx-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300   ease-in-out'
+          className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
           onClick={handleAddHours}
         >
-          ADD HOURS
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z" />
+          </svg>
         </button>
+
       </div>
     </div>
   );

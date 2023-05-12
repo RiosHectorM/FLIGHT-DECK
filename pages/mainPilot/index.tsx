@@ -3,7 +3,8 @@ import TableHoursPilot from './TableHours';
 
 const index = () => {
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col min-h-screen' style={{ backgroundImage: "url('/images/mainpiloto.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+
       <ToasterProvider />
       <TableHoursPilot />
     </div>

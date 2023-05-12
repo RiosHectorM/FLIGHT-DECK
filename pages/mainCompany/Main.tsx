@@ -1,19 +1,15 @@
-import PilotList from './PilotList';
-interface Props {
-  children: React.ReactNode;
+import React from 'react';
+
+interface MainProps {
+  children?: React.ReactNode;
 }
 
-const Main = ({ children }: Props) => {
+const Main: React.FC<MainProps> = ({ children }) => {
   return (
-    <main className="-mt-32">
-      <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-        {children}
-      </div>
-      <PilotList />
+    <main className="w-full max-w-4xl flex-grow p-4">
+      {children}
     </main>
-  )
-}
-
+  );
+};
 
 export default Main;
-
