@@ -9,7 +9,7 @@ import FacebookProvider from 'next-auth/providers/facebook';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),

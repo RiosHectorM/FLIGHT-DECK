@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,18 +10,10 @@ export default async function handler(
     const { id } = req.query as { id: string | string[] | undefined };
     const idString = Array.isArray(id) ? id[0] : id;
 
-    const {
-      certified,
-      certifierId,
-    } = req.body;
+    const { certified, certifierId } = req.body;
 
-    
     // Verify existence of required fields
-    if (
-      !id ||
-      !certifierId
-    ) {
-
+    if (!id || !certifierId) {
       return res.status(400).json({ message: 'Required field missing' });
     }
 
@@ -34,18 +26,14 @@ export default async function handler(
         },
       });
       return res.status(201).json(flight);
-    }
-    catch (error) {
+    } catch (error) {
       // Handle flight creation error
       console.error(error);
       return res.status(500).json({ message: `Error updating flight` });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
-  }
-
-  else {
+  } else {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
