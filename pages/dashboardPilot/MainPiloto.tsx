@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { FormPilot } from './formpilot';
-import { FormPassword } from './formpassword';
+import  FormPilot from './formpilot';
+import FormPassword from './formpassword';
 import Chat from '../mainInstructor/Chat';
 import ProfileSection from '../mainInstructor/ProfileSection';
 

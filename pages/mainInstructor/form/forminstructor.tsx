@@ -26,7 +26,7 @@ type FormData = {
   nationality: string;
 };
 
-export function FromInstructor() {
+export default function FromInstructor() {
   const { user, updateUser } = useUserStore();
 
   const {

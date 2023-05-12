@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-export const FormPassword = () => {
+const FormPassword = () => {
   const router = useRouter();
   const { user, updateUserHashedPasword } = useUserStore();
 
@@ -167,3 +167,5 @@ export const FormPassword = () => {
     </div>
   );
 };
+
+export default FormPassword;
