@@ -1,13 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 import { ObjectId } from 'mongodb';
 
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   // - GET Flights by UserId ------------------
   // Get the user ID from the request parameters
-  const { id } = req.query
+  const { id } = req.query;
   if (!id) {
     return res.status(400).json({ message: 'User ID is required' });
   }
@@ -15,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'GET') {
     try {
-
       // Use the Prisma Client to fetch the flights
       const flights = await prisma.flight.findMany({
         where: { userId: userId },
@@ -23,17 +23,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       res.json(flights);
-
-    }
-    catch (error) {
+    } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
-  }
-  else {
+  } else {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }

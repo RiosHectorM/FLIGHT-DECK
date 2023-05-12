@@ -1,13 +1,24 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcrypt';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   if (req.method === 'POST') {
-    const { email, name, lastName, password, role, image, phoneNumber, address, city, nationality } = req.body;
+    const {
+      email,
+      name,
+      lastName,
+      password,
+      role,
+      image,
+      phoneNumber,
+      address,
+      city,
+      nationality,
+    } = req.body;
 
     // Verificar si los campos requeridos están presentes
     if (!email || !name || !password) {

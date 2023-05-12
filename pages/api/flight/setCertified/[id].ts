@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,7 +7,7 @@ export default async function handler(
 ) {
   // - PUT --- Set certified field (to true or false) ---------------
   if (req.method === 'PUT') {
-    const { id } = req.query as { id: string | string[] | undefined};
+    const { id } = req.query as { id: string | string[] | undefined };
     const idString = Array.isArray(id) ? id[0] : id;
     const { certified } = req.body as { certified: boolean };
 

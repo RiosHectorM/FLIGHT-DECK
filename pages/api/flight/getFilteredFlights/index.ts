@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
-
+import prisma from '@/utils/libs/prismadb';
 
 // type Filters = {
 //   userId?: string;
@@ -9,21 +8,27 @@ import prisma from '@/pages/libs/prismadb';
 //   folio?: string;
 // };
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   // - GET Filtered Flights------------------
   if (req.method === 'GET') {
-
     try {
       // const { userId, date, aircraftId, folio }: Filters = req.body;
       const { userId, date, aircraftId, folio, certified } = req.query;
 
       const filters = {
-        userId: userId ? userId as string : undefined,
+        userId: userId ? (userId as string) : undefined,
         date: date ? new Date(date as string) : undefined,
-        aircraftId: aircraftId ? aircraftId as string: undefined,
+        aircraftId: aircraftId ? (aircraftId as string) : undefined,
         folio: folio ? parseInt(folio as string, 10) : undefined,
-        certified: certified === 'true' ? true : certified === 'false' ? false : undefined,
+        certified:
+          certified === 'true'
+            ? true
+            : certified === 'false'
+            ? false
+            : undefined,
       };
 
       console.log(filters);
@@ -42,16 +47,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
 
       res.status(200).json(flights);
-    }
-    catch (error) {
+    } catch (error) {
       return res.status(500).json({ error });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
-  }
-
-  else {
+  } else {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }

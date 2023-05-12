@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 import { ObjectId } from 'mongodb';
 
 export default async function handler(
@@ -29,7 +29,6 @@ export default async function handler(
       !flightType ||
       !hourCount
     ) {
-
       return res.status(400).json({ message: 'Required field missing' });
     }
 
@@ -47,20 +46,18 @@ export default async function handler(
         },
       });
       return res.status(201).json(flight);
-    }
-    catch (error) {
+    } catch (error) {
       // Handle flight creation error
       console.error(error);
       return res.status(500).json({ message: `Error creating flight` });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
   }
-  
+
   // - PUT ------------------
   if (req.method === 'PUT') {
-    console.log('HOLA ENTRÉ AL PUT')
+    console.log('HOLA ENTRÉ AL PUT');
     console.log(req.body);
     const {
       id,
@@ -86,13 +83,12 @@ export default async function handler(
       // !flightType ||
       // !hourCount
     ) {
-
       return res.status(400).json({ message: 'Required field missing' });
     }
 
     try {
       const flight = await prisma.flight.update({
-        where: {id},
+        where: { id },
         data: {
           userId,
           date: date + 'T00:00:00.000+00:00',
@@ -103,22 +99,20 @@ export default async function handler(
           certifierId,
           folio,
           remarks,
-      }});
+        },
+      });
       return res.status(201).json(flight);
-    }
-    catch (error) {
+    } catch (error) {
       // Handle flight creation error
       console.error(error);
       return res.status(500).json({ message: `Error updating flight` });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
   }
 
   // - GET all------------------
   else if (req.method === 'GET') {
-
     try {
       // Use the Prisma Client to fetch all flights into an array
       const allFlights = await prisma.flight.findMany();
@@ -130,17 +124,12 @@ export default async function handler(
 
       // If the flight exists, return it as a JSON response
       res.json(allFlights);
-    }
-    catch (error) {
+    } catch (error) {
       return res.status(500).json({ error });
-    }
-    finally {
+    } finally {
       await prisma.$disconnect();
     }
-  }
-
-  else {
-
+  } else {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
