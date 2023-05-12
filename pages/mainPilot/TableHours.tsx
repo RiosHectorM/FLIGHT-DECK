@@ -302,11 +302,14 @@ const TableHoursPilot: React.FC = () => {
       )}
       <div>
         <button
-          className='flex mx-auto bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors duration-300   ease-in-out'
+          className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
           onClick={handleAddHours}
         >
-          ADD HOURS
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z" />
+          </svg>
         </button>
+
       </div>
     </div>
   );
