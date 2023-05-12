@@ -12,8 +12,8 @@ import Calendar from './Calendar';
 import Chat from './Chat';
 import ProfileSection from './ProfileSection';
 import FormPhoto from './form/formphoto';
-import { FromInstructor } from './form/forminstructor';
-import { FormPassword } from './form/formpassword';
+import FromInstructor from './form/forminstructor';
+import FormPassword from './form/formpassword';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 
