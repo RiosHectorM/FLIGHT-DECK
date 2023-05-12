@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import  FormPilot from './formpilot';
+import FormPilot from './formpilot';
 import FormPassword from './formpassword';
 import Chat from '../mainInstructor/Chat';
 import ProfileSection from '../mainInstructor/ProfileSection';
@@ -45,12 +45,12 @@ const MainPiloto = () => {
         backgroundPosition: 'center',
       }}
     >
-      {user?.id && <main className='py-10'>
-        <div className=''>
-          <div className=''>
-            <div className='mr-5 ml-5'>
-              <div className='flex justify-center'>
-                <div className='bg-white bg-opacity-70 rounded-lg shadow-lg p-6 mr-6'>
+      {user?.id && (
+        <main className='py-10'>
+          <div className='mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
+            <div className='flex flex-col lg:flex-row'>
+              <div className='lg:w-full mr-10'>
+                <div className='bg-white bg-opacity-70 rounded-lg shadow-lg p-6 mb-6'>
                   <h2 className='text-xl font-bold mb-10 w-full'>
                     Pilot Information
                   </h2>
@@ -66,8 +66,9 @@ const MainPiloto = () => {
                     </div>
                   </div>
                 </div>
-                <div className='w-1/3'>
-                <div className='bg-white rounded-lg shadow-lg p-6 relative'>
+              </div>
+              <div className='lg:w-1/3'>
+                <div className='bg-white rounded-lg shadow-lg p-6 mb-6'>
                   <div className='flex justify-between items-center mb-6'>
                     <h2 className='text-2xl font-bold text-gray-800'>Chat</h2>
                     <button
@@ -80,29 +81,29 @@ const MainPiloto = () => {
                   {showChat && <ChatComponent />}
                 </div>
               </div>
-              </div>
             </div>
-            {/* <div className='flex justify-end mt-8'>
-              <button
-                className='text-gray-500 hover:text-gray-700 focus:outline-none mr-6'
-                onClick={handleShowProfile}
-              >
-                {showProfile ? 'Ocultar' : 'Mostrar'} perfil
-              </button>
-            </div>
-            {showProfile && (
-              <div className='bg-white rounded-lg shadow-lg p-6 mt-8'>
-                <ProfileSection
-                  name='Juan Perez'
-                  email='juanpe@example.com'
-                  avatarUrl='/images/Pilo.jpeg'
-                />
-              </div>
-            )} */}
+            {/* <div className='bg-white rounded-lg shadow-lg p-6 mb-6'>
+                <div className='flex justify-between items-center mb-6'>
+                  <h2 className='text-2xl font-bold text-gray-800'>Profile</h2>
+                  <button
+                    className='text-gray-500 hover:text-gray-700 focus:outline-none'
+                    onClick={handleShowProfile}
+                  >
+                    {showProfile ? 'Ocultar' : 'Mostrar'}
+                  </button>
+                </div>
+                {showProfile && (
+                  <ProfileSection
+                    name='Juan Perez'
+                    email='juanpe@example.com'
+                    avatarUrl='/images/Pilo.jpeg'
+                  />
+                )}
+            )} 
+              </div> */}
           </div>
-        </div>
-        
-      </main>}
+        </main>
+      )}
     </div>
   );
 };
