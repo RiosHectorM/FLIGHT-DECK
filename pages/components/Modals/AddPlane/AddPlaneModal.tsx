@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
@@ -14,11 +15,22 @@ import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
 import Loader from '../../Loader';
 
-interface Props {
-  setAviones: React.Dispatch<React.SetStateAction<any[]>>;
+interface Avion {
+  id: string;
+  registrationId: string;
+  brand: string;
+  model: string;
+  planeClass: string;
+  engine: string;
+  HPs: number;
+  remarks: string;
 }
 
-const AddPlaneModal: React.FC<Props> = ({ setAviones }) => {
+interface AddPlaneModalProps {
+  setAviones: Dispatch<SetStateAction<Avion[]>>;
+}
+
+const AddPlaneModal: React.FC<AddPlaneModalProps> = ({ setAviones }) => {
   const addPlaneModal = useAddPlaneModal();
   const addHoursModal = useAddHoursModal();
 
@@ -50,24 +62,24 @@ const AddPlaneModal: React.FC<Props> = ({ setAviones }) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    reset();
-    setIsLoading(true);
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/api/plane/`,
-        data
-      );
-      setAviones((prevAviones) => [...prevAviones, response.data]);
-    } catch (error) {
-      // Manejar el error de la solicitud
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-    addPlaneModal.onClose();
-    addHoursModal.onOpen();
-  };
+   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+     reset();
+     setIsLoading(true);
+     try {
+       const response = await axios.post(
+         `http://localhost:3000/api/plane/`,
+         data
+       );
+       setAviones((prevAviones: Avion[]) => [...prevAviones, response.data]);
+     } catch (error) {
+       // Manejar el error de la solicitud
+       console.error(error);
+     } finally {
+       setIsLoading(false);
+     }
+     addPlaneModal.onClose();
+     addHoursModal.onOpen();
+   };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>

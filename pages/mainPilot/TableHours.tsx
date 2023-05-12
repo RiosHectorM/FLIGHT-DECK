@@ -3,14 +3,11 @@ import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-
 import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-  AiFillSchedule,
 } from 'react-icons/ai';
-
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
@@ -22,60 +19,68 @@ import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import useSelectFlightInstructorModal from '../hooks/useSelectFlightInstructorModal';
 import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
-import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
-import useRateInstructorModal from '../hooks/useRateInstructorModal';
 
-const TableHoursPilot = () => {
-  interface DatosEjemplo {
-    folio: number;
-    date: string;
-    marca: string;
-    clase: string;
-    tipo: string;
-    aircraftId: string;
-    matricula: string;
-    marcaMotor: string;
-    flightType: string;
-    hp: number;
-    stages: string;
-    dobleComandoDia: string;
-    soloNoche: string;
-    instrSim: string;
-    firmaInstructor: string;
-    dia: string;
-    nocheInstr: string;
-    diaInstr: string;
-    noche: string;
-    instr: string;
-    autonomo: string;
-    hourCount: number;
-    tiempoTotal: number;
-    escuelaEntrenamiento: string;
-    copiloto: string;
-    remarks: string;
-    certifier: {
-      name: string;
-      lastName: string;
-    };
-    certified: boolean;
-  }
 
+interface FlightData {
+  id?: string;
+  folio?: string;
+  date?: string;
+  marca?: string;
+  clase?: string;
+  tipo?: string;
+  aircraftId?: string;
+  matricula?: string;
+  marcaMotor?: string;
+  flightType?: string; // Modificar el tipo de flightType
+  hp?: number;
+  stages?: string;
+  dobleComandoDia?: string;
+  soloNoche?: string;
+  instrSim?: string;
+  firmaInstructor?: string;
+  dia?: string;
+  nocheInstr?: string;
+  diaInstr?: string;
+  noche?: string;
+  instr?: string;
+  autonomo?: string;
+  hourCount?: number;
+  tiempoTotal?: number;
+  escuelaEntrenamiento?: string;
+  copiloto?: string;
+  remarks?: string;
+  certifier?: {
+    name?: string;
+    lastName?: string;
+  };
+  certified?: boolean;
+}
+
+interface FilterState {
+  filter: {
+    userId?: string;
+    date?: string;
+    aircraftId?: string;
+    folio?: string;
+  } | null;
+}
+
+interface Avion {
+  id: string;
+  registrationId: string;
+  brand: string;
+  model: string;
+  planeClass: string;
+  engine: string;
+  HPs: number;
+  remarks: string;
+}
+
+const TableHoursPilot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  interface Filtros {
-    filter: {
-      userId: string | undefined;
-      date: string | undefined;
-      aircraftId: string | undefined;
-      folio: string | undefined;
-    } | null;
-  }
-
-  const [selectedFlight, setSelectedFlight] = useState();
-
-  const [filters, setFilters] = useState<Filtros>({
-    // Estado con los filtros del LocalStorage
+  const [filters, setFilters] = useState<FilterState>({
     filter: {
       userId: undefined,
       date: undefined,
@@ -85,8 +90,15 @@ const TableHoursPilot = () => {
   });
   const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
+  const [flight, setFlight] = useState<FlightData[]>([]);
+  const [selectedFlight, setSelectedFlight] = useState<
+    FlightData | undefined
+  >();
 
-  const [flight, setFlight] = useState<DatosEjemplo[]>([]);
+  const addHoursModal = useAddHoursModal();
+  const editHoursModal = useEditHoursModal();
+  const selectFlightInstructorModal = useSelectFlightInstructorModal();
+  const [aviones, setAviones] = useState<Avion[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -97,19 +109,6 @@ const TableHoursPilot = () => {
       }
     }
   }, []);
-
-  let getFlights = async (idF: string) => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(
-        `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
-      );
-      setFlight(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-    setIsLoading(false);
-  };
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -135,20 +134,29 @@ const TableHoursPilot = () => {
     }
   };
 
-  const addHoursModal = useAddHoursModal();
-  const editHoursModal = useEditHoursModal();
-  const selectFlightInstructorModal = useSelectFlightInstructorModal();
+  const getFlights = async (idF: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
+      );
+      setFlight(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    setIsLoading(false);
+  };
 
   const handleAddHours = () => {
     addHoursModal.onOpen();
   };
 
-  const handleEditHours = (flight: string) => {
+  const handleEditHours = (flight: FlightData) => {
     setSelectedFlight(flight);
     editHoursModal.onOpen();
   };
 
-  const handleDeleteHours = async (flight: string) => {
+  const handleDeleteHours = async (flight: FlightData) => {
     try {
       await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
       getFlights(user?.id as string);
@@ -156,14 +164,11 @@ const TableHoursPilot = () => {
       toast.error('Error deleting flight');
     }
   };
-  const rateInstructor = useRateInstructorModal();
 
-  const handlerCertify = (flight: string) => {
+  const handlerCertify = (flight: FlightData) => {
     setSelectedFlight(flight);
     selectFlightInstructorModal.onOpen();
   };
-
-  const [aviones, setAviones] = useState([]);
 
   return (
     <div className='flex flex-col justify-between h-full'>
@@ -181,12 +186,23 @@ const TableHoursPilot = () => {
       <AddHoursModal
         getFlights={getFlights}
         id={user?.id as string}
-        aviones={aviones}
+        aviones={aviones} // Pasar el arreglo de tipo Avion[]
         setAviones={setAviones}
       />
 
       <EditHoursModal
-        selectedFlight={selectedFlight}
+        selectedFlight={
+          selectedFlight || {
+            id: '',
+            aircraftId: '',
+            date: '',
+            flightType: '',
+            folio: '',
+            hourCount: 0,
+            remarks: '',
+            stages: '',
+          }
+        }
         getFlights={getFlights}
         id={user?.id as string}
       />

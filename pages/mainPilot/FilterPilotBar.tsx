@@ -53,14 +53,16 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
     updateFilters();
   };
 
-  const handleReset = (e: ChangeEvent<HTMLInputElement>) => {
-    reset();
-    let newFilter: Filtros = {
-      filter: null,
-    };
-    localStorage.setItem("filters", JSON.stringify(newFilter));
-    setFilters(newFilter);
-  };
+ const handleReset = () => {
+   reset();
+
+   let newFilter: Filtros = {
+     filter: null,
+   };
+
+   localStorage.setItem('filters', JSON.stringify(newFilter));
+   setFilters(newFilter);
+ };
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -148,7 +150,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
       {/* Botón de Reset Filters */}
       <button
         type="button"
-        onClick={(e) => handleReset(e)}
+        onClick={handleReset}
         className="sm:w-auto w-full mt-2 sm:mt-0 px-2 py-1 text-sm text-gray-700 bg-red-300 rounded-lg hover:bg-red-400 focus:outline-none transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110"
       >
         Reset Filters
