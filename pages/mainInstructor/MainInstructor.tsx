@@ -32,7 +32,7 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
   let getFlightsToCertify = async (id: string) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/flight/getFlightsToCertify?certifier=${id}`
+        `/api/flight/getFlightsToCertify?certifier=${id}`
       );
       console.log(response.data);
       setRequests(response.data);

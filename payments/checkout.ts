@@ -19,8 +19,8 @@ export default async function checkout({
   const checkoutOptions: RedirectToCheckoutOptions = {
     mode: 'payment',
     lineItems,
-    successUrl: `http://localhost:3000/home?session_id={CHECKOUT_SESSION_ID}`,
-    cancelUrl: `http://localhost:3000/membership`,
+    successUrl: `${window.location.origin}/home?session_id={CHECKOUT_SESSION_ID}`,
+    cancelUrl: `${window.location.origin}/membership`,
   };
 
   await stripe?.redirectToCheckout(checkoutOptions);

@@ -142,7 +142,7 @@ const TableHoursPilot: React.FC = () => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}&myStatus=${filters.filter?.estado}`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}&myStatus=${filters.filter?.estado}`
       );
       setFlight(response.data);
     } catch (error) {
@@ -162,7 +162,7 @@ const TableHoursPilot: React.FC = () => {
 
   const handleDeleteHours = async (flight: FlightData) => {
     try {
-      await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
+      await axios.delete(`/api/flight/${flight.id}`);
       getFlights(user?.id as string);
     } catch (error) {
       toast.error('Error deleting flight');
