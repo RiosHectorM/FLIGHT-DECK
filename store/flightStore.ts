@@ -121,7 +121,7 @@ export const useFlightStore = create<FlightStore>((set) => ({
   fetchFlightsByUserId: async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/flight/getFilteredFlights?userId=${userId}`
+        `/api/flight/getFilteredFlights?userId=${userId}`
       );
       set({ flights: response.data });
     } catch (error) {

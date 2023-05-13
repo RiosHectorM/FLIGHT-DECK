@@ -9,7 +9,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
-import Input from '../../AuxComponents/InputsGenerator/Input';
+import Input from '../../../../InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
 interface ProfileData {

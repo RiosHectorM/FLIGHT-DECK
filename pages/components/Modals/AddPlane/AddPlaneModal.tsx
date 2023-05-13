@@ -67,7 +67,7 @@ const AddPlaneModal: React.FC<AddPlaneModalProps> = ({ setAviones }) => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/plane/`,
+        `/api/plane/`,
         data
       );
       setAviones((prevAviones: Avion[]) => [...prevAviones, response.data]);

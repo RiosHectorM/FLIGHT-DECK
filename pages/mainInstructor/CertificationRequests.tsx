@@ -34,7 +34,7 @@ const CertificationRequests = ({
       console.log(`Request with id ${selectedRequest.id} approved`);
       toggler();
       toast.success('updating request');
-      await axios.put(`http://localhost:3000/api/flight/putFlightsCertified`, {
+      await axios.put(`/api/flight/putFlightsCertified`, {
         id: selectedRequest.id,
         certified: true,
       });
@@ -46,7 +46,7 @@ const CertificationRequests = ({
 
   const handleRejectRequest = async () => {
     if (selectedRequest) {
-      await axios.put(`http://localhost:3000/api/flight/putFlightsCertified2`, {
+      await axios.put(`/api/flight/putFlightsCertified2`, {
         id: selectedRequest.id,
         certifierId: null,
       });

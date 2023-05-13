@@ -3,18 +3,18 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 type User = {
-  id?: string | undefined;
-  name?: string | undefined | null;
-  lastName?: string | undefined | null;
-  role?: string | undefined | null;
-  email?: string | undefined | null;
-  emailVerified?: string | undefined | null;
-  image?: string | undefined | null;
-  hashedPassword?: string | undefined | null;
-  phoneNumber?: string | undefined | null;
-  address?: string | undefined | null;
-  city?: string | undefined | null;
-  nationality?: string | undefined | null;
+  id?: string;
+  name?: string | null;
+  lastName?: string | null;
+  role?: string | null;
+  email?: string | null;
+  emailVerified?: string | null;
+  image?: string | null;
+  hashedPassword?: string | null;
+  phoneNumber?: string | null;
+  address?: string | null;
+  city?: string | null;
+  nationality?: string | null;
 };
 
 type FormData = {
@@ -54,7 +54,7 @@ export default function FormCompany() {
       city: data.city,
       nationality: data.nationality,
     };
-    updateUser(newUserState);
+    updateUser(newUserState as any);
     alert('Info Updated');
   });
 
