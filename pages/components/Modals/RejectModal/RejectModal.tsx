@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useRejectModal from '@/pages/hooks/useRejectModal';
+import useRejectModal from '@/utils/hooks/useRejectModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';

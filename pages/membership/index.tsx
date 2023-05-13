@@ -1,5 +1,5 @@
 import React from 'react';
-import checkout from './checkout';
+import checkout from '../../payments/checkout';
 
 const Membership: React.FC = () => {
   interface items {

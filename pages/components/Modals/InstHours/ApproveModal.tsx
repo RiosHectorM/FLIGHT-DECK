@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import useApproveModal from '@/pages/hooks/useApproveModal';
+import useApproveModal from '@/utils/hooks/useApproveModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';

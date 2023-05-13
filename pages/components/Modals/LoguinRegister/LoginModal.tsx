@@ -9,11 +9,11 @@ import { FaFacebook } from 'react-icons/fa';
 import { AiFillGithub } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
-import useRegisterModal from '@/pages/hooks/useRegisterModal';
-import useLoginModal from '@/pages/hooks/useLoginModal';
+import useRegisterModal from '@/utils/hooks/useRegisterModal';
+import useLoginModal from '@/utils/hooks/useLoginModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
-import Input from '../../AuxComponents/InputsGenerator/Input';
+import Input from '../../../../InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
 import axios from 'axios';

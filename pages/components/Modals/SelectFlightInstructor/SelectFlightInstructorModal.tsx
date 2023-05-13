@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useSelectFlightInstructorModal from '@/pages/hooks/useSelectFlightInstructorModal';
+import useSelectFlightInstructorModal from '@/utils/hooks/useSelectFlightInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
@@ -51,7 +51,7 @@ const SelectFlightInstructorModal = ({
 
   const handleSelect = async (instructorId: string) => {
     setIsLoading(true);
-    
+
     const flightId = Array.isArray(selectedFlight.id)
       ? selectedFlight.id[0]
       : selectedFlight.id;

@@ -11,20 +11,19 @@ import {
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
-import useAddHoursModal from '../hooks/useAddHoursModal';
-import useEditHoursModal from '../hooks/useEditHoursModal';
+import useAddHoursModal from '../../utils/hooks/useAddHoursModal';
+import useEditHoursModal from '../../utils/hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import useSelectFlightInstructorModal from '../hooks/useSelectFlightInstructorModal';
+import useSelectFlightInstructorModal from '../../utils/hooks/useSelectFlightInstructorModal';
 import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
 
-
 interface FlightData {
-  id?: string;
+  id?: string | undefined;
   folio?: string;
   date?: string;
   marca?: string;
@@ -56,6 +55,9 @@ interface FlightData {
     lastName?: string;
   };
   certified?: boolean;
+  nightHours: number;
+  dayHours: number;
+  instHours: number;
 }
 
 interface FilterState {
@@ -64,7 +66,7 @@ interface FilterState {
     date?: string;
     aircraftId?: string;
     folio?: string;
-    estado?:string
+    estado?: string;
   } | null;
 }
 
@@ -87,7 +89,7 @@ const TableHoursPilot: React.FC = () => {
       date: undefined,
       aircraftId: undefined,
       folio: undefined,
-      estado: undefined
+      estado: undefined,
     },
   });
   const { data: session } = useSession();
@@ -194,7 +196,7 @@ const TableHoursPilot: React.FC = () => {
 
       <EditHoursModal
         selectedFlight={
-          selectedFlight || {
+          selectedFlight as any || {
             id: '',
             aircraftId: '',
             date: '',
@@ -203,6 +205,9 @@ const TableHoursPilot: React.FC = () => {
             hourCount: 0,
             remarks: '',
             stages: '',
+            nightHours: 0,
+            dayHours: 0,
+            instHours: 0,
           }
         }
         getFlights={getFlights}
@@ -307,11 +312,15 @@ const TableHoursPilot: React.FC = () => {
           className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
           onClick={handleAddHours}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z" />
+          <svg
+            xmlns='http://www.w3.org/2000/svg'
+            className='h-6 w-6'
+            viewBox='0 0 20 20'
+            fill='currentColor'
+          >
+            <path fillRule='evenodd' d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z' />
           </svg>
         </button>
-
       </div>
     </div>
   );

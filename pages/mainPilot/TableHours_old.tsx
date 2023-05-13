@@ -14,79 +14,96 @@ import {
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
-import useAddHoursModal from '../hooks/useAddHoursModal';
-import useEditHoursModal from '../hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import useSelectFlightInstructorModal from '../hooks/useSelectFlightInstructorModal';
 import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
-import Pagination from '../components/Pagination/Pagination';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
-import useRateInstructorModal from '../hooks/useRateInstructorModal';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
+import useEditHoursModal from '@/utils/hooks/useEditHoursModal';
+import useSelectFlightInstructorModal from '@/utils/hooks/useSelectFlightInstructorModal';
+import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
-const TableHoursPilot = () => {
-  interface DatosEjemplo {
-    folio: number;
-    date: string;
-    marca: string;
-    clase: string;
-    tipo: string;
-    aircraftId: string;
-    matricula: string;
-    marcaMotor: string;
-    flightType: string;
-    hp: number;
-    stages: string;
-    dobleComandoDia: string;
-    soloNoche: string;
-    instrSim: string;
-    firmaInstructor: string;
-    dia: string;
-    nocheInstr: string;
-    diaInstr: string;
-    noche: string;
-    instr: string;
-    autonomo: string;
-    hourCount: number;
-    tiempoTotal: number;
-    escuelaEntrenamiento: string;
-    copiloto: string;
-    remarks: string;
-    certifier: {
-      name: string;
-      lastName: string;
-    };
-    certified: boolean;
-  }
+interface FlightData {
+  id?: string;
+  folio?: string;
+  date?: string;
+  marca?: string;
+  clase?: string;
+  tipo?: string;
+  aircraftId?: string;
+  matricula?: string;
+  marcaMotor?: string;
+  flightType?: string; // Modificar el tipo de flightType
+  hp?: number;
+  stages?: string;
+  dobleComandoDia?: string;
+  soloNoche?: string;
+  instrSim?: string;
+  firmaInstructor?: string;
+  dia?: string;
+  nocheInstr?: string;
+  diaInstr?: string;
+  noche?: string;
+  instr?: string;
+  autonomo?: string;
+  hourCount?: number;
+  tiempoTotal?: number;
+  escuelaEntrenamiento?: string;
+  copiloto?: string;
+  remarks?: string;
+  certifier?: {
+    name?: string;
+    lastName?: string;
+  };
+  certified?: boolean;
+  dayHours?: number;
+  nightHours?: number;
+  instHours?: number;
+}
 
+interface FilterState {
+  filter: {
+    userId?: string;
+    date?: string;
+    aircraftId?: string;
+    folio?: string;
+    estado?: string;
+  } | null;
+}
+
+interface Avion {
+  id: string;
+  registrationId: string;
+  brand: string;
+  model: string;
+  planeClass: string;
+  engine: string;
+  HPs: number;
+  remarks: string;
+}
+
+const TableHoursPilot: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
-  interface Filtros {
-    filter: {
-      userId: string | undefined;
-      date: string | undefined;
-      aircraftId: string | undefined;
-      folio: string | undefined;
-    } | null;
-  }
-
-  const [selectedFlight, setSelectedFlight] = useState();
-
-  const [filters, setFilters] = useState<Filtros>({
-    // Estado con los filtros del LocalStorage
+  const [filters, setFilters] = useState<FilterState>({
     filter: {
       userId: undefined,
       date: undefined,
       aircraftId: undefined,
       folio: undefined,
+      estado: undefined,
     },
   });
+
+  const [flight, setFlight] = useState<FlightData[]>([]);
+  const [selectedFlight, setSelectedFlight] = useState<
+    FlightData | undefined
+  >();
+
   const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
-
-  const [flight, setFlight] = useState<DatosEjemplo[]>([]);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -98,11 +115,11 @@ const TableHoursPilot = () => {
     }
   }, []);
 
-  let getFlights = async (idF: string) => {
+  const getFlights = async (idF: string) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}`
+        `http://localhost:3000/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}&myStatus=${filters.filter?.estado}`
       );
       setFlight(response.data);
     } catch (error) {
@@ -143,12 +160,12 @@ const TableHoursPilot = () => {
     addHoursModal.onOpen();
   };
 
-  const handleEditHours = (flight: string) => {
+  const handleEditHours = (flight: FlightData) => {
     setSelectedFlight(flight);
     editHoursModal.onOpen();
   };
 
-  const handleDeleteHours = async (flight: string) => {
+  const handleDeleteHours = async (flight: FlightData) => {
     try {
       await axios.delete(`http://localhost:3000/api/flight/${flight.id}`);
       getFlights(user?.id as string);
@@ -158,12 +175,12 @@ const TableHoursPilot = () => {
   };
   const rateInstructor = useRateInstructorModal();
 
-  const handlerCertify = (flight: string) => {
+  const handlerCertify = (flight: FlightData) => {
     setSelectedFlight(flight);
     selectFlightInstructorModal.onOpen();
   };
 
-  const [aviones, setAviones] = useState([]);
+  const [aviones, setAviones] = useState<Avion[]>([]);
 
   return (
     <div className='flex flex-col justify-between h-full'>
@@ -186,7 +203,7 @@ const TableHoursPilot = () => {
       />
 
       <EditHoursModal
-        selectedFlight={selectedFlight}
+        selectedFlight={selectedFlight as any}
         getFlights={getFlights}
         id={user?.id as string}
       />

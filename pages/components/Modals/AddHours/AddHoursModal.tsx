@@ -6,13 +6,13 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import useAddPlaneModal from '@/utils/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
@@ -49,13 +49,6 @@ const AddHoursModal = ({
 
   const [isLoading, setIsLoading] = useState(false);
 
-  enum TypeHours {
-    'Simulador' = 'Simulador',
-    'Escuela' = 'Escuela',
-    'Copiloto' = 'Copiloto',
-    'Autonomo' = 'Autonomo',
-  }
-
   const [matriculas, setMatriculas] = useState<string[]>([]);
   const [day, setDay] = useState(0);
   const [night, setNight] = useState(0);
@@ -67,19 +60,28 @@ const AddHoursModal = ({
     );
     setMatriculas(mat);
   }, [aviones]);
-  const handleChangeInputday=(e)=>{
-    setDay(parseInt(e.target.value))
-    setValue("hourCount", night + instrument + parseInt(e.target.value))}
 
-    const handleChangeInputNight=(e)=>{
-      setNight(parseInt(e.target.value))
-      setValue("hourCount", day + instrument + parseInt(e.target.value))}
+  const handleChangeInputday = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setDay(value);
+    setValue('hourCount', night + instrument + value);
+  };
 
-      const handleChangeInputInstrument=(e)=>{
-        setInstrument(e.target.value)
-        setValue("hourCount", night + day + parseInt(e.target.value))}
+  const handleChangeInputNight = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value);
+    setNight(value);
+    setValue('hourCount', day + instrument + value);
+  };
 
-const changeHandler=()=>{}
+  const handleChangeInputInstrument = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(e.target.value);
+    setInstrument(value);
+    setValue('hourCount', night + day + value);
+  };
+
+  const changeHandler = () => {};
   useEffect(() => {
     async function getRegisteredID() {
       try {
@@ -116,25 +118,25 @@ const changeHandler=()=>{}
       //   .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
       stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
-      flightType: yup
-        .mixed()
-        .oneOf(Object.values(TypeHours), 'Debe ser un tipo definido'),
       aircraftId: yup
         .mixed()
         .oneOf(Object.values(matriculas), 'Debe registrar el avion'),
+      flightType: yup
+        .mixed()
+        .typeError('Debe seleccionar un tipo de vuelo'),
       hourCount: yup
         .number()
         .positive('Debe ser positivo')
         .typeError('Debe ser un número. La coma es el punto'),
-        dayHours: yup
+      dayHours: yup
         .number()
         .positive('Debe ser positivo')
         .typeError('Debe ser un número. La coma es el punto'),
-        nightHours: yup
+      nightHours: yup
         .number()
         .positive('Debe ser positivo')
         .typeError('Debe ser un número. La coma es el punto'),
-        instHours: yup
+      instHours: yup
         .number()
         .positive('Debe ser positivo')
         .typeError('Debe ser un número. La coma es el punto'),
@@ -308,7 +310,8 @@ const changeHandler=()=>{}
           </div>
 
           <div className='relative z-0 w-full mb-6 group'>
-            <input readOnly
+            <input
+              readOnly
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               defaultValue={0}
@@ -318,48 +321,49 @@ const changeHandler=()=>{}
               Horas a Cargar:{' '}
             </label>
             <p className='text-red-600'>{errors.hourCount?.message}</p>
-
           </div>
         </div>
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
-              <input
+            <input
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               defaultValue={0}
-              {...register('dayHours')} onChange={handleChangeInputday}
-
+              {...register('dayHours')}
+              onChange={handleChangeInputday}
             />
             <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
               Horas a cargar de Dia:{' '}
             </label>
             <p className='text-red-600'>{errors.dayHours?.message}</p>
-            </div>
-            <div className='relative z-0 w-full mb-6 group'>
+          </div>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               defaultValue={0}
-              {...register('nightHours')} onChange={handleChangeInputNight}
+              {...register('nightHours')}
+              onChange={handleChangeInputNight}
             />
             <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-            Horas a cargar de Noche:{' '}
+              Horas a cargar de Noche:{' '}
             </label>
             <p className='text-red-600'>{errors.nightHours?.message}</p>
-            </div>
-            <div className='relative z-0 w-full mb-6 group'>
+          </div>
+          <div className='relative z-0 w-full mb-6 group'>
             <input
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               defaultValue={0}
-              {...register('instHours')} onChange={handleChangeInputInstrument}
+              {...register('instHours')}
+              onChange={handleChangeInputInstrument}
             />
             <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
-            Horas a cargar con Instrumentos:{' '}
+              Horas a cargar con Instrumentos:{' '}
             </label>
             <p className='text-red-600'>{errors.instHours?.message}</p>
-            </div>
-            </div>
+          </div>
+        </div>
         <button>SEND</button>
       </form>
     </div>

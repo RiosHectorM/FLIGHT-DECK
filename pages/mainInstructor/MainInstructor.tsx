@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import CertificationRequests from './CertificationRequests';
-import Calendar from './Calendar';
+//import Calendar from './Calendar';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
@@ -80,10 +80,11 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
               <CertificationRequests requests={requests} toggler={toggler} />
             </div>
             <div className='w-1/2 px-4 py-6 sm:px-0'>
-              <Calendar
+              {/* <Calendar
                 currentDate={currentDate}
                 onDateChange={setCurrentDate}
-              />
+              /> */}
+              Aca va el calendario
             </div>
           </div>
         </main>

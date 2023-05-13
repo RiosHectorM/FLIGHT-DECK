@@ -3,18 +3,18 @@ import { useForm } from 'react-hook-form';
 import { useUserStore } from '../../store/userStore';
 
 type User = {
-  id?: string | undefined;
-  name?: string | undefined | null;
-  lastName?: string | undefined | null;
-  role?: string | undefined | null;
-  email?: string | undefined | null;
-  emailVerified?: string | undefined | null;
-  image?: string | undefined | null;
-  hashedPassword?: string | undefined | null;
-  phoneNumber?: string | undefined | null;
-  address?: string | undefined | null;
-  city?: string | undefined | null;
-  nationality?: string | undefined | null;
+  id?: string;
+  name?: string | null;
+  lastName?: string | null;
+  role?: string | null;
+  email?: string | null;
+  emailVerified?: string | null;
+  image?: string | null;
+  hashedPassword?: string | null;
+  phoneNumber?: string | null;
+  address?: string | null;
+  city?: string | null;
+  nationality?: string | null;
 };
 
 type FormData = {
@@ -35,12 +35,12 @@ function FormPilot() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      name: user?.name || '',
-      lastName: user?.lastName || '',
-      phoneNumber: user?.phoneNumber || '',
-      address: user?.address || '',
-      city: user?.city || '',
-      nationality: user?.nationality || '',
+      name: user?.name ?? '',
+      lastName: user?.lastName ?? '',
+      phoneNumber: user?.phoneNumber ?? '',
+      address: user?.address ?? '',
+      city: user?.city ?? '',
+      nationality: user?.nationality ?? '',
     },
   });
 
@@ -48,7 +48,7 @@ function FormPilot() {
     if (user && user?.id !== undefined) {
       let newUserState: User = {
         ...user,
-        id: user.id || '', // Asignar valor predeterminado si es undefined
+        id: user.id,
         name: data.name,
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
@@ -56,7 +56,7 @@ function FormPilot() {
         city: data.city,
         nationality: data.nationality,
       };
-      updateUser(newUserState);
+      updateUser(newUserState as any);
       alert('Info Updated');
     }
   });
