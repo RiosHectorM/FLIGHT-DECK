@@ -5,6 +5,7 @@ type FormValues = {
   folioFilter: string | undefined;
   fechaFilter: string | undefined;
   avionFilter: string | undefined;
+  estadoFilter: string | undefined;
 };
 
 interface Filtros {
@@ -13,6 +14,7 @@ interface Filtros {
     date?: string;
     aircraftId?: string;
     folio?: string;
+    estado?: string;
   } | null;
 }
 
@@ -35,11 +37,11 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
       date: undefined,
       aircraftId: undefined,
       folio: undefined,
+      estado:undefined
     },
   });
 
   const onSubmit = (data: FormValues) => {
-    console.log("DATA: ", data);
 
     let newFilter: Filtros = {
       filter: {
@@ -47,6 +49,7 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
         date: data.fechaFilter,
         aircraftId: data.avionFilter,
         folio: data.folioFilter,
+        estado: data.estadoFilter
       },
     };
     localStorage.setItem("filters", JSON.stringify(newFilter));
@@ -120,21 +123,21 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
         />
       </div>
 
-      {/* Filtro de TIPO
+      {/* Filtro de estado */}
       <div className='w-full sm:w-1/5 flex items-center space-x-2 border border-blue-500 rounded-lg shadow hover:bg-blue-300 p-2'>
-        <label htmlFor='tipoFilter'>Type:</label>
+        <label htmlFor='tipoFilter'>Status</label>
         <select
-          id='tipoFilter'
+          id='estadoFilter'
           className='w-full border-gray-300 focus:ring-2 focus:ring-blue-500 rounded-md shadow-sm'
-          {...register('tipoFilter')}
+          {...register('estadoFilter')}
         >
-          <option value=''>All</option>
-          <option value='Simulador'>Simulador</option>
-          <option value='Escuela'>Escuela</option>
-          <option value='Copiloto'>Copiloto</option>
-          <option value='Autonomo'>Autonomo</option>
+          <option value='Todas'>All</option>
+          <option value='Cargadas'>Cargadas</option>
+          <option value='Pedidas'>Certif. Pedida</option>
+          <option value='Certificadas'>Certificadas</option>
+
         </select>
-      </div> */}
+      </div> 
 
       {/* Filtro de ETAPAS
       <div className='w-full sm:w-1/5 flex items-center space-x-2 border border-blue-500 rounded-lg shadow hover:bg-blue-300 p-2'>
