@@ -22,7 +22,7 @@ const Calendar: FC<CalendarProps> = ({ currentDate, onDateChange }) => {
     setCurrentMonth(newMonth);
   };
 
-  const monthName = format(currentMonth, 'MMMM yyyy');
+  const monthName = format(currentMonth, 'MM dd yyyy');
 
   const handleDateClick = (date: Date) => {
     setSelectedDate(date);
