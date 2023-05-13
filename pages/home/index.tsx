@@ -7,6 +7,7 @@ import RegisterModal from '../components/Modals/LoguinRegister/RegisterModal';
 import { motion } from 'framer-motion';
 import ToasterProvider from '../providers/ToasterProvider';
 
+
 const HomePage = () => {
   const registerModal = useRegisterModal();
 
@@ -14,6 +15,7 @@ const HomePage = () => {
     console.log(myRole);
     registerModal.onOpen();
   };
+
 
   return (
     <div

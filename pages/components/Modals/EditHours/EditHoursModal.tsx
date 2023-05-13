@@ -25,6 +25,9 @@ interface Flight {
   remarks: string;
   flightType: TypeHours;
   hourCount: number;
+  dayHours:number;
+  nightHours:number;
+  instHours:number
   folio: string;
 }
 
@@ -62,6 +65,9 @@ const EditHoursModal = ({
   const [formattedDate, setFormattedDate] = useState<string | undefined>(
     undefined
   );
+  const [day, setDay] = useState(0);
+  const [night, setNight] = useState(0);
+  const [instrument, setInstrument] = useState(0);
 
   const matriculas = aviones.map(
     (avion: { registrationId: string }) => avion.registrationId
@@ -131,6 +137,18 @@ const EditHoursModal = ({
         .number()
         .positive('Debe ser positivo')
         .typeError('Debe ser un número. La coma es el punto'),
+        dayHours: yup
+        .number()
+        .positive('Debe ser positivo')
+        .typeError('Debe ser un número. La coma es el punto'),
+        nightHours: yup
+        .number()
+        .positive('Debe ser positivo')
+        .typeError('Debe ser un número. La coma es el punto'),
+        instHours: yup
+        .number()
+        .positive('Debe ser positivo')
+        .typeError('Debe ser un número. La coma es el punto'),
     })
     .required();
   type FormData = yup.InferType<typeof schema>;
@@ -140,10 +158,22 @@ const EditHoursModal = ({
     watch,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+  const handleChangeInputday=(e)=>{
+    setDay(parseInt(e.target.value))
+    setValue("hourCount", night + instrument + parseInt(e.target.value))}
+
+    const handleChangeInputNight=(e)=>{
+      setNight(parseInt(e.target.value))
+      setValue("hourCount", day + instrument + parseInt(e.target.value))}
+
+      const handleChangeInputInstrument=(e)=>{
+        setInstrument(e.target.value)
+        setValue("hourCount", night + day + parseInt(e.target.value))}
 
   const aircraftId = watch('aircraftId');
 
@@ -174,7 +204,7 @@ const EditHoursModal = ({
       subject: 'New flight created',
       message: 'You have created a new flight in Flight Deck App',
     };
-
+   
     let result = userByRole(userData?.email as string);
     result.then(async (user) => {
       await axios
@@ -324,6 +354,45 @@ const EditHoursModal = ({
             <p className='text-red-600'>{errors.hourCount?.message}</p>
           </div>
         </div>
+        <div className='grid md:grid-cols-2 md:gap-6'>
+          <div className='relative z-0 w-full mb-6 group'>
+              <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              defaultValue={selectedFlight?.dayHours}
+              {...register('dayHours')} onChange={handleChangeInputday}
+
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+              Horas a cargar de Dia:{' '}
+            </label>
+            <p className='text-red-600'>{errors.dayHours?.message}</p>
+            </div>
+            <div className='relative z-0 w-full mb-6 group'>
+            <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              defaultValue={selectedFlight?.nightHours}
+              {...register('nightHours')} onChange={handleChangeInputNight}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+            Horas a cargar de Noche:{' '}
+            </label>
+            <p className='text-red-600'>{errors.nightHours?.message}</p>
+            </div>
+            <div className='relative z-0 w-full mb-6 group'>
+            <input
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              defaultValue={0}
+              {...register('instHours')} onChange={handleChangeInputInstrument}
+            />
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+            Horas a cargar con Instrumentos:{' '}
+            </label>
+            <p className='text-red-600'>{errors.instHours?.message}</p>
+            </div>
+            </div>
         <button>SEND</button>
       </form>
     </div>

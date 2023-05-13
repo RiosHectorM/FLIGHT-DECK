@@ -37,8 +37,6 @@ const Notification = () => {
     const notifications = getFlightsToCertify();
     notifications.then((data) => {
       setFlightsToCertify(data);
-      console.log('NOTIFICACIONES')
-      console.log(data);
     });
   }, [user]);
 

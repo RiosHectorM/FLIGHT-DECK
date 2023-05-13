@@ -1,11 +1,13 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
+export type UserRole = "PILOT" | "INSTRUCTOR" | "COMPANY" | null | undefined;
+
 type User = {
   id: string;
   name: string;
   lastName: string | undefined | null;
-  role: string | undefined | null;
+  role: UserRole | undefined | null;
   email: string | undefined | null;
   emailVerified: string | undefined | null;
   image: string | undefined | null;

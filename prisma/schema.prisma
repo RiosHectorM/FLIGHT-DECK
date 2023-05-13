@@ -20,8 +20,8 @@ model User {
   id             String    @id @default(auto()) @map("_id") @db.ObjectId
   name           String
   lastName       String?
-  // role           String?
-  role           Role      @default(PILOT)
+  role           String?
+  // role           Role      @default(PILOT)
   email          String?   @unique
   emailVerified  DateTime?
   image          String?
@@ -51,6 +51,9 @@ model Flight {
   stages      String?
   flightType  String? // instructor, simulator, copilot, pilot
   hourCount   Float?
+  dayHours    Float?
+  nightHours  Float?
+  instHours   Float?
   folio       Int?
   remarks     String?
   certified   Boolean?
