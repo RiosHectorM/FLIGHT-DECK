@@ -4,8 +4,8 @@ import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { BiDollar } from 'react-icons/bi';
 
 interface InputProps {
-  id: string;
-  label: string;
+  id?: string;
+  label?: string;
   type?: string;
   disabled?: boolean;
   formatPrice?: boolean;
@@ -42,7 +42,7 @@ const Input: React.FC<InputProps> = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id, { required })}
+        {...register(id as string, { required })}
         placeholder=' '
         type={type}
         value={value}
@@ -60,8 +60,8 @@ const Input: React.FC<InputProps> = ({
           disabled:opacity-70
           disabled:cursor-not-allowed
           ${formatPrice ? 'pl-9' : 'pl-4'}
-          ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
-          ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
+          ${errors[id as string] ? 'border-rose-500' : 'border-neutral-300'}
+          ${errors[id as string] ? 'focus:border-rose-500' : 'focus:border-black'}
         `}
       />
       <label
@@ -79,7 +79,7 @@ const Input: React.FC<InputProps> = ({
           peer-placeholder-shown:translate-y-0 
           peer-focus:scale-75
           peer-focus:-translate-y-4
-          ${errors[id] ? 'text-rose-500' : 'text-zinc-400'}
+          ${errors[id as string] ? 'text-rose-500' : 'text-zinc-400'}
         `}
       >
         {label}
