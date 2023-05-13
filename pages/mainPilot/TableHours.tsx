@@ -208,18 +208,18 @@ const TableHoursPilot: React.FC = () => {
       />
       {flight.length ? (
         <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>
-          <Table className='table-auto w-full mx-auto bg-white shadow-md rounded my-6 divide-y divide-gray-200'>
+          <Table className='rounded-2xl overflow-hidden p-4'>
             <Thead className='bg-gray-50'>
               <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
-                <Th className='px-2 py-3'>FOLIO</Th>
-                <Th className='px-2 py-3'>DATE</Th>
-                <Th className='px-2 py-3'>AIRPLANE</Th>
-                <Th className='px-2 py-3'>FLIGHT TYPE</Th>
-                <Th className='px-2 py-3'>INSTRUCTOR</Th>
-                <Th className='px-2 py-3'>STAGES</Th>
-                <Th className='px-2 py-3'>HOUR COUNT</Th>
-                <Th className='px-2 py-3'>REMARKS</Th>
-                <Th className='px-2 py-3'>ACTIONS</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>FOLIO</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>AIRPLANE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>FLIGHT TYPE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>INSTRUCTOR</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>STAGES</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>HOUR COUNT</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>REMARKS</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>ACTIONS</Th>
               </Tr>
             </Thead>
             <Tbody className='bg-white divide-y divide-gray-200'>
@@ -228,31 +228,31 @@ const TableHoursPilot: React.FC = () => {
               ) : (
                 flight.map((dato, index) => (
                   <Tr key={index} className='hover:bg-gray-100'>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.folio}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.date}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.aircraftId} {dato.marca} {dato.clase} {dato.tipo}{' '}
                       {dato.matricula} {dato.marcaMotor} {dato.hp} HP
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.flightType}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.certifier
                         ? dato.certifier.name + ' ' + dato.certifier?.lastName
                         : ''}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.stages}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.hourCount}
                     </Td>
-                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                       {dato.remarks}
                     </Td>
                     <Td className='px-2 py-4 whitespace-nowrap text-sm font-medium'>
