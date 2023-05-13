@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useSession } from 'next-auth/react';
 import Container from '../AuxComponents/Container';
 import Logo from './Logo';
@@ -6,18 +6,26 @@ import UserMenu from './UserMenu';
 import Notification from '../../mainInstructor/Notification';
 import Link from 'next/link';
 
+//import { ThemeContext } from '../../theme/themeContext'----------------------> thema oscuro
+
 
 const Navbar = () => {
   const { data } = useSession();
   const [scrollPos, setScrollPos] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  //const { isDarkTheme, toggleTheme } = useContext(ThemeContext);-------------------------> thema oscuro
+
+  /*  const handleToggleTheme = () => {
+     toggleTheme();--------------------------------------------------------------------> tema oscuro
+     document.body.classList.toggle('dark');
+   }; */
 
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
       setIsVisible(
         (scrollPos > currentScrollPos && scrollPos - currentScrollPos > 70) ||
-          currentScrollPos < 10
+        currentScrollPos < 10
       );
       setScrollPos(currentScrollPos);
     };
@@ -26,13 +34,11 @@ const Navbar = () => {
   }, [scrollPos]);
 
   return (
-    <div className={`fixed w-full z-10 transition-all duration-500 transform ${
-      isVisible ? 'translate-y-0' : '-translate-y-full'
-    }`}>
+    <div className={`fixed w-full z-10 transition-all duration-500 transform ${isVisible ? 'translate-y-0' : '-translate-y-full'
+      }`}>
       <div
-        className={`py-0 ${
-          isVisible ? '' : 'border-b-0'
-        }`}
+        className={`py-0 ${isVisible ? '' : 'border-b-0'
+          }`}
       >
         <Container>
           <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
@@ -53,12 +59,20 @@ const Navbar = () => {
                 </Link>
               </div>
               <div className='ml-4'>
-              <Link href='/membership'>
+                <Link href='/membership'>
                   <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     Pricing
                   </span>
                 </Link>
               </div>
+              {/* <div className='ml-4'>
+                <button
+                  className="px-4 py-2 rounded-md text-white bg-accent"
+                  onClick={handleToggleTheme}
+                >--------------------------------------------------------------------------------------> thema oscuro
+                  {isDarkTheme ? 'Light mode' : 'Dark mode'}
+                </button>
+              </div> */}
             </div>
             <div className='flex items-center'>
               {data?.user && <Notification />}

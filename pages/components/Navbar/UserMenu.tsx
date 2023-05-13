@@ -44,6 +44,20 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const [role, setRole] = useState('');
 
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isOpen && target && !target.closest('.user-menu')) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [isOpen]);
+  
+
+  useEffect(() => {
     if (currentUser?.email !== undefined) {
       axios
         .get(`/api/getUserByEmail/${currentUser.email}`)
@@ -74,7 +88,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   };
 
   return (
-    <div className='relative'>
+    <div className='relative user-menu'>
       <div className='flex flex-row items-center gap-3'>
         <div
           onClick={() => {

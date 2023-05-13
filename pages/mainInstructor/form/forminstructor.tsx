@@ -3,18 +3,18 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 
 type User = {
-  id: string | undefined | null;
-  name: string | undefined | null;
-  lastName: string | undefined | null;
-  role: string | undefined | null;
-  email: string | undefined | null;
-  emailVerified: string | undefined | null;
-  image: string | undefined | null;
-  hashedPassword: string | undefined | null;
-  phoneNumber: string | undefined | null;
-  address: string | undefined | null;
-  city: string | undefined | null;
-  nationality: string | undefined | null;
+  id?: string | undefined;
+  name?: string | undefined | null;
+  lastName?: string | undefined | null;
+  role?: string | undefined | null;
+  email?: string | undefined | null;
+  emailVerified?: string | undefined | null;
+  image?: string | undefined | null;
+  hashedPassword?: string | undefined | null;
+  phoneNumber?: string | undefined | null;
+  address?: string | undefined | null;
+  city?: string | undefined | null;
+  nationality?: string | undefined | null;
 };
 
 type FormData = {
@@ -26,7 +26,7 @@ type FormData = {
   nationality: string;
 };
 
-export function FromInstructor() {
+export default function FromInstructor() {
   const { user, updateUser } = useUserStore();
 
   const {
@@ -85,7 +85,7 @@ export function FromInstructor() {
                   Name:
                   <input
                     placeholder='First Name'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('name')}
                   />
                 </label>
@@ -98,7 +98,7 @@ export function FromInstructor() {
                   Last Name:
                   <input
                     placeholder='Last Name'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('lastName')}
                   />
                 </label>
@@ -114,7 +114,7 @@ export function FromInstructor() {
                   Address:
                   <input
                     placeholder='Company Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('address')}
                   />
                 </label>
@@ -129,7 +129,7 @@ export function FromInstructor() {
                   City:
                   <input
                     placeholder='City'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('city')}
                   />
                 </label>
@@ -142,7 +142,7 @@ export function FromInstructor() {
                   Phone Number:
                   <input
                     placeholder='Phone Number'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500`}
+                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('phoneNumber')}
                   />
                 </label>

@@ -17,17 +17,30 @@ import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
 
+interface Avion {
+  registrationId: string;
+  id: string;
+  brand: string;
+  model: string;
+  planeClass: string;
+  engine: string;
+  HPs: number;
+  remarks: string;
+}
+
+interface AddHoursModalProps {
+  getFlights: (id: string) => void;
+  id: string;
+  aviones: Avion[];
+  setAviones: (airplanes: Avion[]) => void;
+}
+
 const AddHoursModal = ({
   getFlights,
   id,
   aviones,
   setAviones,
-}: {
-  getFlights: (id: string) => void;
-  id: string;
-  aviones: { registrationId: string }[];
-  setAviones: (airplanes: { registrationId: string }[]) => void;
-}) => {
+}: AddHoursModalProps) => {
   const { data } = useSession();
   const userData = data?.user;
 
@@ -85,7 +98,7 @@ const changeHandler=()=>{}
     };
 
     fetchData();
-  }, [aviones.length]);
+  }, [aviones?.length]);
 
   const schema = yup
     .object({

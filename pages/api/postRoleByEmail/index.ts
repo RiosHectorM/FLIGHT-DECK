@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/pages/libs/prismadb';
+import prisma from '@/utils/libs/prismadb';
 
 interface UpdateUserData {
   email: string;

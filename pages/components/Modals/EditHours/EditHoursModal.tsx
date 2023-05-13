@@ -29,21 +29,46 @@ interface Flight {
   nightHours:number;
   instHours:number
   folio: string;
+//  id?: string;
+//  folio?: string;
+//  date?: string;
+//  marca?: string;
+//  clase?: string;
+//  tipo?: string;
+//  aircraftId?: string;
+//  matricula?: string;
+//  marcaMotor?: string;
+//  flightType?: string; // Modificar el tipo de flightType
+//  hp?: number;
+//  stages?: string;
+//  dobleComandoDia?: string;
+//  soloNoche?: string;
+//  instrSim?: string;
+//  firmaInstructor?: string;
+//  dia?: string;
+//  nocheInstr?: string;
+//  diaInstr?: string;
+//  noche?: string;
+//  instr?: string;
+//  autonomo?: string;
+//  hourCount?: number;
+//  tiempoTotal?: number;
+//  escuelaEntrenamiento?: string;
+//  copiloto?: string;
+//  remarks?: string;
+//  certifier?: {
+//    name?: string;
+//    lastName?: string;
+//  };
+//  certified?: boolean;
 }
 
 interface Airplane {
   registrationId: string;
 }
 
-enum TypeHours {
-  Simulador = 'Simulador',
-  Escuela = 'Escuela',
-  Copiloto = 'Copiloto',
-  Autonomo = 'Autonomo',
-}
-
 interface EditHoursModalProps {
-  selectedFlight: Flight;
+  selectedFlight: Flight | null | undefined;
   getFlights: (id: string) => void;
   id: string;
 }
@@ -127,9 +152,7 @@ const EditHoursModal = ({
       //   .oneOf(Object.values(matriculas), 'Avión no registrado (ej A003)'),
       stages: yup.string().required('Debe ingresar las etapas'),
       remarks: yup.string(),
-      flightType: yup
-        .mixed()
-        .oneOf(Object.values(TypeHours), 'Debe ser un tipo definido'),
+      flightType: yup.mixed(),
       aircraftId: yup
         .mixed()
         .oneOf(Object.values(matriculas), 'Debe registrar el avion'),
@@ -210,7 +233,7 @@ const EditHoursModal = ({
       await axios
         .put(`http://localhost:3000/api/flight`, {
           ...data,
-          id: selectedFlight.id,
+          id: selectedFlight?.id,
           userId: user.id,
         })
         .then(() => {
@@ -337,7 +360,6 @@ const EditHoursModal = ({
             <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
               Tipo de Horas:
             </label>
-            <p className='text-red-600'>{errors.flightType?.message}</p>
           </div>
 
           <div className='relative z-0 w-full mb-6 group'>

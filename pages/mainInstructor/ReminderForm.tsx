@@ -11,7 +11,7 @@ type ReminderFormProps = {
 
 const ReminderForm: FC<ReminderFormProps> = ({ date, onSubmit, onCancel }) => {
   const [text, setText] = useState('');
-  const formattedDate = format(date, 'MMMM d, yyyy');
+  const formattedDate = format(date, 'MM dd yyyy');
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

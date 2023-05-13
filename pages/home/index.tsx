@@ -47,11 +47,12 @@ const HomePage = () => {
             
           ))}
         </div>
-        <div className='flex items-center space-x-8 mt-0 mb-5 '>
+        <div className='flex flex-wrap justify-center md:justify-between items-center mt-0 mb-5'>
           {['PILOT', 'INSTRUCTOR', 'COMPANY'].map((role, index) => (
             <div
               key={role}
-              className='relative w-96 h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300'
+              className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform 
+                          hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
               onClick={() => handleRole(role)}
             >
               <Image
