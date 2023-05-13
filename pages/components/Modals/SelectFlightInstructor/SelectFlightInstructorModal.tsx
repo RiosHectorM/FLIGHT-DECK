@@ -57,7 +57,7 @@ const SelectFlightInstructorModal = ({
       : selectedFlight.id;
 
     await axios
-      .put(`http://localhost:3000/api/flight/setCertifier/${flightId}`, {
+      .put(`/api/flight/setCertifier/${flightId}`, {
         certifierId: instructorId,
         certified: false,
       })
@@ -74,7 +74,7 @@ const SelectFlightInstructorModal = ({
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/instructor')
+      .get('/api/instructor')
       .then((response) => {
         setInstructors(response.data);
       })

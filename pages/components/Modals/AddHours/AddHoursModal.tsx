@@ -85,7 +85,7 @@ const AddHoursModal = ({
   useEffect(() => {
     async function getRegisteredID() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/plane`);
+        const response = await axios.get(`/api/plane`);
         return response.data;
       } catch (error) {
         // Manejar el error de la solicitud
@@ -185,7 +185,7 @@ const AddHoursModal = ({
       let result = userByRole(userData?.email);
       result.then(async (user) => {
         await axios
-          .post(`http://localhost:3000/api/flight`, {
+          .post(`/api/flight`, {
             ...data,
             userId: user.id,
           })

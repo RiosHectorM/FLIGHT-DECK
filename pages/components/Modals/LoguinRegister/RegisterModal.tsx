@@ -152,7 +152,7 @@ const RegisterModal = () => {
         icon={FcGoogle}
         onClick={() =>
           signIn('google', {
-            callbackUrl: 'http://localhost:3000/home/chooseRole',
+            callbackUrl: '/home/chooseRole',
           })
         }
       />

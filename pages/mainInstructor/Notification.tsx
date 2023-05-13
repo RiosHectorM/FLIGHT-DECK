@@ -27,7 +27,7 @@ const Notification = () => {
       if (id){
         return await axios
           .get(
-            `http://localhost:3000/api/flight/getFlightsToCertifyByInstructorId/${id}`
+            `/api/flight/getFlightsToCertifyByInstructorId/${id}`
           )
           .then((response: any) => response.data);
         // .then((data) => matriculas=data.map((avion: { registrationId: string; })=>avion.registrationId))

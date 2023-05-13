@@ -66,7 +66,7 @@ export default function Form() {
   const onSubmit = (data: FormData) => {
     setIsLoading(true);
     axios
-      .put('http://localhost:3000/api/postRoleByEmail', {
+      .put('/api/postRoleByEmail', {
         email: email,
         role: data.role,
       })

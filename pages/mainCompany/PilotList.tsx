@@ -21,7 +21,7 @@ const PilotList: React.FC = () => {
 
   useEffect(() => {
     async function fetchPilots() {
-      const response = await fetch('http://localhost:3000/api/pilot');
+      const response = await fetch('/api/pilot');
       const data = await response.json();
       setPilots(data);
     }

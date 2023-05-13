@@ -52,7 +52,7 @@ const SearchFlightInstructorModal = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3000/api/instructor')
+      .get('/api/instructor')
       .then((response) => {
         setInstructors(response.data);
       })
