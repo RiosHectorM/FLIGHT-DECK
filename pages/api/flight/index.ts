@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import prisma from '@/utils/libs/prismadb';
-import { ObjectId } from 'mongodb';
+import prisma from '@/pages/libs/prismadb';
+
 
 export default async function handler(
   req: NextApiRequest,
@@ -8,7 +8,6 @@ export default async function handler(
 ) {
   // - POST ------------------
   if (req.method === 'POST') {
-    console.log(req.body);
     const {
       userId,
       date,
@@ -16,6 +15,9 @@ export default async function handler(
       stages,
       flightType,
       hourCount,
+      dayHours,
+      instHours,
+      nightHours,
       folio,
       remarks,
     } = req.body;
@@ -43,6 +45,9 @@ export default async function handler(
           hourCount,
           folio,
           remarks,
+          dayHours,
+          instHours,
+          nightHours
         },
       });
       return res.status(201).json(flight);
@@ -57,8 +62,6 @@ export default async function handler(
 
   // - PUT ------------------
   if (req.method === 'PUT') {
-    console.log('HOLA ENTRÉ AL PUT');
-    console.log(req.body);
     const {
       id,
       userId,
@@ -70,8 +73,12 @@ export default async function handler(
       certifierId,
       folio,
       remarks,
+      dayHours,
+      nightHours,
+      instHours
     } = req.body;
-
+console.log(req.body)
+console.log("day",dayHours)
     // Verify existence of required fields
     if (
       !id
@@ -96,6 +103,9 @@ export default async function handler(
           stages,
           flightType,
           hourCount,
+          dayHours,
+          nightHours,
+          instHours,
           certifierId,
           folio,
           remarks,
