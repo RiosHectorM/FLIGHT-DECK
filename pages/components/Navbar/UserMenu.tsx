@@ -5,14 +5,14 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
-import useLoginModal from '@/pages/hooks/useLoginModal';
-import useRegisterModal from '@/pages/hooks/useRegisterModal';
+import useLoginModal from '@/utils/hooks/useLoginModal';
+import useRegisterModal from '@/utils/hooks/useRegisterModal';
 
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
 
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
-import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
+import useSearchFlightInstructorModal from '@/utils/hooks/useSearchFlightInstructorModal';
 
 import axios from 'axios';
 
@@ -55,7 +55,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [isOpen]);
-  
 
   useEffect(() => {
     if (currentUser?.email !== undefined) {

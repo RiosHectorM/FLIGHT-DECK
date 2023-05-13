@@ -6,13 +6,13 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import useAddPlaneModal from '@/utils/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';

@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useSearchFlightInstructorModal from '@/pages/hooks/useSearchFlightInstructorModal';
+import useSearchFlightInstructorModal from '@/utils/hooks/useSearchFlightInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import useAddPlaneModal from '@/utils/hooks/useAddPlaneModal';
 import { useSession } from 'next-auth/react';
 
 const SearchFlightInstructorModal = () => {
@@ -62,22 +62,22 @@ const SearchFlightInstructorModal = () => {
   }, []);
 
   const bodyContent = (
-    <div className="flex flex-col gap-4">
+    <div className='flex flex-col gap-4'>
       <Heading
-        title="Find your instructor to be on touch..."
-        subtitle="All of them"
+        title='Find your instructor to be on touch...'
+        subtitle='All of them'
       />
-      <div className="grid grid-cols-3 gap-4 p-4 border rounded-lg bg-white shadow-md mx-auto my-auto text-center">
+      <div className='grid grid-cols-3 gap-4 p-4 border rounded-lg bg-white shadow-md mx-auto my-auto text-center'>
         {instructors.map((usuario, index) => (
           <div
             key={index}
-            className="p-4 border rounded-lg bg-white shadow-md mx-auto my-auto items-center flex-col text-center "
+            className='p-4 border rounded-lg bg-white shadow-md mx-auto my-auto items-center flex-col text-center '
           >
-            <div className="font-bold mb-2">
+            <div className='font-bold mb-2'>
               {usuario.name} {usuario.lastName}
             </div>
-            <div className="text-gray-800">{usuario.role}</div>
-            <button className="bg-blue-500 text-white py-1 px-2 rounded mt-2">
+            <div className='text-gray-800'>{usuario.role}</div>
+            <button className='bg-blue-500 text-white py-1 px-2 rounded mt-2'>
               Contacto
             </button>
           </div>
@@ -87,15 +87,15 @@ const SearchFlightInstructorModal = () => {
   );
 
   const footerContent = (
-    <div className="flex flex-col gap-4 mt-3">
+    <div className='flex flex-col gap-4 mt-3'>
       <hr />
       <div
-        className="
+        className='
           text-neutral-500 
           text-center 
           mt-4 
           font-light
-        "
+        '
       >
         <p>All Instructors on One Click</p>
       </div>
@@ -106,7 +106,7 @@ const SearchFlightInstructorModal = () => {
     <Modal
       disabled={isLoading}
       isOpen={searchFlightInstructorModal.isOpen}
-      title="SEARCH INSTRUCTOR"
+      title='SEARCH INSTRUCTOR'
       onClose={searchFlightInstructorModal.onClose}
       body={bodyContent}
       footer={footerContent}

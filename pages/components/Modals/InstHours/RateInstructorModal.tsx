@@ -6,7 +6,7 @@ import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
-import useRateInstructorModal from '@/pages/hooks/useRateInstructorModal';
+import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../AuxComponents/InputsGenerator/Input';
