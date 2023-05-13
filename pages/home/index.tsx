@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import HomePageFeaturesSection from './FeaturesSection';
 import HomePageTestimonialsSection from './TestimonialsSection';
-import useRegisterModal from '../hooks/useRegisterModal';
+import useRegisterModal from '../../utils/hooks/useRegisterModal';
 import RegisterModal from '../components/Modals/LoguinRegister/RegisterModal';
 import { motion } from 'framer-motion';
 import ToasterProvider from '../providers/ToasterProvider';
@@ -19,7 +19,8 @@ const HomePage = () => {
     <div
       className='flex flex-col items-center justify-center min-h-screen'
       style={{
-        backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
+        backgroundImage:
+          'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
@@ -42,7 +43,6 @@ const HomePage = () => {
             >
               {char}
             </motion.span>
-            
           ))}
         </div>
         <div className='flex flex-wrap justify-center md:justify-between items-center mt-0 mb-5'>

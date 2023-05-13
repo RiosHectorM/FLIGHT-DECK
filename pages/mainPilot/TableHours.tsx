@@ -11,12 +11,12 @@ import {
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
-import useAddHoursModal from '../hooks/useAddHoursModal';
-import useEditHoursModal from '../hooks/useEditHoursModal';
+import useAddHoursModal from '../../utils/hooks/useAddHoursModal';
+import useEditHoursModal from '../../utils/hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
 import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
-import useSelectFlightInstructorModal from '../hooks/useSelectFlightInstructorModal';
+import useSelectFlightInstructorModal from '../../utils/hooks/useSelectFlightInstructorModal';
 import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstructor/SelectFlightInstructorModal';
 import FilterPilotBar from './FilterPilotBar';
 import Loader from '../components/Loader';

@@ -7,12 +7,12 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import useAddPlaneModal from '@/utils/hooks/useAddPlaneModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
-import useAddHoursModal from '@/pages/hooks/useAddHoursModal';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
 import Loader from '../../Loader';
 
 interface Avion {
@@ -62,24 +62,24 @@ const AddPlaneModal: React.FC<AddPlaneModalProps> = ({ setAviones }) => {
     resolver: yupResolver(schema),
   });
 
-   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-     reset();
-     setIsLoading(true);
-     try {
-       const response = await axios.post(
-         `http://localhost:3000/api/plane/`,
-         data
-       );
-       setAviones((prevAviones: Avion[]) => [...prevAviones, response.data]);
-     } catch (error) {
-       // Manejar el error de la solicitud
-       console.error(error);
-     } finally {
-       setIsLoading(false);
-     }
-     addPlaneModal.onClose();
-     addHoursModal.onOpen();
-   };
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    reset();
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/plane/`,
+        data
+      );
+      setAviones((prevAviones: Avion[]) => [...prevAviones, response.data]);
+    } catch (error) {
+      // Manejar el error de la solicitud
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+    addPlaneModal.onClose();
+    addHoursModal.onOpen();
+  };
 
   const bodyContent = (
     <div className='flex flex-col gap-4'>

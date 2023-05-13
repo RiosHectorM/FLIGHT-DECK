@@ -6,7 +6,7 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-import useEditHoursModal from '@/pages/hooks/useEditHoursModal';
+import useEditHoursModal from '@/utils/hooks/useEditHoursModal';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -15,7 +15,7 @@ import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../../Loader';
 import { sendContactForm } from '@/lib/api';
-import useAddPlaneModal from '@/pages/hooks/useAddPlaneModal';
+import useAddPlaneModal from '@/utils/hooks/useAddPlaneModal';
 
 interface Flight {
   id?: string;

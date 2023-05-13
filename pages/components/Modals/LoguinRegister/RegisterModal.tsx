@@ -15,8 +15,8 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 
-import useLoginModal from '@/pages/hooks/useLoginModal';
-import useRegisterModal from '@/pages/hooks/useRegisterModal';
+import useLoginModal from '@/utils/hooks/useLoginModal';
+import useRegisterModal from '@/utils/hooks/useRegisterModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../AuxComponents/InputsGenerator/Input';

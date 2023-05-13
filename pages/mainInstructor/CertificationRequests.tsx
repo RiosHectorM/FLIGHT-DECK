@@ -4,7 +4,7 @@ import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RejectModal from '../components/Modals/RejectModal/RejectModal';
-import useRejectModal from '../hooks/useRejectModal';
+import useRejectModal from '../../utils/hooks/useRejectModal';
 
 type Request = {
   id: string;
