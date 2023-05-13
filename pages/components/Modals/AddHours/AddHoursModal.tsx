@@ -83,7 +83,7 @@ const AddHoursModal = ({
     };
 
     fetchData();
-  }, [aviones.length]);
+  }, [aviones?.length]);
 
   const schema = yup
     .object({

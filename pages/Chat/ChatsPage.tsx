@@ -17,7 +17,7 @@ export default function Page(props: ChatProps) {
       <PrettyChatWindow
         projectId={process.env.NEXT_PUBLIC_CHAT_ENGINE_PROJECT_ID || ''}
         username={userEmail}
-        secret={props.user.uid}
+        secret={props.user?.uid}
         style={{ height: '100%' }}
       />
     </div>
