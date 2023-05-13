@@ -35,8 +35,6 @@ model User {
 
   // userType UserType @relation(fields: [userTypeId], references: [id]) // onDelete: Cascade ?
   accounts         Account[]
-  // flightPilot  Flight[] @relation("user")
-  // flightCertifier  Flight[] @relation("certifier")
   pilotedFlights   Flight[]  @relation("pilotedFlights")
   certifiedFlights Flight[]  @relation("certifiedFlights")
 }
