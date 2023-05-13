@@ -23,5 +23,5 @@ export default async function checkout({
     cancelUrl: `http://localhost:3000/membership`,
   };
 
-  await stripe.redirectToCheckout(checkoutOptions);
+  await stripe?.redirectToCheckout(checkoutOptions);
 }
