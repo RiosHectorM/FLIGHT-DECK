@@ -13,7 +13,7 @@ import useRegisterModal from '@/utils/hooks/useRegisterModal';
 import useLoginModal from '@/utils/hooks/useLoginModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
-import Input from '../../AuxComponents/InputsGenerator/Input';
+import Input from '../../../../InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
 import axios from 'axios';
