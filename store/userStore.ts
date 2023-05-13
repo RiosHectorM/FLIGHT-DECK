@@ -1,19 +1,21 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
+export type UserRole = "PILOT" | "INSTRUCTOR" | "COMPANY" | null | undefined;
+
 type User = {
-  id?: string | undefined;
-  name?: string | undefined | null;
-  lastName?: string | undefined | null;
-  role?: string | undefined | null;
-  email?: string | undefined | null;
-  emailVerified?: string | undefined | null;
-  image?: string | undefined | null;
-  hashedPassword?: string | undefined | null;
-  phoneNumber?: string | undefined | null;
-  address?: string | undefined | null;
-  city?: string | undefined | null;
-  nationality?: string | undefined | null;
+  id: string;
+  name: string;
+  lastName: string | undefined | null;
+  role: UserRole | undefined | null;
+  email: string | undefined | null;
+  emailVerified: string | undefined | null;
+  image: string | undefined | null;
+  hashedPassword: string | undefined | null;
+  phoneNumber: string | undefined | null;
+  address: string | undefined | null;
+  city: string | undefined | null;
+  nationality: string | undefined | null;
 };
 
 type UserStore = {
