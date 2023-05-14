@@ -30,6 +30,8 @@ model User {
   address        String?
   city           String?
   nationality    String?
+  premium        Boolean?
+  premiumExpiredDate DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 

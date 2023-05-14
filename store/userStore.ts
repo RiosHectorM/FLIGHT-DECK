@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-export type UserRole = "PILOT" | "INSTRUCTOR" | "COMPANY" | null | undefined;
+export type UserRole = 'PILOT' | 'INSTRUCTOR' | 'COMPANY' | null | undefined;
 
 type User = {
   id: string;
@@ -16,6 +16,8 @@ type User = {
   address: string | undefined | null;
   city: string | undefined | null;
   nationality: string | undefined | null;
+  premium: string | undefined | null;
+  premiumExpiredDate: string | undefined | null;
 };
 
 type UserStore = {
@@ -80,5 +82,4 @@ export const useUserStore = create<UserStore>((set) => ({
       return { user: newUser };
     });
   },
-
 }));

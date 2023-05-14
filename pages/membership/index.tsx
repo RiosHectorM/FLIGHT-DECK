@@ -1,208 +1,242 @@
 import React from 'react';
 import checkout from '../../payments/checkout';
+import { useUserStore } from '@/store/userStore';
 
 const Membership: React.FC = () => {
+  const setUserPremiumExpiredDate = useUserStore(
+    (state) => state.setPremiumExpiredDate
+  );
   interface items {
     price: string;
     quantity: number;
   }
   interface lineItems extends Array<items> {}
 
+  const handlerOneMonth = () => {
+    const newDate = new Date().toISOString();
+    console.log(newDate);
+    setUserPremiumExpiredDate(newDate);
+    checkout({
+      lineItems: ([] = [
+        {
+          price: 'price_1N4CmgKWrlIRXPNaX8OL4vzG',
+          quantity: 1,
+        },
+      ]),
+    });
+  };
+
   return (
     <div
-      className='px-4 sm:px-10 lg:px-8 py-20'
       style={{
         backgroundImage: "url('/images/payment.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      <h1 className='text-3xl leading-9 font-extrabold text-white sm:text-4xl sm:leading-10 mb-8'>
-        Choose your plan
-      </h1>
-      <div className='overflow-x-auto'>
-        <table className='mx-auto w-full whitespace-no-wrap rounded-lg bg-white border border-gray-300 divide-y divide-gray-200'>
-          <tbody>
-            <tr>
-              <td className='border px-4 py-2'></td>
-              <td className='border px-4 py-2 text-center font-medium text-xl uppercase'>
-                Free Plan
-              </td>
-              <td className='border px-4 py-2 text-center font-medium text-xl uppercase'>
-                Monthly Plan
-              </td>
-              <td className='border px-4 py-2 text-center font-medium text-xl uppercase'>
-                3-Month Plan
-              </td>
-              <td className='border px-4 py-2 text-center font-medium text-xl uppercase'>
-                Annual Plan
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Price:
-              </td>
-              <td className='border px-4 py-2 text-center font-medium'>$0</td>
-              <td className='border px-4 py-2 text-center font-medium'>$20</td>
-              <td className='border px-4 py-2 text-center font-medium'>$50</td>
-              <td className='border px-4 py-2 text-center font-medium'>$180</td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Flight time:
-              </td>
-              <td className='border px-4 py-2 text-center'>Up to 100 hours</td>
-              <td className='border px-4 py-2 text-center'>Unlimited</td>
-              <td className='border px-4 py-2 text-center'>Unlimited</td>
-              <td className='border px-4 py-2 text-center'>Unlimited</td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Access to all features:
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Access to advanced analytics:
-              </td>
-              <td className='border px-4 py-2 text-center text-red-500 font-medium'>
-                Not included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Access to customer support:
-              </td>
-              <td className='border px-4 py-2 text-center text-red-500 font-medium'>
-                Not included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Access to courses library:
-              </td>
-              <td className='border px-4 py-2 text-center text-red-500 font-medium'>
-                Not included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Access to new features:
-              </td>
-              <td className='border px-4 py-2 text-center text-red-500 font-medium'>
-                Not included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-              <td className='border px-4 py-2 text-center text-green-500 font-medium'>
-                Included
-              </td>
-            </tr>
-            <tr>
-              <td className='border px-4 py-2 text-right font-medium'>
-                Action:
-              </td>
-              <td className='border px-4 py-2 text-center'>
-                
-              </td>
-              <td className='border px-4 py-2 text-center'>
-                <button
-                  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => {
-                    checkout({
-                      lineItems: ([] = [
-                        {
-                          price: 'price_1N4CmgKWrlIRXPNaX8OL4vzG',
-                          quantity: 1,
-                        },
-                      ]),
-                    });
-                  }}
-                >
-                  Get Monthly Plan
-                </button>
-              </td>
-              <td className='border px-4 py-2 text-center'>
-                <button
-                  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => {
-                    checkout({
-                      lineItems: ([] = [
-                        {
-                          price: 'price_1N5eCiKWrlIRXPNaN9jVMr1G',
-                          quantity: 1,
-                        },
-                      ]),
-                    });
-                  }}
-                >
-                  Get 3-Month Plan
-                </button>
-              </td>
-              <td className='border px-4 py-2 text-center'>
-                <button
-                  className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
-                  onClick={() => {
-                    checkout({
-                      lineItems: ([] = [
-                        {
-                          price: 'price_1N5e7oKWrlIRXPNatiDIgWnC',
-                          quantity: 1,
-                        },
-                      ]),
-                    });
-                  }}
-                >
-                  Get Annual Plan
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <section className='text-gray-50'>
+        <div className='container mx-auto p-4 sm:p-10'>
+          <div className='mb-10 space-y-4 text-center'>
+            <h1 className='text-4xl font-semibold leading-tight'>
+              Subscription Pricing
+            </h1>
+          </div>
+          <div className='flex flex-col items-center p-2 border-2 rounded-md border-blue-400 bg-gray-800 mb-8 mx-auto w-full'>
+            <p className='my-2 text-xl font-bold'>
+              Your current plan is:{' '}
+              <span className='text-2xl font-extrabold'>FREE</span>{' '}
+              {true ? ' until ' : null}
+              {true ? (
+                <span className='text-2xl font-extrabold'> time Left</span>
+              ) : null}
+            </p>
+          </div>
+
+          <div className='grid max-w-md grid-cols-1 gap-6 mx-auto auto-rows-fr lg:max-w-full lg:gap-2 xl:gap-6 lg:grid-cols-2 mb-10'>
+            <div className='relative flex flex-col items-center border-2 rounded-md border-blue-400 bg-gray-800'>
+              <p className='my-6 text-4xl font-bold'>FREE PLAN</p>
+              <ul className='flex-1 space-y-2'>
+                <li className='flex items-center space-x-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Flight Time: Up to 100 Hours</span>
+                </li>
+              </ul>
+            </div>
+            <div className='relative flex flex-col items-center border-2 rounded-md border-blue-400 bg-gray-800'>
+              <p className='my-6 text-4xl font-bold'>PREMIUM PLAN</p>
+              <ul className='flex-1 space-y-2'>
+                <li className='flex items-center space-x-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Flight Time: Unlimited</span>
+                </li>
+                <li className='flex items-center space-x-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Access to advanced analytics</span>
+                </li>
+                <li className='flex items-center space-x-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Access to customer support</span>
+                </li>
+                <li className='flex items-center space-x-2'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Access to courses library</span>
+                </li>
+                <li className='flex items-center space-x-2 pb-4'>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    className='w-6 h-6 text-blue-400'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth='2'
+                      d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
+                    ></path>
+                  </svg>
+                  <span>Access to new features</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className='grid max-w-md grid-cols-1 gap-6 mx-auto auto-rows-fr lg:max-w-full lg:gap-2 xl:gap-6 lg:grid-cols-3'>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+                1-MONTH PLAN
+              </span>
+              <p className='my-6 text-4xl font-bold'>$ 20</p>
+              <button
+                onClick={handlerOneMonth}
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+              >
+                Subscribe
+              </button>
+            </div>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+                3-MONTH PLAN
+              </span>
+              <p className='flex items-center justify-center my-6 space-x-2 font-bold'>
+                <span className='text-lg line-through text-gray-300'>
+                  &nbsp;$60&nbsp;
+                </span>
+                <span className='pb-2 text-4xl'>$ 50</span>
+                <span className='text-lg'>/mo</span>
+              </p>
+              <button
+                onClick={() => {
+                  checkout({
+                    lineItems: ([] = [
+                      {
+                        price: 'price_1N5eCiKWrlIRXPNaN9jVMr1G',
+                        quantity: 1,
+                      },
+                    ]),
+                  });
+                }}
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+              >
+                Subscribe
+              </button>
+            </div>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+                ANNUAL PLAN
+              </span>
+              <p className='flex items-center justify-center my-6 space-x-2 font-bold'>
+                <span className='text-lg line-through text-gray-300'>
+                  &nbsp;$240&nbsp;
+                </span>
+                <span className='pb-2 text-4xl'>$ 180</span>
+                <span className='text-lg'>/mo</span>
+              </p>
+              <button
+                // onClick={() => {
+                //   checkout({
+                //     lineItems: ([] = [
+                //       {
+                //         price: 'price_1N5e7oKWrlIRXPNatiDIgWnC',
+                //         quantity: 1,
+                //       },
+                //     ]),
+                //   });
+                // }}
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };

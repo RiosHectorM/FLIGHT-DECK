@@ -9,7 +9,7 @@ export default async function checkout({
 
   const getStripe = (): Promise<any> => {
     if (!stripePromise) {
-      stripePromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY!); // Agregar '!' para indicar que no es nulo
+      stripePromise = loadStripe(process.env.NEXT_PUBLIC_API_KEY!);
     }
     return stripePromise;
   };
@@ -19,7 +19,7 @@ export default async function checkout({
   const checkoutOptions: RedirectToCheckoutOptions = {
     mode: 'payment',
     lineItems,
-    successUrl: `${window.location.origin}/home?session_id={CHECKOUT_SESSION_ID}`,
+    successUrl: `${window.location.origin}/membership/Success?session_id={CHECKOUT_SESSION_ID}`,
     cancelUrl: `${window.location.origin}/membership`,
   };
 
