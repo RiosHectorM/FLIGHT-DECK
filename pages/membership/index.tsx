@@ -1,21 +1,23 @@
 import React from 'react';
 import checkout from '../../payments/checkout';
-import { useUserStore } from '@/store/userStore';
+
+import { create } from 'zustand';
+
+interface dateExpiration {
+  expDate: string;
+  setExpDate: (date: string) => void;
+}
+const newDate = 'hola';
+
+export let expirationDateStore = create<dateExpiration>((set) => ({
+  expDate: newDate,
+  setExpDate: (date) => set((state) => ({ expDate: date })),
+}));
 
 const Membership: React.FC = () => {
-  const setUserPremiumExpiredDate = useUserStore(
-    (state) => state.setPremiumExpiredDate
-  );
-  interface items {
-    price: string;
-    quantity: number;
-  }
-  interface lineItems extends Array<items> {}
-
-  const handlerOneMonth = () => {
-    const newDate = new Date().toISOString();
-    console.log(newDate);
-    setUserPremiumExpiredDate(newDate);
+  const asdasd = expirationDateStore()
+  const handlerOneMonth = async () => {
+    asdasd.setExpDate('asdasdasdasdasdasdads');
     checkout({
       lineItems: ([] = [
         {
@@ -25,6 +27,12 @@ const Membership: React.FC = () => {
       ]),
     });
   };
+
+  interface items {
+    price: string;
+    quantity: number;
+  }
+  interface lineItems extends Array<items> {}
 
   return (
     <div
@@ -177,7 +185,7 @@ const Membership: React.FC = () => {
                 onClick={handlerOneMonth}
                 className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
               >
-                Subscribe
+                Subscribe44
               </button>
             </div>
             <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>

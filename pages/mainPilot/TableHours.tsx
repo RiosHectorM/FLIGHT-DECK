@@ -21,6 +21,7 @@ import SelectFlightInstructorModal from '../components/Modals/SelectFlightInstru
 import FilterPilotBar from './FilterPilotBar';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
+import { AiOutlineImport } from 'react-icons/ai';
 
 interface FlightData {
   id?: string | undefined;
@@ -81,14 +82,21 @@ interface Avion {
   remarks: string;
 }
 
-const TableHoursPilot: React.FC = () => {
+interface Props {
+  selectedFolio: string | number | null;
+}
+interface Props {
+  selectedFolio: string | number | null;
+  setShowTableHours: (show: boolean) => void;
+}
+const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState<FilterState>({
     filter: {
       userId: undefined,
       date: undefined,
       aircraftId: undefined,
-      folio: undefined,
+      folio: selectedFolio as string,
       estado: undefined,
     },
   });
@@ -107,7 +115,6 @@ const TableHoursPilot: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const filter = localStorage.getItem('filters');
-      console.log('FILTRO: ', filter);
       if (filter) {
         setFilters(JSON.parse(filter));
       }
@@ -129,7 +136,7 @@ const TableHoursPilot: React.FC = () => {
     ) {
       getFlights(user?.id);
     }
-  }, [user?.id, filters]);
+  }, [user?.id, filters, selectedFolio]);
 
   const updateFilters = () => {
     const filter = localStorage.getItem('filters');
@@ -140,10 +147,10 @@ const TableHoursPilot: React.FC = () => {
 
   const getFlights = async (idF: string) => {
     setIsLoading(true);
-    console.log(idF)
+    console.log(idF);
     try {
       const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}&myStatus=${filters.filter?.estado}`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${selectedFolio}&myStatus=${filters.filter?.estado}`
       );
       setFlight(response.data);
       console.log(response.data);
@@ -322,6 +329,12 @@ const TableHoursPilot: React.FC = () => {
           >
             <path fillRule='evenodd' d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z' />
           </svg>
+        </button>
+        <button
+          className='fixed bottom-24 right-8 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl'
+          onClick={() => setShowTableHours(false)}
+        >
+          <AiOutlineImport />
         </button>
       </div>
     </div>
