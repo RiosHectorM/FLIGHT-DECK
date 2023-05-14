@@ -140,11 +140,13 @@ const TableHoursPilot: React.FC = () => {
 
   const getFlights = async (idF: string) => {
     setIsLoading(true);
+    console.log(idF)
     try {
       const response = await axios.get(
         `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${filters.filter?.folio}&myStatus=${filters.filter?.estado}`
       );
       setFlight(response.data);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -196,7 +198,7 @@ const TableHoursPilot: React.FC = () => {
 
       <EditHoursModal
         selectedFlight={
-          selectedFlight as any || {
+          (selectedFlight as any) || {
             id: '',
             aircraftId: '',
             date: '',
