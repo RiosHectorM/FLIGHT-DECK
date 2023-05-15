@@ -1,12 +1,14 @@
 import MainPiloto from "./MainPiloto";
-
+import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 
 const Index = () => {
   return (
-    <div>
-       <MainPiloto />
-    </div>
-  )
-}
+    <ProtectedRoute allowedRoles={["PILOT"]}>
+      <div>
+        <MainPiloto />
+      </div>
+    </ProtectedRoute>
+  );
+};
 
 export default Index;

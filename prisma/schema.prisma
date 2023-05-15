@@ -30,13 +30,13 @@ model User {
   address        String?
   city           String?
   nationality    String?
+  premium        Boolean?
+  premiumExpiredDate DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
   // userType UserType @relation(fields: [userTypeId], references: [id]) // onDelete: Cascade ?
   accounts         Account[]
-  // flightPilot  Flight[] @relation("user")
-  // flightCertifier  Flight[] @relation("certifier")
   pilotedFlights   Flight[]  @relation("pilotedFlights")
   certifiedFlights Flight[]  @relation("certifiedFlights")
 }

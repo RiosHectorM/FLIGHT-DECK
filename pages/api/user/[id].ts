@@ -21,6 +21,8 @@ export default async function handler(
         address,
         city,
         nationality,
+        premium,
+        premiumExpiredDate,
       } = req.body;
 
       const updatedUser = await prisma.user.update({
@@ -37,6 +39,8 @@ export default async function handler(
           address,
           city,
           nationality,
+          premium,
+          premiumExpiredDate,
         },
       });
 
