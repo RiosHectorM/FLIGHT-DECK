@@ -11,6 +11,7 @@ import FromInstructor from './form/forminstructor';
 import FormPassword from './form/formpassword';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
+import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 
 const DashboardInstructor: FC = () => {
   const { data } = useSession();
