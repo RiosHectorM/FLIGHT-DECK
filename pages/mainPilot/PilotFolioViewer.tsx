@@ -84,7 +84,7 @@ export default function PilotFolioViewer({
     // setIsLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/flight/getFlightsByUserId?id=${idF}`
+        `/api/flight/getFlightsByUserId?id=${idF}`
       );
 
       setFlight(response.data);

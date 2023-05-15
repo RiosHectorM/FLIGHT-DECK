@@ -1,33 +1,47 @@
 import React from 'react';
 import checkout from '../../payments/checkout';
-
-import { create } from 'zustand';
-
-interface dateExpiration {
-  expDate: string;
-  setExpDate: (date: string) => void;
-}
-const newDate = 'hola';
-
-export let expirationDateStore = create<dateExpiration>((set) => ({
-  expDate: newDate,
-  setExpDate: (date) => set((state) => ({ expDate: date })),
-}));
+import axios from 'axios';
+import { useUserStore } from '@/store/userStore';
+import ToasterProvider from '../providers/ToasterProvider';
+import { toast } from 'react-hot-toast';
 
 const Membership: React.FC = () => {
-  const asdasd = expirationDateStore()
-  const handlerOneMonth = async () => {
-    asdasd.setExpDate('asdasdasdasdasdasdads');
-    checkout({
-      lineItems: ([] = [
-        {
-          price: 'price_1N4CmgKWrlIRXPNaX8OL4vzG',
-          quantity: 1,
-        },
-      ]),
-    });
+  const { user } = useUserStore();
+
+  const setExpiredDate = async (date: string) => {
+    if (user?.id !== undefined) {
+      toast.success('Please wait...');
+      toast.success('Redirecting to Payment Methods');
+      await axios.put(`/api/user/${user?.id}`, {
+        premiumExpiredDate: date,
+      });
+    } else {
+      toast.error('Login First Please');
+      return;
+    }
   };
 
+  const handlerMonth = async (month: number, priceChain: string) => {
+    if (user?.premium) {
+      toast.error('Your are ready PREMIUM');
+      return;
+    } else {
+      let newDate = new Date();
+      newDate.setMonth(newDate.getMonth() + month);
+      let stringDate = newDate.toISOString();
+      await setExpiredDate(stringDate);
+      if (user?.id !== undefined) {
+        checkout({
+          lineItems: ([] = [
+            {
+              price: priceChain,
+              quantity: 1,
+            },
+          ]),
+        });
+      }
+    }
+  };
   interface items {
     price: string;
     quantity: number;
@@ -42,6 +56,7 @@ const Membership: React.FC = () => {
         backgroundPosition: 'center',
       }}
     >
+      <ToasterProvider />
       <section className='text-gray-50'>
         <div className='container mx-auto p-4 sm:p-10'>
           <div className='mb-10 space-y-4 text-center'>
@@ -52,10 +67,15 @@ const Membership: React.FC = () => {
           <div className='flex flex-col items-center p-2 border-2 rounded-md border-blue-400 bg-gray-800 mb-8 mx-auto w-full'>
             <p className='my-2 text-xl font-bold'>
               Your current plan is:{' '}
-              <span className='text-2xl font-extrabold'>FREE</span>{' '}
-              {true ? ' until ' : null}
-              {true ? (
-                <span className='text-2xl font-extrabold'> time Left</span>
+              <span className='text-2xl font-extrabold'>
+                {user?.premium ? 'PREMIUM' : 'FREE'}
+              </span>{' '}
+              {user?.premium ? ' until ' : null}
+              {user?.premium ? (
+                <span className='text-2xl font-extrabold'>
+                  {' '}
+                  {user.premiumExpiredDate?.split('T')[0]}
+                </span>
               ) : null}
             </p>
           </div>
@@ -182,7 +202,9 @@ const Membership: React.FC = () => {
               </span>
               <p className='my-6 text-4xl font-bold'>$ 20</p>
               <button
-                onClick={handlerOneMonth}
+                onClick={() =>
+                  handlerMonth(1, 'price_1N4CmgKWrlIRXPNaX8OL4vzG')
+                }
                 className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
               >
                 Subscribe44
@@ -201,14 +223,7 @@ const Membership: React.FC = () => {
               </p>
               <button
                 onClick={() => {
-                  checkout({
-                    lineItems: ([] = [
-                      {
-                        price: 'price_1N5eCiKWrlIRXPNaN9jVMr1G',
-                        quantity: 1,
-                      },
-                    ]),
-                  });
+                  handlerMonth(3, 'price_1N5eCiKWrlIRXPNaN9jVMr1G');
                 }}
                 className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
               >
@@ -227,16 +242,9 @@ const Membership: React.FC = () => {
                 <span className='text-lg'>/mo</span>
               </p>
               <button
-                // onClick={() => {
-                //   checkout({
-                //     lineItems: ([] = [
-                //       {
-                //         price: 'price_1N5e7oKWrlIRXPNatiDIgWnC',
-                //         quantity: 1,
-                //       },
-                //     ]),
-                //   });
-                // }}
+                onClick={() => {
+                  handlerMonth(12, 'price_1N5e7oKWrlIRXPNatiDIgWnC');
+                }}
                 className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
               >
                 Subscribe
