@@ -38,12 +38,12 @@ export default function FolioCard({
     >
       <thead>
         <tr className='border-b border-gray-200 '>
-          <th className='text-left py-2 px-3 text-center'>Item:</th>
-          <th className='text-left py-2 px-3 text-center'>Folio:</th>
-          <th className='text-left py-2 px-3 text-center'>Start date:</th>
-          <th className='text-left py-2 px-3 text-center'>End date:</th>
-          <th className='text-left py-2 px-3 text-center'>Total Hours:</th>
-          <th className='text-left py-2 px-3 text-center'>
+          <th className='py-2 px-3 text-center'>Item:</th>
+          <th className='py-2 px-3 text-center'>Folio:</th>
+          <th className='py-2 px-3 text-center'>Start date:</th>
+          <th className='py-2 px-3 text-center'>End date:</th>
+          <th className='py-2 px-3 text-center'>Total Hours:</th>
+          <th className='py-2 px-3 text-center'>
             Upload signed folio:
           </th>
         </tr>
