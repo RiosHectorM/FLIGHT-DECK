@@ -33,8 +33,9 @@ const MainCompanyPage: React.FC = () => {
       <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
       <div className="flex flex-wrap justify-center gap-8">
         <TopPilots/>
-        <FilterByLocation onFilterChange={handleLocationFilterChange} />
+        
       </div>
+      <FilterByLocation onFilterChange={handleLocationFilterChange} />
       
       <div className="flex flex-wrap justify-center gap-8">
         <RequestFlightLog pilotName="John Doe" />
