@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { format, parseISO } from 'date-fns';
+
 
 interface Props {
   item: number;
@@ -57,10 +59,10 @@ export default function FolioCard({
             <p className='py-2 px-3'>{folioNumber} </p>
           </td>
           <td className='border-b border-gray-200'>
-            <p className='py-2 px-3'>{startDate} </p>
+            <p className='py-2 px-3'>{format(parseISO(startDate), 'yyyy-MM-dd')} </p>
           </td>
           <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{endDate} </p>
+            <p className='py-2 px-3'>{format(parseISO(startDate), 'yyyy-MM-dd')}</p>
           </td>
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{totalHours} </p>
