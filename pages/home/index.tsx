@@ -75,11 +75,11 @@ const HomePage = () => {
         <h2 className='text-4xl font-bold text-white mb-8'>
           Ready to get started?
         </h2>
-        <Link href='/mainPilot'>
+       {/*  <Link href='/mainPilot'>
           <div className='bg-blue-500 text-white px-8 py-4 rounded-lg text-xl font-bold hover:bg-blue-700 transition-colors duration-300 cursor-pointer'>
             Sign up now
           </div>
-        </Link>
+        </Link> */}
       </div>
     </div>
   );

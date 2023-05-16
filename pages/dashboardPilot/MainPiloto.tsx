@@ -12,6 +12,8 @@ import { useUserStore } from '@/store/userStore';
 import { FaClipboardCheck, FaRegFileAlt, FaClock } from 'react-icons/fa';
 import HoursPilot from './hoursPilot';
 import ModalComponent from './certificaMedicPilot';
+import HoursCertPilot from './hoursCertPilot';
+import HoursToCertPilot from './hoursToCertPilot';
 
 
 const MainPiloto = () => {
@@ -29,6 +31,8 @@ const MainPiloto = () => {
   const { data } = useSession();
 
   const { user, fetchUserByEmail } = useUserStore();
+
+  const userId = user?.id;
 
   useEffect(() => {
     if (data?.user?.email) {
@@ -65,7 +69,7 @@ const MainPiloto = () => {
                         </dt>
                         <dd>
                           <div className="text-lg font-medium text-gray-900 flex items-center">
-                            <HoursPilot userId={''} />
+                            <HoursPilot userId={userId} />
                             <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
@@ -85,7 +89,7 @@ const MainPiloto = () => {
                         </dt>
                         <dd>
                           <div className="text-lg font-medium text-gray-900 flex items-center">
-                            32
+                            <HoursCertPilot userId={userId} />
                             <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
@@ -105,6 +109,7 @@ const MainPiloto = () => {
                         </dt>
                         <dd>
                           <div className="text-lg font-medium text-gray-900 flex items-center">
+                            <HoursToCertPilot userId={userId} />
                             <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
