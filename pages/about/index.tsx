@@ -18,7 +18,7 @@ const integrantes: Integrante[] = [
     nombre: 'Luis Roca',
     rol: 'Henry Mentor',
     image:
-      'https://media.licdn.com/dms/image/D4E35AQFAcfkPHfpvHA/profile-framedphoto-shrink_200_200/0/1678131873780?e=1684206000&v=beta&t=zwiP3P51ot4JgLACK4WvEwAvdfLcq2EBIrj1cMnY1fc',
+      'https://media.licdn.com/dms/image/D4E35AQFAcfkPHfpvHA/profile-framedphoto-shrink_200_200/0/1678131873780?e=1684882800&v=beta&t=6QsLfltVfLL3lT90lHV88mP-xcsbEzEPth1JtEueO8A',
     github: 'https://github.com/LuisRocca',
     linkedin:
       'https://www.linkedin.com/in/luis-miguel-alfonzo-roca-software-enginer/',
@@ -27,7 +27,7 @@ const integrantes: Integrante[] = [
     nombre: 'Hector Rios',
     rol: 'Project Manager',
     image:
-      'https://media.licdn.com/dms/image/D4D35AQGLmLJrw_gGzQ/profile-framedphoto-shrink_200_200/0/1662646665729?e=1684108800&v=beta&t=bht4F3iB9hV--tohRHaaz7NcfIsQhiwonrC2ZBY4_lA',
+      'https://media.licdn.com/dms/image/D4D35AQGLmLJrw_gGzQ/profile-framedphoto-shrink_200_200/0/1662646665729?e=1684882800&v=beta&t=eURS8XQ3hTt0wnCC9Fhz6-sx62tL_8hoE1SWNSD6Iug',
     github: 'https://github.com/RiosHectorM',
     linkedin: 'https://www.linkedin.com/in/rioshectormartin/',
   },
@@ -43,7 +43,7 @@ const integrantes: Integrante[] = [
     nombre: 'Martin Resnicoff',
     rol: 'Frontend Developer',
     image:
-      'https://media.licdn.com/dms/image/D4D35AQE432SnKtmJ8w/profile-framedphoto-shrink_200_200/0/1677156557692?e=1684108800&v=beta&t=T6tT9oftdCCZhKCkTaEiItknOmxzmDcjn_ccMkT-QNs',
+      'https://media.licdn.com/dms/image/D4D35AQE432SnKtmJ8w/profile-framedphoto-shrink_200_200/0/1677156557692?e=1684882800&v=beta&t=_ZTWKYbvEmh4joyC4OuHQCIqcLsnZ70JAYQnlplAvos',
     github: 'https://github.com/mresnicoff',
     linkedin: 'https://www.linkedin.com/in/martinresnicoff/',
   },
@@ -51,7 +51,7 @@ const integrantes: Integrante[] = [
     nombre: 'Diego Leon',
     rol: 'Frontend Developer',
     image:
-      'https://media.licdn.com/dms/image/D4D35AQHe-6-KOnIqJA/profile-framedphoto-shrink_200_200/0/1678240089759?e=1684198800&v=beta&t=bzxEZits89nD2NWOaN2_1y8jFUiimX0XDzTHy02cC2g',
+      'https://media.licdn.com/dms/image/D4D35AQHe-6-KOnIqJA/profile-framedphoto-shrink_200_200/0/1678240089759?e=1684882800&v=beta&t=1PyvLTWK2KTPOHF8yAubdqEyZiwqodoXkCV1x-bfQLg',
     github: 'https://github.com/DALGO0927',
     linkedin: 'https://www.linkedin.com/in/diegoleon09/',
   },

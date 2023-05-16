@@ -46,16 +46,7 @@ const Notification = () => {
       message: "New certification request from John Doe",
       time: "5 minutes ago",
     },
-    {
-      id: 2,
-      message: "New certification request from Jane Doe",
-      time: "10 minutes ago",
-    },
-    {
-      id: 3,
-      message: "You have a new rating from David Smith",
-      time: "20 minutes ago",
-    },
+
   ];
 
   const toggleNotifications = () => {
@@ -64,6 +55,7 @@ const Notification = () => {
 
   return (
     <div className="relative ml-auto">
+      {/* CAMPANITA COMENTADA
       <button
         type="button"
         className="p-2 text-gray-600 hover:text-gray-800 focus:outline-none"
@@ -71,7 +63,7 @@ const Notification = () => {
         title="Notifications"
       >
         <FaBell className="w-6 h-6" />
-      </button>
+      </button> */}
       {showNotifications && (
         <div className="absolute top-12 right-0 z-10 w-80 max-h-80 overflow-auto bg-white border border-gray-200 rounded shadow-lg">
           <div className="px-4 py-3 border-b border-gray-200">

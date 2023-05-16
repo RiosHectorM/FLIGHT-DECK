@@ -107,7 +107,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           '
         >
           {currentUser
-            ? `Welcome ${currentUser.name?.toLocaleUpperCase()}`
+            ? `${currentUser.name?.toLocaleUpperCase()} / ${role}`
             : 'Go to Login'}
         </div>
 
@@ -163,29 +163,19 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   }}
                 />
                 <MenuItem
-                  label='Main Role'
+                  label='Main'
                   onClick={() => {
                     handlerMains();
                     toggleOpen();
                   }}
                 />
                 <MenuItem
-                  label='My Profile'
+                  label='Profile'
                   onClick={() => {
                     handlerProfiles();
                     toggleOpen();
                   }}
                 />
-
-                {/* {role === 'PILOT' && (
-                  <MenuItem
-                    label='Search Instructor'
-                    onClick={() => {
-                      searchFlightInstructorModal.onOpen();
-                      toggleOpen();
-                    }}
-                  />
-                )} */}
                 <hr />
                 <MenuItem
                   label='About Flight Deck'
