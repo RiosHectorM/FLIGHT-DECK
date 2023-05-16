@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 
-
 interface Props {
   item: number;
   folioNumber: string;
@@ -33,11 +32,11 @@ export default function FolioCard({
     setShowTableHours(true);
   };
 
+  const formattedStartDate = startDate ? startDate.split('T')[0] : '';
+  const formattedEndDate = endDate ? endDate.split('T')[0] : '';
+
   return (
-    <table
-      className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 '
-      onClick={handlerSetFolio}
-    >
+    <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 '>
       <thead>
         <tr className='border-b border-gray-200 '>
           <th className='py-2 px-3 text-center'>Item:</th>
@@ -45,13 +44,11 @@ export default function FolioCard({
           <th className='py-2 px-3 text-center'>Start date:</th>
           <th className='py-2 px-3 text-center'>End date:</th>
           <th className='py-2 px-3 text-center'>Total Hours:</th>
-          <th className='py-2 px-3 text-center'>
-            Upload signed folio:
-          </th>
+          <th className='py-2 px-3 text-center'>Upload signed folio:</th>
         </tr>
       </thead>
       <tbody>
-        <tr className='hover:bg-gray-100'>
+        <tr className='hover:bg-gray-100' onClick={handlerSetFolio}>
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{item} </p>
           </td>
@@ -59,10 +56,10 @@ export default function FolioCard({
             <p className='py-2 px-3'>{folioNumber} </p>
           </td>
           <td className='border-b border-gray-200'>
-            <p className='py-2 px-3'>{format(parseISO(startDate), 'yyyy-MM-dd')} </p>
+            <p className='py-2 px-3'>{formattedStartDate} </p>
           </td>
           <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{format(parseISO(startDate), 'yyyy-MM-dd')}</p>
+            <p className='py-2 px-3'>{formattedEndDate}</p>
           </td>
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{totalHours} </p>
