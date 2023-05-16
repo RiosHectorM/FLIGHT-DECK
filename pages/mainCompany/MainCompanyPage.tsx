@@ -6,6 +6,7 @@ import RequestFlightLog from './RequestFlightLog';
 import ContactPilot from './ContactPilot';
 import FilterByLocation from './FilterByLocation';
 import PilotDetails from './PilotDetails';
+import TopPilots from './TopPilots';
 
 const MainCompanyPage: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState<string>('');
@@ -31,9 +32,7 @@ const MainCompanyPage: React.FC = () => {
 
       <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
       <div className="flex flex-wrap justify-center gap-8">
-        <PilotProfile name="John Doe" photoUrl="/images/pilot1.jpg" location="Miami, FL" hoursOfFlight={2500} />
-        <PilotProfile name="Jane Smith" photoUrl="/images/pilot2.jpg" location="Los Angeles, CA" hoursOfFlight={3000} />
-        <PilotProfile name="Bob Johnson" photoUrl="/images/pilot3.jpg" location="New York, NY" hoursOfFlight={2000} />
+        <TopPilots/>
         <FilterByLocation onFilterChange={handleLocationFilterChange} />
       </div>
       
