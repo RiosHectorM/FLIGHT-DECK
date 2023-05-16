@@ -15,7 +15,7 @@ const TopPilots: React.FC = () => {
   useEffect(() => {
     const fetchTopPilots = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/pilot/getPilotsOrderedByTotalHours?numPilots=3');
+        const response = await fetch('http://localhost:3000/api/pilot/getPilotsOrderedByTotalHours?numPilots=4');
         const data = await response.json();
 
         const pilotsWithDetails = await Promise.all(
@@ -24,10 +24,10 @@ const TopPilots: React.FC = () => {
             const userResponse = await fetch(`http://localhost:3000/api/user/${id}`);
             const userData = await userResponse.json();
 
-            // Aquí puedes extraer los datos adicionales que necesites del objeto userData
+            // Aquí obtienes los datos adicionales del piloto del objeto userData
             const name = userData.name;
-            const photoUrl = userData.photoUrl;
-            const location = userData.location;
+            const photoUrl = userData.image;
+            const location = userData.nationality;
 
             return {
               id,
@@ -49,21 +49,49 @@ const TopPilots: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-black p-8">
-      <h2 className="text-white text-2xl font-bold mb-4">Top Pilots</h2>
+    <div className="bg-gray-900 p-8">
+      <h2 className="text-white text-2xl font-bold mb-4 text-center">Top Pilots</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {topPilots.map((pilot) => (
-          <PilotProfile
+          <div
             key={pilot.id}
-            name={pilot.name}
-            photoUrl={pilot.photoUrl}
-            location={pilot.location}
-            hoursOfFlight={pilot.hoursOfFlight}
-          />
-        ))}
-      </div>
-    </div>
-  );
-};
+            className="bg-gray-800 rounded-lg shadow-md p-4 flex flex-col justify-between"
+          >
+            <div>
+              <PilotProfile
+                name={pilot.name}
+                photoUrl={pilot.photoUrl}
+                location={pilot.location}
+                hoursOfFlight={pilot.hoursOfFlight}
+              />
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <div className="flex items-center">
+                {[1, 2, 3, 4].map((star) => (
+                  <svg
+                    key={star}
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 text-yellow-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 2L8 8h8l-4 6-4-6h0"
+                    />
+                  </svg>
+                ))}
+              </div>
 
-export default TopPilots;
+                    </div>
+                    </div>
+                    ))}
+                    </div>
+                    </div>
+                    );
+                    };
+                    
+                    export default TopPilots;
