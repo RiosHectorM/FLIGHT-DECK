@@ -20,16 +20,20 @@ export default async function handler(
       const flights = await prisma.flight.findMany({
         where: { userId: userId },
         include: { certifier: true },
+        orderBy: { folio: 'asc' },
       });
 
       res.json(flights);
-    } catch (error) {
+    }
+    catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Internal server error' });
-    } finally {
+    }
+    finally {
       await prisma.$disconnect();
     }
-  } else {
+  }
+  else {
     return res.status(405).json({ message: 'Method not allowed' });
   }
 }
