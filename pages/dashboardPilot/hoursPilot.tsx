@@ -48,13 +48,15 @@ interface Props {
   userId: string;
 }
 
-export const HoursPilot = ({ userId }: Props) => {
+const HoursPilot = ({ userId }: Props) => {
   const [pilots, setPilots] = useState<Pilot[]>([]);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(`http://localhost:3000/api/pilot/getPilotsOrderedByTotalHours?numPilots=1&userId=${userId}`);
+        const response = await axios.get(
+          `http://localhost:3000/api/pilot/getPilotsOrderedByTotalHours?numPilots=1&userId=${userId}`
+        );
         const data = response.data;
         const newPilots: Pilot[] = data.map((pilot: any) => {
           return {
@@ -73,11 +75,13 @@ export const HoursPilot = ({ userId }: Props) => {
 
   return (
     <div>
-      { pilots.map(pilot => (
+      {pilots.map((pilot) => (
         <div key={pilot.userId}>
           <p>{pilot.hourCount}</p>
         </div>
       ))}
     </div>
   );
-}
+};
+
+export default HoursPilot;

@@ -10,8 +10,8 @@ import ChatComponent from '../Chat';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import { FaClipboardCheck, FaRegFileAlt, FaClock } from 'react-icons/fa';
-import { HoursPilot } from './hoursPilot';
-import { ModalComponent } from './certificaMedicPilot';
+import HoursPilot from './hoursPilot';
+import ModalComponent from './certificaMedicPilot';
 
 
 const MainPiloto = () => {
