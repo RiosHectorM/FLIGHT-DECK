@@ -19,13 +19,13 @@ const TopPilots: React.FC = () => {
   useEffect(() => {
     const fetchTopPilots = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/pilot/getPilotsOrderedByTotalHours?numPilots=4');
+        const response = await fetch('/api/pilot/getPilotsOrderedByTotalHours?numPilots=4');
         const data = await response.json();
 
         const pilotsWithDetails = await Promise.all(
           data.map(async (item: any) => {
             const id = item.userId;
-            const userResponse = await fetch(`http://localhost:3000/api/user/${id}`);
+            const userResponse = await fetch(`/api/user/${id}`);
             const userData = await userResponse.json();
 
             const name = userData.name;
