@@ -3,8 +3,16 @@ import TableHoursPilot from './TableHours';
 import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import PilotFolioViewer from './PilotFolioViewer';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useUserStore } from '@/store/userStore';
+import { FlightData } from '@/types/globalTypes';
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const { data: session } = useSession();
+  const { user, fetchUserByEmail } = useUserStore();
+  const [flight, setFlight] = useState<FlightData[]>([]);
+
   const [showTableHours, setShowTableHours] = useState<boolean>(false);
   const [folio, setFolio] = useState<string | number | null>(null);
 
