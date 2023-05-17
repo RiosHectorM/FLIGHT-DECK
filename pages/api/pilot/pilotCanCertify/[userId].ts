@@ -52,4 +52,4 @@ return res.status(200).json({
     else {
         return res.status(405).json({ message: 'Method not allowed' });
     }
-}
+} 
