@@ -12,7 +12,6 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { format, parseISO } from 'date-fns';
 
-
 interface Props {
   item: number;
   folioNumber: string;
@@ -135,25 +134,24 @@ export default function FolioCard({
   const formattedEndDate = endDate ? endDate.split('T')[0] : '';
 
   return (
-
-    <table className="table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 ">
+    <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 '>
       <thead onClick={handlerSetFolio}>
-        <tr className="border-b border-gray-200 ">
-          <th className="py-2 px-3 text-center">Item:</th>
-          <th className="py-2 px-3 text-center">Folio:</th>
-          <th className="py-2 px-3 text-center">Start date:</th>
-          <th className="py-2 px-3 text-center">End date:</th>
-          <th className="py-2 px-3 text-center">Total Hours:</th>
-          <th className="py-2 px-3 text-center">Upload signed folio:</th>
+        <tr className='border-b border-gray-200 '>
+          <th className='py-2 px-3 text-center'>Item:</th>
+          <th className='py-2 px-3 text-center'>Folio:</th>
+          <th className='py-2 px-3 text-center'>Start date:</th>
+          <th className='py-2 px-3 text-center'>End date:</th>
+          <th className='py-2 px-3 text-center'>Total Hours:</th>
+          <th className='py-2 px-3 text-center'>Upload signed folio:</th>
         </tr>
       </thead>
       <tbody>
-        <tr className="hover:bg-gray-100">
-          <td className="border-b border-gray-200 text-center">
-            <p className="py-2 px-3">{item} </p>
+        <tr className='hover:bg-gray-100'>
+          <td className='border-b border-gray-200 text-center'>
+            <p className='py-2 px-3'>{item} </p>
           </td>
-          <td className="border-b border-gray-200 text-center">
-            <p className="py-2 px-3">{folioNumber} </p>
+          <td className='border-b border-gray-200 text-center'>
+            <p className='py-2 px-3'>{folioNumber} </p>
           </td>
           <td className='border-b border-gray-200'>
             <p className='py-2 px-3'>{formattedStartDate} </p>
@@ -161,24 +159,24 @@ export default function FolioCard({
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{formattedEndDate}</p>
           </td>
-          <td className="border-b border-gray-200 text-center">
-            <p className="py-2 px-3">{totalHours} </p>
+          <td className='border-b border-gray-200 text-center'>
+            <p className='py-2 px-3'>{totalHours} </p>
           </td>
-          <td className="border-b border-gray-200 text-center flex">
+          <td className='border-b border-gray-200 text-center flex'>
             <CldUploadWidget
               uploadPreset={uploadPreset}
               onUpload={handleUpload}
             >
               {({ open }) => {
-                function handleOnClick(e) {
+                function handleOnClick(e: any) {
                   e.preventDefault();
                   open();
                 }
                 return (
-                  <button className="button" onClick={handleOnClick}>
+                  <button className='button' onClick={handleOnClick}>
                     <AiOutlinePaperClip
-                      title="Attached"
-                      className="ml-5 mt-2"
+                      title='Attached'
+                      className='ml-5 mt-2'
                     />
                   </button>
                 );
@@ -189,32 +187,32 @@ export default function FolioCard({
               onUpload={handleChange}
             >
               {({ open }) => {
-                function handleOnClickI(e) {
+                function handleOnClickI(e: any) {
                   e.preventDefault();
                   open();
                 }
                 return (
-                  <button className="button" onClick={handleOnClickI}>
-                    <AiOutlineFolderOpen title="Change" className="ml-5 mt-2" />
+                  <button className='button' onClick={handleOnClickI}>
+                    <AiOutlineFolderOpen title='Change' className='ml-5 mt-2' />
                   </button>
                 );
               }}
             </CldUploadWidget>
             <AiOutlineCloseCircle
-              title="Delete"
-              className="ml-5 mt-2"
+              title='Delete'
+              className='ml-5 mt-2'
               onClick={() => handleDelete()}
             />
             <AiOutlineCloudDownload
-              title="Download"
-              className="ml-5 mt-2"
+              title='Download'
+              className='ml-5 mt-2'
               onClick={() => {
                 handleDownload();
               }}
             />
             <AiFillEye
-              title="Preview"
-              className="ml-5 mt-2 mr-5"
+              title='Preview'
+              className='ml-5 mt-2 mr-5'
               onClick={() => {
                 handlePreview();
               }}
