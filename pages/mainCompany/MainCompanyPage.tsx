@@ -14,6 +14,11 @@ const MainCompanyPage: React.FC = () => {
   const handleLocationFilterChange = (newLocation: string) => {
     setLocationFilter(newLocation);
   };
+  const [showPilots, setShowPilots] = useState(false);
+
+  const handleTogglePilots = () => {
+    setShowPilots(!showPilots);
+  };
 
   const flightData: Omit<FlightLogProps, 'pilotName'> = {
     flightNumber: "AC1234",
@@ -37,7 +42,7 @@ const MainCompanyPage: React.FC = () => {
       </div>
       <FilterByLocation onFilterChange={handleLocationFilterChange} />
       
-      <div className="flex flex-wrap justify-center gap-8">
+      {/* <div className="flex flex-wrap justify-center gap-8">
         <RequestFlightLog pilotName="John Doe" />
         <PilotDetails
         name="John Doe"
@@ -50,8 +55,14 @@ const MainCompanyPage: React.FC = () => {
         flightLogUrl="/john-doe-flight-log.pdf"
         email="john.doe@example.com"
       />
-      </div>
-      
+      </div> */}
+      <button
+          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+          onClick={handleTogglePilots}
+        >
+          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
+        </button>
+        {showPilots && <PilotList />}
     </div>
   );
 };

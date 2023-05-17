@@ -12,8 +12,10 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RateInstructorModal from '../components/Modals/InstHours/RateInstructorModal';
 import useAddHoursModal from '../../utils/hooks/useAddHoursModal';
+import useYouCantCertifyModal from '../../utils/hooks/useYouCantCertifyModal';
 import useEditHoursModal from '../../utils/hooks/useEditHoursModal';
 import AddHoursModal from '../components/Modals/AddHours/AddHoursModal';
+import YouCantCertifyModal from '../components/Modals/YouCantCertify/YouCantCertifyModal';
 import EditHoursModal from '../components/Modals/EditHours/EditHoursModal';
 import AddPlaneModal from '../components/Modals/AddPlane/AddPlaneModal';
 import useSelectFlightInstructorModal from '../../utils/hooks/useSelectFlightInstructorModal';
@@ -68,6 +70,7 @@ interface FilterState {
     aircraftId?: string;
     folio?: string;
     estado?: string;
+    tipo?: string
   } | null;
 }
 
@@ -98,6 +101,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       aircraftId: undefined,
       folio: selectedFolio as string,
       estado: undefined,
+      tipo: undefined
     },
   });
   const { data: session } = useSession();
@@ -108,6 +112,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   >();
 
   const addHoursModal = useAddHoursModal();
+  const youCantCertifyModal = useYouCantCertifyModal();
   const editHoursModal = useEditHoursModal();
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
   const [aviones, setAviones] = useState<Avion[]>([]);
@@ -151,7 +156,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${selectedFolio}&myStatus=${filters.filter?.estado}`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${selectedFolio}&myStatus=${filters.filter?.estado}&flightType=${filters.filter?.tipo}`
       );
       setFlight(response.data);
       console.log(response.data);
@@ -182,9 +187,14 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
     setIsLoading(false);
   };
 
-  const handlerCertify = (flight: FlightData) => {
+  const handlerCertify = async(flight: FlightData) => {
+    const response = await axios.get(
+      `/api/pilot/pilotCanCertify/${user?.id}`)
+if (response.data.canCertify===false)
+{youCantCertifyModal.onOpen()}
+else {
     setSelectedFlight(flight);
-    selectFlightInstructorModal.onOpen();
+    selectFlightInstructorModal.onOpen();}
   };
 
   return (
@@ -206,6 +216,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
         aviones={aviones} // Pasar el arreglo de tipo Avion[]
         setAviones={setAviones}
       />
+      <YouCantCertifyModal/>
 
       <EditHoursModal
         selectedFlight={
