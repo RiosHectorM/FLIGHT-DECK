@@ -17,10 +17,11 @@ export default async function handler(
   if (req.method === 'GET') {
     try {
       // const { userId, date, aircraftId, folio }: Filters = req.body;
-      const { userId, date, aircraftId, folio, certified, myStatus } = req.query;
+      const { userId, date, aircraftId, folio, certified, myStatus, flightType } = req.query;
         console.log("Status",myStatus)
       const filters = {
         userId: userId ? (userId as string) : undefined,
+        flightType: flightType? (flightType as string): undefined,
         date: date ? new Date(date as string) : undefined,
         aircraftId: aircraftId ? (aircraftId as string) : undefined,
         folio: folio ? parseInt(folio as string, 10) : undefined,
