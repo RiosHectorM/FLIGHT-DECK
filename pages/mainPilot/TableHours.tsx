@@ -123,8 +123,10 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
 
   useEffect(() => {
     if (session?.user?.email) {
+      setIsLoading(true);
       const email = session.user.email;
       fetchUserByEmail(email);
+      setIsLoading(false);
     }
   }, [session, fetchUserByEmail]);
 
@@ -147,7 +149,6 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
 
   const getFlights = async (idF: string) => {
     setIsLoading(true);
-    console.log(idF);
     try {
       const response = await axios.get(
         `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${selectedFolio}&myStatus=${filters.filter?.estado}`
@@ -170,12 +171,15 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   };
 
   const handleDeleteHours = async (flight: FlightData) => {
+    setIsLoading(true);
     try {
       await axios.delete(`/api/flight/${flight.id}`);
       getFlights(user?.id as string);
+      toast.success('Deleted');
     } catch (error) {
       toast.error('Error deleting flight');
     }
+    setIsLoading(false);
   };
 
   const handlerCertify = (flight: FlightData) => {

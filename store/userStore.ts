@@ -26,6 +26,7 @@ type UserStore = {
   updateUserHashedPasword: (hashedPassword: string) => void;
   updateUser: (updatedUser: User) => void;
   fetchUserByEmail: (email: string) => void;
+  clearUser: () => void;
 };
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -81,5 +82,8 @@ export const useUserStore = create<UserStore>((set) => ({
       }
       return { user: newUser };
     });
+  },
+  clearUser: () => {
+    set({ user: null });
   },
 }));

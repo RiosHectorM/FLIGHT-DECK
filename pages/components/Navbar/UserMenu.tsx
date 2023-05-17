@@ -15,6 +15,7 @@ import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
 import useSearchFlightInstructorModal from '@/utils/hooks/useSearchFlightInstructorModal';
 
 import axios from 'axios';
+import { useUserStore } from '@/store/userStore';
 
 interface UserMenuProps {
   currentUser:
@@ -94,8 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             currentUser ? null : loginModal.onOpen();
           }}
           className='
-            hidden
-            sm:block
+            block
             text-sm 
             font-semibold 
             py-3 
@@ -190,6 +190,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label='Logout'
                   onClick={() => {
                     signOut({ redirect: false });
+                    useUserStore.getState().clearUser();
                     router.push('/home');
                     toggleOpen();
                   }}

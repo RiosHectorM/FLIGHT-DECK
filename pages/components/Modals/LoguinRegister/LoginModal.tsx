@@ -59,11 +59,10 @@ const LoginModal = () => {
     })
       .then((callback) => {
         if (callback?.ok) {
-          // BUSCAR USUARIO POR MAIL Y TRAER EL CAMPO ROLE
+          // BUSCAR USUARIO POR MAIL Y TRAER EL CAMPO ROL
           let result = userByRole(data.email);
           result.then((user) => {
             toast.success('Logged in');
-            console.log(user);
             if (user.role === 'PILOT') router.push('/mainPilot');
             else if (user.role === 'INSTRUCTOR') router.push('/mainInstructor');
             else if (user.role === 'COMPANY') router.push('/mainCompany');

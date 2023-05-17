@@ -135,7 +135,7 @@ export default function FolioCard({
 
   return (
     <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 '>
-      <thead onClick={handlerSetFolio}>
+      <thead>
         <tr className='border-b border-gray-200 '>
           <th className='py-2 px-3 text-center'>Item:</th>
           <th className='py-2 px-3 text-center'>Folio:</th>
@@ -146,7 +146,7 @@ export default function FolioCard({
         </tr>
       </thead>
       <tbody>
-        <tr className='hover:bg-gray-100'>
+        <tr className='hover:bg-gray-100' onClick={handlerSetFolio}>
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{item} </p>
           </td>
