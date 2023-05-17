@@ -6,6 +6,10 @@ import useRegisterModal from '../../utils/hooks/useRegisterModal';
 import RegisterModal from '../components/Modals/LoguinRegister/RegisterModal';
 import { motion } from 'framer-motion';
 import ToasterProvider from '../providers/ToasterProvider';
+import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useUserStore } from '@/store/userStore';
+import Loader from '../components/Loader';
 
 
 const HomePage = () => {
@@ -15,6 +19,20 @@ const HomePage = () => {
     console.log(myRole);
     registerModal.onOpen();
   };
+
+const [isLoading, setIsLoading] = useState(false);
+const { data: session } = useSession();
+const { fetchUserByEmail } = useUserStore();
+
+
+useEffect(() => {
+  if (session?.user?.email) {
+    setIsLoading(true);
+    const email = session.user.email;
+    fetchUserByEmail(email);
+    setIsLoading(false);
+  }
+}, [session, fetchUserByEmail]);
 
 
   return (
@@ -27,6 +45,7 @@ const HomePage = () => {
         backgroundPosition: 'center',
       }}
     >
+      {isLoading && <Loader />}
       <ToasterProvider />
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2'>

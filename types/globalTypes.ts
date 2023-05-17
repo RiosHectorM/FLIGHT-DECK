@@ -1,7 +1,7 @@
 export interface FlightData {
   id?: string | undefined;
-  folio?: string;
-  date?: string;
+  folio?: string | undefined;
+  date?: string | undefined;
   marca?: string;
   clase?: string;
   tipo?: string;
@@ -21,7 +21,7 @@ export interface FlightData {
   noche?: string;
   instr?: string;
   autonomo?: string;
-  hourCount?: number;
+  hourCount?: number | undefined;
   tiempoTotal?: number;
   escuelaEntrenamiento?: string;
   copiloto?: string;

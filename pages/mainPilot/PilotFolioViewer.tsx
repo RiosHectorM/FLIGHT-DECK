@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
 import FolioCard from './FolioCard';
+import { toast } from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
 
 interface FlightData {
   id?: string;
@@ -41,29 +43,44 @@ interface FlightData {
 interface Props {
   setFolio: (folio: string | number) => void;
   setShowTableHours: (show: boolean) => void;
+  setIsLoading: (show: boolean) => void;
 }
 
 export default function PilotFolioViewer({
   setFolio,
   setShowTableHours,
+  setIsLoading,
 }: Props) {
+  const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
-  const [flight, setFlight] = useState<FlightData[]>([]);
-  const [folioFlight, setFolioFlaight] = useState<FlightData[]>([]);
+  const [isLoadingFlights, setIsLoadingFlights] = useState(false);
+  const folioFlightRef = useRef<FlightData[]>([]);
+  const [folioFlight, setFolioFlight] = useState<FlightData[]>([]);
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      user?.email !== undefined &&
-      user?.id
-    ) {
-      getFlights(user?.id);
+    if (session?.user?.email) {
+      setIsLoading(true);
+      fetchUserByEmail(session.user.email);
+      setIsLoading(false);
     }
-  }, [user?.id]);
+  }, [session, fetchUserByEmail]);
 
   useEffect(() => {
-    const result = flight.reduce((acc: FlightData[], curr) => {
-      const filtered = acc.filter((obj) => obj.folio === curr.folio);
+    folioFlightRef.current = []; // Reiniciar la variable de referencia al cambiar el usuario
+    setFolioFlight([]); // Reiniciar el estado de los vuelos
+    setIsLoadingFlights(true); // Iniciar la carga de vuelos
+  }, []);
+
+  useEffect(() => {
+    if (user?.email && user?.id) {
+      toast.success('Loading Flight Data');
+      getFlights(user.id);
+    }
+  }, [user?.email]);
+
+  const updated = (flight: FlightData[]) => {
+    let result = flight.reduce((acc: FlightData[], curr) => {
+      let filtered = acc.filter((obj) => obj.folio === curr.folio);
       if (filtered.length === 0) {
         acc.push({
           folio: curr.folio,
@@ -74,42 +91,60 @@ export default function PilotFolioViewer({
         filtered[0].hourCount =
           (filtered[0].hourCount || 0) + (curr.hourCount || 0);
       }
-
       return acc;
     }, []);
-    setFolioFlaight(result);
-  }, [flight]);
+    folioFlightRef.current = result;
+    setFolioFlight(result);
+    setIsLoadingFlights(false); // Finalizar la carga de vuelos
+  };
 
   const getFlights = async (idF: string) => {
-    // setIsLoading(true);
     try {
       const response = await axios.get(
         `/api/flight/getFlightsByUserId?id=${idF}`
       );
-
-      setFlight(response.data);
+      updated(response.data);
     } catch (error) {
       console.error(error);
     }
-    // setIsLoading(false);
   };
 
   return (
     <>
-      {folioFlight.map((dato, index) => {
-        return (
-          <FolioCard
-            key={index}
-            item={index + 1}
-            folioNumber={dato.folio as string}
-            startDate={dato.date as string}
-            endDate={dato.date as string}
-            totalHours={dato.hourCount as number}
-            setFolio={setFolio}
-            setShowTableHours={setShowTableHours}
-          />
-        );
-      })}
+      {isLoadingFlights ? (
+        <p>Loading Flight Data...</p>
+      ) : folioFlight.length > 0 ? (
+        <div>
+          {folioFlight.map((dato, index) => (
+            <FolioCard
+              key={index}
+              item={index + 1}
+              folioNumber={dato.folio as string}
+              startDate={dato.date as string}
+              endDate={dato.date as string}
+              totalHours={dato.hourCount as number}
+              setFolio={setFolio}
+              setShowTableHours={setShowTableHours}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className='flex flex-col items-center justify-center h-screen bg-gray-900 text-white'>
+          <h1 className='text-4xl font-bold mb-6'>Welcome!</h1>
+          <p className='text-lg text-gray-300 mb-8'>
+            You still do not have hours registered in your log, please access
+            the following link to start adding your flights
+          </p>
+          <button
+            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
+            onClick={() => {
+              setShowTableHours(true);
+            }}
+          >
+            Go to Home
+          </button>
+        </div>
+      )}
     </>
   );
 }
