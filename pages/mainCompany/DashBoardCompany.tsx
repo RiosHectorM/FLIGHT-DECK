@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Main from "./Main";
-import PilotList from "./PilotList";
 import React, { useEffect, useState } from "react";
 import FormPassword from "./form/formpassword";
 import { FormPhoto } from "./form/formphoto";
@@ -22,11 +21,6 @@ const DashboardCompany = () => {
     }
   }, [data]);
 
-  const [showPilots, setShowPilots] = useState(false);
-
-  const handleTogglePilots = () => {
-    setShowPilots(!showPilots);
-  };
 
   return (
     <ProtectedRoute allowedRoles={["COMPANY"]}>
@@ -67,13 +61,7 @@ const DashboardCompany = () => {
         <h1 className="text-3xl font-bold leading-tight text-white mt-5">
           Dashboard
         </h1>
-        <button
-          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
-          onClick={handleTogglePilots}
-        >
-          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
-        </button>
-        {showPilots && <PilotList />}
+        
         <Main />
       </div>
     </ProtectedRoute>

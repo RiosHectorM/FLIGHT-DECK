@@ -62,37 +62,40 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({ onFilterChange }) =
   };
 
   return (
-    <div className="bg-gray-100 rounded-lg p-4">
-      <h2 className="text-lg font-semibold">Filtrar por nacionalidad</h2>
+    <div className="bg-gray-900 rounded-lg p-4 shadow-lg">
+      <h2 className="text-white text-lg font-semibold mb-2">Filtrar por nacionalidad</h2>
       <input
         type="text"
         placeholder="Escriba una nacionalidad"
-        className="border border-gray-400 rounded-md p-2 mt-2 focus:outline-none focus:border-indigo-500"
+        className="border border-gray-700 bg-gray-800 text-white rounded-md p-2 mb-4 focus:outline-none focus:border-indigo-500"
         value={nationality}
         onChange={handleLocationChange}
       />
       {nationality !== '' && (
-        <div className="mt-4 flex flex-wrap">
-          {filteredPilots.map((pilot) => (
-            <div key={pilot.id} className="bg-white rounded-md p-2 mb-2 mr-2 shadow-md">
-              <h3 className="text-lg font-semibold">{pilot.name}</h3>
-              <p className="text-gray-600">{pilot.location}</p>
-              <p className="text-gray-600">Horas de vuelo: {pilot.hoursOfFlight}</p>
-              <p className="text-gray-600">Nacionalidad: {pilot.nationality}</p>
-            </div>
-          ))}
-        </div>
-      )}
-      {nationality !== '' && filteredPilots.length === 0 && (
-        <div className="bg-white bg-opacity-90 absolute inset-0 flex items-center justify-center z-10">
-          <p className="text-red-500 font-bold text-xl animate-pulse">
-            No se encontraron pilotos con esa nacionalidad.
-          </p>
-        </div>
-      )}
-    </div>
- 
- );
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {filteredPilots.length > 0 ? (
+            filteredPilots.map((pilot) => (
+              <div
+                key={pilot.id}
+                className="bg-gray-800 text-white rounded-md p-4 shadow-md"
+              >
+                <h3 className="text-xl font-semibold">{pilot.name}</h3>
+                <p className="text-gray-300">{pilot.location}</p>
+                <p className="text-gray-300">Horas de vuelo: {pilot.hoursOfFlight}</p>
+                <p className="text-gray-300">Nacionalidad: {pilot.nationality}</p>
+              </div>
+            ))
+          ) : (
+            <div className="bg-gray-800 text-white rounded-md p-4">
+              <p className="text-xl font-semibold animate-pulse">
+                  No se encontraron pilotos con esa nacionalidad.
+                  </p>
+                  </div>
+                    )}
+                  </div>
+                    )}
+                  </div>
+);
 };
 
 export default FilterByLocation;
