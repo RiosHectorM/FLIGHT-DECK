@@ -95,7 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           }}
           className='
             hidden
-            md:block
+            sm:block
             text-sm 
             font-semibold 
             py-3 
@@ -131,7 +131,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           '
           >
             <AiOutlineMenu />
-            <div className='hidden md:block'>
+            <div className='hidden sm:block'>
               <Avatar src={currentUser?.image} />
             </div>
           </div>
@@ -190,7 +190,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label='Logout'
                   onClick={() => {
                     signOut({ redirect: false });
-                    router.push('/');
+                    router.push('/home');
                     toggleOpen();
                   }}
                 />

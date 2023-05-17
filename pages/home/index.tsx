@@ -71,16 +71,6 @@ const HomePage = () => {
       </div>
       <HomePageFeaturesSection />
       <HomePageTestimonialsSection />
-      <div className='flex flex-col items-center justify-center my-16'>
-        <h2 className='text-4xl font-bold text-white mb-8'>
-          Ready to get started?
-        </h2>
-       {/*  <Link href='/mainPilot'>
-          <div className='bg-blue-500 text-white px-8 py-4 rounded-lg text-xl font-bold hover:bg-blue-700 transition-colors duration-300 cursor-pointer'>
-            Sign up now
-          </div>
-        </Link> */}
-      </div>
     </div>
   );
 };

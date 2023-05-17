@@ -20,7 +20,7 @@ const Navbar = () => {
      toggleTheme();--------------------------------------------------------------------> tema oscuro
      document.body.classList.toggle('dark');
    }; */
-  const { user }= useUserStore()
+  const { user } = useUserStore();
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollPos = window.scrollY;
@@ -52,26 +52,28 @@ const Navbar = () => {
     >
       <div className={`py-0 ${isVisible ? '' : 'border-b-0'}`}>
         <Container>
-          <div className='flex flex-row items-center justify-between gap-3 md:gap-0'>
+          <div className='flex flex-row items-center justify-between md:gap-0'>
             <div className='flex items-center'>
-              <Logo />
-              <div className='ml-4'>
+              <div className='md:block hidden'>
+                <Logo />
+              </div>
+              <div className='ml-'>
                 <Link href='/home'>
-                  <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     Home
                   </span>
                 </Link>
               </div>
               <div className='ml-4'>
                 <Link href='/about'>
-                  <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     About
                   </span>
                 </Link>
               </div>
               <div className='ml-4'>
                 <Link href='/membership'>
-                  <span className='hidden md:block text-lm font-bold py-4 px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
                     Pricing
                   </span>
                 </Link>
