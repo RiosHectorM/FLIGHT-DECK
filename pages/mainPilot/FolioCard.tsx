@@ -134,7 +134,7 @@ export default function FolioCard({
   const formattedEndDate = endDate ? endDate.split('T')[0] : '';
 
   return (
-    <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 '>
+    <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-6 '>
       <thead onClick={handlerSetFolio}>
         <tr className='border-b border-gray-200 '>
           <th className='py-2 px-3 text-center'>Item:</th>
