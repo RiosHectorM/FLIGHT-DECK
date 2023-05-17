@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { FaStar } from 'react-icons/fa';
 import PilotProfile from './PilotProfile';
+import ContactPilot from './ContactPilot';
 
 interface Pilot {
   id: string;
@@ -7,10 +9,12 @@ interface Pilot {
   photoUrl: string;
   location: string;
   hoursOfFlight: number;
+  email: string;
 }
 
 const TopPilots: React.FC = () => {
   const [topPilots, setTopPilots] = useState<Pilot[]>([]);
+  const [selectedPilotId, setSelectedPilotId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchTopPilots = async () => {
@@ -24,7 +28,6 @@ const TopPilots: React.FC = () => {
             const userResponse = await fetch(`http://localhost:3000/api/user/${id}`);
             const userData = await userResponse.json();
 
-            // Aquí obtienes los datos adicionales del piloto del objeto userData
             const name = userData.name;
             const photoUrl = userData.image;
             const location = userData.nationality;
@@ -35,6 +38,7 @@ const TopPilots: React.FC = () => {
               photoUrl,
               location,
               hoursOfFlight: item._sum.hourCount,
+              email: userData.email,
             };
           })
         );
@@ -47,6 +51,14 @@ const TopPilots: React.FC = () => {
 
     fetchTopPilots();
   }, []);
+
+  const handleContactClick = (pilotId: string) => {
+    if (selectedPilotId === pilotId) {
+      setSelectedPilotId(null);
+    } else {
+      setSelectedPilotId(pilotId);
+    }
+  };
 
   return (
     <div className="bg-gray-900 p-8">
@@ -65,33 +77,31 @@ const TopPilots: React.FC = () => {
                 hoursOfFlight={pilot.hoursOfFlight}
               />
             </div>
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-center mt-4">
               <div className="flex items-center">
                 {[1, 2, 3, 4].map((star) => (
-                  <svg
-                    key={star}
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6 text-yellow-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 2L8 8h8l-4 6-4-6h0"
-                    />
-                  </svg>
+                  <FaStar key={star} className="text-yellow-400 h-6 w-6" />
                 ))}
               </div>
+              <button
+                className="ml-2 bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+                onClick={() => handleContactClick(pilot.id)}
+              >
+                {selectedPilotId === pilot.id ? 'Cerrar' : 'Contactar'}
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+      {selectedPilotId &&(
+<ContactPilot
+name={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
+pilotName={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
+email={topPilots.find((pilot) => pilot.id === selectedPilotId)?.email || ''}
+/>
+)}
+</div>
+);
+};
 
-                    </div>
-                    </div>
-                    ))}
-                    </div>
-                    </div>
-                    );
-                    };
-                    
-                    export default TopPilots;
+export default TopPilots;

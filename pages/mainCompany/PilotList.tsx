@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import PilotDetails from './PilotDetails';
 
 interface Pilot {
@@ -16,72 +17,141 @@ interface Pilot {
 
 const PilotList: React.FC = () => {
   const [pilots, setPilots] = useState<Pilot[]>([]);
-  const [selectedPilot, setSelectedPilot] = useState<Pilot | null>(null);
   const [expandedPilots, setExpandedPilots] = useState<string[]>([]);
+  const [filteredPilots, setFilteredPilots] = useState<Pilot[]>([]);
+  const [filterHours, setFilterHours] = useState<number | null>(null);
+  const [filterLocation, setFilterLocation] = useState<string>('');
 
   useEffect(() => {
-    async function fetchPilots() {
-      const response = await fetch('/api/pilot');
-      const data = await response.json();
-      setPilots(data);
-    }
+    const fetchPilots = async () => {
+      try {
+        const response = await axios.get('/api/pilot/getPilotsOrderedByTotalHours?numPilots=7');
+        const data = response.data;
+
+        const pilotsWithDetails = await Promise.all(
+          data.map(async (item: any) => {
+            const id = item.userId;
+            const userResponse = await axios.get(`/api/user/${id}`);
+            const userData = userResponse.data;
+
+            const name = userData.name;
+            const photoUrl = userData.image;
+            const location = userData.nationality;
+
+            return {
+              id,
+              name,
+              photoUrl,
+              location,
+              hoursOfFlight: item._sum.hourCount.toFixed(2), // Formateamos a dos decimales
+            };
+          })
+        );
+
+        setPilots(pilotsWithDetails);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     fetchPilots();
   }, []);
 
-  return (
-    <div className='mx-auto w-3/4 bg-white bg-opacity-70 rounded-lg shadow-lg p-6 '>
-      <h2 className='text-center font-bold mb-10 uppercase'>
-        Lista de pilotos
-      </h2>
-      <table className='table-auto w-full'>
-        <thead>
-          <tr className='text-left'>
-            <th className='px-4 py-2 font-medium'>Nombre</th>
-            <th className='px-4 py-2 font-medium'>Ubicación</th>
-            <th className='px-4 py-2 font-medium'>Horas de vuelo</th>
-            <th className='px-4 py-2 font-medium'>Detalles</th>
-          </tr>
-        </thead>
-        <tbody>
-          {pilots.map((pilot) => (
-            <React.Fragment key={pilot.id}>
-              <tr>
-                <td className='border px-4 py-2'>{pilot.name}</td>
-                <td className='border px-4 py-2'>{pilot.location}</td>
-                <td className='border px-4 py-2'>{pilot.hoursOfFlight}</td>
-                <td className='border px-4 py-2'>
-                  <button
-                    className='text-blue-500'
-                    onClick={() => {
-                      if (expandedPilots.includes(pilot.id)) {
-                        setExpandedPilots(
-                          expandedPilots.filter((id) => id !== pilot.id)
-                        );
-                      } else {
-                        setExpandedPilots([...expandedPilots, pilot.id]);
-                      }
-                    }}
-                  >
-                    {expandedPilots.includes(pilot.id)
-                      ? 'Cerrar detalles'
-                      : 'Ver detalles'}
-                  </button>
-                </td>
-              </tr>
-              {expandedPilots.includes(pilot.id) && (
-                <tr>
-                  <td colSpan={4}>
-                    <PilotDetails {...pilot} />
-                  </td>
-                </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
-      {selectedPilot && <PilotDetails {...selectedPilot} />}
-    </div>
-  );
-};
+  useEffect(() => {
+    // Apply filters
+    let filteredPilots = pilots;
 
-export default PilotList;
+    if (filterHours) {
+      filteredPilots = filteredPilots.filter((pilot) => pilot.hoursOfFlight >= filterHours);
+    }
+
+    if (filterLocation) {
+      const lowerCaseFilter = filterLocation.toLowerCase();
+      filteredPilots = filteredPilots.filter((pilot) =>
+        pilot.location?.toLowerCase().includes(lowerCaseFilter)
+      );
+    }
+
+    setFilteredPilots(filteredPilots);
+  }, [pilots, filterHours, filterLocation]);
+
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterHours(Number(e.target.value));
+  };
+
+  const handleLocationFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterLocation(e.target.value);
+  };
+
+  return (
+    <div className="mx-auto w-3/4 bg-gray-900 bg-opacity-70 rounded-lg shadow-lg p-6">
+      <h2 className="text-center font-bold mb-10 text-white uppercase">Lista de pilotos</h2>
+      <div className="flex mb-4">
+        <div className="mr-4">
+          <label className="block font-medium mb-2 text-white">Filtrar por horas de vuelo:</label>
+          <input
+            type="number"
+            className="border py-1 px-2 rounded text-black"
+            value={filterHours || ''}
+            onChange={handleFilterChange}
+            placeholder="Ingresa las horas de vuelo"
+          />
+        </div>
+        <div>
+          <label className="block font-medium mb-2 text-white">Filtrar por nacionalidad:</label>
+          <input
+            type="text"
+            className="border py-1 px-2 roundedtext-black"
+            value={filterLocation}
+            onChange={handleLocationFilterChange}
+            placeholder="Ingresa la nacionalidad"
+            />
+            </div>
+            </div>
+            <table className="table-auto w-full">
+            <thead>
+            <tr className="text-left">
+            <th className="px-4 py-2 font-medium text-white">Nombre</th>
+            <th className="px-4 py-2 font-medium text-white">Nacionalidad</th>
+            <th className="px-4 py-2 font-medium text-white">Horas de vuelo</th>
+            <th className="px-4 py-2 font-medium text-white">Detalles</th>
+            </tr>
+            </thead>
+            <tbody>
+            {filteredPilots.map((pilot) => (
+            <React.Fragment key={pilot.id}>
+            <tr>
+            <td className="border px-4 py-2 text-white">{pilot.name}</td>
+            <td className="border px-4 py-2 text-white">{pilot.location}</td>
+            <td className="border px-4 py-2 text-white">{pilot.hoursOfFlight}</td>
+            <td className="border px-4 py-2">
+            <button
+            className="text-blue-500"
+            onClick={() => {
+            if (expandedPilots.includes(pilot.id)) {
+            setExpandedPilots(expandedPilots.filter((id) => id !== pilot.id));
+            } else {
+            setExpandedPilots([...expandedPilots, pilot.id]);
+            }
+            }}
+            >
+            {expandedPilots.includes(pilot.id) ? 'Cerrar detalles' : 'Ver detalles'}
+            </button>
+            </td>
+            </tr>
+            {expandedPilots.includes(pilot.id) && (
+            <tr>
+            <td colSpan={4}>
+            <PilotDetails {...pilot} />
+            </td>
+            </tr>
+            )}
+            </React.Fragment>
+            ))}
+            </tbody>
+            </table>
+            </div>
+            );
+            };
+            
+            export default PilotList;
