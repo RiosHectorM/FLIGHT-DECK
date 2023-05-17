@@ -4,6 +4,7 @@ import axios from 'axios';
 import FolioCard from './FolioCard';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
+import Loader from '../components/Loader';
 
 interface FlightData {
   id?: string;
@@ -112,7 +113,7 @@ export default function PilotFolioViewer({
   return (
     <>
       {isLoadingFlights ? (
-        <p>Loading Flight Data...</p>
+        <Loader />
       ) : folioFlight.length > 0 ? (
         <div>
           {folioFlight.map((dato, index) => (
