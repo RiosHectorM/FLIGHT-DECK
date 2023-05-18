@@ -132,14 +132,14 @@ model Qualification {
   @@unique([pilotId, instructorId])
 }
 
-// model Certificate {
-//   id                        String    @id @default(auto()) @map("_id") @db.ObjectId
-//   userId                    String    @db.ObjectId
-//   certificateName           String
-//   certificateExpirationDate DateTime?
-//   certificateUrl            String?
+model Certificate {
+  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId                    String    @db.ObjectId
+  certificateName           String
+  certificateExpirationDate DateTime?
+  certificateUrl            String?
 
-//   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-//   @@unique([userId, certificateName])
-// }
+  @@unique([userId, certificateName])
+}
