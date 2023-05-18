@@ -29,7 +29,7 @@ const FeaturesSection = () => {
   };
 
   return (
-    <div className="relative w-full h-screen overflow-hidden" onMouseMove={handleMouseMove}>
+    <div className="relative w-full h-screen overflow-hidden mt-20" onMouseMove={handleMouseMove}>
       {features.map((feature, index) => (
         <div
           key={index}

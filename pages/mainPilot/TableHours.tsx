@@ -70,7 +70,7 @@ interface FilterState {
     aircraftId?: string;
     folio?: string;
     estado?: string;
-    tipo?: string
+    tipo?: string;
   } | null;
 }
 
@@ -101,7 +101,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       aircraftId: undefined,
       folio: selectedFolio as string,
       estado: undefined,
-      tipo: undefined
+      tipo: undefined,
     },
   });
   const { data: session } = useSession();
@@ -154,9 +154,12 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
 
   const getFlights = async (idF: string) => {
     setIsLoading(true);
+    let folioFinal = '';
+    if (selectedFolio) folioFinal = `&folio=${selectedFolio}`;
+    else folioFinal = '';
     try {
       const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}&folio=${selectedFolio}&myStatus=${filters.filter?.estado}&flightType=${filters.filter?.tipo}`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${filters.filter?.estado}&flightType=${filters.filter?.tipo}`
       );
       setFlight(response.data);
       console.log(response.data);
@@ -187,14 +190,14 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
     setIsLoading(false);
   };
 
-  const handlerCertify = async(flight: FlightData) => {
-    const response = await axios.get(
-      `/api/pilot/pilotCanCertify/${user?.id}`)
-if (response.data.canCertify===false)
-{youCantCertifyModal.onOpen()}
-else {
-    setSelectedFlight(flight);
-    selectFlightInstructorModal.onOpen();}
+  const handlerCertify = async (flight: FlightData) => {
+    const response = await axios.get(`/api/pilot/pilotCanCertify/${user?.id}`);
+    if (response.data.canCertify === false) {
+      youCantCertifyModal.onOpen();
+    } else {
+      setSelectedFlight(flight);
+      selectFlightInstructorModal.onOpen();
+    }
   };
 
   return (
@@ -211,12 +214,13 @@ else {
         id={user?.id as string}
       />
       <AddHoursModal
+        selectedFolio={selectedFolio as string}
         getFlights={getFlights}
         id={user?.id as string}
         aviones={aviones} // Pasar el arreglo de tipo Avion[]
         setAviones={setAviones}
       />
-      <YouCantCertifyModal/>
+      <YouCantCertifyModal />
 
       <EditHoursModal
         selectedFlight={

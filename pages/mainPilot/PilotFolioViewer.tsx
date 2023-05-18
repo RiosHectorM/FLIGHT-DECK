@@ -10,6 +10,7 @@ import HoursToCertPilot from '../dashboardPilot/hoursToCertPilot';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
+import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
 
 interface FlightData {
   id?: string;
@@ -115,6 +116,14 @@ export default function PilotFolioViewer({
     }
   };
 
+  const addHoursModal = useAddHoursModal();
+
+  const handlerAdd = () => {
+    setShowTableHours(true);
+    setFolio('');
+    addHoursModal.onOpen();
+  };
+
   const userId = user?.id;
 
   return (
@@ -185,6 +194,25 @@ export default function PilotFolioViewer({
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className='flex justify-center text-center'>
+                  <button
+                    className='flex mt-16 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
+                    onClick={handlerAdd}
+                  >
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      className='h-6 w-6'
+                      viewBox='0 0 20 20'
+                      fill='currentColor'
+                    >
+                      <path
+                        fillRule='evenodd'
+                        d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z'
+                      />
+                    </svg>
+                    ADD NEW FOLIO
+                  </button>
                 </div>
               </div>
             </div>
