@@ -2,45 +2,56 @@ import ToasterProvider from '../providers/ToasterProvider';
 import TableHoursPilot from './TableHours';
 import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import PilotFolioViewer from './PilotFolioViewer';
-import { useState } from 'react';
+
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
-import { FlightData } from '@/types/globalTypes';
+import Loader from '../components/Loader';
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { data: session } = useSession();
-  const { user, fetchUserByEmail } = useUserStore();
-  const [flight, setFlight] = useState<FlightData[]>([]);
+  const { fetchUserByEmail } = useUserStore();
 
   const [showTableHours, setShowTableHours] = useState<boolean>(false);
   const [folio, setFolio] = useState<string | number | null>(null);
 
+  useEffect(() => {
+    if (session?.user?.email) {
+      setIsLoading(true);
+      const email = session.user.email;
+      fetchUserByEmail(email);
+      setIsLoading(false);
+    }
+  }, [session, fetchUserByEmail]);
+
   return (
-    <ProtectedRoute allowedRoles={['PILOT']}>
-      <div
-        className='flex flex-col min-h-screen'
-        style={{
-          backgroundImage: "url('/images/mainpiloto.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
-        <ToasterProvider />
-        {!showTableHours && (
-          <PilotFolioViewer
-            setFolio={setFolio}
-            setShowTableHours={setShowTableHours}
-          />
-        )}
-        {showTableHours && (
-          <TableHoursPilot
-            selectedFolio={folio}
-            setShowTableHours={setShowTableHours}
-          />
-        )}
-      </div>
-    </ProtectedRoute>
+    //<ProtectedRoute allowedRoles={['PILOT']}>
+    <div
+      className='flex flex-col min-h-screen'
+      style={{
+        backgroundImage: "url('/images/mainpiloto.jpg')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
+      {isLoading && <Loader />}
+      <ToasterProvider />
+      {!showTableHours && (
+        <PilotFolioViewer
+          setFolio={setFolio}
+          setShowTableHours={setShowTableHours}
+          setIsLoading={setIsLoading}
+        />
+      )}
+      {showTableHours && (
+        <TableHoursPilot
+          selectedFolio={folio}
+          setShowTableHours={setShowTableHours}
+        />
+      )}
+    </div>
+    // </ProtectedRoute>
   );
 };
 

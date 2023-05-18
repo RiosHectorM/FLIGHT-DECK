@@ -1,11 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
 import FolioCard from './FolioCard';
+
 import { FaClipboardCheck, FaClock, FaRegFileAlt } from 'react-icons/fa';
 import HoursPilot from '../dashboardPilot/hoursPilot';
 import HoursCertPilot from '../dashboardPilot/hoursCertPilot';
 import HoursToCertPilot from '../dashboardPilot/hoursToCertPilot';
+import { toast } from 'react-hot-toast';
+import { useSession } from 'next-auth/react';
+import Loader from '../components/Loader';
 
 interface FlightData {
   id?: string;
@@ -45,29 +49,44 @@ interface FlightData {
 interface Props {
   setFolio: (folio: string | number) => void;
   setShowTableHours: (show: boolean) => void;
+  setIsLoading: (show: boolean) => void;
 }
 
 export default function PilotFolioViewer({
   setFolio,
   setShowTableHours,
+  setIsLoading,
 }: Props) {
+  const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
-  const [flight, setFlight] = useState<FlightData[]>([]);
-  const [folioFlight, setFolioFlaight] = useState<FlightData[]>([]);
+  const [isLoadingFlights, setIsLoadingFlights] = useState(false);
+  const folioFlightRef = useRef<FlightData[]>([]);
+  const [folioFlight, setFolioFlight] = useState<FlightData[]>([]);
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      user?.email !== undefined &&
-      user?.id
-    ) {
-      getFlights(user?.id);
+    if (session?.user?.email) {
+      setIsLoading(true);
+      fetchUserByEmail(session.user.email);
+      setIsLoading(false);
     }
-  }, [user?.id]);
+  }, [session, fetchUserByEmail]);
 
   useEffect(() => {
-    const result = flight.reduce((acc: FlightData[], curr) => {
-      const filtered = acc.filter((obj) => obj.folio === curr.folio);
+    folioFlightRef.current = []; // Reiniciar la variable de referencia al cambiar el usuario
+    setFolioFlight([]); // Reiniciar el estado de los vuelos
+    setIsLoadingFlights(true); // Iniciar la carga de vuelos
+  }, []);
+
+  useEffect(() => {
+    if (user?.email && user?.id) {
+      toast.success('Loading Flight Data');
+      getFlights(user.id);
+    }
+  }, [user?.email]);
+
+  const updated = (flight: FlightData[]) => {
+    let result = flight.reduce((acc: FlightData[], curr) => {
+      let filtered = acc.filter((obj) => obj.folio === curr.folio);
       if (filtered.length === 0) {
         acc.push({
           folio: curr.folio,
@@ -78,24 +97,22 @@ export default function PilotFolioViewer({
         filtered[0].hourCount =
           (filtered[0].hourCount || 0) + (curr.hourCount || 0);
       }
-
       return acc;
     }, []);
-    setFolioFlaight(result);
-  }, [flight]);
+    folioFlightRef.current = result;
+    setFolioFlight(result);
+    setIsLoadingFlights(false); // Finalizar la carga de vuelos
+  };
 
   const getFlights = async (idF: string) => {
-    // setIsLoading(true);
     try {
       const response = await axios.get(
         `/api/flight/getFlightsByUserId?id=${idF}`
       );
-
-      setFlight(response.data);
+      updated(response.data);
     } catch (error) {
       console.error(error);
     }
-    // setIsLoading(false);
   };
 
   const userId = user?.id;
