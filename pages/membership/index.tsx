@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
 import ToasterProvider from '../providers/ToasterProvider';
 import { toast } from 'react-hot-toast';
+import { sendContactForm } from '@/lib/api';
 
 const Membership: React.FC = () => {
   const { user } = useUserStore();
@@ -21,6 +22,14 @@ const Membership: React.FC = () => {
     }
   };
 
+  const values = {
+    name: 'Flight Deck App',
+    email: user?.email,
+    subject: 'Payment in process',
+    message:
+      'Your membership request is being processed. If approved, you will receive an email confirming your premium status.',
+  };
+
   const handlerMonth = async (month: number, priceChain: string) => {
     if (user?.premium) {
       toast.error('Your are ready PREMIUM');
@@ -29,6 +38,7 @@ const Membership: React.FC = () => {
       let newDate = new Date();
       newDate.setMonth(newDate.getMonth() + month);
       let stringDate = newDate.toISOString();
+      await sendContactForm(values);
       await setExpiredDate(stringDate);
       if (user?.id !== undefined) {
         checkout({

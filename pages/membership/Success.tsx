@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import ToasterProvider from '../providers/ToasterProvider';
 import { toast } from 'react-hot-toast';
+import { sendContactForm } from '@/lib/api';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
+
 
 const Success = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +20,14 @@ const Success = () => {
     }
   }, [session, fetchUserByEmail]);
 
+  const values = {
+    name: 'Flight Deck App',
+    email: user?.email,
+    subject: 'Payment approved, you are now a premium member!',
+    message:
+      'Your payment has been processed successfully. From now on, you are a premium member and can enjoy our service without any limitations.',
+  };
+
   const premiumUser = async () => {
     try {
       setIsLoading(true);
@@ -26,6 +36,7 @@ const Success = () => {
         await axios.put(`/api/user/${user.id}`, {
           premium: true,
         });
+        await sendContactForm(values);
         setIsLoading(false);
         toast.success('Congratulations, You are Premium!!!');
       }

@@ -2,6 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
 import FolioCard from './FolioCard';
+
+import { FaClipboardCheck, FaClock, FaRegFileAlt } from 'react-icons/fa';
+import HoursPilot from '../dashboardPilot/hoursPilot';
+import HoursCertPilot from '../dashboardPilot/hoursCertPilot';
+import HoursToCertPilot from '../dashboardPilot/hoursToCertPilot';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
@@ -110,42 +115,98 @@ export default function PilotFolioViewer({
     }
   };
 
+  const userId = user?.id;
+
   return (
     <>
-      {isLoadingFlights ? (
-        <Loader />
-      ) : folioFlight.length > 0 ? (
-        <div>
-          {folioFlight.map((dato, index) => (
-            <FolioCard
-              key={index}
-              item={index + 1}
-              folioNumber={dato.folio as string}
-              startDate={dato.date as string}
-              endDate={dato.date as string}
-              totalHours={dato.hourCount as number}
-              setFolio={setFolio}
-              setShowTableHours={setShowTableHours}
-            />
-          ))}
+      <div className="flex flex-col sm:flex-row">
+        <div className="w-full sm:w-2/6">
+          <div className="px-4 sm:px-6 lg:px-0">
+            <div className="px-4 py-6 sm:p-0">
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-4 mt-6">
+
+                <div className="bg-gray-800 rounded-xl shadow-md p-6">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                      <FaClock className="text-white w-6 h-6" />
+                    </div>
+                    <div className="ml-4">
+                      <dt className="text-sm font-medium text-white truncate">
+                        <span className="whitespace-nowrap">Total Recorded Hours</span>
+                      </dt>
+                      <dd>
+                        <div className="text-lg font-medium text-white flex items-center">
+                          <HoursPilot userId={userId} />
+                          <p className="ml-2">Hrs</p>
+                        </div>
+                      </dd>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-800 rounded-xl shadow-md">
+                  <div className="px-4 py-5 sm:p-6">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <FaRegFileAlt className="text-white w-6 h-6" />
+                      </div>
+                      <div className="ml-4">
+                        <dt className="text-sm font-medium text-white truncate">
+                          Total Certified Hours
+                        </dt>
+                        <dd>
+                          <div className="text-lg font-medium text-white flex items-center">
+                            <HoursCertPilot userId={userId} />
+                            <p className="ml-2">Hrs</p>
+                          </div>
+                        </dd>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gray-800 rounded-xl shadow-md">
+                  <div className="px-4 py-5 sm:p-6">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <FaClipboardCheck className="text-white w-6 h-6" />
+                      </div>
+                      <div className="ml-5 w-0 flex-1">
+                        <dt className="text-sm font-medium text-white truncate">
+                          Total Pending Hours to Certify
+                        </dt>
+                        <dd>
+                          <div className="text-lg font-medium text-white flex items-center">
+                            <HoursToCertPilot userId={userId} />
+                            <p className="ml-2">Hrs</p>
+                          </div>
+                        </dd>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
         </div>
-      ) : (
-        <div className='flex flex-col items-center justify-center h-screen bg-gray-900 text-white'>
-          <h1 className='text-4xl font-bold mb-6'>Welcome!</h1>
-          <p className='text-lg text-gray-300 mb-8'>
-            You still do not have hours registered in your log, please access
-            the following link to start adding your flights
-          </p>
-          <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
-            onClick={() => {
-              setShowTableHours(true);
-            }}
-          >
-            Go to Home
-          </button>
+        <div className="w-full sm:w-3/4 mx-auto">
+          {folioFlight.map((dato, index) => {
+            return (
+              <FolioCard
+                key={index}
+                item={index + 1}
+                folioNumber={dato.folio as string}
+                startDate={dato.date as string}
+                endDate={dato.date as string}
+                totalHours={dato.hourCount as number}
+                setFolio={setFolio}
+                setShowTableHours={setShowTableHours}
+              />
+            );
+          })}
         </div>
-      )}
+      </div>
     </>
   );
 }
