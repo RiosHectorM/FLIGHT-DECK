@@ -204,7 +204,7 @@ export default function FolioCard({
                   <button className="button" onClick={handleOnClick}>
                     <AiOutlinePaperClip
                       title="Attached"
-                      className="ml-5 mt-3"
+                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
                     />
                   </button>
                 );
@@ -221,26 +221,29 @@ export default function FolioCard({
                 }
                 return (
                   <button className="button" onClick={handleOnClickI}>
-                    <AiOutlineFolderOpen title="Change" className="ml-5 mt-3" />
+                    <AiOutlineFolderOpen
+                      title="Change"
+                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
+                    />
                   </button>
                 );
               }}
             </CldUploadWidget>
             <AiOutlineCloseCircle
               title="Delete"
-              className="ml-5 mt-3 cursor-pointer"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600"
               onClick={() => handleDelete()}
             />
             <AiOutlineCloudDownload
               title="Download"
-              className="ml-5 mt-3 cursor-pointer"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
               onClick={() => {
                 handleDownload();
               }}
             />
             <AiFillEye
               title="Preview"
-              className="ml-5 mt-3 cursor-pointer"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
               onClick={() => {
                 handlePreview();
               }}
