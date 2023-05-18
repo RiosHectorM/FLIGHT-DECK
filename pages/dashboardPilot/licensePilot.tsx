@@ -1,32 +1,24 @@
 import React, { useState } from 'react';
-import { FaNotesMedical, FaCalendarAlt, FaEdit } from 'react-icons/fa';
+import { FaCalendarAlt, FaEdit } from 'react-icons/fa';
 import Modal from 'react-modal';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { TbLicense } from 'react-icons/tb';
 import CloudinaryUploadWidget from './uploadPhoto';
 
-const ModalComponent = () => {
+const LicensePilot = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [expirationDate, setExpirationDate] = useState<Date | null>(null);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
   
 
-  const handleDateChange = (date: Date | null) => {
-    setExpirationDate(date);
-    setModalIsOpen(false);
-  };
-
-  const handleFileChange = (event: {
-    target: { files: React.SetStateAction<null>[] };
-  }) => {
-    setSelectedFile(event.target.files[0]);
-  };
-
   const handleFileUpload = () => {
-    // Aquí puedes agregar la lógica para enviar el archivo seleccionado al servidor
-    console.log('Archivo seleccionado:', selectedFile);
-    setModalIsOpen(false);
+    if (selectedFile) {
+      const url = URL.createObjectURL(selectedFile);
+      setFileUrl(url);
+      console.log('Archivo seleccionado:', selectedFile);
+    }
   };
 
   const handleSave = () => {
@@ -40,11 +32,11 @@ const ModalComponent = () => {
         <div className='px-4 py-5 sm:p-6'>
           <div className='flex items-center'>
             <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-              <FaNotesMedical className='text-white w-6 h-6' />
+              <TbLicense className='text-white w-6 h-6' />
             </div>
             <div className='ml-5 w-0 flex-1'>
               <dt className='text-sm font-medium text-gray-500 truncate'>
-                Medical certificate expiration date
+                Pilot License expiration date
               </dt>
               <dd>
                 <div className='text-lg font-medium text-gray-900 flex items-center'>
@@ -64,7 +56,7 @@ const ModalComponent = () => {
                       onClick={() => setModalIsOpen(true)}
                     >
                       <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
-                      <span className='ml-2'>Add Certificate</span>
+                      <span className='ml-2'>Add License</span>
                     </button>
                   )}
                 </div>
@@ -127,4 +119,4 @@ const ModalComponent = () => {
   );
 };
 
-export default ModalComponent;
+export default LicensePilot;
