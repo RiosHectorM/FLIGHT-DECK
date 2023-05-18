@@ -52,7 +52,15 @@ const Success = () => {
   console.log(user?.id);
 
   return (
-    <div className='flex flex-col items-center justify-center h-screen bg-gradient-to-br from-gray-900 to-indigo-900 text-white'>
+    <div
+      className='flex flex-col items-center justify-center min-h-screen'
+      style={{
+        backgroundImage:
+          'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {isLoading ? (
         <Loader />
       ) : (

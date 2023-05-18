@@ -134,8 +134,10 @@ export default function FolioCard({
   const formattedEndDate = endDate ? endDate.split('T')[0] : '';
 
   return (
-
-    <table className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-6 '>
+    <table
+      className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-6 '
+      onClick={handlerSetFolio}
+    >
       <thead>
         <tr className='border-b border-gray-200 '>
           <th className='py-2 px-3 text-center'>Item:</th>
@@ -147,7 +149,7 @@ export default function FolioCard({
         </tr>
       </thead>
       <tbody>
-        <tr className='hover:bg-gray-100' onClick={handlerSetFolio}>
+        <tr className='hover:bg-gray-100'>
           <td className='border-b border-gray-200 text-center'>
             <p className='py-2 px-3'>{item} </p>
           </td>
@@ -177,7 +179,7 @@ export default function FolioCard({
                   <button className='button' onClick={handleOnClick}>
                     <AiOutlinePaperClip
                       title='Attached'
-                      className='ml-5 mt-2'
+                      className='ml-5 mt-2 z-50'
                     />
                   </button>
                 );
