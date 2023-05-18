@@ -1,10 +1,12 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   AiOutlinePaperClip,
   AiOutlineFolderOpen,
   AiOutlineCloseCircle,
   AiOutlineCloudDownload,
   AiFillEye,
+  AiFillCloud,
+  AiFillCheckCircle,
 } from 'react-icons/ai';
 import { CldUploadWidget } from 'next-cloudinary';
 import { useUserStore } from '../../store/userStore';
@@ -38,8 +40,23 @@ export default function FolioCard({
   setShowTableHours,
 }: Props) {
   const { user, updateUserImage } = useUserStore();
+  const [color, setColor] = useState(false);
 
   // console.log('user', user);
+  useEffect(() => {
+    const result = axios
+      .get(
+        `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
+      )
+      .then((resp) => {
+        if (resp.data.length === 1) {
+          setColor(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [color]);
 
   let value: string | null = user?.image || null;
 
@@ -59,6 +76,7 @@ export default function FolioCard({
           folioNum: folioNumber,
           signedFolioUrl: value?.toString(),
         });
+        setColor(true);
       } else {
         alert('Existe');
       }
@@ -92,6 +110,7 @@ export default function FolioCard({
         await axios.delete(
           `/api/folio/?userId=${user?.id}&folioNum=${folioNumber}`
         );
+        setColor(false);
       } else {
         alert('No Existe');
       }
@@ -129,43 +148,49 @@ export default function FolioCard({
     setFolio(folioNumber);
     setShowTableHours(true);
   };
-
+  const handleClickStopPropagation = (e: any) => {
+    e.stopPropagation();
+  };
   const formattedStartDate = startDate ? startDate.split('T')[0] : '';
   const formattedEndDate = endDate ? endDate.split('T')[0] : '';
 
   return (
     <table
-      className='table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-6 '
-      onClick={handlerSetFolio}
+      className="table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 cursor-pointer"
+      onClick={() => handlerSetFolio()}
     >
       <thead>
-        <tr className='border-b border-gray-200 '>
-          <th className='py-2 px-3 text-center'>Item:</th>
-          <th className='py-2 px-3 text-center'>Folio:</th>
-          <th className='py-2 px-3 text-center'>Start date:</th>
-          <th className='py-2 px-3 text-center'>End date:</th>
-          <th className='py-2 px-3 text-center'>Total Hours:</th>
-          <th className='py-2 px-3 text-center'>Upload signed folio:</th>
+        <tr className="border-b border-gray-200 ">
+          <th className="py-2 px-3 text-center">Item:</th>
+          <th className="py-2 px-3 text-center">Folio:</th>
+          <th className="py-2 px-3 text-center">Start date:</th>
+          <th className="py-2 px-3 text-center">End date:</th>
+          <th className="py-2 px-3 text-center">Total Hours:</th>
+          <th className="py-2 px-3 text-center">Upload signed folio:</th>
+          <th className="py-2 px-3 text-center">Folio Signed</th>
         </tr>
       </thead>
       <tbody>
-        <tr className='hover:bg-gray-100'>
-          <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{item} </p>
+        <tr className="hover:bg-gray-100">
+          <td className=" text-center">
+            <p className="py-2 px-3">{item} </p>
           </td>
-          <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{folioNumber} </p>
+          <td className="border-b border-gray-200 text-center">
+            <p className="py-2 px-3">{folioNumber} </p>
           </td>
-          <td className='border-b border-gray-200'>
-            <p className='py-2 px-3'>{formattedStartDate} </p>
+          <td className="border-b border-gray-200">
+            <p className="py-2 px-3">{formattedStartDate} </p>
           </td>
-          <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{formattedEndDate}</p>
+          <td className="border-b border-gray-200 text-center">
+            <p className="py-2 px-3">{formattedEndDate}</p>
           </td>
-          <td className='border-b border-gray-200 text-center'>
-            <p className='py-2 px-3'>{totalHours} </p>
+          <td className="border-b border-gray-200 text-center">
+            <p className="py-2 px-3">{totalHours} </p>
           </td>
-          <td className='border-b border-gray-200 text-center flex'>
+          <td
+            className=" text-center flex"
+            onClick={handleClickStopPropagation}
+          >
             <CldUploadWidget
               uploadPreset={uploadPreset}
               onUpload={handleUpload}
@@ -176,10 +201,10 @@ export default function FolioCard({
                   open();
                 }
                 return (
-                  <button className='button' onClick={handleOnClick}>
+                  <button className="button" onClick={handleOnClick}>
                     <AiOutlinePaperClip
-                      title='Attached'
-                      className='ml-5 mt-2 z-50'
+                      title="Attached"
+                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
                     />
                   </button>
                 );
@@ -195,31 +220,48 @@ export default function FolioCard({
                   open();
                 }
                 return (
-                  <button className='button' onClick={handleOnClickI}>
-                    <AiOutlineFolderOpen title='Change' className='ml-5 mt-2' />
+                  <button className="button" onClick={handleOnClickI}>
+                    <AiOutlineFolderOpen
+                      title="Change"
+                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
+                    />
                   </button>
                 );
               }}
             </CldUploadWidget>
             <AiOutlineCloseCircle
-              title='Delete'
-              className='ml-5 mt-2'
+              title="Delete"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600"
               onClick={() => handleDelete()}
             />
             <AiOutlineCloudDownload
-              title='Download'
-              className='ml-5 mt-2'
+              title="Download"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
               onClick={() => {
                 handleDownload();
               }}
             />
             <AiFillEye
-              title='Preview'
-              className='ml-5 mt-2 mr-5'
+              title="Preview"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
               onClick={() => {
                 handlePreview();
               }}
             />
+          </td>
+          <td className=" text-center">
+            {color && (
+              <AiFillCheckCircle
+                title="Folio Ubloaded"
+                className="ml-11 text-green-600"
+              />
+            )}
+            {!color && (
+              <AiFillCloud
+                title="No Folio Uploaded"
+                className="ml-11 text-red-600"
+              />
+            )}
           </td>
         </tr>
       </tbody>

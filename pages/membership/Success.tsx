@@ -66,7 +66,7 @@ const Success = () => {
       ) : (
         <div className='flex flex-col justify-items-start'>
           <ToasterProvider />
-          <h1 className='text-6xl font-bold mb-10 text-center'>Success!</h1>
+          <h1 className='text-6xl font-bold mb-10 text-center text-white'>Success!</h1>
           <p className='text-lg text-gray-300 mb-12 text-center'>
             Congratulations! Your action has been completed successfully.
           </p>

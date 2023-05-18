@@ -29,6 +29,7 @@ interface Avion {
 }
 
 interface AddHoursModalProps {
+  selectedFolio: string;
   getFlights: (id: string) => void;
   id: string;
   aviones: Avion[];
@@ -36,6 +37,7 @@ interface AddHoursModalProps {
 }
 
 const AddHoursModal = ({
+  selectedFolio,
   getFlights,
   id,
   aviones,
@@ -121,9 +123,7 @@ const AddHoursModal = ({
       aircraftId: yup
         .mixed()
         .oneOf(Object.values(matriculas), 'Debe registrar el avion'),
-      flightType: yup
-        .mixed()
-        .typeError('Debe seleccionar un tipo de vuelo'),
+      flightType: yup.mixed().typeError('Debe seleccionar un tipo de vuelo'),
       hourCount: yup
         .number()
         .positive('Debe ser positivo')
@@ -222,10 +222,11 @@ const AddHoursModal = ({
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
         <div className='grid md:grid-cols-2 md:gap-6'>
-          <div className='relative z-0 w-full mb-6 group'>
+          <div className={`relative z-0 w-full mb-6 group ${selectedFolio ? 'hidden' : ''}`}>
             <input
               className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
+              value={selectedFolio}
               required
               {...register('folio')}
             />

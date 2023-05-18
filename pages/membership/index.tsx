@@ -217,7 +217,7 @@ const Membership: React.FC = () => {
                 }
                 className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
               >
-                Subscribe44
+                Subscribe
               </button>
             </div>
             <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
