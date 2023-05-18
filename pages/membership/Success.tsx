@@ -3,9 +3,18 @@ import React, { useEffect } from 'react';
 import { useUserStore } from '@/store/userStore';
 import ToasterProvider from '../providers/ToasterProvider';
 import { toast } from 'react-hot-toast';
+import { sendContactForm } from '@/lib/api';
 
 const Success = () => {
   const { user } = useUserStore();
+
+  const values = {
+    name: 'Flight Deck App',
+    email: user?.email,
+    subject: 'Payment approved, you are now a premium member!',
+    message:
+      'Your payment has been processed successfully. From now on, you are a premium member and can enjoy our service without any limitations.',
+  };
 
   const premiumUser = async () => {
     try {
@@ -14,6 +23,7 @@ const Success = () => {
         await axios.put(`/api/user/${user.id}`, {
           premium: true,
         });
+        await sendContactForm(values);
         toast.success('Congratulations, You are Premium!!!');
       }
     } catch (error) {
