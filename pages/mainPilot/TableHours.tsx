@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, ReactInstance } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
@@ -123,7 +123,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const componentPDF = useRef();
 
   const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
+    content: () => componentPDF.current as any,
     documentTitle: `Horas de Vuelos`,
     onAfterPrint: () => alert('PDF Saved'),
   });
@@ -254,7 +254,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       />
       {flight.length ? (
         <div className="max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full">
-          <div ref={componentPDF} style={{ width: '100' }}>
+          <div ref={componentPDF as any} style={{ width: '100' }}>
             <div className="flex flex-row">
               <img
                 src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png"
