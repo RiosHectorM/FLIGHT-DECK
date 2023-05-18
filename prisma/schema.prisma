@@ -39,9 +39,10 @@ model User {
   accounts            Account[]
   pilotedFlights      Flight[]        @relation("pilotedFlights")
   certifiedFlights    Flight[]        @relation("certifiedFlights")
-  Folio               Folio[]
+  folios              Folio[]
   pilotQualifications Qualification[] @relation("pilotQualifications")
   qualifiedInstructor Qualification[] @relation("qualifiedInstructor")
+  certificates        Certificate[]
 }
 
 model Flight {
@@ -129,4 +130,16 @@ model Qualification {
   instructor User @relation("qualifiedInstructor", fields: [instructorId], references: [id])
 
   @@unique([pilotId, instructorId])
+}
+
+model Certificate {
+  id                        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId                    String    @db.ObjectId
+  certificateName           String
+  certificateExpirationDate DateTime?
+  certificateUrl            String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, certificateName])
 }
