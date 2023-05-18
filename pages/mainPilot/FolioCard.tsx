@@ -156,7 +156,8 @@ export default function FolioCard({
 
   return (
     <table
-      className="table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 cursor-pointer"
+      /* className="table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 cursor-pointer" */
+      className="table-auto w-90% mx-auto overflow-x-auto mt-10 bg-indigo-600 text-white px-6 py-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300 ease-in-out cursor-pointer"
       onClick={() => handlerSetFolio()}
     >
       <thead>
@@ -171,20 +172,20 @@ export default function FolioCard({
         </tr>
       </thead>
       <tbody>
-        <tr className="hover:bg-gray-100">
+        <tr className="hover:bg-gray-100 hover:text-black">
           <td className=" text-center">
             <p className="py-2 px-3">{item} </p>
           </td>
-          <td className="border-b border-gray-200 text-center">
+          <td className=" text-center">
             <p className="py-2 px-3">{folioNumber} </p>
           </td>
-          <td className="border-b border-gray-200">
+          <td className=" text-center">
             <p className="py-2 px-3">{formattedStartDate} </p>
           </td>
-          <td className="border-b border-gray-200 text-center">
+          <td className=" text-center">
             <p className="py-2 px-3">{formattedEndDate}</p>
           </td>
-          <td className="border-b border-gray-200 text-center">
+          <td className=" text-center">
             <p className="py-2 px-3">{totalHours} </p>
           </td>
           <td
