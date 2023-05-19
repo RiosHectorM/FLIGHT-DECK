@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, ReactInstance } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
@@ -26,7 +26,6 @@ import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
 import { AiOutlineImport } from 'react-icons/ai';
 import { useReactToPrint } from 'react-to-print';
-import { Any } from 'react-spring';
 
 interface FlightData {
   id?: string | undefined;
@@ -89,10 +88,7 @@ interface Avion {
 }
 
 interface Props {
-  selectedFolio: string | number | null;
-}
-interface Props {
-  selectedFolio: string | number | null;
+  selectedFolio: string | number | undefined;
   setShowTableHours: (show: boolean) => void;
 }
 const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
@@ -102,9 +98,9 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       userId: undefined,
       date: undefined,
       aircraftId: undefined,
-      folio: selectedFolio as string,
+      folio: selectedFolio as string || undefined,
       estado: undefined,
-      tipo: undefined,
+      tipo: 'Todas',
     },
   });
   const { data: session } = useSession();
@@ -170,7 +166,13 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
     else folioFinal = '';
     try {
       const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${filters.filter?.estado}&flightType=${filters.filter?.tipo}`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${
+          filters.filter?.date
+        }&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${
+          filters.filter?.estado
+        }&flightType=${
+          filters.filter?.tipo === undefined ? 'Todas' : filters.filter?.tipo
+        }`
       );
       setFlight(response.data);
       console.log(response.data);
@@ -202,6 +204,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   };
 
   const handlerCertify = async (flight: FlightData) => {
+    setIsLoading(true);
     const response = await axios.get(`/api/pilot/pilotCanCertify/${user?.id}`);
     if (response.data.canCertify === false) {
       youCantCertifyModal.onOpen();
@@ -209,6 +212,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       setSelectedFlight(flight);
       selectFlightInstructorModal.onOpen();
     }
+    setIsLoading(false);
   };
 
   return (

@@ -11,11 +11,13 @@ const HoursCertPilot = ({ userId }: Props) => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get(
-          `http://localhost:3000/api/pilot/getHoursByUserId/${userId}`
-        );
-        const data = response.data;
-        setCertifiedHours(data.CertifiedHours || 0);
+        if (userId !== undefined){
+          const response = await axios.get(
+            `/api/pilot/getHoursByUserId/${userId}`
+          );
+          const data = response.data;
+          setCertifiedHours(data.CertifiedHours || 0);
+        }
       } catch (error) {
         console.error(error);
       }
