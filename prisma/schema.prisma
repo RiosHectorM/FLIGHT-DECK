@@ -137,7 +137,7 @@ model Certificate {
   userId                    String    @db.ObjectId
   certificateName           String
   certificateExpirationDate DateTime?
-  certificateUrl            String?
+  certificateImageUrl       String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
