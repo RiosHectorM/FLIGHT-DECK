@@ -2,34 +2,20 @@
 
 import axios from 'axios';
 //import { signIn } from 'next-auth/react';
-import { useCallback, useState } from 'react';
+import { SetStateAction, useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-
+import StarRating from "../../AuxComponents/StarRating"
 import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../../../InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-interface ProfileData {
-  name: string;
-  email: string;
-  phone: string;
-  rate: Number;
-  dateFly: string;
-  review: string;
-}
 
-const RateInstructorModal = () => {
-  const [profileData, setProfileData] = useState<ProfileData>({
-    name: 'Hector Instructor',
-    email: 'instructor@example.com',
-    phone: '555-1234',
-    rate: 100,
-    dateFly: '09-06-2022',
-    review: 'Buenisimo el loco',
-  });
+
+const RateInstructorModal = ({instructor, user}:{instructor:any; user:string}) => {
+
 
   const rateInstructor = useRateInstructorModal();
 
@@ -39,51 +25,37 @@ const RateInstructorModal = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      rate: '',
-    },
-  });
+  } = useForm<FieldValues>();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    toast.success('Rate enviado');
-    // axios
-    //   .post('/api/register', data)
-    //   .then(() => {
-    //     toast.success('Registered!');
-    //     rateInstructor.onClose();
-    //   })
-    //   .catch((error) => {
-    //     toast.error('Error Login');
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    console.log(data)
+    await axios
+    .post(`/api/qualify`, {
+      ...data,
+      pilotId: user,
+      instructorId: instructor.id,
+      qualificationNum: rating
+   })
+   .then(() => {
+    toast.success('Rating aved');
+   rateInstructor.onClose();
+
+    })
   };
+  const [rating, setRating] = useState(0);
 
-  const onToggle = useCallback(() => {
-    rateInstructor.onClose();
-    //loginModal.onOpen();
-  }, [rateInstructor]);
-  //}, [approveModal, loginModal]);
-
+  const rankear=(index: SetStateAction<number>)=>{setRating(index)
+ }
   const bodyContent = (
     <div className='flex flex-col gap-4 overflow-x-scroll'>
       <Heading
-        title='Calificar Instructor'
-        subtitle={`Califica a ${profileData.name} por su instruccion el dia ${profileData.dateFly}`}
+        title='Rate Instructor'
+        subtitle={`Rate instructor ${instructor.name} ${instructor.lastName && instructor.lastName} for his qualities as a pilot instructor`}
       />
+
+      <StarRating rating={rating} rankear={rankear}/>
       <Input
-        id='rate'
-        label='Rate'
-        type='number'
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      <Input
-        id='review'
+        id='comment'
         label='Review'
         disabled={isLoading}
         register={register}

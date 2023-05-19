@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
@@ -7,7 +7,6 @@ import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-  AiFillFilePdf,
 } from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
@@ -25,7 +24,7 @@ import FilterPilotBar from './FilterPilotBar';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
 import { AiOutlineImport } from 'react-icons/ai';
-import { useReactToPrint } from 'react-to-print';
+import index from '../mainCompany';
 
 interface FlightData {
   id?: string | undefined;
@@ -88,19 +87,23 @@ interface Avion {
 }
 
 interface Props {
-  selectedFolio: string | number | undefined;
+  selectedFolio: string | number | null;
+}
+interface Props {
+  selectedFolio: string | number | null;
   setShowTableHours: (show: boolean) => void;
 }
 const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [instructor, setInstructor] = useState({});
   const [filters, setFilters] = useState<FilterState>({
     filter: {
       userId: undefined,
       date: undefined,
       aircraftId: undefined,
-      folio: selectedFolio as string || undefined,
+      folio: selectedFolio as string,
       estado: undefined,
-      tipo: 'Todas',
+      tipo: undefined,
     },
   });
   const { data: session } = useSession();
@@ -115,14 +118,6 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const editHoursModal = useEditHoursModal();
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
   const [aviones, setAviones] = useState<Avion[]>([]);
-
-  const componentPDF = useRef();
-
-  const generatePDF = useReactToPrint({
-    content: () => componentPDF.current as any,
-    documentTitle: `Horas de Vuelos`,
-    onAfterPrint: () => toast.success('PDF Generated'),
-  });
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -166,13 +161,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
     else folioFinal = '';
     try {
       const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${
-          filters.filter?.date
-        }&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${
-          filters.filter?.estado
-        }&flightType=${
-          filters.filter?.tipo === undefined ? 'Todas' : filters.filter?.tipo
-        }`
+        `/api/flight/getFilteredFlights?userId=${idF}&date=${filters.filter?.date}&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${filters.filter?.estado}&flightType=${filters.filter?.tipo}`
       );
       setFlight(response.data);
       console.log(response.data);
@@ -204,7 +193,6 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   };
 
   const handlerCertify = async (flight: FlightData) => {
-    setIsLoading(true);
     const response = await axios.get(`/api/pilot/pilotCanCertify/${user?.id}`);
     if (response.data.canCertify === false) {
       youCantCertifyModal.onOpen();
@@ -212,13 +200,13 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       setSelectedFlight(flight);
       selectFlightInstructorModal.onOpen();
     }
-    setIsLoading(false);
   };
+  const seleccionarInstructor=(index:any)=>{setInstructor(index)}
 
   return (
     <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
-      <RateInstructorModal />
+      <RateInstructorModal instructor={instructor} user={user?.id}/>
       <FilterPilotBar updateFilters={updateFilters} />
 
       {/* <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
@@ -227,6 +215,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
         selectedFlight={selectedFlight}
         getFlights={getFlights}
         id={user?.id as string}
+        seleccionarInstructor={seleccionarInstructor}
       />
       <AddHoursModal
         selectedFolio={selectedFolio as string}
@@ -258,110 +247,76 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       />
       {flight.length ? (
         <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>
-          <div ref={componentPDF as any} style={{ width: '100' }}>
-            <div className='flex flex-row'>
-              <Image
-                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png'
-                height={150}
-                width={150}
-                alt={'pdfImage'}
-                className='hidden print:block mt-5 ml-5'
-              />
-              <h1 className='hidden print:block mt-10 px-2 py-3 text-center mx-2 my-4 text-base'>
-                NOMBRE DEL PILOTO
-              </h1>
-            </div>
-            <Table className='rounded-2xl overflow-hidden p-4 mb-28'>
-              <Thead className='bg-gray-50'>
-                <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>FOLIO</Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>AIRPLANE</Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>
-                    FLIGHT TYPE
-                  </Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>
-                    INSTRUCTOR
-                  </Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>STAGES</Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>
-                    HOUR COUNT
-                  </Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4'>REMARKS</Th>
-                  <Th className='px-2 py-3 text-center mx-2 my-4 print:hidden'>
-                    ACTIONS
-                  </Th>
-                </Tr>
-              </Thead>
-              <Tbody className='bg-white divide-y divide-gray-200'>
-                {flight.length === 0 ? (
-                  <h1>LOADING....</h1>
-                ) : (
-                  flight.map((dato, index) => (
-                    <Tr key={index} className='hover:bg-gray-100'>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.folio}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.date?.split('T')[0]}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.aircraftId} {dato.marca} {dato.clase} {dato.tipo}{' '}
-                        {dato.matricula} {dato.marcaMotor} {dato.hp}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.flightType}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.certifier
-                          ? dato.certifier.name + ' ' + dato.certifier?.lastName
-                          : ''}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.stages}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.hourCount}
-                      </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                        {dato.remarks}
-                      </Td>
-                      <Td className=' print:hidden px-2 py-4 whitespace-nowrap text-sm font-medium'>
-                        <div className='flex justify-center items-center space-x-2'>
-                          <AiFillEdit
-                            onClick={() => handleEditHours(dato)}
-                            className='text-indigo-600 w-5 h-5'
+          <Table className='rounded-2xl overflow-hidden p-4'>
+            <Thead className='bg-gray-50'>
+              <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>FOLIO</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>AIRPLANE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>FLIGHT TYPE</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>INSTRUCTOR</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>STAGES</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>HOUR COUNT</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>REMARKS</Th>
+                <Th className='px-2 py-3 text-center mx-2 my-4'>ACTIONS</Th>
+              </Tr>
+            </Thead>
+            <Tbody className='bg-white divide-y divide-gray-200'>
+              {flight.length === 0 ? (
+                <h1>LOADING....</h1>
+              ) : (
+                flight.map((dato, index) => (
+                  <Tr key={index} className='hover:bg-gray-100'>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.folio}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.date}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.aircraftId} {dato.marca} {dato.clase} {dato.tipo}{' '}
+                      {dato.matricula} {dato.marcaMotor} {dato.hp} HP
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.flightType}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.certifier
+                        ? dato.certifier.name + ' ' + dato.certifier?.lastName
+                        : ''}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.stages}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.hourCount}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      {dato.remarks}
+                    </Td>
+                    <Td className='px-2 py-4 whitespace-nowrap text-sm font-medium'>
+                      <div className='flex justify-center items-center space-x-2'>
+                        <AiFillEdit
+                          onClick={() => handleEditHours(dato)}
+                          className='text-indigo-600 w-5 h-5'
+                        />
+                        <AiFillCloseCircle
+                          onClick={() => handleDeleteHours(dato)}
+                          className='text-red-600 w-5 h-5'
+                        />
+                        {dato.flightType == 'Escuela' ? (
+                          <AiFillSafetyCertificate
+                            onClick={() => handlerCertify(dato)}
+                            className='text-green-600 w-5 h-5'
                           />
-                          <AiFillCloseCircle
-                            onClick={() => handleDeleteHours(dato)}
-                            className='text-red-600 w-5 h-5'
-                          />
-                          {dato.flightType == 'Escuela' ? (
-                            <AiFillSafetyCertificate
-                              onClick={() => handlerCertify(dato)}
-                              className='text-green-600 w-5 h-5'
-                            />
-                          ) : null}
-                        </div>
-                      </Td>
-                    </Tr>
-                  ))
-                )}
-              </Tbody>
-            </Table>
-            <div className=' fixed bottom-8 flex flex-row mt-20 text-center'>
-              <div className='border-t border-black-200 p-4  ml-10 w-60 hidden print:block'>
-                Firma del Piloto
-              </div>
-              <div className='border-t border-black-200 p-4 ml-5 w-60 hidden print:block'>
-                <div>Instructor o Estadistica</div>
-                <div>No. Licencia</div>
-              </div>
-              <div className='border-t border-black-200 p-4 ml-5 w-60 hidden print:block'>
-                Autoridad Aeronautica
-              </div>
-            </div>
-          </div>
+                        ) : null}
+                      </div>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </Table>
         </div>
       ) : (
         <div className='flex justify-center items-center h-screen'>
@@ -399,16 +354,10 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
           </svg>
         </button>
         <button
-          className='fixed bottom-8 right-32 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl'
+          className='fixed bottom-24 right-8 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl'
           onClick={() => setShowTableHours(false)}
         >
           <AiOutlineImport />
-        </button>
-        <button
-          className='fixed bottom-8 right-56 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl'
-          onClick={() => generatePDF()}
-        >
-          <AiFillFilePdf />
         </button>
       </div>
     </div>
