@@ -142,13 +142,14 @@ model Rates {
   certifierId String?  @db.ObjectId
   createdAt   DateTime @default(now())
   user        User     @relation("rater", fields: [userId], references: [id])
-  certifier   User     @relation("rated", fields: [certifierId], references: [id])
+  certifier   User?    @relation("rated", fields: [certifierId], references: [id])
 }
 
 model Certificate {
   id                        String    @id @default(auto()) @map("_id") @db.ObjectId
   userId                    String    @db.ObjectId
   certificateName           String
+  certificateDescription    String?
   certificateExpirationDate DateTime?
   certificateImageUrl       String?
 

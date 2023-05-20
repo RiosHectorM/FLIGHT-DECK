@@ -34,7 +34,7 @@ export default async function handler(
   // - POST (Create new certificate (flight license, medical certificate, etc.)------------
   else if (req.method === 'POST') {
 
-    const { userId, certificateName, certificateExpirationDate, certificateImageUrl } = req.body;
+    const { userId, certificateName, certificateDescription, certificateExpirationDate, certificateImageUrl } = req.body;
 
     try {
       // Verify existence of required fields
@@ -46,6 +46,7 @@ export default async function handler(
         data: {
           userId,
           certificateName,
+          certificateDescription,
           certificateExpirationDate,
           certificateImageUrl,
         },
@@ -64,7 +65,7 @@ export default async function handler(
   // - PUT (Update certificate expiration, and/or image url)------------------
   else if (req.method === 'PUT') {
 
-    const { userId, certificateName, certificateExpirationDate, certificateImageUrl } = req.body;
+    const { userId, certificateName, certificateDescription, certificateExpirationDate, certificateImageUrl } = req.body;
 
     try {
       // Verify existence of required fields
@@ -87,6 +88,7 @@ export default async function handler(
           id: existingCertificate.id,
         },
         data: {
+          certificateDescription,
           certificateExpirationDate,
           certificateImageUrl,
         },
