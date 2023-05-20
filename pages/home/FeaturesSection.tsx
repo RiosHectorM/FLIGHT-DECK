@@ -8,17 +8,17 @@ const FeaturesSection = () => {
     {
       img: '/images/feature1.jpg',
       title: 'LogBook',
-      fullText: '¡Gestiona tus horas de vuelo de forma eficiente! Registra tus horas de vuelo, busca instructores, puntúa sus servicios y solicita certificaciones.Genera un documento PDF con tus registros de horas al instante! Descarga nuestra aplicación hoy.',
+      fullText: 'Manage your flight hours efficiently! Record your flight hours, search for instructors, rate their services, and request certifications. Generate a PDF document with your hour logs instantly! Download our application today.',
     },
     {
       img: '/images/feature2.png',
       title: 'Register as an instructor today',
-      fullText: 'Verifica tus horas de vuelo con la veracidad de tus instructores, y comunícate con ellos directamente. Accede a estadísticas de tus capacitaciones diarias, semanales o mensuales con nuestra aplicación de registro de horas de vuelo. Perfecciona tus habilidades de vuelo y conviértete en el mejor piloto que puedas ser. ¡Descarga nuestra aplicación hoy mismo y despega hacia el éxito!',
+      fullText: 'Verify your flight hours with the truthfulness of your instructors, and communicate with them directly. Access statistics from your daily, weekly, or monthly trainings with our flight log application. Perfect your flying skills and become the best pilot you can be. Download our application today and take off to success!',
     },
     {
       img: '/images/feature3.png',
       title: 'For companies',
-      fullText: 'Optimiza la gestión de horas de vuelo de tus pilotos con nuestra aplicación de registro de horas de vuelo para empresas. Aprueba las horas de vuelo de los pilotos y accede a la base de datos de pilotos registrados para descargar un historial de horas de vuelo certificadas y no certificadas. Descarga nuestra aplicación de registro de horas de vuelo para empresas hoy mismo y lleva la gestión de tus pilotos al siguiente nivel.',
+      fullText: "Optimize the management of your pilots' flight hours with our flight log application for businesses. Approve pilot flight hours and access the database of registered pilots to download a history of certified and non-certified flight hours. Download our business flight log application today and take your pilot management to the next level.",
     },
   ];
 
