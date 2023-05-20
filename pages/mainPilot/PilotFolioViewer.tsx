@@ -4,9 +4,6 @@ import axios from 'axios';
 import FolioCard from './FolioCard';
 
 import { FaClipboardCheck, FaClock, FaRegFileAlt } from 'react-icons/fa';
-import HoursPilot from '../dashboardPilot/hoursPilot';
-import HoursCertPilot from '../dashboardPilot/hoursCertPilot';
-import HoursToCertPilot from '../dashboardPilot/hoursToCertPilot';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
