@@ -58,11 +58,6 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
   }, [user?.id, toggle]);
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [showChat, setShowChat] = useState(true);
-
-  const handleShowChat = () => {
-    setShowChat(!showChat);
-  };
 
   return (
     <div
@@ -80,26 +75,11 @@ const MainInstructor = ({ title }: MainInstructorProps) => {
               <CertificationRequests requests={requests} toggler={toggler} />
             </div>
             <div className='w-1/2 px-4 py-6 sm:px-0'>
-              {/* <Calendar
-                currentDate={currentDate}
-                onDateChange={setCurrentDate}
-              /> */}
               Aca va el calendario
             </div>
           </div>
         </main>
       </div>
-      {/* <div className='md:w-1/3 bg-white h-full overflow-hidden'>
-        <div className='flex flex-col h-full'>
-          <div className='px-4 py-6 border-b border-gray-200 flex justify-between'>
-            <h2 className='text-2xl font-bold text-gray-800 mb-2'>Chat</h2>
-            <FaComment size={20} className='cursor-pointer' onClick={handleShowChat} />
-          </div>
-          <div className={`px-4 h-500 overflow-y-auto ${showChat ? 'block' : 'hidden'}`}>
-            <Chat />
-          </div>
-        </div>
-      </div> */}
     </div>
   );
 };
