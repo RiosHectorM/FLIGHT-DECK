@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import FormPilot from './formpilot';
 import FormPassword from './formpassword';
-import ProfileSection from '../mainInstructor/ProfileSection';
-
-import Notification from '../mainInstructor/Notification';
 import FormPhoto from './formphoto';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
