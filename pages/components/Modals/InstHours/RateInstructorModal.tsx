@@ -50,7 +50,7 @@ const RateInstructorModal = ({instructor, user}:{instructor:any; user:string}) =
     <div className='flex flex-col gap-4 overflow-x-scroll'>
       <Heading
         title='Rate Instructor'
-        subtitle={`Rate instructor ${instructor.name} ${instructor.lastName && instructor.lastName} for his qualities as a pilot instructor`}
+        subtitle={`Rate instructor ${instructor?.name} ${instructor?.lastName && instructor?.lastName} for his qualities as a pilot instructor`}
       />
 
       <StarRating rating={rating} rankear={rankear}/>

@@ -46,7 +46,7 @@ const Index = () => {
       )}
       {showTableHours && (
         <TableHoursPilot
-          selectedFolio={folio}
+          selectedFolio={folio as string}
           setShowTableHours={setShowTableHours}
         />
       )}
