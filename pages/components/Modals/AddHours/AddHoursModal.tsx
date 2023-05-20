@@ -29,7 +29,7 @@ interface Avion {
 }
 
 interface AddHoursModalProps {
-  selectedFolio: string;
+  selectedFolio?: string | number | undefined;
   getFlights: (id: string) => void;
   id: string;
   aviones: Avion[];

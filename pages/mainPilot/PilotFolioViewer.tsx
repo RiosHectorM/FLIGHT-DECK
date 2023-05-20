@@ -48,7 +48,7 @@ interface FlightData {
 }
 
 interface Props {
-  setFolio: (folio: string | number) => void;
+  setFolio: (folio: string | number | undefined) => void;
   setShowTableHours: (show: boolean) => void;
   setIsLoading: (show: boolean) => void;
 }
@@ -107,10 +107,12 @@ export default function PilotFolioViewer({
 
   const getFlights = async (idF: string) => {
     try {
-      const response = await axios.get(
-        `/api/flight/getFlightsByUserId?id=${idF}`
-      );
-      updated(response.data);
+      if (idF !== undefined) {
+        const response = await axios.get(
+          `/api/flight/getFlightsByUserId?id=${idF}`
+        );
+        updated(response.data);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -120,7 +122,7 @@ export default function PilotFolioViewer({
 
   const handlerAdd = () => {
     setShowTableHours(true);
-    setFolio('');
+    setFolio(undefined);
     addHoursModal.onOpen();
   };
 

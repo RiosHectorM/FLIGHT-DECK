@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { useSession } from 'next-auth/react';
@@ -7,7 +7,6 @@ import {
   AiFillSafetyCertificate,
   AiFillEdit,
   AiFillCloseCircle,
-  AiFillFilePdf,
 } from 'react-icons/ai';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
@@ -25,8 +24,7 @@ import FilterPilotBar from './FilterPilotBar';
 import Loader from '../components/Loader';
 import { useUserStore } from '@/store/userStore';
 import { AiOutlineImport } from 'react-icons/ai';
-import { useReactToPrint } from 'react-to-print';
-import { Any } from 'react-spring';
+import index from '../mainCompany';
 
 interface FlightData {
   id?: string | undefined;
@@ -97,6 +95,7 @@ interface Props {
 }
 const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [instructor, setInstructor] = useState({});
   const [filters, setFilters] = useState<FilterState>({
     filter: {
       userId: undefined,
@@ -119,14 +118,6 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const editHoursModal = useEditHoursModal();
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
   const [aviones, setAviones] = useState<Avion[]>([]);
-
-  const componentPDF = useRef();
-
-  const generatePDF = useReactToPrint({
-    content: () => componentPDF.current,
-    documentTitle: `Horas de Vuelos`,
-    onAfterPrint: () => alert('PDF Saved'),
-  });
 
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
@@ -210,11 +201,12 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       selectFlightInstructorModal.onOpen();
     }
   };
+  const seleccionarInstructor=(index:any)=>{setInstructor(index)}
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className='flex flex-col justify-between h-full'>
       {isLoading && <Loader />}
-      <RateInstructorModal />
+      <RateInstructorModal instructor={instructor} user={user?.id}/>
       <FilterPilotBar updateFilters={updateFilters} />
 
       {/* <button onClick={() => rateInstructor.onOpen()}>calificar</button> */}
@@ -223,6 +215,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
         selectedFlight={selectedFlight}
         getFlights={getFlights}
         id={user?.id as string}
+        seleccionarInstructor={seleccionarInstructor}
       />
       <AddHoursModal
         selectedFolio={selectedFolio as string}
@@ -330,48 +323,35 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
                           <AiFillCloseCircle
                             onClick={() => handleDeleteHours(dato)}
                             className="text-red-600 w-5 h-5"
+                        />
+                        {dato.flightType == 'Escuela' ? (
+                          <AiFillSafetyCertificate
+                            onClick={() => handlerCertify(dato)}
+                            className='text-green-600 w-5 h-5'
                           />
-                          {dato.flightType == 'Escuela' ? (
-                            <AiFillSafetyCertificate
-                              onClick={() => handlerCertify(dato)}
-                              className="text-green-600 w-5 h-5"
-                            />
-                          ) : null}
-                        </div>
-                      </Td>
-                    </Tr>
-                  ))
-                )}
-              </Tbody>
-            </Table>
-            <div className=" fixed bottom-8 flex flex-row mt-20 text-center">
-              <div className="border-t border-black-200 p-4  ml-10 w-60 hidden print:block">
-                Firma del Piloto
-              </div>
-              <div className="border-t border-black-200 p-4 ml-5 w-60 hidden print:block">
-                <div>Instructor o Estadistica</div>
-                <div>No. Licencia</div>
-              </div>
-              <div className="border-t border-black-200 p-4 ml-5 w-60 hidden print:block">
-                Autoridad Aeronautica
-              </div>
-            </div>
-          </div>
+                        ) : null}
+                      </div>
+                    </Td>
+                  </Tr>
+                ))
+              )}
+            </Tbody>
+          </Table>
         </div>
       ) : (
-        <div className="flex justify-center items-center h-screen">
-          <div className="text-center mt-0">
+        <div className='flex justify-center items-center h-screen'>
+          <div className='text-center mt-0'>
             <Image
-              src="/images/flight.png"
-              alt="Imagen de un avión"
+              src='/images/flight.png'
+              alt='Imagen de un avión'
               width={200}
               height={200}
             />
 
-            <h3 className="text-3xl font-bold text-white mb-4">
+            <h3 className='text-3xl font-bold text-white mb-4'>
               No se encontraron vuelos
             </h3>
-            <p className="text-lg text-white mb-8">
+            <p className='text-lg text-white mb-8'>
               Lo sentimos, no se encontraron vuelos que coincidan con sus
               criterios de búsqueda. Por favor, ajuste sus criterios de búsqueda
               e inténtelo de nuevo.
@@ -381,29 +361,23 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       )}
       <div>
         <button
-          className="fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out"
+          className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
           onClick={handleAddHours}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6"
-            viewBox="0 0 20 20"
-            fill="currentColor"
+            xmlns='http://www.w3.org/2000/svg'
+            className='h-6 w-6'
+            viewBox='0 0 20 20'
+            fill='currentColor'
           >
-            <path fillRule="evenodd" d="M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z" />
+            <path fillRule='evenodd' d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z' />
           </svg>
         </button>
         <button
-          className="fixed bottom-24 right-8 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl"
+          className='fixed bottom-24 right-8 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl'
           onClick={() => setShowTableHours(false)}
         >
           <AiOutlineImport />
-        </button>
-        <button
-          className="fixed bottom-40 right-8 bg-red-600 text-white px-6 py-4 rounded-full hover:bg-red-700 transition-colors duration-300 ease-in-out text-2xl"
-          onClick={() => generatePDF()}
-        >
-          <AiFillFilePdf />
         </button>
       </div>
     </div>

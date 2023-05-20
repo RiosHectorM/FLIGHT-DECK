@@ -6,10 +6,12 @@ import { useEffect, useState } from 'react';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
 import useSelectFlightInstructorModal from '@/utils/hooks/useSelectFlightInstructorModal';
+import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
+import RateInstructorModal from '../InstHours/RateInstructorModal';
 
 interface Instructor {
   id: string | null;
@@ -23,16 +25,19 @@ const SelectFlightInstructorModal = ({
   selectedFlight,
   getFlights,
   id,
+  seleccionarInstructor
 }: {
   selectedFlight: any;
   getFlights: any;
   id: string;
+  seleccionarInstructor:(index:string)=>void
 }) => {
   const { data: userData } = useSession();
   const [isLoading, setIsLoading] = useState(false);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
 
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
+  const rateInstructorModal = useRateInstructorModal();
 
   const userByRole = async (email: string) => {
     setIsLoading(true);
@@ -49,21 +54,22 @@ const SelectFlightInstructorModal = ({
       });
   };
 
-  const handleSelect = async (instructorId: string) => {
+  const handleSelect = async (instructorId: any) => {
     setIsLoading(true);
 
     const flightId = Array.isArray(selectedFlight.id)
       ? selectedFlight.id[0]
       : selectedFlight.id;
-
+seleccionarInstructor(instructorId)
     await axios
       .put(`/api/flight/setCertifier/${flightId}`, {
-        certifierId: instructorId,
+        certifierId: instructorId.id,
         certified: false,
       })
       .then(() => {
         toast.success('Certification Requirement Saved');
         selectFlightInstructorModal.onClose();
+        rateInstructorModal.onOpen();
         getFlights(id);
       })
       .catch(() => toast.error('Error Saving Data'))
@@ -86,7 +92,7 @@ const SelectFlightInstructorModal = ({
   const bodyContent = (
     <div className='flex flex-col gap-4'>
       <Heading
-        title='Find your instructor to be on touch...'
+        title='Ask your flight instructor to certify your hours...'
         subtitle='All of them'
       />
       <div className='grid grid-cols-3 gap-4 p-4 border rounded-lg bg-white shadow-md mx-auto my-auto text-center'>
@@ -101,7 +107,7 @@ const SelectFlightInstructorModal = ({
             <div className='text-gray-800'>{usuario.role}</div>
             {usuario?.id ? (
               <button
-                onClick={() => handleSelect(usuario.id!)}
+                onClick={() => handleSelect(usuario!)}
                 className='bg-blue-500 text-white py-1 px-2 rounded mt-2'
               >
                 Select

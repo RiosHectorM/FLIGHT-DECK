@@ -41,6 +41,7 @@ let flights
               ...filters,
             },
             include: {
+              user: true,
               certifier: true,
             },
           });
@@ -52,6 +53,7 @@ let flights
               certifier:null,
               },
               include: {
+                user: true,
                 certifier: true,
               },
               // include: {
@@ -67,6 +69,7 @@ let flights
                 NOT:{certifier:null},
               },
               include: {
+                user: true,
                 certifier: true,
               },
               // include: {
@@ -83,6 +86,7 @@ let flights
                 NOT:{certifier:null},
               },
               include: {
+                user: true,
                 certifier: true,
               },
               // include: {

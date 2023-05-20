@@ -9,30 +9,28 @@ import FormPhoto from './formphoto';
 import ChatComponent from '../Chat';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
-import { FaClipboardCheck, FaRegFileAlt, FaClock } from 'react-icons/fa';
-import HoursPilot from './hoursPilot';
 import ModalComponent from './certificaMedicPilot';
-import HoursCertPilot from './hoursCertPilot';
-import HoursToCertPilot from './hoursToCertPilot';
+import LicensePilot from './licensePilot';
 
 
 const MainPiloto = () => {
-  const [showProfile, setShowProfile] = useState(false);
-  const [showChat, setShowChat] = useState(false);
+  
+/*   const [showProfile, setShowProfile] = useState(false);
+  const [showChat, setShowChat] = useState(false); */
 
-  const handleShowProfile = () => {
+/*   const handleShowProfile = () => {
     setShowProfile(!showProfile);
-  };
+  }; */
 
-  const handleShowChat = () => {
+  /* const handleShowChat = () => {
     setShowChat(!showChat);
-  };
+  }; */
 
   const { data } = useSession();
 
   const { user, fetchUserByEmail } = useUserStore();
 
-  const userId = user?.id;
+ 
 
   useEffect(() => {
     if (data?.user?.email) {
@@ -57,66 +55,15 @@ const MainPiloto = () => {
           <div className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
             <div className="px-4 py-6 sm:px-0">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white rounded-xl shadow-md">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                        <FaClock className="text-white w-6 h-6" />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                          Total Recorded Hours
-                        </dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900 flex items-center">
-                            <HoursPilot userId={userId} />
-                            <p className="ml-2">Hrs</p>
-                          </div>
-                        </dd>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white rounded-xl shadow-md">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                        <FaRegFileAlt className="text-white w-6 h-6" />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                          Total Certified Hours
-                        </dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900 flex items-center">
-                            <HoursCertPilot userId={userId} />
-                            <p className="ml-2">Hrs</p>
-                          </div>
-                        </dd>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="bg-white rounded-xl shadow-md">
-                  <div className="px-4 py-5 sm:p-6">
-                    <div className="flex items-center">
-                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                        <FaClipboardCheck className="text-white w-6 h-6" />
-                      </div>
-                      <div className="ml-5 w-0 flex-1">
-                        <dt className="text-sm font-medium text-gray-500 truncate">
-                          Total Pending Hours to Certify
-                        </dt>
-                        <dd>
-                          <div className="text-lg font-medium text-gray-900 flex items-center">
-                            <HoursToCertPilot userId={userId} />
-                            <p className="ml-2">Hrs</p>
-                          </div>
-                        </dd>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <div className='bg-white rounded-xl shadow-md'>
+              <ModalComponent/>
+              </div>
+              <div className='bg-white rounded-xl shadow-md'>
+              <LicensePilot/>
+              </div>
+              <div className='bg-white rounded-xl shadow-md'>
+              <ModalComponent/>
+              </div>
               </div>
             </div>
           </div>
@@ -140,7 +87,7 @@ const MainPiloto = () => {
                   </div>
                 </div>
               </div>
-              <div className='lg:w-1/3'>
+              {/* <div className='lg:w-1/3'>
               <ModalComponent/>
                 <div className='bg-white rounded-lg shadow-lg p-6 mb-6 mt-5'>
                   <div className='flex justify-between items-center mb-6'>
@@ -154,7 +101,7 @@ const MainPiloto = () => {
                   </div>
                   {showChat && <ChatComponent />}
                 </div>
-              </div>
+              </div> */}
             </div>
             {/* <div className='bg-white rounded-lg shadow-lg p-6 mb-6'>
                 <div className='flex justify-between items-center mb-6'>

@@ -71,7 +71,7 @@ export default async function handler(
     catch (error) {
       console.error(error);
       const errorMessage = error as string;
-      return res.status(500).json({ message: `Error creating folio: ${errorMessage}` });
+      return res.status(500).json({ message: `Error updating folio: ${errorMessage}` });
     }
   }
 
