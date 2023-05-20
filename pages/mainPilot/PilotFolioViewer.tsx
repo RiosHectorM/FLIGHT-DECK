@@ -128,6 +128,30 @@ export default function PilotFolioViewer({
 
   const userId = user?.id;
 
+  const [totalHours, setTotalHours] = useState({
+    totalHours: 0,
+    toCertifyHours: 0,
+    CertifiedHours: 0,
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (userId !== undefined) {
+          const response = await axios.get(
+            `/api/pilot/getHoursByUserId/${userId}`
+          );
+          const data = response.data;
+          setTotalHours(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, [userId]);
+
   return (
     <>
       <div className='flex flex-col sm:flex-row'>
@@ -148,7 +172,7 @@ export default function PilotFolioViewer({
                       </dt>
                       <dd>
                         <div className='text-lg font-medium text-white flex items-center'>
-                          <HoursPilot userId={userId} />
+                          <p>{totalHours.totalHours}</p>
                           <p className='ml-2'>Hrs</p>
                         </div>
                       </dd>
@@ -168,7 +192,7 @@ export default function PilotFolioViewer({
                         </dt>
                         <dd>
                           <div className='text-lg font-medium text-white flex items-center'>
-                            <HoursCertPilot userId={userId} />
+                            <p>{totalHours.CertifiedHours}</p>
                             <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
@@ -189,7 +213,7 @@ export default function PilotFolioViewer({
                         </dt>
                         <dd>
                           <div className='text-lg font-medium text-white flex items-center'>
-                            <HoursToCertPilot userId={userId} />
+                            <p>{totalHours.toCertifyHours}</p>
                             <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
