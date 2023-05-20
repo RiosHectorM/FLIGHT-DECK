@@ -57,7 +57,6 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
 
   const handleReset = () => {
     reset();
-
     let newFilter: Filtros = {
       filter: null,
     };
@@ -68,7 +67,6 @@ const FilterPilotBar: FC<FilterPilotBarProps> = ({ updateFilters }) => {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       const filter = localStorage.getItem('filters');
-
       if (filter) {
         setFilters(JSON.parse(filter));
       }

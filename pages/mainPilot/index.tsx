@@ -14,7 +14,7 @@ const Index = () => {
   const { fetchUserByEmail } = useUserStore();
 
   const [showTableHours, setShowTableHours] = useState<boolean>(false);
-  const [folio, setFolio] = useState<string | number | null>(null);
+  const [folio, setFolio] = useState<string | number | undefined>(undefined);
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -46,7 +46,7 @@ const Index = () => {
       )}
       {showTableHours && (
         <TableHoursPilot
-          selectedFolio={folio}
+          selectedFolio={folio as string}
           setShowTableHours={setShowTableHours}
         />
       )}

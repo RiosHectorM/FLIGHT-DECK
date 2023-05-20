@@ -36,13 +36,15 @@ model User {
   updatedAt          DateTime  @updatedAt
 
   // userType UserType @relation(fields: [userTypeId], references: [id]) // onDelete: Cascade ?
-  accounts            Account[]
-  pilotedFlights      Flight[]        @relation("pilotedFlights")
-  certifiedFlights    Flight[]        @relation("certifiedFlights")
-  folios              Folio[]
+  accounts         Account[]
+  pilotedFlights   Flight[]      @relation("pilotedFlights")
+  certifiedFlights Flight[]      @relation("certifiedFlights")
+  folios           Folio[]
   pilotQualifications Qualification[] @relation("pilotQualifications")
   qualifiedInstructor Qualification[] @relation("qualifiedInstructor")
-  certificates        Certificate[]
+  //rater            Rates[]       @relation("rater")
+  //rated            Rates[]       @relation("rated")
+  certificates     Certificate[]
 }
 
 model Flight {
@@ -129,15 +131,27 @@ model Qualification {
   pilot      User @relation("pilotQualifications", fields: [pilotId], references: [id])
   instructor User @relation("qualifiedInstructor", fields: [instructorId], references: [id])
 
-  @@unique([pilotId, instructorId])
+ // @@unique([pilotId, instructorId])
 }
+
+// model Rates {
+//   id          String   @id @default(auto()) @map("_id") @db.ObjectId
+//   userId      String   @db.ObjectId
+//   rate        Int
+//   remarks     String?
+//   certifierId String?  @db.ObjectId
+//   createdAt   DateTime @default(now())
+//   user        User     @relation("rater", fields: [userId], references: [id])
+//   certifier   User?    @relation("rated", fields: [certifierId], references: [id])
+// }
 
 model Certificate {
   id                        String    @id @default(auto()) @map("_id") @db.ObjectId
   userId                    String    @db.ObjectId
   certificateName           String
+  certificateDescription    String?
   certificateExpirationDate DateTime?
-  certificateUrl            String?
+  certificateImageUrl       String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 

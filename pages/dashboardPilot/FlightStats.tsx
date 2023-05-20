@@ -5,7 +5,7 @@ interface Props {
   userId?: string;
 }
 
-const HoursCertPilot = ({ userId }: Props) => {
+const FlightStats = ({ userId }: Props) => {
   const [certifiedHours, setCertifiedHours] = useState<number>(0);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const HoursCertPilot = ({ userId }: Props) => {
   );
 };
 
-export default HoursCertPilot;
+export default FlightStats;
