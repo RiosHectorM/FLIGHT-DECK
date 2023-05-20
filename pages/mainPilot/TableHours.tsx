@@ -263,7 +263,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
                 className="hidden print:block mt-5 ml-5"
               ></img>
               <h1 className="hidden print:block mt-10 px-2 py-3 text-center mx-2 my-4 text-base">
-                NOMBRE DEL PILOTO NOMBRE DEL PILOTO
+                NOMBRE DEL PILOTO NOMBRE DEL PILOTO Nombre
               </h1>
             </div>
             <Table className="rounded-2xl overflow-hidden p-4">
