@@ -1,22 +1,36 @@
-import { FC, useEffect } from "react";
-import {
-  FaUser,
-  FaBell,
-  FaUsers,
-  FaRegFileAlt,
-  FaClipboardCheck,
-} from 'react-icons/fa';
+import { FC, useEffect, useState } from 'react';
 import FormPhoto from './form/formphoto';
 import FromInstructor from './form/forminstructor';
 import FormPassword from './form/formpassword';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
-import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
+import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
+import ToasterProvider from '../providers/ToasterProvider';
 
 const DashboardInstructor: FC = () => {
   const { data } = useSession();
 
   const { user, fetchUserByEmail } = useUserStore();
+
+  const [showFormInstructor, setShowFormInstructor] = useState(false);
+  const [showFormPassword, setShowFormPassword] = useState(false);
+  const [showInfo, setShowInfo] = useState(true);
+
+  const handleFormInstructor = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setShowInfo(false);
+    setShowFormInstructor(true);
+  };
+
+  const handleFormPassword = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setShowInfo(false);
+    setShowFormPassword(true);
+  };
 
   useEffect(() => {
     if (data?.user?.email) {
@@ -29,95 +43,108 @@ const DashboardInstructor: FC = () => {
   return (
     <ProtectedRoute allowedRoles={['INSTRUCTOR']}>
       <div
-        className="min-h-screen bg-gray-100"
+        className='min-h-screen bg-gray-100 w-full'
         style={{
           backgroundImage: "url('/images/DASHCOMPANY.jpg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
         }}
       >
         {user?.id && (
           <main>
-            <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-              <div className="px-4 py-6 sm:px-0">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-white rounded-xl shadow-md">
-                    <div className="px-4 py-5 sm:p-6">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                          <FaUsers className="text-white w-6 h-6" />
-                        </div>
-                        <div className="ml-5 w-0 flex-1">
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Total Students
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              425
-                            </div>
-                          </dd>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-xl shadow-md">
-                    <div className="px-4 py-5 sm:p-6">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                          <FaRegFileAlt className="text-white w-6 h-6" />
-                        </div>
-                        <div className="ml-5 w-0 flex-1">
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Total Courses
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              32
-                            </div>
-                          </dd>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="bg-white rounded-xl shadow-md">
-                    <div className="px-4 py-5 sm:p-6">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
-                          <FaClipboardCheck className="text-white w-6 h-6" />
-                        </div>
-                        <div className="ml-5 w-0 flex-1">
-                          <dt className="text-sm font-medium text-gray-500 truncate">
-                            Pending Certifications
-                          </dt>
-                          <dd>
-                            <div className="text-lg font-medium text-gray-900">
-                              12
-                            </div>
-                          </dd>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="flex justify-center">
-                <div className="bg-white bg-opacity-70 rounded-lg shadow-lg p-6">
-                  <h2 className="text-xl font-bold mb-10 w-full">
-                    Instructor Information
+            <ToasterProvider />
+            <div className='max-w-7xl mx-auto py-6 sm:px-6 lg:px-8'>
+              <div className='flex justify-center'>
+                <div className='bg-white bg-opacity-70 rounded-lg shadow-lg p-6 w-11/12  md:w-4/5 justify-center'>
+                  <h2 className='text-xl font-bold mb-10 w-full text-center'>
+                    INSTRUCTOR INFORMATION
                   </h2>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-full mx-auto">
-                    <div className="mx-auto max-w-80 h-80">
-                      <FormPhoto />
+                  <div className='flex flex-col lg:flex-row gap-4 max-w-full items-center '>
+                    <div className='flex flex-col lg:flex-row w-full'>
+                      <div className='mx-auto h-auto mb-10 max-w-4/5 lg:max-w-4/5'>
+                        <FormPhoto />
+                      </div>
+                      {showInfo && (
+                        <div className='flex flex-col text-xl text-center lg:text-left'>
+                          <p className='font-bold text-2xl'>{user.name}</p>
+                          <p className='font-bold text-2xl'>{user.lastName}</p>
+                          <p className='font-semibold italic mb-2 mt-6'>
+                            {user.email}
+                          </p>
+                          <p className='font-semibold italic mb-2 mt-6 flex'>
+                            <p className='font-normal mr-2 not-italic'>
+                              Nacionality:{' '}
+                            </p>
+                            {user.nationality}
+                          </p>
+                          <p className='font-semibold italic mb-2 mt-2 flex'>
+                            <p className='font-normal mr-2 not-italic'>
+                              City:{' '}
+                            </p>{' '}
+                            {user.city}
+                          </p>
+                          <p className='font-semibold italic mb-2 mt-2 flex'>
+                            <p className='font-normal mr-2 not-italic'>
+                              Address:{' '}
+                            </p>
+                            {user.address}
+                          </p>
+                          <p className='font-semibold italic mb-2 mt-2 flex'>
+                            <p className='font-normal mr-2 not-italic'>
+                              Phone:{' '}
+                            </p>
+                            {user.phoneNumber}
+                          </p>
+                          <button
+                            className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                            onClick={handleFormInstructor}
+                          >
+                            Edit Information
+                          </button>
+                          <button
+                            className='font-sans bg-gray-800 text-white mb-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                            onClick={handleFormPassword}
+                          >
+                            Change Password
+                          </button>
+                        </div>
+                      )}
                     </div>
-                    <div className="mx-auto max-w-md">
-                      <FromInstructor />
-                    </div>
-                    <div className="mx-auto max-w-md">
-                      <FormPassword />
-                    </div>
+                    {showFormInstructor && (
+                      <div className='mx-auto h-auto mb-10 w-full lg:w-4/5'>
+                        <FromInstructor
+                          setShowInfo={setShowInfo}
+                          setShowFormInstructor={setShowFormInstructor}
+                        />
+                      </div>
+                    )}
+                    {showFormPassword && (
+                      <div className='mx-auto h-auto mb-10 w-full lg:w-4/5'>
+                        <FormPassword
+                          setShowInfo={setShowInfo}
+                          setShowFormPassword={setShowFormPassword}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
+              {/* CERTIFICADOS */}
+              {/* <div className='mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
+                <div className='px-4 py-6 sm:px-0'>
+                  <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                    <div className='bg-white rounded-xl shadow-md'>
+                      <ModalComponent />
+                    </div>
+                    <div className='bg-white rounded-xl shadow-md'>
+                      <LicensePilot />
+                    </div>
+                    <div className='bg-white rounded-xl shadow-md'>
+                      <ModalComponent />
+                    </div>
+                  </div>
+                </div>
+              </div> */}
             </div>
           </main>
         )}
