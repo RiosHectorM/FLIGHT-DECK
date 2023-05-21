@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import ToasterProvider from '../providers/ToasterProvider';
+import FormCertificates from './form/formCertificates';
 
 const DashboardInstructor: FC = () => {
   const { data } = useSession();
@@ -14,6 +15,7 @@ const DashboardInstructor: FC = () => {
 
   const [showFormInstructor, setShowFormInstructor] = useState(false);
   const [showFormPassword, setShowFormPassword] = useState(false);
+  const [showCertificates, setShowCertificates] = useState(false);
   const [showInfo, setShowInfo] = useState(true);
 
   const handleFormInstructor = (
@@ -31,6 +33,14 @@ const DashboardInstructor: FC = () => {
     setShowInfo(false);
     setShowFormPassword(true);
   };
+
+    const handleCertifications = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      event.preventDefault();
+      setShowInfo(false);
+      setShowCertificates(true);
+    };
 
   useEffect(() => {
     if (data?.user?.email) {
@@ -103,6 +113,12 @@ const DashboardInstructor: FC = () => {
                           </button>
                           <button
                             className='font-sans bg-gray-800 text-white mb-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                            onClick={handleCertifications}
+                          >
+                            Edit Certifications
+                          </button>
+                          <button
+                            className='font-sans bg-gray-800 text-white mb-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
                             onClick={handleFormPassword}
                           >
                             Change Password
@@ -126,25 +142,17 @@ const DashboardInstructor: FC = () => {
                         />
                       </div>
                     )}
+                    {/* CERTIFICADOS */}
+                    {showCertificates && (
+                      <FormCertificates
+                        setShowInfo={setShowInfo}
+                        setShowCertificates={setShowCertificates}
+                        userId={user.id}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
-              {/* CERTIFICADOS */}
-              {/* <div className='mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
-                <div className='px-4 py-6 sm:px-0'>
-                  <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
-                    <div className='bg-white rounded-xl shadow-md'>
-                      <ModalComponent />
-                    </div>
-                    <div className='bg-white rounded-xl shadow-md'>
-                      <LicensePilot />
-                    </div>
-                    <div className='bg-white rounded-xl shadow-md'>
-                      <ModalComponent />
-                    </div>
-                  </div>
-                </div>
-              </div> */}
             </div>
           </main>
         )}
