@@ -95,35 +95,32 @@ const Certif = ({
               )}
             </div>
             <div className='flex flex-row lg:flex-col justify-around w-full lg:w-auto mx-auto'>
-              <div className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'>
-                <AiFillEye
-                  title='View'
-                  className='w-5 h-5 my-2 '
-                  onClick={() => handlerImageShow(cert?.certificateImageUrl)}
-                />
+              <div
+                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'
+                onClick={() => handlerImageShow(cert?.certificateImageUrl)}
+              >
+                <AiFillEye title='View' className='w-5 h-5 my-2 ' />
                 <p className='ml-4 block lg:hidden'>View Certify</p>
               </div>
-              <div className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'>
-                <AiFillEdit
-                  title='Edit'
-                  className='w-5 h-5 my-2 '
-                  onClick={() =>
-                    handlerEditCert(
-                      cert?.certificateImageUrl,
-                      cert?.certificateName,
-                      cert?.certificateExpirationDate,
-                      cert?.certificateDescription
-                    )
-                  }
-                />
+              <div
+                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'
+                onClick={() =>
+                  handlerEditCert(
+                    cert?.certificateImageUrl,
+                    cert?.certificateName,
+                    cert?.certificateExpirationDate,
+                    cert?.certificateDescription
+                  )
+                }
+              >
+                <AiFillEdit title='Edit' className='w-5 h-5 my-2 ' />
                 <p className='ml-4 block lg:hidden'>Edit Certify</p>
               </div>
-              <div className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-red-600'>
-                <AiFillCloseCircle
-                  title='Delete'
-                  className='w-5 h-5 my-2 '
-                  onClick={() => handlerDelete(cert?.certificateName)}
-                />
+              <div
+                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-red-600'
+                onClick={() => handlerDelete(cert?.certificateName)}
+              >
+                <AiFillCloseCircle title='Delete' className='w-5 h-5 my-2 ' />
                 <p className='ml-4 block lg:hidden'>Delete Certify</p>
               </div>
             </div>
