@@ -19,6 +19,10 @@ const FormCertificates = ({
   const addCertificateModal = useCertificatesModal();
 
   let [allCertificates, setAllCertificates] = useState<CertificationType[]>([]);
+  let [image, setImage] = useState<string | null>(null);
+  let [name, setName] = useState<string | null>(null);
+  let [expiration, setExpiration] = useState<string | null>(null);
+  let [descrip, setDescrip] = useState<string | null>(null);
 
   const handleCancel = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -27,7 +31,13 @@ const FormCertificates = ({
     setShowInfo(true);
     setShowCertificates(false);
   };
-
+  const handleADD = () => {
+    setImage(null);
+    setName(null);
+    setExpiration(Date().toString());
+    setDescrip(null);
+    addCertificateModal.onOpen();
+  };
   async function getCertificates() {
     try {
       if (userId !== undefined) {
@@ -46,7 +56,14 @@ const FormCertificates = ({
 
   return (
     <div className='flex flex-col w-full justify-center items-center'>
-      <ModalCertif userId={userId} setAllCertificates={setAllCertificates} />
+      <ModalCertif
+        userId={userId}
+        setAllCertificates={setAllCertificates}
+        image={image}
+        name={name}
+        expiration={expiration}
+        descrip={descrip}
+      />
       <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-6 flex flex-col justify-center w-full'>
         {allCertificates.length > 0 ? (
           <div className=' gap-4'>
@@ -56,6 +73,10 @@ const FormCertificates = ({
                 key={index}
                 userId={userId}
                 getCertificates={getCertificates}
+                setImage={(value) => setImage(value as string)}
+                setName={(value) => setName(value as string)}
+                setExpiration={(value) => setExpiration(value as string)}
+                setDescrip={(value) => setDescrip(value as string)}
               />
             ))}
           </div>
@@ -76,7 +97,7 @@ const FormCertificates = ({
       <div className='flex justify-around w-full mt-4'>
         <button
           className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded'
-          onClick={() => addCertificateModal.onOpen()}
+          onClick={handleADD}
         >
           ADD CERTIFICATE
         </button>

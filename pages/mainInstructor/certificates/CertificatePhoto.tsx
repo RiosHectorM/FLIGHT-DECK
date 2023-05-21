@@ -37,11 +37,17 @@ export const CertificatePhoto = ({
   onClose,
   setAllCertificates,
 }: PropsPhoto) => {
+
+  const dateString = expiration as string;
+  const dateObject = new Date(dateString);
+
   const [isLoading, setIsLoading] = useState(false);
   const [nameCertificate, setNameCertificate] = useState(name || null);
   const [description, setDescription] = useState(descrip || null);
   const [valueImage, setValueImage] = useState(image || null);
-  const [expirationDate, setExpirationDate] = useState<Date | null>(null);
+  const [expirationDate, setExpirationDate] = useState<Date | null>(
+    isNaN(dateObject.getTime()) ? null : dateObject
+  );
 
   const handleUpload = (response: any) => {
     setValueImage(response.info.secure_url);
@@ -63,9 +69,6 @@ export const CertificatePhoto = ({
       toast.error('Incomplete Fields');
       return;
     }
-    console.log(nameCertificate);
-    console.log(valueImage);
-    console.log(expirationDate?.toISOString());
     setIsLoading(true);
     await axios
       .post(`/api/certificate`, {
@@ -88,7 +91,6 @@ export const CertificatePhoto = ({
   };
 
   const handlerClickCancel = () => {
-    console.log('cancel');
     onClose();
   };
 

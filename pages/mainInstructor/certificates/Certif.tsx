@@ -1,24 +1,61 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { FaCalendarAlt, FaEdit } from 'react-icons/fa';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TbLicense } from 'react-icons/tb';
 import { CertificationType } from '@/types/globalTypes';
-import { AiFillCloseCircle, AiFillEdit, AiFillEye } from 'react-icons/ai';
+import {
+  AiFillCloseCircle,
+  AiFillEdit,
+  AiFillEye,
+  AiOutlineCloseCircle,
+} from 'react-icons/ai';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import Loader from '@/pages/components/Loader';
+import useCertificatesModal from '@/utils/hooks/useCertificatesModal';
 
 interface Props {
   cert: CertificationType;
   userId: string;
+  setImage: Dispatch<SetStateAction<string>>;
+  setName: Dispatch<SetStateAction<string>>;
+  setExpiration: Dispatch<SetStateAction<string>>;
+  setDescrip: Dispatch<SetStateAction<string>>;
   getCertificates: () => void;
 }
 
-const Certif = ({ cert, userId, getCertificates }: Props) => {
+const Certif = ({
+  cert,
+  userId,
+  getCertificates,
+  setImage,
+  setName,
+  setExpiration,
+  setDescrip,
+}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const [showImageCertif, setShowImageCertif] = useState(false);
+  const [certifySelected, setCertifySelected] = useState('');
+
+  const handlerImageShow = (imageSelected: string) => {
+    setShowImageCertif(true);
+    setCertifySelected(imageSelected);
+  };
+
+  const handlerEditCert = (
+    image: string,
+    name: string,
+    expiration: string,
+    descrip: string
+  ) => {
+    setImage(image);
+    setName(name);
+    setExpiration(expiration);
+    setDescrip(descrip);
+    addCertificateModal.onOpen();
+  };
+
   const handlerDelete = async (name: string) => {
-    console.log(userId);
-    console.log(name);
     setIsLoading(true);
     await axios
       .delete(`/api/certificate?userId=${userId}&certificateName=${name}`)
@@ -28,6 +65,8 @@ const Certif = ({ cert, userId, getCertificates }: Props) => {
       })
       .finally(() => setIsLoading(false));
   };
+
+  const addCertificateModal = useCertificatesModal();
 
   return (
     <>
@@ -60,7 +99,7 @@ const Certif = ({ cert, userId, getCertificates }: Props) => {
                 <AiFillEye
                   title='View'
                   className='w-5 h-5 my-2 '
-                  onClick={() => {}}
+                  onClick={() => handlerImageShow(cert.certificateImageUrl)}
                 />
                 <p className='ml-4 block lg:hidden'>View Certify</p>
               </div>
@@ -68,7 +107,14 @@ const Certif = ({ cert, userId, getCertificates }: Props) => {
                 <AiFillEdit
                   title='Edit'
                   className='w-5 h-5 my-2 '
-                  onClick={() => {}}
+                  onClick={() =>
+                    handlerEditCert(
+                      cert.certificateImageUrl,
+                      cert.certificateName,
+                      cert.certificateExpirationDate,
+                      cert.certificateDescription
+                    )
+                  }
                 />
                 <p className='ml-4 block lg:hidden'>Edit Certify</p>
               </div>
@@ -81,32 +127,31 @@ const Certif = ({ cert, userId, getCertificates }: Props) => {
                 <p className='ml-4 block lg:hidden'>Delete Certify</p>
               </div>
             </div>
-
-            {/* <div>
-                <div className='text-lg font-small text-gray-900 flex items-center'>
-                  {expirationDate ? (
-                    <>
-                      {expirationDate.toLocaleDateString()}
-                      <button
-                        className='ml-2 focus:outline-none'
-                        onClick={() => setModalIsOpen(true)}
-                      >
-                        <FaEdit className='text-indigo-500 w-6 h-6' />
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      className='flex items-center focus:outline-none'
-                      onClick={() => setModalIsOpen(true)}
-                    >
-                      <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
-                      <span className='ml-2'>Add License</span>
-                    </button>
-                  )}
-                </div>
-              </div> */}
           </div>
         </div>
+        {showImageCertif && (
+          <div className='fixed inset-0 flex items-center justify-center w-11/12 lg:w-4/5 h-4/5 mx-auto my-auto'>
+            <div className='w-auto h-full bg-white shadow-lg rounded-lg p-4'>
+              <img
+                src={certifySelected}
+                alt='Imagen Certify Selected'
+                className='w-full h-full object-cover'
+              />
+              <button
+                className='absolute top-0 z-10'
+                onClick={() => {
+                  setShowImageCertif(false);
+                  setCertifySelected('');
+                }}
+              >
+                <AiOutlineCloseCircle
+                  title='Close'
+                  className='w-20 h-20 my-2 z-20 bg-red-500 hover:bg-red-700 text-white font-bold rounded-full'
+                />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

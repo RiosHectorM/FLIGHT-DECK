@@ -15,50 +15,16 @@ import { CertificationType } from '@/types/globalTypes';
 interface Props {
   userId: string;
   setAllCertificates: React.Dispatch<React.SetStateAction<CertificationType[]>>;
+  image?: string | null;
+  name?: string | null;
+  expiration?: string | null;
+  descrip?: string | null;
 }
 
-const ModalCertif: React.FC<Props> = ({
-  userId,
-  setAllCertificates,
-}) => {
+const ModalCertif: React.FC<Props> = ({ userId, setAllCertificates, image,  name, expiration, descrip}) => {
   const addCertificateModal = useCertificatesModal();
 
   const [isLoading, setIsLoading] = useState(false);
-
-  //para el Edit
-  //const [image, setImage] = useState(false);
-  //const [espesificCertificate, setEspesificCertificate] = useState(null);
-
-  // const OKSave = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     // const response = await axios.post(`/api/plane/`, data);
-  //     // setAviones((prevAviones: Avion[]) => [...prevAviones, response.data]);
-  //   } catch (error) {
-  //     console.error(error);
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  //   addCertificateModal.onClose();
-  // };
-
-  // PARA EL EDIT
-  // useEffect(() => {
-  //   async function getCertificates() {
-  //     try {
-  //       if (userId !== undefined) {
-  //         const response = await axios.get(`/api/certificate?userId=${userId}`);
-  //         const data = response.data;
-  //         console.log(data);
-  //         setEspesificCertificate(data);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-
-  //   getCertificates();
-  // }, [userId]);
 
   const bodyContent = (
     <>
@@ -70,10 +36,10 @@ const ModalCertif: React.FC<Props> = ({
         <CertificatePhoto
           // PARA EL EDIT
           userId={userId}
-          image={null}
-          name={null}
-          expiration={null}
-          descrip={null}
+          image={image}
+          name={name}
+          expiration={expiration}
+          descrip={descrip}
           onClose={addCertificateModal.onClose}
           setAllCertificates={setAllCertificates}
         />
