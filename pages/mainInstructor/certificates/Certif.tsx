@@ -78,7 +78,7 @@ const Certif = ({
               <div className='text-xl font-bold text-black truncate '>
                 {cert?.certificateName}
               </div>
-              {cert.certificateExpirationDate && (
+              {cert?.certificateExpirationDate && (
                 <div className='flex'>
                   <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
                   <span className='ml-2'>
@@ -87,10 +87,10 @@ const Certif = ({
                   </span>
                 </div>
               )}
-              {cert.certificateDescription && (
+              {cert?.certificateDescription && (
                 <div className='flex'>
                   <TbLicense className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2'>{cert.certificateDescription}</span>
+                  <span className='ml-2'>{cert?.certificateDescription}</span>
                 </div>
               )}
             </div>
@@ -99,7 +99,7 @@ const Certif = ({
                 <AiFillEye
                   title='View'
                   className='w-5 h-5 my-2 '
-                  onClick={() => handlerImageShow(cert.certificateImageUrl)}
+                  onClick={() => handlerImageShow(cert?.certificateImageUrl)}
                 />
                 <p className='ml-4 block lg:hidden'>View Certify</p>
               </div>
