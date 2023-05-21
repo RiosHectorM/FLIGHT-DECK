@@ -22,6 +22,7 @@ interface Props {
   totalHours: number;
   setFolio: (folio: string | number) => void;
   setShowTableHours: (show: boolean) => void;
+  buttonDisabled: (show: boolean) => void;
 }
 
 declare global {
@@ -38,9 +39,14 @@ export default function FolioCard({
   totalHours,
   setFolio,
   setShowTableHours,
+  buttonDisabled,
 }: Props) {
   const { user, updateUserImage } = useUserStore();
   const [color, setColor] = useState(false);
+
+  const enviardato = (dato: boolean) => {
+    buttonDisabled(dato);
+  };
 
   // console.log('user', user);
   useEffect(() => {
@@ -147,6 +153,7 @@ export default function FolioCard({
   const handlerSetFolio = () => {
     setFolio(folioNumber);
     setShowTableHours(true);
+    enviardato(color);
   };
   const handleClickStopPropagation = (e: any) => {
     e.stopPropagation();
@@ -230,10 +237,12 @@ export default function FolioCard({
                 );
               }}
             </CldUploadWidget>
-            <AiOutlineCloseCircle
-              title="Delete"
-              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600"
-              onClick={() => handleDelete()}
+            <AiFillEye
+              title="Preview"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
+              onClick={() => {
+                handlePreview();
+              }}
             />
             <AiOutlineCloudDownload
               title="Download"
@@ -242,12 +251,10 @@ export default function FolioCard({
                 handleDownload();
               }}
             />
-            <AiFillEye
-              title="Preview"
-              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
-              onClick={() => {
-                handlePreview();
-              }}
+            <AiOutlineCloseCircle
+              title="Delete"
+              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600"
+              onClick={() => handleDelete()}
             />
           </td>
           <td className=" text-center">
