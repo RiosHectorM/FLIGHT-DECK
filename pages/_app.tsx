@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { SessionProvider } from 'next-auth/react';
 

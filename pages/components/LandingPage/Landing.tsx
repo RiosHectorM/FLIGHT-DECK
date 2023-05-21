@@ -1,4 +1,4 @@
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Image from 'next/image';
 
@@ -14,7 +14,8 @@ const LandingPage = () => {
   };
 
   return (
-    <div className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
+    <div
+      className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
       style={{
         backgroundImage: "url('/images/cloud.png')",
         backgroundSize: 'cover',
@@ -23,9 +24,11 @@ const LandingPage = () => {
       }}
     >
       <div className='flex flex-col items-center justify-center h-full '>
-        <div className={`${
-          startAnimation ? 'animate-spin' : ''
-        } z-10 flex flex-col items-center mb-8`}>
+        <div
+          className={`${
+            startAnimation ? 'animate-spin' : ''
+          } z-10 flex flex-col items-center mb-8`}
+        >
           <div className='p-4 border-8 border-white shadow-2xl animate-pulse'>
             <Image
               src='/images/flight-logo.png'

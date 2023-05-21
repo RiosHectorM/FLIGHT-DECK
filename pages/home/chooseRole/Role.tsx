@@ -2,7 +2,7 @@ import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Loader from '@/pages/components/Loader';
 import ToasterProvider from '@/pages/providers/ToasterProvider';

@@ -4,9 +4,6 @@ import axios from 'axios';
 import FolioCard from './FolioCard';
 
 import { FaClipboardCheck, FaClock, FaRegFileAlt } from 'react-icons/fa';
-import HoursPilot from '../dashboardPilot/hoursPilot';
-import HoursCertPilot from '../dashboardPilot/hoursCertPilot';
-import HoursToCertPilot from '../dashboardPilot/hoursToCertPilot';
 import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
@@ -130,6 +127,30 @@ export default function PilotFolioViewer({
 
   const userId = user?.id;
 
+  const [totalHours, setTotalHours] = useState({
+    totalHours: 0,
+    toCertifyHours: 0,
+    CertifiedHours: 0,
+  });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (userId !== undefined) {
+          const response = await axios.get(
+            `/api/pilot/getHoursByUserId/${userId}`
+          );
+          const data = response.data;
+          setTotalHours(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, [userId]);
+
   return (
     <>
       <div className="flex flex-col sm:flex-row">
@@ -149,9 +170,9 @@ export default function PilotFolioViewer({
                         </span>
                       </dt>
                       <dd>
-                        <div className="text-lg font-medium text-white flex items-center">
-                          <HoursPilot userId={userId} />
-                          <p className="ml-2">Hrs</p>
+                        <div className='text-lg font-medium text-white flex items-center'>
+                          <p>{totalHours.totalHours}</p>
+                          <p className='ml-2'>Hrs</p>
                         </div>
                       </dd>
                     </div>
@@ -169,9 +190,9 @@ export default function PilotFolioViewer({
                           Total Certified Hours
                         </dt>
                         <dd>
-                          <div className="text-lg font-medium text-white flex items-center">
-                            <HoursCertPilot userId={userId} />
-                            <p className="ml-2">Hrs</p>
+                          <div className='text-lg font-medium text-white flex items-center'>
+                            <p>{totalHours.CertifiedHours}</p>
+                            <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -190,9 +211,9 @@ export default function PilotFolioViewer({
                           Total Pending Hours to Certify
                         </dt>
                         <dd>
-                          <div className="text-lg font-medium text-white flex items-center">
-                            <HoursToCertPilot userId={userId} />
-                            <p className="ml-2">Hrs</p>
+                          <div className='text-lg font-medium text-white flex items-center'>
+                            <p>{totalHours.toCertifyHours}</p>
+                            <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
                       </div>
