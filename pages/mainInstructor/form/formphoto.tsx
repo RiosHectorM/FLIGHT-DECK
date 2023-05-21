@@ -30,8 +30,7 @@ export const FormPhoto = () => {
   }
 
   return (
-    <div className='flex flex-col items-center'>
-      <h2 className='font-semibold text-lg mb-2'>Profile Picture</h2>
+    <div className='flex flex-col items-center h-full w-full'>
       <CldUploadWidget
         onUpload={handleUpload}
         uploadPreset={uploadPreset}
@@ -59,8 +58,9 @@ export const FormPhoto = () => {
                 items-center
                 gap-4
                 text-neutral-600
-                rounded-full   /* para hacer la imagen circular */
-                w-full h-full      /* para establecer un tamaño fijo */
+                rounded-full
+                w-full 
+                h-full
               '
             >
               <TbPhotoPlus size={20} />
@@ -71,7 +71,7 @@ export const FormPhoto = () => {
                 <div
                   className='
                     absolute inset-0 w-full h-full rounded-full
-                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                    overflow-hidden
                   '
                 >
                   <Image
@@ -84,8 +84,8 @@ export const FormPhoto = () => {
               ) : (
                 <div
                   className='
-                    absolute inset-0 w-150 h-150 rounded-full
-                    overflow-hidden  /* para ocultar cualquier parte de la imagen que sobresalga del borde circular */
+                    absolute inset-0 w-full h-full rounded-full
+                    overflow-hidden
                   '
                 >
                   <Image

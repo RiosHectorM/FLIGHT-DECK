@@ -35,3 +35,12 @@ export interface FlightData {
   dayHours: number;
   instHours: number;
 }
+
+export interface CertificationType {
+  id: string;
+  userId: string;
+  certificateName: string;
+  certificateDescription: string;
+  certificateExpirationDate: string;
+  certificateImageUrl: string;
+}

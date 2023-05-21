@@ -90,8 +90,13 @@ interface Avion {
 interface Props {
   selectedFolio: string | number | undefined;
   setShowTableHours: (show: boolean) => void;
+  buttonDisabledII: boolean;
 }
-const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
+const TableHoursPilot = ({
+  selectedFolio,
+  setShowTableHours,
+  buttonDisabledII,
+}: Props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [instructor, setInstructor] = useState({});
   const [filters, setFilters] = useState<FilterState>({
@@ -116,6 +121,7 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
   const editHoursModal = useEditHoursModal();
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
   const [aviones, setAviones] = useState<Avion[]>([]);
+  const [disabled, setDisabled] = useState<boolean>(buttonDisabledII);
 
   const componentPDF = useRef();
 
@@ -269,15 +275,20 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
         <div className='max-w-7xl mx-auto pt-10 px-4 sm:px-6 lg:px-8 w-full'>
           <div ref={componentPDF as any} style={{ width: '100' }}>
             <div className='flex flex-row'>
-              <Image
+              <img
                 src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png'
                 height={150}
                 width={150}
                 alt={'pdfImage'}
-                className='hidden print:block mt-5 ml-5'
-              />
-              <h1 className='hidden print:block mt-10 px-2 py-3 text-center mx-2 my-4 text-base'>
-                NOMBRE DEL PILOTO
+                className='hidden print:block  bg-slate-500 mt-5 ml-5'
+              ></img>
+              <h1>
+                <h1 className='hidden print:block ml-40 text-xl mt-10'>
+                  FLIGHT LOGBOOK
+                </h1>
+                <h1 className='hidden print:block ml-40 mt-1 px-2 py-3  text-center mx-2 my-4 text-base'>
+                  {`${user?.name}  ${user?.lastName}`}
+                </h1>
               </h1>
             </div>
             <Table className='rounded-2xl overflow-hidden p-4 mb-28'>
@@ -339,16 +350,16 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
                         <div className='flex justify-center items-center space-x-2'>
                           <AiFillEdit
                             onClick={() => handleEditHours(dato)}
-                            className='text-indigo-600 w-5 h-5'
+                            className='text-indigo-600 w-5 h-5 cursor-pointer'
                           />
                           <AiFillCloseCircle
                             onClick={() => handleDeleteHours(dato)}
-                            className='text-red-600 w-5 h-5'
+                            className='text-red-600 w-5 h-5 cursor-pointer'
                           />
                           {dato.flightType == 'Escuela' ? (
                             <AiFillSafetyCertificate
                               onClick={() => handlerCertify(dato)}
-                              className='text-green-600 w-5 h-5'
+                              className='text-green-600 w-5 h-5 cursor-pointer'
                             />
                           ) : null}
                         </div>
@@ -395,8 +406,9 @@ const TableHoursPilot = ({ selectedFolio, setShowTableHours }: Props) => {
       )}
       <div>
         <button
-          className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
+          className='fixed bottom-8 right-8 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out disabled:opacity-50 disabled:pointer-events-none'
           onClick={handleAddHours}
+          disabled={disabled}
         >
           <svg
             xmlns='http://www.w3.org/2000/svg'
