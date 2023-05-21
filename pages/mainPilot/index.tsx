@@ -15,6 +15,11 @@ const Index = () => {
 
   const [showTableHours, setShowTableHours] = useState<boolean>(false);
   const [folio, setFolio] = useState<string | number | undefined>(undefined);
+  const [buttonDisabledII, setButtonDisabled] = useState<boolean>();
+
+  const buttonDisabled = (valor: boolean) => {
+    setButtonDisabled(valor);
+  };
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -28,7 +33,7 @@ const Index = () => {
   return (
     //<ProtectedRoute allowedRoles={['PILOT']}>
     <div
-      className='flex flex-col min-h-screen'
+      className="flex flex-col min-h-screen"
       style={{
         backgroundImage: "url('/images/mainpiloto.jpg')",
         backgroundSize: 'cover',
@@ -42,12 +47,14 @@ const Index = () => {
           setFolio={setFolio}
           setShowTableHours={setShowTableHours}
           setIsLoading={setIsLoading}
+          buttonDisabled={buttonDisabled}
         />
       )}
       {showTableHours && (
         <TableHoursPilot
           selectedFolio={folio as string}
           setShowTableHours={setShowTableHours}
+          buttonDisabledII={buttonDisabledII}
         />
       )}
     </div>

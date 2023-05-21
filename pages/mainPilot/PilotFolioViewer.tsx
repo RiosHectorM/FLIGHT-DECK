@@ -51,12 +51,14 @@ interface Props {
   setFolio: (folio: string | number | undefined) => void;
   setShowTableHours: (show: boolean) => void;
   setIsLoading: (show: boolean) => void;
+  buttonDisabled: (show: boolean) => void;
 }
 
 export default function PilotFolioViewer({
   setFolio,
   setShowTableHours,
   setIsLoading,
+  buttonDisabled,
 }: Props) {
   const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
@@ -130,46 +132,46 @@ export default function PilotFolioViewer({
 
   return (
     <>
-      <div className='flex flex-col sm:flex-row'>
-        <div className='w-full sm:w-2/6'>
-          <div className='px-4 sm:px-6 lg:px-0'>
-            <div className='px-4 py-6 sm:p-0'>
-              <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-4 mt-6'>
-                <div className='bg-gray-800 rounded-xl shadow-md p-6'>
-                  <div className='flex items-center'>
-                    <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                      <FaClock className='text-white w-6 h-6' />
+      <div className="flex flex-col sm:flex-row">
+        <div className="w-full sm:w-2/6">
+          <div className="px-4 sm:px-6 lg:px-0">
+            <div className="px-4 py-6 sm:p-0">
+              <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-4 mt-6">
+                <div className="bg-gray-800 rounded-xl shadow-md p-6">
+                  <div className="flex items-center">
+                    <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                      <FaClock className="text-white w-6 h-6" />
                     </div>
-                    <div className='ml-4'>
-                      <dt className='text-sm font-medium text-white truncate'>
-                        <span className='whitespace-nowrap'>
+                    <div className="ml-4">
+                      <dt className="text-sm font-medium text-white truncate">
+                        <span className="whitespace-nowrap">
                           Total Recorded Hours
                         </span>
                       </dt>
                       <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
+                        <div className="text-lg font-medium text-white flex items-center">
                           <HoursPilot userId={userId} />
-                          <p className='ml-2'>Hrs</p>
+                          <p className="ml-2">Hrs</p>
                         </div>
                       </dd>
                     </div>
                   </div>
                 </div>
 
-                <div className='bg-gray-800 rounded-xl shadow-md'>
-                  <div className='px-4 py-5 sm:p-6'>
-                    <div className='flex items-center'>
-                      <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                        <FaRegFileAlt className='text-white w-6 h-6' />
+                <div className="bg-gray-800 rounded-xl shadow-md">
+                  <div className="px-4 py-5 sm:p-6">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <FaRegFileAlt className="text-white w-6 h-6" />
                       </div>
-                      <div className='ml-4'>
-                        <dt className='text-sm font-medium text-white truncate'>
+                      <div className="ml-4">
+                        <dt className="text-sm font-medium text-white truncate">
                           Total Certified Hours
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className="text-lg font-medium text-white flex items-center">
                             <HoursCertPilot userId={userId} />
-                            <p className='ml-2'>Hrs</p>
+                            <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -177,40 +179,40 @@ export default function PilotFolioViewer({
                   </div>
                 </div>
 
-                <div className='bg-gray-800 rounded-xl shadow-md'>
-                  <div className='px-4 py-5 sm:p-6'>
-                    <div className='flex items-center'>
-                      <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                        <FaClipboardCheck className='text-white w-6 h-6' />
+                <div className="bg-gray-800 rounded-xl shadow-md">
+                  <div className="px-4 py-5 sm:p-6">
+                    <div className="flex items-center">
+                      <div className="flex-shrink-0 bg-indigo-500 rounded-md p-3">
+                        <FaClipboardCheck className="text-white w-6 h-6" />
                       </div>
-                      <div className='ml-5 w-0 flex-1'>
-                        <dt className='text-sm font-medium text-white truncate'>
+                      <div className="ml-5 w-0 flex-1">
+                        <dt className="text-sm font-medium text-white truncate">
                           Total Pending Hours to Certify
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className="text-lg font-medium text-white flex items-center">
                             <HoursToCertPilot userId={userId} />
-                            <p className='ml-2'>Hrs</p>
+                            <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className='flex justify-center text-center'>
+                <div className="flex justify-center text-center">
                   <button
-                    className='flex mt-16 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
+                    className="flex mt-16 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out"
                     onClick={handlerAdd}
                   >
                     <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      className='h-6 w-6'
-                      viewBox='0 0 20 20'
-                      fill='currentColor'
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-6 w-6"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
                     >
                       <path
-                        fillRule='evenodd'
-                        d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z'
+                        fillRule="evenodd"
+                        d="M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z"
                       />
                     </svg>
                     ADD NEW FOLIO
@@ -220,7 +222,7 @@ export default function PilotFolioViewer({
             </div>
           </div>
         </div>
-        <div className='w-full sm:w-3/4 mx-auto'>
+        <div className="w-full sm:w-3/4 mx-auto">
           {isLoadingFlights ? (
             <Loader />
           ) : folioFlight.length > 0 ? (
@@ -235,18 +237,19 @@ export default function PilotFolioViewer({
                   totalHours={dato.hourCount as number}
                   setFolio={setFolio}
                   setShowTableHours={setShowTableHours}
+                  buttonDisabled={buttonDisabled}
                 />
               ))}
             </div>
           ) : (
-            <div className='flex flex-col items-center justify-center h-screen text-white'>
-              <h1 className='text-4xl font-bold mb-6'>Welcome!</h1>
-              <p className='text-lg text-gray-300 mb-8'>
+            <div className="flex flex-col items-center justify-center h-screen text-white">
+              <h1 className="text-4xl font-bold mb-6">Welcome!</h1>
+              <p className="text-lg text-gray-300 mb-8">
                 You still do not have hours registered in your log, please
                 access the following link to start adding your flights
               </p>
               <button
-                className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg"
                 onClick={() => {
                   setShowTableHours(true);
                 }}
