@@ -54,7 +54,7 @@ const Index = () => {
         <TableHoursPilot
           selectedFolio={folio as string}
           setShowTableHours={setShowTableHours}
-          buttonDisabledII={buttonDisabledII}
+          buttonDisabledII={buttonDisabledII as boolean}
         />
       )}
     </div>

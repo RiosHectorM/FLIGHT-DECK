@@ -76,14 +76,14 @@ const Certif = ({
           <div className='flex lg:flex-row flex-col flex-1 justify-between'>
             <div className='flex flex-col w-full'>
               <div className='text-xl font-bold text-black truncate '>
-                {cert.certificateName}
+                {cert?.certificateName}
               </div>
               {cert.certificateExpirationDate && (
                 <div className='flex'>
                   <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
                   <span className='ml-2'>
                     Expiration Date:{' '}
-                    {cert.certificateExpirationDate.split('T')[0]}
+                    {cert?.certificateExpirationDate.split('T')[0]}
                   </span>
                 </div>
               )}
@@ -109,10 +109,10 @@ const Certif = ({
                   className='w-5 h-5 my-2 '
                   onClick={() =>
                     handlerEditCert(
-                      cert.certificateImageUrl,
-                      cert.certificateName,
-                      cert.certificateExpirationDate,
-                      cert.certificateDescription
+                      cert?.certificateImageUrl,
+                      cert?.certificateName,
+                      cert?.certificateExpirationDate,
+                      cert?.certificateDescription
                     )
                   }
                 />
@@ -122,7 +122,7 @@ const Certif = ({
                 <AiFillCloseCircle
                   title='Delete'
                   className='w-5 h-5 my-2 '
-                  onClick={() => handlerDelete(cert.certificateName)}
+                  onClick={() => handlerDelete(cert?.certificateName)}
                 />
                 <p className='ml-4 block lg:hidden'>Delete Certify</p>
               </div>
