@@ -19,8 +19,9 @@ const MainInstructor = () => {
   const { user, fetchUserByEmail } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
   const [toggle, setToggle] = useState(1);
+
   function toggler() {
-    if (toggle == 1) {
+    if (toggle === 1) {
       setToggle(0);
     } else {
       setToggle(1);
@@ -130,7 +131,7 @@ const MainInstructor = () => {
                       </dt>
                       <dd>
                         <div className='text-lg font-medium text-white flex items-center'>
-                          <p>200</p>
+                          <p>{requests?.length}</p>
                           <p className='ml-2'>Hrs</p>
                         </div>
                       </dd>
