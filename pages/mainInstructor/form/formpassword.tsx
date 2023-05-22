@@ -4,8 +4,14 @@ import bcrypt from 'bcryptjs';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
-const FormPassword = () => {
+interface Props {
+  setShowInfo: (show: boolean) => void;
+  setShowFormPassword: (show: boolean) => void;
+}
+
+const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
   const router = useRouter();
   const { user, updateUserHashedPasword } = useUserStore();
 
@@ -49,18 +55,18 @@ const FormPassword = () => {
         updateUserHashedPasword(hashedNewPassword);
 
         if (response.status === 200) {
-          alert('La contraseña se ha actualizado correctamente.');
+          toast.success('La contraseña se ha actualizado correctamente.');
           signOut({ redirect: false });
           router.push('/home');
         }
       } else {
-        alert(
+        toast.error(
           'No se pudo actualizar la contraseña. Por favor, intente de nuevo.'
         );
       }
     } catch (error) {
       console.error(error);
-      alert(
+      toast.error(
         'Ocurrió un error al actualizar la contraseña. Por favor, intente de nuevo.'
       );
     }
@@ -68,6 +74,14 @@ const FormPassword = () => {
     setOldPassword('');
     setNewPassword('');
     setConfirmPassword('');
+  };
+
+  const handleCancel = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setShowInfo(true);
+    setShowFormPassword(false);
   };
 
   return (
@@ -146,8 +160,8 @@ const FormPassword = () => {
                 ) : null}
               </div>
             </div>
-            <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0 flex justify-between items-center mt-8'>
-              <div className='flex space-x-4'>
+            <div className='w-full px-3 mb-6 md:mb-0 flex justify-between items-center mt-8'>
+              <div className='flex justify-around w-full'>
                 {newPassword !== confirmPassword ||
                 newPassword === '' ||
                 confirmPassword === '' ||
@@ -159,6 +173,12 @@ const FormPassword = () => {
                     Save
                   </button>
                 )}
+                <button
+                  className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded'
+                  onClick={handleCancel}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </form>
