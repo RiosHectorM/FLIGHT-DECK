@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import { validateField } from './validate';
+import { validateField } from '../../../utils/libs/validate';
 
 type User = {
   id?: string;
@@ -114,8 +114,6 @@ const validationRules = {
   },
 };
 
-
-
 export default function FromInstructor({
   setShowInfo,
   setShowFormInstructor,
@@ -140,15 +138,24 @@ export default function FromInstructor({
   const [formErrors, setFormErrors] = useState<Record<string, any>>({});
 
   const onSubmit = handleSubmit((data) => {
-    
     const errors: Record<string, any> = {};
 
     validateField('name', data.name, validationRules.name, errors);
     validateField('lastName', data.lastName, validationRules.lastName, errors);
-    validateField('phoneNumber', data.phoneNumber, validationRules.phoneNumber, errors);
+    validateField(
+      'phoneNumber',
+      data.phoneNumber,
+      validationRules.phoneNumber,
+      errors
+    );
     validateField('address', data.address, validationRules.address, errors);
     validateField('city', data.city, validationRules.city, errors);
-    validateField('nationality', data.nationality, validationRules.nationality, errors);
+    validateField(
+      'nationality',
+      data.nationality,
+      validationRules.nationality,
+      errors
+    );
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -185,7 +192,10 @@ export default function FromInstructor({
         <h1 className='text-2xl text-center mb-4'>Update Info</h1>
         <form onSubmit={onSubmit}>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='name'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='name'
+            >
               Name
             </label>
             <input
@@ -196,11 +206,16 @@ export default function FromInstructor({
               placeholder='Name'
             />
             {formErrors.name && (
-              <p className='text-red-500 text-xs italic'>{formErrors.name.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.name.message}
+              </p>
             )}
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='lastName'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='lastName'
+            >
               Last Name
             </label>
             <input
@@ -211,11 +226,16 @@ export default function FromInstructor({
               placeholder='Last Name'
             />
             {formErrors.lastName && (
-              <p className='text-red-500 text-xs italic'>{formErrors.lastName.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.lastName.message}
+              </p>
             )}
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='phoneNumber'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='phoneNumber'
+            >
               Phone Number
             </label>
             <input
@@ -226,11 +246,16 @@ export default function FromInstructor({
               placeholder='Phone Number'
             />
             {formErrors.phoneNumber && (
-              <p className='text-red-500 text-xs italic'>{formErrors.phoneNumber.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.phoneNumber.message}
+              </p>
             )}
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='address'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='address'
+            >
               Address
             </label>
             <input
@@ -241,11 +266,16 @@ export default function FromInstructor({
               placeholder='Address'
             />
             {formErrors.address && (
-              <p className='text-red-500 text-xs italic'>{formErrors.address.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.address.message}
+              </p>
             )}
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='city'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='city'
+            >
               City
             </label>
             <input
@@ -256,11 +286,16 @@ export default function FromInstructor({
               placeholder='City'
             />
             {formErrors.city && (
-              <p className='text-red-500 text-xs italic'>{formErrors.city.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.city.message}
+              </p>
             )}
           </div>
           <div className='mb-4'>
-            <label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='nationality'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='nationality'
+            >
               Nationality
             </label>
             <input
@@ -271,7 +306,9 @@ export default function FromInstructor({
               placeholder='Nationality'
             />
             {formErrors.nationality && (
-              <p className='text-red-500 text-xs italic'>{formErrors.nationality.message}</p>
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.nationality.message}
+              </p>
             )}
           </div>
           <div className='flex items-center justify-between'>

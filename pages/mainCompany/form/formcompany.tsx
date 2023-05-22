@@ -1,4 +1,4 @@
-import { validateField } from '@/pages/mainInstructor/form/validate';
+import { validateField } from '@/utils/libs/validate';
 import { useUserStore } from '@/store/userStore';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -14,7 +14,6 @@ type User = {
   phoneNumber?: string | null;
   address?: string | null;
   city?: string | null;
-
 };
 
 type FormData = {
@@ -72,7 +71,6 @@ const validationRules = {
 };
 
 export default function FormCompany() {
-
   const [formErrors, setFormErrors] = useState<Record<string, any>>({});
   const { user, updateUser } = useUserStore();
 
@@ -90,14 +88,17 @@ export default function FormCompany() {
   });
 
   const onSubmit = handleSubmit((data) => {
-
     const errors: Record<string, any> = {};
 
     validateField('name', data.name, validationRules.name, errors);
-    validateField('phoneNumber', data.phoneNumber, validationRules.phoneNumber, errors);
+    validateField(
+      'phoneNumber',
+      data.phoneNumber,
+      validationRules.phoneNumber,
+      errors
+    );
     validateField('address', data.address, validationRules.address, errors);
     validateField('city', data.city, validationRules.city, errors);
-
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -147,11 +148,12 @@ export default function FormCompany() {
                     {...register('name', { required: true })}
                   />
                   {formErrors.name && (
-                    <p className='text-red-500 text-xs italic'>{formErrors.name.message}</p>
+                    <p className='text-red-500 text-xs italic'>
+                      {formErrors.name.message}
+                    </p>
                   )}
                 </label>
               </div>
-
             </div>
             <div className='flex flex-wrap -mx-3 mb-6'>
               <div className='w-full px-3'>
@@ -163,10 +165,12 @@ export default function FormCompany() {
                   <input
                     placeholder='Company Address'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                     {...register('address', { required: true })}
+                    {...register('address', { required: true })}
                   />
                   {formErrors.address && (
-                    <p className='text-red-500 text-xs italic'>{formErrors.address.message}</p>
+                    <p className='text-red-500 text-xs italic'>
+                      {formErrors.address.message}
+                    </p>
                   )}
                 </label>
               </div>
@@ -182,10 +186,12 @@ export default function FormCompany() {
                     placeholder='City'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('city', { required: true })}
-                    />
-                    {formErrors.city && (
-                      <p className='text-red-500 text-xs italic'>{formErrors.city.message}</p>
-                    )}
+                  />
+                  {formErrors.city && (
+                    <p className='text-red-500 text-xs italic'>
+                      {formErrors.city.message}
+                    </p>
+                  )}
                 </label>
               </div>
               <div className='w-full md:w-1/2 px-3 mb-6'>
@@ -198,10 +204,12 @@ export default function FormCompany() {
                     placeholder='Phone Number'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
                     {...register('phoneNumber', { required: true })}
-                    />
-                    {formErrors.phoneNumber && (
-                      <p className='text-red-500 text-xs italic'>{formErrors.phoneNumber.message}</p>
-                    )}
+                  />
+                  {formErrors.phoneNumber && (
+                    <p className='text-red-500 text-xs italic'>
+                      {formErrors.phoneNumber.message}
+                    </p>
+                  )}
                 </label>
               </div>
             </div>
