@@ -1,11 +1,11 @@
+import { validateField } from '@/pages/mainInstructor/form/validate';
 import { useUserStore } from '@/store/userStore';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 type User = {
   id?: string;
   name?: string | null;
-  lastName?: string | null;
   role?: string | null;
   email?: string | null;
   emailVerified?: string | null;
@@ -14,19 +14,66 @@ type User = {
   phoneNumber?: string | null;
   address?: string | null;
   city?: string | null;
-  nationality?: string | null;
+
 };
 
 type FormData = {
   name: string;
-  lastName: string;
   phoneNumber: string;
   address: string;
   city: string;
-  nationality: string;
+};
+
+const validationRules = {
+  name: {
+    required: 'Name is required.',
+    minLength: {
+      value: 3,
+      message: 'Name must have at least 3 characters.',
+    },
+    maxLength: {
+      value: 50,
+      message: 'Name cannot exceed 50 characters.',
+    },
+  },
+  phoneNumber: {
+    required: 'Phone Number is required.',
+    pattern: {
+      value: /^\+?\d+$/, // Solo números y un signo de +
+      message: 'Phone Number must be a valid number.',
+    },
+    maxLength: {
+      value: 15,
+      message: 'Phone Number cannot exceed 15 characters.',
+    },
+  },
+  address: {
+    required: 'Address is required.',
+    maxLength: {
+      value: 80,
+      message: 'Address cannot exceed 60 characters.',
+    },
+  },
+  city: {
+    required: 'City is required.',
+    pattern: {
+      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
+      message: 'City can only contain letters and spaces.',
+    },
+    minLength: {
+      value: 3,
+      message: 'City must have at least 3 characters.',
+    },
+    maxLength: {
+      value: 50,
+      message: 'City cannot exceed 50 characters.',
+    },
+  },
 };
 
 export default function FormCompany() {
+
+  const [formErrors, setFormErrors] = useState<Record<string, any>>({});
   const { user, updateUser } = useUserStore();
 
   const {
@@ -36,26 +83,37 @@ export default function FormCompany() {
   } = useForm<FormData>({
     defaultValues: {
       name: user?.name || '',
-      lastName: user?.lastName || '',
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
       city: user?.city || '',
-      nationality: user?.nationality || '',
     },
   });
 
   const onSubmit = handleSubmit((data) => {
-    let newUserState: User = {
-      ...user,
-      name: data.name,
-      lastName: data.lastName,
-      phoneNumber: data.phoneNumber,
-      address: data.address,
-      city: data.city,
-      nationality: data.nationality,
-    };
-    updateUser(newUserState as any);
-    alert('Info Updated');
+
+    const errors: Record<string, any> = {};
+
+    validateField('name', data.name, validationRules.name, errors);
+    validateField('phoneNumber', data.phoneNumber, validationRules.phoneNumber, errors);
+    validateField('address', data.address, validationRules.address, errors);
+    validateField('city', data.city, validationRules.city, errors);
+
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+    } else {
+      setFormErrors({});
+
+      let newUserState: User = {
+        ...user,
+        name: data.name,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        city: data.city,
+      };
+      updateUser(newUserState as any);
+      alert('Info Updated');
+    }
   });
 
   return (
@@ -86,11 +144,14 @@ export default function FormCompany() {
                   <input
                     placeholder='Name of the company'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('name')}
+                    {...register('name', { required: true })}
                   />
+                  {formErrors.name && (
+                    <p className='text-red-500 text-xs italic'>{formErrors.name.message}</p>
+                  )}
                 </label>
               </div>
-              
+
             </div>
             <div className='flex flex-wrap -mx-3 mb-6'>
               <div className='w-full px-3'>
@@ -102,8 +163,11 @@ export default function FormCompany() {
                   <input
                     placeholder='Company Address'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('address')}
+                     {...register('address', { required: true })}
                   />
+                  {formErrors.address && (
+                    <p className='text-red-500 text-xs italic'>{formErrors.address.message}</p>
+                  )}
                 </label>
               </div>
             </div>
@@ -117,8 +181,11 @@ export default function FormCompany() {
                   <input
                     placeholder='City'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('city')}
-                  />
+                    {...register('city', { required: true })}
+                    />
+                    {formErrors.city && (
+                      <p className='text-red-500 text-xs italic'>{formErrors.city.message}</p>
+                    )}
                 </label>
               </div>
               <div className='w-full md:w-1/2 px-3 mb-6'>
@@ -130,8 +197,11 @@ export default function FormCompany() {
                   <input
                     placeholder='Phone Number'
                     className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('phoneNumber')}
-                  />
+                    {...register('phoneNumber', { required: true })}
+                    />
+                    {formErrors.phoneNumber && (
+                      <p className='text-red-500 text-xs italic'>{formErrors.phoneNumber.message}</p>
+                    )}
                 </label>
               </div>
             </div>
