@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useSpring, animated } from 'react-spring';
+import Image from 'next/image';
 
 const LandingPage = () => {
   const router = useRouter();
@@ -14,13 +13,9 @@ const LandingPage = () => {
     }, 1000);
   };
 
-  const logoAnimation = useSpring({
-    transform: startAnimation ? 'translateY(-500px)' : 'translateY(0)',
-    config: { tension: 120, friction: 14 },
-  });
-
   return (
-    <div className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
+    <div
+      className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
       style={{
         backgroundImage: "url('/images/cloud.png')",
         backgroundSize: 'cover',
@@ -29,7 +24,11 @@ const LandingPage = () => {
       }}
     >
       <div className='flex flex-col items-center justify-center h-full '>
-        <animated.div style={logoAnimation} className='z-10 flex flex-col items-center mb-8'>
+        <div
+          className={`${
+            startAnimation ? 'animate-spin' : ''
+          } z-10 flex flex-col items-center mb-8`}
+        >
           <div className='p-4 border-8 border-white shadow-2xl animate-pulse'>
             <Image
               src='/images/flight-logo.png'
@@ -39,7 +38,7 @@ const LandingPage = () => {
             />
           </div>
           <h2 className='text-4xl font-bold text-white mt-4'>FLIGHTDECK</h2>
-        </animated.div>
+        </div>
         <div
           className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
           style={{
