@@ -11,9 +11,6 @@ import useRegisterModal from '@/utils/hooks/useRegisterModal';
 import MenuItem from './MenuItem';
 import Avatar from '../AuxComponents/Avatar';
 
-import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
-import useSearchFlightInstructorModal from '@/utils/hooks/useSearchFlightInstructorModal';
-
 import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
 
@@ -32,9 +29,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
 
   const loginModal = useLoginModal();
   const registerModal = useRegisterModal();
-
-  const addHoursModal = useAddHoursModal();
-  const searchFlightInstructorModal = useSearchFlightInstructorModal();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -85,6 +79,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     else if (role === 'INSTRUCTOR')
       router.push('/mainInstructor/DashboardInstructor');
     else if (role === 'COMPANY') router.push('/mainCompany/DashBoardCompany');
+  };
+
+  const handleMenuItemClick = () => {
+    window.open('https://chat-f-deck.vercel.app/', '_blank');
+    toggleOpen(); // Asegúrate de tener definida la función toggleOpen para cerrar el menú si es necesario.
   };
 
   return (
@@ -170,7 +169,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   }}
                 />
                 <MenuItem
-                  label='Profile'
+                  label='Dashboard'
                   onClick={() => {
                     handlerProfiles();
                     toggleOpen();
@@ -183,6 +182,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                     router.push('/about');
                     toggleOpen();
                   }}
+                />
+                <hr />
+                <MenuItem
+                  label='Flight Deck Chat'
+                  onClick={handleMenuItemClick}
                 />
                 <hr />
                 <hr />

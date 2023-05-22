@@ -5,14 +5,8 @@ import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import RejectModal from '../components/Modals/RejectModal/RejectModal';
 import useRejectModal from '../../utils/hooks/useRejectModal';
-
-type Request = {
-  id: string;
-  date: string;
-  user: { name: string; email: string };
-  hourCount: number;
-  certifierID: string;
-};
+import { Request } from '@/types/globalTypes';
+import Loader from '../components/Loader';
 
 type CertificationRequestsProps = {
   requests: Request[] | undefined;
@@ -24,6 +18,7 @@ const CertificationRequests = ({
   toggler,
 }: CertificationRequestsProps) => {
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSelectRequest = (request: Request) => {
     setSelectedRequest(request);
@@ -31,13 +26,15 @@ const CertificationRequests = ({
 
   const handleApproveRequest = async () => {
     if (selectedRequest) {
-      console.log(`Request with id ${selectedRequest.id} approved`);
-      toggler();
+      setIsLoading(true)
       toast.success('updating request');
+      console.log(`Request with id ${sel|ectedRequest.id} approved`);
+      toggler();
       await axios.put(`/api/flight/putFlightsCertified`, {
         id: selectedRequest.id,
         certified: true,
       });
+      setIsLoading(false)
       toast.success('Saved');
     }
   };
@@ -46,10 +43,12 @@ const CertificationRequests = ({
 
   const handleRejectRequest = async () => {
     if (selectedRequest) {
+      setIsLoading(true)
       await axios.put(`/api/flight/putFlightsCertified2`, {
         id: selectedRequest.id,
         certifierId: null,
       });
+      setIsLoading(false)
       toast.success('Saved');
       toggler();
       rejectModal.onOpen();
@@ -58,13 +57,14 @@ const CertificationRequests = ({
 
   return (
     <div className='flex flex-col items-center justify-center'>
+      {isLoading && <Loader />}
       <RejectModal email={selectedRequest?.user.email as string} />
-      <h2 className='text-2xl font-bold mb-4 text-red-600 animate-bounce'>
+      <h2 className='text-xl font-bold mb-4 text-red-600 animate-bounce'>
         Certification Requests
       </h2>
 
-      <div className='w-full max-w-md overflow-hidden bg-white rounded-lg shadow-md'>
-        <div className='flex flex-col divide-y divide-gray-200'>
+      <div className='w-full bg-white rounded-lg shadow-md'>
+        <div className='flex flex-col divide-y divide-gray-900'>
           {requests?.map((request) => (
             <div
               key={request.id}

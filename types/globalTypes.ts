@@ -44,3 +44,11 @@ export interface CertificationType {
   certificateExpirationDate: string;
   certificateImageUrl: string;
 }
+
+export type Request = {
+  id: string;
+  date: string;
+  user: { name: string; email: string };
+  hourCount: number;
+  certifierID: string;
+};
