@@ -232,6 +232,8 @@ const TableHoursPilot = ({
       <RateInstructorModal
         instructor={instructor as string}
         user={user?.id as string}
+        name={user?.name + ' ' + user?.lastName}
+        image={user?.image as string}
       />
       <FilterPilotBar updateFilters={updateFilters} />
 

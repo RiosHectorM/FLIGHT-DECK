@@ -58,6 +58,8 @@ export type Request = {
 export type Qualification = {
   id: string;
   pilotId: string;
+  pilotName?: string;
+  pilotImage?: string;
   instructorId: string;
   qualificationNum?: number;
   comment?: string;

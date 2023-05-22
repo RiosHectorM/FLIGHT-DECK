@@ -15,11 +15,8 @@ export default async function handler(
       const userId = new ObjectId(id as string).toString();
 
       // Use the Prisma Client to fetch the user data
-      const user = await prisma.user.findUnique({
-        where: { id: userId },
-        include: {
-          pilotQualifications: true,
-        },
+      const user = await prisma.qualification.findMany({
+        where: { instructorId: userId },        
       });
 
       // If the user does not exist, return a 404 error
