@@ -28,7 +28,7 @@ const CertificationRequests = ({
     if (selectedRequest) {
       setIsLoading(true)
       toast.success('updating request');
-      console.log(`Request with id ${sel|ectedRequest.id} approved`);
+      console.log(`Request with id ${selectedRequest.id} approved`);
       toggler();
       await axios.put(`/api/flight/putFlightsCertified`, {
         id: selectedRequest.id,
