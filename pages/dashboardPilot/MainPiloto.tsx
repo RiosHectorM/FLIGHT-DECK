@@ -8,8 +8,7 @@ import { useUserStore } from '@/store/userStore';
 import ModalComponent from './certificaMedicPilot';
 import LicensePilot from './licensePilot';
 import Notification from "../mainInstructor/Notification";
-import ChatComponent from "../Chat";
-import StatsPilot from "./StatsPilot";
+import StatsPilot from "../components/AuxComponents/Stats/StatsPilot";
 
 const MainPiloto = () => {
 
