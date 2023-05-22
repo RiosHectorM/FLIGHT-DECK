@@ -26,12 +26,12 @@ const Logo = (props: LogoProps) => {
       className={`${
         scrolled
           ? 'bg-transparent opacity-0 transform -translate-y-full'
-          : 'bg-white opacity-100 transform translate-y-0'
+          : 'bg-black opacity-100 transform translate-y-0'
       } cursor-pointer rounded-full p-2 w-16 h-16 relative transition-all duration-300 transform hover:scale-110  md:ml-0`}
       {...props}
     >
       <Image
-        src='/images/flight-logo.svg'
+        src='/images/imagen1.png'
         alt='Logo'
         fill
         className='w-full h-full object-contain'
