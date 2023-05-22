@@ -3,18 +3,16 @@ import CertificationRequests from './CertificationRequests';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
-import {
-  FaUsers,
-  FaRegFileAlt,
-  FaClipboardCheck,
-  FaClock,
-} from 'react-icons/fa';
+import { FaRegFileAlt } from 'react-icons/fa';
 import ToasterProvider from '../providers/ToasterProvider';
 import Loader from '../components/Loader';
-import { Request } from '@/types/globalTypes';
+import { Qualification, Request } from '@/types/globalTypes';
 
 const MainInstructor = () => {
   const [requests, setRequests] = useState<Request[] | undefined>(undefined);
+  const [qualifys, setQualifys] = useState<Qualification[] | undefined>(
+    undefined
+  );
   const { data: session } = useSession();
   const { user, fetchUserByEmail } = useUserStore();
   const [isLoading, setIsLoading] = useState(false);
@@ -35,6 +33,8 @@ const MainInstructor = () => {
       );
       console.log(response.data);
       setRequests(response.data);
+      const qualif = await axios.get(`/api/qualify/${id}`);
+      setQualifys(qualif.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -138,6 +138,13 @@ const MainInstructor = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div>
+                {qualifys?.map((qual) => (
+                  <div key={qual.id}>
+                    <p>{qual.comment}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

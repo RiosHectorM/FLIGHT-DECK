@@ -54,3 +54,11 @@ export type Request = {
   stages: string;
   certifierID: string;
 };
+
+export type Qualification = {
+  id: string;
+  pilotId: string;
+  instructorId: string;
+  qualificationNum?: number;
+  comment?: string;
+};
