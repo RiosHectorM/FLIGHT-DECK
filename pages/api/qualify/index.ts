@@ -5,11 +5,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   // - POST (Create new qualification (for a pilot qualifying an instructor))------------------
   if (req.method === 'POST') {
-
-    const { pilotId, instructorId, qualificationNum, comment } = req.body;
+    const {
+      pilotId,
+      pilotName,
+      pilotImage,
+      instructorId,
+      qualificationNum,
+      comment,
+    } = req.body;
 
     try {
       // Verify existence of required fields
@@ -20,19 +25,21 @@ export default async function handler(
       const qualification = await prisma.qualification.create({
         data: {
           pilotId,
+          pilotName,
+          pilotImage,
           instructorId,
           qualificationNum,
           comment,
         },
       });
       return res.status(201).json(qualification);
-    }
-    // Handle folio creation error
-    catch (error) {
+    } catch (error) {
+      // Handle folio creation error
       console.error(error);
       const errorMessage = error as string;
-      return res.status(500).json({ message: `Error creating qualification: ${errorMessage}` });
-
+      return res
+        .status(500)
+        .json({ message: `Error creating qualification: ${errorMessage}` });
     }
   }
-} 
+}

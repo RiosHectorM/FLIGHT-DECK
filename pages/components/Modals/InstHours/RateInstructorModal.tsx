@@ -14,7 +14,7 @@ import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
 
 
-const RateInstructorModal = ({instructor, user}:{instructor:any; user:string}) => {
+const RateInstructorModal = ({ instructor, user, name, image }: { instructor: any; user: string; name: string;  image:string}) => {
 
 
   const rateInstructor = useRateInstructorModal();
@@ -30,17 +30,18 @@ const RateInstructorModal = ({instructor, user}:{instructor:any; user:string}) =
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     console.log(data)
     await axios
-    .post(`/api/qualify`, {
-      ...data,
-      pilotId: user,
-      instructorId: instructor.id,
-      qualificationNum: rating
-   })
-   .then(() => {
-    toast.success('Rating aved');
-   rateInstructor.onClose();
-
-    })
+      .post(`/api/qualify`, {
+        ...data,
+        pilotId: user,
+        pilotName:name,
+        pilotImage:image,
+        instructorId: instructor.id,
+        qualificationNum: rating,
+      })
+      .then(() => {
+        toast.success('Rating aved');
+        rateInstructor.onClose();
+      });
   };
   const [rating, setRating] = useState(0);
 
