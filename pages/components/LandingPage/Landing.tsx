@@ -48,7 +48,7 @@ const LandingPage = () => {
         <div
           className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
           style={{
-            backgroundColor: 'rgba(229, 217, 182, 0.8)', // Cambia los valores RGB y la transparencia según tus preferencias
+            backgroundColor: 'rgba(229, 217, 182, 0.1)', // Cambia los valores RGB y la transparencia según tus preferencias
           }}
         >
           <p className='text-center text-white text-xl font-medium mb-4'>
@@ -68,16 +68,16 @@ const LandingPage = () => {
       </div>
       <div className='absolute bottom-4 right-4 flex space-x-4'>
         <Image
-          src='/images/android_robot.svg'
+          src='/images/androide.png'
           alt='Android logo'
-          width={50}
-          height={50}
+          width={60}
+          height={60}
         />
         <Image
           src='/images/apple-ios.svg'
           alt='iOS logo'
-          width={50}
-          height={50}
+          width={60}
+          height={60}
         />
       </div>
     </div>
