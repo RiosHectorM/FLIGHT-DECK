@@ -30,7 +30,7 @@ const TestimonialsSection = () => {
 
   return (
     <div className="flex flex-col items-center justify-center my-16 sm:h-[80vh]">
-      <h2 className="text-4xl font-bold text-gray-200 mb-8">Testimonials</h2>
+      <h2 className="text-4xl font-bold text-flightdeck-cream mb-8">Testimonials</h2>
       <div className="flex flex-col md:flex-row items-center justify-center w-full space-y-8 md:space-y-0 md:space-x-8">
         {testimonials.map((testimonial, index) => (
           <div
@@ -40,12 +40,12 @@ const TestimonialsSection = () => {
             onMouseLeave={() => setActiveIndex(-1)}
           >
             <div
-              className="flex flex-col items-center justify-center bg-white rounded-lg shadow-md p-8"
+              className="flex flex-col items-center justify-center bg-flightdeck-cream rounded-lg shadow-md p-8"
               style={{
                 transform: activeIndex === index ? 'translateX(-25%)' : 'translateX(0)',
                 marginLeft: activeIndex === index ? '25%' : '0',
                 opacity: activeIndex === index || activeIndex === -1 ? 1 : 0.5,
-                backgroundColor: 'rgba(255, 255, 255, 0.7)', // Agregue esta línea
+                backgroundColor: 'rgba(229, 217, 182, 0.7)',
                 transition: 'all 0.3s ease',
               }}
             >

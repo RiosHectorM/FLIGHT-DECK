@@ -22,7 +22,7 @@ const FeaturesSection = () => {
     },
   ];
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouseMove = (e:React.MouseEvent<HTMLDivElement>) => {
     const screenWidth = window.innerWidth;
     const newIndex = Math.floor((e.clientX / screenWidth) * features.length);
     setActiveIndex(newIndex);
@@ -48,7 +48,7 @@ const FeaturesSection = () => {
             objectFit="cover"
             className="pointer-events-none"
           />
-          <div className="absolute bottom-0 left-0 p-8 w-full h-1/3 bg-gradient-to-t from-black/50 to-transparent backdrop-blur-md">
+          <div className="absolute bottom-0 left-0 p-8 w-full h-1/3 bg-flightdeck-black/50 backdrop-blur-md">
             <h3 className="text-3xl font-bold text-white mb-3">{feature.title}</h3>
             <p className="text-lg text-white">{feature.fullText}</p>
           </div>
