@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/userStore";
 import ModalComponent from "./certificaMedicPilot";
 import LicensePilot from "./licensePilot";
-import FlightStats from "./FlightStats";
+import StatsPilot from "./StatsPilot";
 
 const MainPiloto = () => {
   /*   const [showProfile, setShowProfile] = useState(false);
@@ -121,13 +121,7 @@ const MainPiloto = () => {
               </div> */}
           </div>
           <div className="mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-            <div className="px-4 py-6 sm:px-0">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white rounded-xl shadow-md">
-                  <FlightStats userId={user.id} />
-                </div>
-              </div>
-            </div>
+            <StatsPilot userId={user.id} />
           </div>
         </main>
       )}
