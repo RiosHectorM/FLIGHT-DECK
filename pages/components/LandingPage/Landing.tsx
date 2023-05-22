@@ -15,34 +15,40 @@ const LandingPage = () => {
 
   return (
     <div
-      className='relative h-screen bg-gradient-to-r from-blue-500 via-teal-500 to-green-500'
-      style={{
-        backgroundImage: "url('/images/cloud.png')",
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
+      className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'
     >
-      <div className='flex flex-col items-center justify-center h-full '>
-        <div
-          className={`${
-            startAnimation ? 'animate-spin' : ''
-          } z-10 flex flex-col items-center mb-8`}
-        >
-          <div className='p-4 border-8 border-white shadow-2xl animate-pulse'>
+      <div
+        className='relative flex flex-col items-center justify-center h-full'
+        style={{
+          backgroundImage: "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
+        <div className={`${startAnimation ? 'animate-spin' : ''} z-10 flex flex-col items-center mb-1`}>
+          <div className='animate-pulse'>
             <Image
-              src='/images/flight-logo.png'
+              src='/images/imagen1.png'
               alt='Flight logo'
-              width={200}
-              height={200}
+              width={300}
+              height={300}
             />
           </div>
-          <h2 className='text-4xl font-bold text-white mt-4'>FLIGHTDECK</h2>
+        </div>
+        <div className='p-1'>
+          <Image
+            src='/images/Screenshot_4.png'
+            alt='Flight Deck'
+            width={700}
+            height={700}
+            className=''
+          />
         </div>
         <div
           className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
           style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.2)', // Cambia el valor 0.2 para ajustar la transparencia
+            backgroundColor: 'rgba(229, 217, 182, 0.8)', // Cambia los valores RGB y la transparencia según tus preferencias
           }}
         >
           <p className='text-center text-white text-xl font-medium mb-4'>
@@ -54,7 +60,7 @@ const LandingPage = () => {
           <button
             type='button'
             onClick={handleGetStartedClick}
-            className='w-full bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300'
+            className='w-full bg-flightdeck-gold hover:bg-flightdeck-darkgold text-white font-medium py-2 px-4 rounded focus:outline-none focus:shadow-outline transition-colors duration-300'
           >
             Get Started
           </button>

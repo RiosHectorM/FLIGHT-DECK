@@ -94,16 +94,18 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
             currentUser ? null : loginModal.onOpen();
           }}
           className='
-            block
-            text-sm 
-            font-semibold 
-            py-3 
-            px-4 
-            rounded-full 
-            hover:bg-neutral-100 
-            transition 
-            cursor-pointer
-          '
+          block
+          text-sm 
+          font-semibold 
+          py-3 
+          px-4 
+          text-flightdeck-cream 
+          bg-flightdeck-dark      
+          rounded-full 
+          hover:bg-flightdeck-darkgold 
+          transition 
+          cursor-pointer
+        '
         >
           {currentUser
             ? `${currentUser.name?.toLocaleUpperCase()} / ${role}`
@@ -138,18 +140,19 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
       {isOpen && (
         <div
-          className='
+        className='
             absolute 
             rounded-xl 
             shadow-md
             w-[40vw]
             md:w-3/4 
-            bg-white 
+            bg-flightdeck-dark // Aplicamos el color de fondo "flightdeck-dark"
+            text-flightdeck-gold // Aplicamos el color de texto "flightdeck-gold"
             overflow-hidden 
             right-0 
             top-12 
             text-sm
-          '
+        '
         >
           <div className='flex flex-col cursor-pointer'>
             {currentUser ? (
