@@ -124,6 +124,8 @@ model Folio {
 model Qualification {
   id               String  @id @default(auto()) @map("_id") @db.ObjectId
   pilotId          String  @db.ObjectId
+  pilotName        String?
+  pilotImage       String?
   instructorId     String  @db.ObjectId
   qualificationNum Int
   comment          String?
@@ -148,7 +150,7 @@ model Qualification {
 model Certificate {
   id                        String    @id @default(auto()) @map("_id") @db.ObjectId
   userId                    String    @db.ObjectId
-  certificateName           String
+  certificateName           String?
   certificateDescription    String?
   certificateExpirationDate DateTime?
   certificateImageUrl       String?

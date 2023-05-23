@@ -17,8 +17,8 @@ const Navbar = () => {
   //const { isDarkTheme, toggleTheme } = useContext(ThemeContext);-------------------------> thema oscuro
 
   /*  const handleToggleTheme = () => {
-     toggleTheme();--------------------------------------------------------------------> tema oscuro
-     document.body.classList.toggle('dark');
+    toggleTheme();--------------------------------------------------------------------> tema oscuro
+    document.body.classList.toggle('dark');
    }; */
   const { user } = useUserStore();
   useEffect(() => {
@@ -46,7 +46,7 @@ const Navbar = () => {
 
   return (
     <div
-      className={`fixed w-full z-10 transition-all duration-500 transform ${
+      className={`fixed w-full z-10 transition-all duration-500 transform bg-flightdeck-dark ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
@@ -59,44 +59,36 @@ const Navbar = () => {
               </div>
               <div className='ml-'>
                 <Link href='/home'>
-                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
                     Home
                   </span>
                 </Link>
               </div>
               <div className='ml-4'>
                 <Link href='/about'>
-                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
                     About
                   </span>
                 </Link>
               </div>
               <div className='ml-4'>
                 <Link href='/membership'>
-                  <span className='block text-lm font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-neutral-100 transition cursor-pointer'>
+                  <span className='block text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
                     Pricing
                   </span>
                 </Link>
               </div>
-              {/* <div className='ml-4'>
-                <button
-                  className="px-4 py-2 rounded-md text-white bg-accent"
-                  onClick={handleToggleTheme}
-                >--------------------------------------------------------------------------------------> thema oscuro
-                  {isDarkTheme ? 'Light mode' : 'Dark mode'}
-                </button>
-              </div> */}
             </div>
             <div className='flex items-end'>
               {data?.user && user?.premium ? (
                 <div className='relative flex justify-center'>
                   {isHovered && (
-                    <div className='absolute  top-12 bg-yellow-500 text-white px-2 py-1 rounded-md text-xs'>
+                    <div className='absolute  top-12 bg-flightdeck-gold text-flightdeck-dark px-2 py-1 rounded-md text-xs'>
                       Premium
                     </div>
                   )}
                   <MdWorkspacePremium
-                    className='text-black hover:text-yellow-500'
+                    className='text-flightdeck-gold hover:text-flightdeck-lightgold'
                     size={48}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
@@ -106,10 +98,6 @@ const Navbar = () => {
               <div>
                 <UserMenu currentUser={data?.user} />
               </div>
-              {/* <div className='flex items-center'>
-              {data?.user && <Notification />}
-              <UserMenu currentUser={data?.user} />
-            </div> */}
             </div>
           </div>
         </Container>

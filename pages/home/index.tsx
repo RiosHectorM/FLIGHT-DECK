@@ -11,12 +11,13 @@ import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import Loader from '../components/Loader';
 import { useRouter } from 'next/navigation';
+import Footer from './Footer';
 
 const HomePage = () => {
   const registerModal = useRegisterModal();
   const router = useRouter();
 
-  const handleRole = (myRole: string) => {
+  const handleRole = (myRole:string) => {
     console.log(myRole);
     registerModal.onOpen();
   };
@@ -50,20 +51,12 @@ const HomePage = () => {
   };
 
   return (
-    <div
-      className='flex flex-col items-center justify-center min-h-screen'
-      style={{
-        backgroundImage:
-          'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/background-image2.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
-    >
+    <div className='flex flex-col items-center justify-center min-h-screen' style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/fondo-pantalla-patron-fondo-abstracto-grunge-negro-foto-gratis (1).jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       {isLoading && <Loader />}
       <ToasterProvider />
       <RegisterModal />
       <div className='flex flex-col items-center justify-center h-1/2 w-full'>
-        <div className='text-4xl font-bold text-gray-200 mt-9'>
+        <div className='text-4xl font-bold text-flightdeck-cream mt-9'>
           {Array.from('Ready to fly?').map((char, index) => (
             <motion.span
               key={index}
@@ -71,10 +64,11 @@ const HomePage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 delay: 0.2 + index * 0.1,
-                duration: 2, // Aumenta la duración aquí
+                duration: 2,
                 repeat: Infinity,
                 repeatType: 'reverse',
               }}
+              className='text-flightdeck-gold'
             >
               {char}
             </motion.span>
@@ -92,12 +86,12 @@ const HomePage = () => {
               >
                 <Image
                   src={`/images/mainImg.jpg`}
-                  alt={'mainImage'}
+                  alt='mainImage'
                   width={500}
                   height={500}
-                  className='rounded-full shadow-md object-cover transform hover:scale-110 '
+                  className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
                   GO TO MAIN
                 </h3>
               </motion.div>
@@ -110,12 +104,12 @@ const HomePage = () => {
               >
                 <Image
                   src={`/images/profileimg.png`}
-                  alt={'mainImage'}
+                  alt='mainImage'
                   width={500}
                   height={500}
                   className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
                   SET YOUR PROFILE
                 </h3>
               </motion.div>
@@ -124,8 +118,7 @@ const HomePage = () => {
             ['PILOT', 'INSTRUCTOR', 'COMPANY'].map((role, index) => (
               <div
                 key={role}
-                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform 
-                          hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
+                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
                 onClick={() => handleRole(role)}
               >
                 <Image
@@ -135,7 +128,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-white bg-blue-500 p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
                   {role}
                 </h3>
               </div>
@@ -145,6 +138,7 @@ const HomePage = () => {
       </div>
       <HomePageFeaturesSection />
       <HomePageTestimonialsSection />
+      <Footer />
     </div>
   );
 };

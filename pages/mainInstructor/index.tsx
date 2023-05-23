@@ -7,7 +7,7 @@ const Index = () => {
     <ProtectedRoute allowedRoles={['INSTRUCTOR']}>
       <div>
         <ToasterProvider />
-        <MainInstructor title="Instructor" />
+        <MainInstructor />
       </div>
     </ProtectedRoute>
   );

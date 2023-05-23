@@ -44,3 +44,23 @@ export interface CertificationType {
   certificateExpirationDate: string;
   certificateImageUrl: string;
 }
+
+export type Request = {
+  id: string;
+  date: string;
+  user: { name: string; lastName: string; email: string };
+  hourCount: number;
+  remarks: string;
+  stages: string;
+  certifierID: string;
+};
+
+export type Qualification = {
+  id: string;
+  pilotId: string;
+  pilotName?: string;
+  pilotImage?: string;
+  instructorId: string;
+  qualificationNum?: number;
+  comment?: string;
+};
