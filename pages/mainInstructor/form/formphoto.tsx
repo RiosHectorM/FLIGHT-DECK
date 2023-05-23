@@ -61,6 +61,7 @@ export const FormPhoto = () => {
                 rounded-full
                 w-full 
                 h-full
+                my-auto
               '
             >
               <TbPhotoPlus size={20} />

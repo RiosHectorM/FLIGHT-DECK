@@ -165,14 +165,14 @@ const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
                 confirmPassword === '' ||
                 oldPassword === '' ? null : (
                   <button
-                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded'
+                    className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
                     type='submit'
                   >
                     Save
                   </button>
                 )}
                 <button
-                  className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded'
+                  className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
                   onClick={handleCancel}
                 >
                   Cancel

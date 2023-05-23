@@ -10,27 +10,29 @@ import { MdDoneOutline } from 'react-icons/md';
 
 type CertificationRequestsProps = {
   requests: Request[] | undefined;
-  toggler: () => void;
   setIsLoading: (isLoading: boolean) => void;
+  getFlightsToCertify: (id: string) => void;
+  id: string;
 };
 
 const CertificationRequests = ({
   requests,
-  toggler,
   setIsLoading,
+  getFlightsToCertify,
+  id,
 }: CertificationRequestsProps) => {
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
 
   const handleApproveRequest = async () => {
     if (selectedRequest) {
       setIsLoading(true);
-      toast.success('updating request');
+      toast.success('Updating Request');
       console.log(`Request with id ${selectedRequest.id} approved`);
       await axios.put(`/api/flight/putFlightsCertified`, {
         id: selectedRequest.id,
         certified: true,
       });
-      toggler();
+      getFlightsToCertify(id);
       setIsLoading(false);
       toast.success('Saved');
     }
@@ -45,9 +47,9 @@ const CertificationRequests = ({
         id: selectedRequest.id,
         certifierId: null,
       });
+      getFlightsToCertify(id);
       setIsLoading(false);
       toast.success('Saved');
-      toggler();
       rejectModal.onOpen();
     }
   };
@@ -56,15 +58,14 @@ const CertificationRequests = ({
     <div className='flex flex-col items-center justify-center'>
       <RejectModal email={selectedRequest?.user.email as string} />
       {requests?.length ? (
-        <div>
+        <div >
           <h2 className='text-xl font-bold mb-4 text-red-600 animate-bounce text-center'>
             Certification Requests
           </h2>
-          <Table className='rounded-2xl overflow-hidden p-4 mb-10'>
-            <Thead className='bg-gray-50'>
+          <Table className='rounded-2xl p-4 mb-10 overflow-x-scroll'>
+            <Thead className='bg-gray-50' >
               <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>NAME</Th>
-                <Th className='px-2 py-3 text-center mx-2 my-4'>LASTNAME</Th>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>EMAIL</Th>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>STAGES</Th>
@@ -77,10 +78,7 @@ const CertificationRequests = ({
               {requests?.map((dato, index) => (
                 <Tr key={index} className='hover:bg-gray-100'>
                   <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                    {dato.user.name}
-                  </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
-                    {dato.user.lastName}
+                    {dato.user.name} {dato.user.lastName}
                   </Td>
                   <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
                     {dato.date?.split('T')[0]}
