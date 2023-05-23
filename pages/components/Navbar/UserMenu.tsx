@@ -131,7 +131,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           transition
           '
           >
-            <AiOutlineMenu />
+            <AiOutlineMenu className='text-[#CBB26A]' />
             <div className='hidden sm:block'>
               <Avatar src={currentUser?.image} />
             </div>
@@ -140,7 +140,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
       </div>
       {isOpen && (
         <div
-        className='
+          className='
             absolute 
             rounded-xl 
             shadow-md

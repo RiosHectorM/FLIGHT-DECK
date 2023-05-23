@@ -4,12 +4,12 @@ import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 
 const Index = () => {
   return (
-    <ProtectedRoute allowedRoles={['INSTRUCTOR']}>
+    //<ProtectedRoute allowedRoles={['INSTRUCTOR']}>
       <div>
         <ToasterProvider />
         <MainInstructor />
       </div>
-    </ProtectedRoute>
+    //</ProtectedRoute>
   );
 };
 
