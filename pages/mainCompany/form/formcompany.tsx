@@ -1,8 +1,11 @@
-import { validateField } from '@/utils/libs/validate';
-import { useUserStore } from '@/store/userStore';
 import React, { useState } from 'react';
+import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+
+import { validateField } from '../../../utils/libs/validate';
+import countries from '../../../utils/countries.json';
+
 
 type User = {
   id?: string;
@@ -14,19 +17,28 @@ type User = {
   hashedPassword?: string | null;
   phoneNumber?: string | null;
   address?: string | null;
-  city?: string | null;
+  nationality?: string | null;
 };
 
 type FormData = {
   name: string;
   phoneNumber: string;
   address: string;
-  city: string;
+  nationality: string;
 };
+
+interface Props {
+  setShowInfo: (show: boolean) => void;
+  setShowFormInstructor: (show: boolean) => void;
+}
 
 const validationRules = {
   name: {
     required: 'Name is required.',
+    pattern: {
+      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
+      message: 'Name can only contain letters and spaces.',
+    },
     minLength: {
       value: 3,
       message: 'Name must have at least 3 characters.',
@@ -50,29 +62,31 @@ const validationRules = {
   address: {
     required: 'Address is required.',
     maxLength: {
-      value: 80,
+      value: 60,
       message: 'Address cannot exceed 60 characters.',
     },
   },
-  city: {
-    required: 'City is required.',
+  nationality: {
+    required: 'Nationality is required.',
     pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
-      message: 'City can only contain letters and spaces.',
+      value: /^[a-zA-Z\u00C0-\u017F\s]*$/,
+      message: 'Nationality can only contain letters and spaces.',
     },
     minLength: {
       value: 3,
-      message: 'City must have at least 3 characters.',
+      message: 'Nationality must have at least 3 characters.',
     },
     maxLength: {
       value: 50,
-      message: 'City cannot exceed 50 characters.',
+      message: 'Nationality cannot exceed 50 characters.',
     },
   },
 };
 
-export default function FormCompany() {
-  const [formErrors, setFormErrors] = useState<Record<string, any>>({});
+export default function FormCompany({
+  setShowInfo,
+  setShowFormInstructor,
+}: Props) {
   const { user, updateUser } = useUserStore();
 
   const {
@@ -84,9 +98,13 @@ export default function FormCompany() {
       name: user?.name || '',
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
-      city: user?.city || '',
+      nationality: user?.nationality || '',
     },
   });
+
+  const [formErrors, setFormErrors] = useState<Record<string, any>>({});
+  const countryList = countries.countries;
+
 
   const onSubmit = handleSubmit((data) => {
     const errors: Record<string, any> = {};
@@ -99,7 +117,12 @@ export default function FormCompany() {
       errors
     );
     validateField('address', data.address, validationRules.address, errors);
-    validateField('city', data.city, validationRules.city, errors);
+    validateField(
+      'nationality',
+      data.nationality,
+      validationRules.nationality,
+      errors
+    );
 
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
@@ -111,119 +134,128 @@ export default function FormCompany() {
         name: data.name,
         phoneNumber: data.phoneNumber,
         address: data.address,
-        city: data.city,
+        nationality: data.nationality,
       };
       updateUser(newUserState as any);
       toast.success('Info Updated');
+      setShowInfo(true);
+      setShowFormInstructor(false);
     }
   });
 
+  const handleCancel = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.preventDefault();
+    setShowInfo(true);
+    setShowFormInstructor(false);
+  };
+
   return (
-    <div className='max-w-sm lg:max-w-full lg:flex w-full'>
-      <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-6 flex flex-col justify-center'>
-        <div className='mb-8'>
-          <p className='text-sm text-gray-600 flex items-center'>
-            <svg
-              className='fill-current text-gray-500 w-3 h-3 mr-2'
-              xmlns='http://www.w3.org/2000/svg'
-              viewBox='0 0 20 20'
+    <div className='flex w-full justify-center items-center'>
+      <div className='border border-gray-300 bg-white  w-full sm:w-96 p-6'>
+        <h1 className='text-2xl text-center mb-4'>Update Info</h1>
+        <form onSubmit={onSubmit}>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='name'
             >
-              <path d='M4 8V6a6 6 0 1 1 12 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-8c0-1.1.9-2 2-2h1zm5 6.73V17h2v-2.27a2 2 0 1 0-2 0zM7 6v2h6V6a3 3 0 0 0-6 0z' />
-            </svg>
-            Members only
-          </p>
-          <div className='text-gray-900 font-bold text-xl mb-2'>
-            Company Information
+              Name
+            </label>
+            <input
+              {...register('name', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='name'
+              type='text'
+              placeholder='Name'
+            />
+            {formErrors.name && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.name.message}
+              </p>
+            )}
           </div>
-          <form onSubmit={onSubmit} className='w-full px-3 mb-6 md:mb-0'>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='name'
-                >
-                  Name of the Company or Organization:
-                  <input
-                    placeholder='Name of the company'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('name', { required: true })}
-                  />
-                  {formErrors.name && (
-                    <p className='text-red-500 text-xs italic'>
-                      {formErrors.name.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='address'
-                >
-                  Address:
-                  <input
-                    placeholder='Company Address'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('address', { required: true })}
-                  />
-                  {formErrors.address && (
-                    <p className='text-red-500 text-xs italic'>
-                      {formErrors.address.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/2 px-3 mb-6'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='city'
-                >
-                  City:
-                  <input
-                    placeholder='City'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('city', { required: true })}
-                  />
-                  {formErrors.city && (
-                    <p className='text-red-500 text-xs italic'>
-                      {formErrors.city.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-              <div className='w-full md:w-1/2 px-3 mb-6'>
-                <label
-                  className='block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2'
-                  htmlFor='phoneNumber'
-                >
-                  Phone Number:
-                  <input
-                    placeholder='Phone Number'
-                    className={`appearance-none block w-full bg-gray-200 text-gray-700  rounded py-3 px-4 leading-tight focus:bg-white focus:border-black`}
-                    {...register('phoneNumber', { required: true })}
-                  />
-                  {formErrors.phoneNumber && (
-                    <p className='text-red-500 text-xs italic'>
-                      {formErrors.phoneNumber.message}
-                    </p>
-                  )}
-                </label>
-              </div>
-            </div>
-            <div className='flex justify-center'>
-              <button
-                className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded'
-                type='submit'
-              >
-                Submit
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='phoneNumber'
+            >
+              Phone Number
+            </label>
+            <input
+              {...register('phoneNumber', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='phoneNumber'
+              type='text'
+              placeholder='Phone Number'
+            />
+            {formErrors.phoneNumber && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.phoneNumber.message}
+              </p>
+            )}
+          </div>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='address'
+            >
+              Address
+            </label>
+            <input
+              {...register('address', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='address'
+              type='text'
+              placeholder='Address'
+            />
+            {formErrors.address && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.address.message}
+              </p>
+            )}
+          </div>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='nationality'
+            >
+              Nationality
+            </label>
+            <select
+              {...register('nationality', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='nationality'
+            >
+              <option value=''>Select Nationality</option>
+              {countryList.map((country) => (
+                <option key={country.id} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+            {formErrors.nationality && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.nationality.message}
+              </p>
+            )}
+          </div>
+          <div className='flex items-center justify-between'>
+            <button
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              type='submit'
+            >
+              Update
+            </button>
+            <button
+              className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              onClick={handleCancel}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
