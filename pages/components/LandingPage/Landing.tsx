@@ -42,7 +42,6 @@ const LandingPage = () => {
             alt='Flight Deck'
             width={700}
             height={700}
-            className=''
           />
         </div>
         <div
