@@ -31,7 +31,7 @@ const Logo = (props: LogoProps) => {
       {...props}
     >
       <Image
-        src='/images/imagen1.png'
+        src='/images/logoApp.png'
         alt='Logo'
         fill
         className='w-full h-full object-contain'
