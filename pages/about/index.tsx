@@ -35,7 +35,7 @@ const integrantes: Integrante[] = [
     nombre: 'Esteban Ramirez',
     rol: 'Frontend Developer',
     image:
-      'https://media.licdn.com/dms/image/D4E03AQEYlKm3F7RbuQ/profile-displayphoto-shrink_200_200/0/1683505683094?e=1689206400&v=beta&t=oc375UOXMQdArWrryuOkcEPHr--Kda-bXTTSL-vfNUs',
+      'https://media.licdn.com/dms/image/D4E35AQFRnLc_5_fNuw/profile-framedphoto-shrink_200_200/0/1684469127706?e=1685376000&v=beta&t=KO61NH5MqiZsmPwdJWN_jot7_PKC2oj_Xu0t6Ry-Bdg',
     github: 'https://github.com/esteban7712',
     linkedin: 'https://www.linkedin.com/in/esteban7712/',
   },
@@ -51,7 +51,7 @@ const integrantes: Integrante[] = [
     nombre: 'Diego Leon',
     rol: 'Frontend Developer',
     image:
-      'https://media.licdn.com/dms/image/D4D35AQHe-6-KOnIqJA/profile-framedphoto-shrink_200_200/0/1678240089759?e=1684882800&v=beta&t=1PyvLTWK2KTPOHF8yAubdqEyZiwqodoXkCV1x-bfQLg',
+      'https://media.licdn.com/dms/image/D4E35AQGL1wJdYaHTwQ/profile-framedphoto-shrink_200_200/0/1684588020567?e=1685376000&v=beta&t=rg0LdNCjMiM3D9SEb03NONS3zT5e0ZGQrcYcvnhzVOQ',
     github: 'https://github.com/DALGO0927',
     linkedin: 'https://www.linkedin.com/in/diegoleon09/',
   },
