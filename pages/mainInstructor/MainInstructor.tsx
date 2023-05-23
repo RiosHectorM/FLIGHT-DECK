@@ -3,10 +3,12 @@ import CertificationRequests from './CertificationRequests';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import axios from 'axios';
-import { FaRegFileAlt, FaStar, FaStarHalfAlt } from 'react-icons/fa';
+import { FaRegFileAlt } from 'react-icons/fa';
 import ToasterProvider from '../providers/ToasterProvider';
 import Loader from '../components/Loader';
 import { Qualification, Request } from '@/types/globalTypes';
+import PilotProfile from './PilotProfile';
+import Stars from './Stars';
 
 const MainInstructor = () => {
   const [requests, setRequests] = useState<Request[] | undefined>(undefined);
@@ -74,20 +76,20 @@ const MainInstructor = () => {
         <div className='w-full md:w-auto'>
           <div className='px-4 sm:px-2 lg:px-0'>
             <div className='flex px-4 py-6 lg:p-6 flex-col sm:flex-col w-full justify-around'>
-              <div className='bg-gray-800 rounded-xl shadow-md my-2 w-full '>
-                <div className='px-2 py-2 lg:p-6'>
+              <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-2 w-full '>
+                <div className='px-2 py-2 lg:p-4'>
                   <div className='flex items-center justify-center md:justify-start'>
-                    <div className='flex bg-indigo-500 rounded-md p-3'>
-                      <FaRegFileAlt className='text-white w-6 h-6' />
+                    <div className='flex bg-flightdeck-black rounded-md p-3'>
+                      <FaRegFileAlt className='text-flightdeck-darkgold w-6 h-6' />
                     </div>
                     <div className='ml-4'>
-                      <dt className='text-sm font-medium text-white truncate'>
+                      <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                         <span className='whitespace-nowrap'>
                           Total Certificates
                         </span>
                       </dt>
                       <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
+                        <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
                           <p>50</p>
                         </div>
                       </dd>
@@ -95,20 +97,20 @@ const MainInstructor = () => {
                   </div>
                 </div>
               </div>
-              <div className='bg-gray-800 rounded-xl shadow-md my-2 sm:w-full'>
+              <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-2 sm:w-full'>
                 <div className='px-2 py-2 lg:p-6'>
                   <div className='flex items-center justify-center md:justify-start'>
-                    <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                      <FaRegFileAlt className='text-white w-6 h-6' />
+                    <div className='flex-shrink-0 bg-flightdeck-black rounded-md p-3'>
+                      <FaRegFileAlt className='text-flightdeck-darkgold w-6 h-6' />
                     </div>
                     <div className='ml-4'>
-                      <dt className='text-sm font-medium text-white truncate'>
+                      <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                         <span className='whitespace-nowrap'>
                           Total Aproved Hrs
                         </span>
                       </dt>
                       <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
+                        <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
                           <p>200</p>
                           <p className='ml-2'>Hrs</p>
                         </div>
@@ -117,20 +119,20 @@ const MainInstructor = () => {
                   </div>
                 </div>
               </div>
-              <div className='bg-gray-800 rounded-xl shadow-md my-2 sm:w-full'>
+              <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-2 sm:w-full'>
                 <div className='px-2 py-2 lg:p-6'>
                   <div className='flex items-center justify-center md:justify-start'>
-                    <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                      <FaRegFileAlt className='text-white w-6 h-6' />
+                    <div className='flex-shrink-0 bg-flightdeck-black rounded-md p-3'>
+                      <FaRegFileAlt className='text-flightdeck-darkgold w-6 h-6' />
                     </div>
                     <div className='ml-4'>
-                      <dt className='text-sm font-medium text-white truncate'>
+                      <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                         <span className='whitespace-nowrap'>
                           Pending Aproved
                         </span>
                       </dt>
                       <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
+                        <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
                           <p>{requests?.length}</p>
                           <p className='ml-2'>Hrs</p>
                         </div>
@@ -139,48 +141,50 @@ const MainInstructor = () => {
                   </div>
                 </div>
               </div>
-              <div>
-                {qualifys?.map((qual) => (
-                  <div
-                    key={qual?.id}
-                    className='flex flex-col items-center justify-center md:justify-start mb-2 w-full bg-gray-700 rounded-md p-3 align-middle'
-                  >
-                    <div className='flex flex-row w-full'>
-                      <div className='my-auto h-full'>
-                        <img
-                          src={qual?.pilotImage || '/images/avatar.jpg'}
-                          alt='imgUserQluaify'
-                          className='w-10 h-10 rounded-full'
-                        />
-                      </div>
-                      <div className='ml-4'>
-                        <dt className='text-sm font-medium text-white truncate'>
-                          <span className='whitespace-nowrap'>
-                            {qual?.pilotName}
-                          </span>
-                        </dt>
-                        <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
-                            <p>{qual?.qualificationNum}</p>
-                            <FaStar className='text-yellow-300 w-6 h-6' />
-                          </div>
-                        </dd>
-                      </div>
-                    </div>
-                    <div className='bg-white'>
-                      <p>{qual?.comment}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>
 
-        <div className='w-full md:w-9/12'>
-          <div className='mx-auto py-6 md:px-2 lg:px-8 flex flex-col'>
-            <div className='w-full px-4 py-6 md:px-0'>
-              <CertificationRequests requests={requests} toggler={toggler} />
+        <div className='flex flex-col w-full'>
+          <div className='w-auto'>
+            <div className='mx-auto py-2 md:px-2 lg:px-8 flex flex-col w-full'>
+              <div className='w-full px-4 py-2 md:px-0'>
+                <CertificationRequests
+                  setIsLoading={setIsLoading}
+                  requests={requests}
+                  toggler={toggler}
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div className='bg-flightdeck-dark w-full rounded-lg opacity-90'>
+              <h2 className='text-flightdeck-darkgold text-2xl font-bold mb-4 text-center'>
+                Last Qualifications
+              </h2>
+              <div className='flex lg:flex-row w-full justify-around flex-col'>
+                {qualifys?.slice(-3).map((pilot) => (
+                  <div
+                    key={pilot.id}
+                    className='bg-flightdeck-black rounded-lg shadow-md p-2 m-4 flex flex-col justify-between border border-yellow-100'
+                  >
+                    <div>
+                      <PilotProfile
+                        name={pilot?.pilotName?.toUpperCase()}
+                        photoUrl={pilot?.pilotImage}
+                        qualification={pilot?.qualificationNum}
+                      />
+                    </div>
+                    <div className='flex items-center justify-center mt-4'>
+                      <p className='text-flightdeck-lightgold italic'>
+                        {'"'}
+                        {pilot?.comment}
+                        {'"'}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

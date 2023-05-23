@@ -4,7 +4,6 @@ import axios from 'axios';
 import RejectModal from '../components/Modals/RejectModal/RejectModal';
 import useRejectModal from '../../utils/hooks/useRejectModal';
 import { Request } from '@/types/globalTypes';
-import Loader from '../components/Loader';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { MdDoneOutline } from 'react-icons/md';
@@ -12,14 +11,15 @@ import { MdDoneOutline } from 'react-icons/md';
 type CertificationRequestsProps = {
   requests: Request[] | undefined;
   toggler: () => void;
+  setIsLoading: (isLoading: boolean) => void;
 };
 
 const CertificationRequests = ({
   requests,
   toggler,
+  setIsLoading,
 }: CertificationRequestsProps) => {
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleApproveRequest = async () => {
     if (selectedRequest) {
@@ -54,14 +54,13 @@ const CertificationRequests = ({
 
   return (
     <div className='flex flex-col items-center justify-center'>
-      {isLoading && <Loader />}
       <RejectModal email={selectedRequest?.user.email as string} />
       {requests?.length ? (
         <div>
           <h2 className='text-xl font-bold mb-4 text-red-600 animate-bounce text-center'>
             Certification Requests
           </h2>
-          <Table className='rounded-2xl overflow-hidden p-4 mb-28'>
+          <Table className='rounded-2xl overflow-hidden p-4 mb-10'>
             <Thead className='bg-gray-50'>
               <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>NAME</Th>
@@ -122,8 +121,8 @@ const CertificationRequests = ({
           </Table>
         </div>
       ) : (
-        <div className='rounded-2xl bg-gray-50 w-2/3 text-center'>
-          <h2 className='text-2xl font-bold my-4 text-green-600'>
+        <div className='rounded-2xl bg-flightdeck-lightgold w-2/3 text-center'>
+          <h2 className='text-2xl font-bold my-4 flightdeck-dark'>
             You have no pending Certification Requests
           </h2>
         </div>
