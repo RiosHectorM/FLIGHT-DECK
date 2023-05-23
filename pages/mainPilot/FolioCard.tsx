@@ -165,39 +165,39 @@ export default function FolioCard({
   return (
     <table
       /* className="table-auto w-90% mx-auto overflow-x-auto bg-slate-300 rounded-2xl mt-3 cursor-pointer" */
-      className="table-auto w-90% mx-auto overflow-x-auto mt-10 bg-indigo-600 text-white px-6 py-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300 ease-in-out cursor-pointer"
+      className='table-auto w-90% mx-auto overflow-x-auto mt-10 bg-indigo-600 text-white px-6 py-4 rounded-xl hover:bg-indigo-700 transition-colors duration-300 ease-in-out cursor-pointer'
       onClick={() => handlerSetFolio()}
     >
       <thead>
-        <tr className="border-b border-gray-200 ">
-          <th className="py-2 px-3 text-center">Item:</th>
-          <th className="py-2 px-3 text-center">Folio:</th>
-          <th className="py-2 px-3 text-center">Start date:</th>
-          <th className="py-2 px-3 text-center">End date:</th>
-          <th className="py-2 px-3 text-center">Total Hours:</th>
-          <th className="py-2 px-3 text-center">Upload signed folio:</th>
-          <th className="py-2 px-3 text-center">Folio Signed</th>
+        <tr className='border-b border-gray-200 '>
+          <th className='py-2 px-3 text-center'>Item:</th>
+          <th className='py-2 px-3 text-center'>Folio:</th>
+          <th className='py-2 px-3 text-center'>Start date:</th>
+          <th className='py-2 px-3 text-center'>End date:</th>
+          <th className='py-2 px-3 text-center'>Total Hours:</th>
+          <th className='py-2 px-3 text-center'>Upload signed folio:</th>
+          <th className='py-2 px-3 text-center'>Folio Signed</th>
         </tr>
       </thead>
       <tbody>
-        <tr className="hover:bg-gray-100 hover:text-black">
-          <td className=" text-center">
-            <p className="py-2 px-3">{item} </p>
+        <tr className='hover:bg-gray-100 hover:text-black'>
+          <td className=' text-center'>
+            <p className='py-2 px-3'>{item} </p>
           </td>
-          <td className=" text-center">
-            <p className="py-2 px-3">{folioNumber} </p>
+          <td className=' text-center'>
+            <p className='py-2 px-3'>{folioNumber} </p>
           </td>
-          <td className=" text-center">
-            <p className="py-2 px-3">{formattedStartDate} </p>
+          <td className=' text-center'>
+            <p className='py-2 px-3'>{formattedStartDate} </p>
           </td>
-          <td className=" text-center">
-            <p className="py-2 px-3">{formattedEndDate}</p>
+          <td className=' text-center'>
+            <p className='py-2 px-3'>{formattedEndDate}</p>
           </td>
-          <td className=" text-center">
-            <p className="py-2 px-3">{totalHours} </p>
+          <td className=' text-center'>
+            <p className='py-2 px-3'>{totalHours} </p>
           </td>
           <td
-            className=" text-center flex"
+            className=' text-center flex justify-center align-middle align-center'
             onClick={handleClickStopPropagation}
           >
             <CldUploadWidget
@@ -210,65 +210,80 @@ export default function FolioCard({
                   open();
                 }
                 return (
-                  <button className="button" onClick={handleOnClick}>
+                  <button className='button' onClick={handleOnClick}>
                     <AiOutlinePaperClip
-                      title="Attached"
-                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
+                      title='Attached'
+                      className={`ml-5 ${
+                        color ? 'mt-3' : 'mt-0'
+                      } hover:scale-150 hover:text-green-600`}
                     />
                   </button>
                 );
               }}
             </CldUploadWidget>
-            <CldUploadWidget
-              uploadPreset={uploadPreset}
-              onUpload={handleChange}
-            >
-              {({ open }) => {
-                function handleOnClickI(e: any) {
-                  e.preventDefault();
-                  open();
-                }
-                return (
-                  <button className="button" onClick={handleOnClickI}>
-                    <AiOutlineFolderOpen
-                      title="Change"
-                      className="ml-5 mt-3 hover:scale-150 hover:text-green-600"
-                    />
-                  </button>
-                );
-              }}
-            </CldUploadWidget>
-            <AiFillEye
-              title="Preview"
-              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
-              onClick={() => {
-                handlePreview();
-              }}
-            />
-            <AiOutlineCloudDownload
-              title="Download"
-              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600"
-              onClick={() => {
-                handleDownload();
-              }}
-            />
-            <AiOutlineCloseCircle
-              title="Delete"
-              className="ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600"
-              onClick={() => handleDelete()}
-            />
+            {!color && (
+              <p className='py-2 px-3 hover:cursor-default'>
+                Attach Folio{' '}
+              </p>
+            )}
+            {color && (
+              <CldUploadWidget
+                uploadPreset={uploadPreset}
+                onUpload={handleChange}
+              >
+                {({ open }) => {
+                  function handleOnClickI(e: any) {
+                    e.preventDefault();
+                    open();
+                  }
+                  return (
+                    <button className='button' onClick={handleOnClickI}>
+                      <AiOutlineFolderOpen
+                        title='Change'
+                        className='ml-5 mt-3 hover:scale-150 hover:text-green-600'
+                      />
+                    </button>
+                  );
+                }}
+              </CldUploadWidget>
+            )}
+            {color && (
+              <AiFillEye
+                title='Preview'
+                className='ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600'
+                onClick={() => {
+                  handlePreview();
+                }}
+              />
+            )}
+            {color && (
+              <AiOutlineCloudDownload
+                title='Download'
+                className='ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-green-600'
+                onClick={() => {
+                  handleDownload();
+                }}
+              />
+            )}
+            {color && (
+              <AiOutlineCloseCircle
+                title='Delete'
+                className='ml-5 mt-3 cursor-pointer hover:scale-150 hover:text-red-600'
+                onClick={() => handleDelete()}
+              />
+            )}
           </td>
-          <td className=" text-center">
+          <td className=' text-center'>
             {color && (
               <AiFillCheckCircle
-                title="Folio Ubloaded"
-                className="ml-11 text-green-600"
+                title='Folio Ubloaded'
+                className='ml-11 text-green-600'
               />
             )}
             {!color && (
               <AiFillCloud
-                title="No Folio Uploaded"
-                className="ml-11 text-red-600"
+                title='No Folio Uploaded'
+                className='ml-11 text-red-600'
               />
             )}
           </td>
