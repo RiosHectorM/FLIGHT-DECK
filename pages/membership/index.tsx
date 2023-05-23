@@ -67,14 +67,14 @@ const Membership: React.FC = () => {
       }}
     >
       <ToasterProvider />
-      <section className='text-gray-50'>
+      <section className='text-flightdeck-gold'>
         <div className='container mx-auto p-4 sm:p-10'>
           <div className='mb-10 space-y-4 text-center'>
             <h1 className='text-4xl font-semibold leading-tight'>
               Subscription Pricing
             </h1>
           </div>
-          <div className='flex flex-col items-center p-2 border-2 rounded-md border-blue-400 bg-gray-800 mb-8 mx-auto w-full'>
+          <div className='flex flex-col items-center p-2 border-2 rounded-md border-flightdeck-darkgold bg-flightdeck-black mb-8 mx-auto w-full'>
             <p className='my-2 text-xl font-bold'>
               Your current plan is:{' '}
               <span className='text-2xl font-extrabold'>
@@ -91,7 +91,7 @@ const Membership: React.FC = () => {
           </div>
 
           <div className='grid max-w-md grid-cols-1 gap-6 mx-auto auto-rows-fr lg:max-w-full lg:gap-2 xl:gap-6 lg:grid-cols-2 mb-10'>
-            <div className='relative flex flex-col items-center border-2 rounded-md border-blue-400 bg-gray-800'>
+            <div className='relative flex flex-col items-center border-2 rounded-md border-yellow-100 bg-flightdeck-black'>
               <p className='my-6 text-4xl font-bold'>FREE PLAN</p>
               <ul className='flex-1 space-y-2'>
                 <li className='flex items-center space-x-2'>
@@ -100,11 +100,12 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
                       strokeLinejoin='round'
+                      bg-flightdeck-black
                       strokeWidth='2'
                       d='M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z'
                     ></path>
@@ -113,7 +114,7 @@ const Membership: React.FC = () => {
                 </li>
               </ul>
             </div>
-            <div className='relative flex flex-col items-center border-2 rounded-md border-blue-400 bg-gray-800'>
+            <div className='relative flex flex-col items-center border-2 rounded-md border-yellow-100 bg-flightdeck-black'>
               <p className='my-6 text-4xl font-bold'>PREMIUM PLAN</p>
               <ul className='flex-1 space-y-2'>
                 <li className='flex items-center space-x-2'>
@@ -122,7 +123,7 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
@@ -139,7 +140,7 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
@@ -156,7 +157,7 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
@@ -173,7 +174,7 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
@@ -190,7 +191,7 @@ const Membership: React.FC = () => {
                     fill='none'
                     viewBox='0 0 24 24'
                     stroke='currentColor'
-                    className='w-6 h-6 text-blue-400'
+                    className='w-6 h-6 text-flightdeck-darkgold'
                   >
                     <path
                       strokeLinecap='round'
@@ -206,8 +207,8 @@ const Membership: React.FC = () => {
           </div>
 
           <div className='grid max-w-md grid-cols-1 gap-6 mx-auto auto-rows-fr lg:max-w-full lg:gap-2 xl:gap-6 lg:grid-cols-3'>
-            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
-              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-yellow-100 bg-flightdeck-black'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-flightdeck-lightgold text-gray-900'>
                 1-MONTH PLAN
               </span>
               <p className='my-6 text-4xl font-bold'>$ 20</p>
@@ -215,17 +216,17 @@ const Membership: React.FC = () => {
                 onClick={() =>
                   handlerMonth(1, 'price_1N4CmgKWrlIRXPNaX8OL4vzG')
                 }
-                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-yellow-100'
               >
                 Subscribe
               </button>
             </div>
-            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
-              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-yellow-100 bg-flightdeck-black'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-flightdeck-lightgold text-gray-900'>
                 3-MONTH PLAN
               </span>
               <p className='flex items-center justify-center my-6 space-x-2 font-bold'>
-                <span className='text-lg line-through text-gray-300'>
+                <span className='text-lg line-through text-flightdeck-cream'>
                   &nbsp;$60&nbsp;
                 </span>
                 <span className='pb-2 text-4xl'>$ 50</span>
@@ -235,17 +236,17 @@ const Membership: React.FC = () => {
                 onClick={() => {
                   handlerMonth(3, 'price_1N5eCiKWrlIRXPNaN9jVMr1G');
                 }}
-                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-yellow-100'
               >
                 Subscribe
               </button>
             </div>
-            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-blue-400 bg-gray-800'>
-              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-blue-400 text-gray-900'>
+            <div className='relative flex flex-col items-center p-8 border-2 rounded-md border-yellow-100 bg-flightdeck-black'>
+              <span className='absolute top-0 px-6 pt-1 pb-2 font-medium rounded-b-lg bg-flightdeck-lightgold text-gray-900'>
                 ANNUAL PLAN
               </span>
               <p className='flex items-center justify-center my-6 space-x-2 font-bold'>
-                <span className='text-lg line-through text-gray-300'>
+                <span className='text-lg line-through text-flightdeck-cream'>
                   &nbsp;$240&nbsp;
                 </span>
                 <span className='pb-2 text-4xl'>$ 180</span>
@@ -255,7 +256,7 @@ const Membership: React.FC = () => {
                 onClick={() => {
                   handlerMonth(12, 'price_1N5e7oKWrlIRXPNatiDIgWnC');
                 }}
-                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-blue-400'
+                className='px-4 py-2 font-semibold uppercase border rounded-lg sm:py-3 sm:px-8 border-yellow-100'
               >
                 Subscribe
               </button>
