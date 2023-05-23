@@ -4,9 +4,9 @@ import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 export default function index() {
   return (
     <div>
-      <ProtectedRoute allowedRoles={['COMPANY']}>
+      {/* //<ProtectedRoute allowedRoles={['COMPANY']}> */}
         <MainCompanyPage />
-      </ProtectedRoute>
+      {/* //</ProtectedRoute> */}
     </div>
   );
 }

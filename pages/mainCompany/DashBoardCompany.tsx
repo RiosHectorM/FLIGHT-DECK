@@ -23,7 +23,7 @@ const DashboardCompany = () => {
 
 
   return (
-    <ProtectedRoute allowedRoles={["COMPANY"]}>
+    //<ProtectedRoute allowedRoles={["COMPANY"]}>
       <div
         className="min-h-screen items-center justify-center p-8"
         style={{
@@ -64,7 +64,7 @@ const DashboardCompany = () => {
         
         <Main />
       </div>
-    </ProtectedRoute>
+    //</ProtectedRoute>
   );
 };
 

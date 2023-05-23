@@ -72,16 +72,16 @@ const Certif = ({
     <>
       {isLoading && <Loader />}
       <div className='bg-gray-200 rounded-xl shadow-md mb-2'>
-        <div className='px-2 py-2 sm:p-4'>
+        <div className='px-2 py-1 sm:p-4'>
           <div className='flex lg:flex-row flex-col flex-1 justify-between'>
-            <div className='flex flex-col w-full'>
-              <div className='text-xl font-bold text-black truncate '>
+            <div className='flex flex-col w-full justify-between'>
+              <div className='text-xl font-bold my-2 py-2 text-black truncate'>
                 {cert?.certificateName}
               </div>
               {cert?.certificateExpirationDate && (
                 <div className='flex'>
                   <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2'>
+                  <span className='ml-2 my-2'>
                     Expiration Date:{' '}
                     {cert?.certificateExpirationDate.split('T')[0]}
                   </span>
@@ -90,7 +90,9 @@ const Certif = ({
               {cert?.certificateDescription && (
                 <div className='flex'>
                   <TbLicense className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2'>{cert?.certificateDescription}</span>
+                  <span className='ml-2 my-2'>
+                    {cert?.certificateDescription}
+                  </span>
                 </div>
               )}
             </div>

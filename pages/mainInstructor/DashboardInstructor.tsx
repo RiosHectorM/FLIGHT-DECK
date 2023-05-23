@@ -51,7 +51,7 @@ const DashboardInstructor: FC = () => {
   }, [data]);
 
   return (
-    <ProtectedRoute allowedRoles={['INSTRUCTOR']}>
+    //<ProtectedRoute allowedRoles={['INSTRUCTOR']}>
       <div
         className='min-h-screen bg-gray-100 w-full'
         style={{
@@ -157,7 +157,7 @@ const DashboardInstructor: FC = () => {
           </main>
         )}
       </div>
-    </ProtectedRoute>
+    //</ProtectedRoute>
   );
 };
 
