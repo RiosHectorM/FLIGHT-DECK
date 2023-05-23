@@ -162,15 +162,15 @@ const EditHoursModal = ({
         .typeError('Debe ser un número. La coma es el punto'),
       dayHours: yup
         .number()
-        .positive('Debe ser positivo')
+        .min(0, 'No puede ser negativo')
         .typeError('Debe ser un número. La coma es el punto'),
       nightHours: yup
         .number()
-        .positive('Debe ser positivo')
+        .min(0, 'No puede ser negativo')
         .typeError('Debe ser un número. La coma es el punto'),
       instHours: yup
         .number()
-        .positive('Debe ser positivo')
+        .min(0, 'No puede ser negativo')
         .typeError('Debe ser un número. La coma es el punto'),
     })
     .required();
