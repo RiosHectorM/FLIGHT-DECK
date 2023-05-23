@@ -5,7 +5,7 @@ const SignupPage = () => {
     <div className='flex flex-col items-center justify-center h-screen'>
       <div className='mb-8'>
         <Image
-          src='/images/logoApp.pngg'
+          src='/images/logoApp.png'
           alt='FlightLogo'
           width={200}
           height={200}
