@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs';
 import { useState } from 'react';
 import { signOut } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-hot-toast';
 
 const FormPassword = () => {
   const router = useRouter();
@@ -49,19 +50,17 @@ const FormPassword = () => {
         updateUserHashedPasword(hashedNewPassword);
 
         if (response.status === 200) {
-          alert('La contraseña se ha actualizado correctamente.');
+          toast.success('The password has been updated correctly.');
           signOut({ redirect: false });
           router.push('/home');
         }
       } else {
-        alert(
-          'No se pudo actualizar la contraseña. Por favor, intente de nuevo.'
-        );
+        toast.error('Could not update password. Please try again.');
       }
     } catch (error) {
       console.error(error);
-      alert(
-        'Ocurrió un error al actualizar la contraseña. Por favor, intente de nuevo.'
+      toast.error(
+        'An error occurred while updating the password. Please try again.'
       );
     }
 

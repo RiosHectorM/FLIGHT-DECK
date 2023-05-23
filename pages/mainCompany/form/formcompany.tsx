@@ -2,6 +2,7 @@ import { validateField } from '@/utils/libs/validate';
 import { useUserStore } from '@/store/userStore';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 
 type User = {
   id?: string;
@@ -113,7 +114,7 @@ export default function FormCompany() {
         city: data.city,
       };
       updateUser(newUserState as any);
-      alert('Info Updated');
+      toast.success('Info Updated');
     }
   });
 
