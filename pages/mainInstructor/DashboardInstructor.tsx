@@ -7,7 +7,6 @@ import { useUserStore } from "@/store/userStore";
 import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 import ToasterProvider from "../providers/ToasterProvider";
 import FormCertificates from "./form/formCertificates";
-import StatsPilot from "../components/AuxComponents/Stats/StatsPilot";
 import StatsInstructor from "../components/AuxComponents/Stats/StatsInstructor";
 
 const DashboardInstructor: FC = () => {

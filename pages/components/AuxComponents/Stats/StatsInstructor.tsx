@@ -46,7 +46,7 @@ const StatsInstructor = ({ userId }: Props) => {
           let instrumentsHours: number[] = [];
 
           for (let i = 0; i < response.data.length; i++) {
-            pilots[i] = response.data[i].pilot;
+            pilots[i] = response.data[i].pilotName + ' ' + response.data[i].pilotLastName + '\n' + response.data[i].pilotMail;
             dayHours[i] = response.data[i].dayCertifiedHours;
             nightHours[i] = response.data[i].nightCertifiedHours;
             instrumentsHours[i] = response.data[i].instrumentsCertifiedHours;
