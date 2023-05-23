@@ -13,6 +13,7 @@ import { useUserStore } from '../../store/userStore';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { format, parseISO } from 'date-fns';
+import { toast } from 'react-hot-toast';
 
 interface Props {
   item: number;
@@ -84,7 +85,7 @@ export default function FolioCard({
         });
         setColor(true);
       } else {
-        alert('Existe');
+        toast.error('It already exists');
       }
     } catch (error) {
       console.log(error);
@@ -118,7 +119,7 @@ export default function FolioCard({
         );
         setColor(false);
       } else {
-        alert('No Existe');
+        toast.success('Does not exist');
       }
     } catch (error) {
       console.log(error);

@@ -55,19 +55,17 @@ const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
         updateUserHashedPasword(hashedNewPassword);
 
         if (response.status === 200) {
-          toast.success('La contraseña se ha actualizado correctamente.');
+          toast.success('The password has been updated correctly.');
           signOut({ redirect: false });
           router.push('/home');
         }
       } else {
-        toast.error(
-          'No se pudo actualizar la contraseña. Por favor, intente de nuevo.'
-        );
+        toast.error('Could not update password. Please try again.');
       }
     } catch (error) {
       console.error(error);
       toast.error(
-        'Ocurrió un error al actualizar la contraseña. Por favor, intente de nuevo.'
+        'An error occurred while updating the password. Please try again.'
       );
     }
 
