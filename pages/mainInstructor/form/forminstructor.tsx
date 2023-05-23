@@ -3,6 +3,7 @@ import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { validateField } from '../../../utils/libs/validate';
+import countries from '../../../utils/countries.json';
 
 type User = {
   id?: string;
@@ -100,7 +101,7 @@ const validationRules = {
   nationality: {
     required: 'Nationality is required.',
     pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
+      value: /^[a-zA-Z\u00C0-\u017F\s]*$/,
       message: 'Nationality can only contain letters and spaces.',
     },
     minLength: {
@@ -136,6 +137,8 @@ export default function FromInstructor({
   });
 
   const [formErrors, setFormErrors] = useState<Record<string, any>>({});
+  const countryList = countries.countries;
+
 
   const onSubmit = handleSubmit((data) => {
     const errors: Record<string, any> = {};
@@ -298,13 +301,18 @@ export default function FromInstructor({
             >
               Nationality
             </label>
-            <input
+            <select
               {...register('nationality', { required: true })}
               className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
               id='nationality'
-              type='text'
-              placeholder='Nationality'
-            />
+            >
+              <option value=''>Select Nationality</option>
+              {countryList.map((country) => (
+                <option key={country.id} value={country.name}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
             {formErrors.nationality && (
               <p className='text-red-500 text-xs italic'>
                 {formErrors.nationality.message}
