@@ -14,23 +14,26 @@ const LandingPage = () => {
   };
 
   return (
-    <div
-      className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'
-    >
+    <div className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'>
       <div
         className='relative flex flex-col items-center justify-center h-full'
         style={{
-          backgroundImage: "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
+          backgroundImage:
+            "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className={`${startAnimation ? 'animate-spin' : ''} z-10 flex flex-col items-center mb-1`}>
+        <div
+          className={`${
+            startAnimation ? 'animate-spin' : ''
+          } z-10 flex flex-col items-center mb-1`}
+        >
           <div className='animate-pulse'>
             <Image
-              src='/images/imagen1.png'
-              alt='Flight logo'
+              src='/images/logoApp.png'
+              alt='FlightLogo'
               width={300}
               height={300}
             />
@@ -42,7 +45,6 @@ const LandingPage = () => {
             alt='Flight Deck'
             width={700}
             height={700}
-            className=''
           />
         </div>
         <div
