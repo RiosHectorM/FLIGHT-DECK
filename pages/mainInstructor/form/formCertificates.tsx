@@ -4,6 +4,7 @@ import axios from 'axios';
 import { CertificationType } from '@/types/globalTypes';
 import useCertificatesModal from '@/utils/hooks/useCertificatesModal';
 import ModalCertif from '../certificates/ModalCertif';
+import Loader from '@/pages/components/Loader';
 
 interface Props {
   setShowInfo: (show: boolean) => void;
@@ -38,8 +39,12 @@ const FormCertificates = ({
     setDescrip(null);
     addCertificateModal.onOpen();
   };
+
+  const [isLoading, setIsLoading] = useState(false);
+
   async function getCertificates() {
     try {
+      setIsLoading(true);
       if (userId !== undefined) {
         const response = await axios.get(`/api/certificate?userId=${userId}`);
         const data = response.data;
@@ -47,6 +52,8 @@ const FormCertificates = ({
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -64,6 +71,7 @@ const FormCertificates = ({
         expiration={expiration}
         descrip={descrip}
       />
+      {isLoading && <Loader />}
       <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-6 flex flex-col justify-center w-full'>
         {allCertificates.length > 0 ? (
           <div className=' gap-4'>

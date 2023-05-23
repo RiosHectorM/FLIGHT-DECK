@@ -14,23 +14,26 @@ const LandingPage = () => {
   };
 
   return (
-    <div
-      className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'
-    >
+    <div className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'>
       <div
         className='relative flex flex-col items-center justify-center h-full'
         style={{
-          backgroundImage: "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
+          backgroundImage:
+            "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className={`${startAnimation ? 'animate-spin' : ''} z-10 flex flex-col items-center mb-1`}>
+        <div
+          className={`${
+            startAnimation ? 'animate-spin' : ''
+          } z-10 flex flex-col items-center mb-1`}
+        >
           <div className='animate-pulse'>
             <Image
-              src='/images/imagen1.png'
-              alt='Flight logo'
+              src='/images/logoApp.png'
+              alt='FlightLogo'
               width={300}
               height={300}
             />
@@ -42,13 +45,12 @@ const LandingPage = () => {
             alt='Flight Deck'
             width={700}
             height={700}
-            className=''
           />
         </div>
         <div
           className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
           style={{
-            backgroundColor: 'rgba(229, 217, 182, 0.8)', // Cambia los valores RGB y la transparencia según tus preferencias
+            backgroundColor: 'rgba(229, 217, 182, 0.1)', // Cambia los valores RGB y la transparencia según tus preferencias
           }}
         >
           <p className='text-center text-white text-xl font-medium mb-4'>
@@ -68,16 +70,16 @@ const LandingPage = () => {
       </div>
       <div className='absolute bottom-4 right-4 flex space-x-4'>
         <Image
-          src='/images/android_robot.svg'
+          src='/images/androide.png'
           alt='Android logo'
-          width={50}
-          height={50}
+          width={60}
+          height={60}
         />
         <Image
           src='/images/apple-ios.svg'
           alt='iOS logo'
-          width={50}
-          height={50}
+          width={60}
+          height={60}
         />
       </div>
     </div>

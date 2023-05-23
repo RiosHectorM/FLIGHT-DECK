@@ -84,11 +84,11 @@ const integrantes: Integrante[] = [
 
 const About: React.FC = () => {
   return (
-    <div className="mx-auto px-4 py-12 bg-cover bg-fixed bg-[url('/images/background-image.jpg')]">
-      <h1 className='text-7xl font-bold text-black-600 mb-20 text-center transform scale-90 md:scale-100'>
+    <div className="mx-auto px-4 py-12 bg-cover bg-fixed bg-[url('/images/2301.w018.n002.1587B.p15.1587.jpg')]">
+      <h1 className='text-7xl font-bold text-flightdeck-cream mb-20 text-center transform scale-90 md:scale-100'>
         About Us
       </h1>
-      <div className='text-4xl font-bold text-slate-900 mt-9 text-center'>
+      <div className='text-4xl font-bold text-flightdeck-cream mt-9 text-center'>
         {Array.from('FLIGHT DECK').map((char, index) => (
           <motion.span
             key={index}
@@ -107,7 +107,7 @@ const About: React.FC = () => {
       </div>
 
       <div className='flex justify-center mt-24'>
-        <div className='w-1/2 p-8 text-lg bg-white text-black transform scaleY(-1) shadow-xl text-center rounded-md bg-opacity-60'>
+        <div className='w-1/2 p-8 text-lg bg-flightdeck-lightgold text-flightdeck-black transform scaleY(-1) shadow-xl text-center rounded-md bg-opacity-60'>
           <p
             className='
                         first-letter:text-7xl first-letter:font-bold first-letter:text-black
@@ -126,7 +126,7 @@ const About: React.FC = () => {
       </div>
 
       <br></br>
-      <h1 className='flex justify-center text-5xl font-bold mt-24 text-slate-900 mb-6'>
+      <h1 className='flex justify-center text-5xl font-bold mt-24 text-flightdeck-cream mb-6'>
         Our Team
       </h1>
 
@@ -134,17 +134,17 @@ const About: React.FC = () => {
         {integrantes.map((integrante) => (
           <div
             key={integrante.nombre}
-            className='bg-white shadow-xl rounded-lg p-6 text-center bg-opacity-60'
+            className='bg-flightdeck-cream shadow-xl rounded-lg p-6 text-center bg-opacity-60'
           >
             <img
               src={integrante.image}
               alt={integrante.nombre}
               className='mx-auto shadow-xl rounded-full mb-4'
             />
-            <h2 className='text-2xl font-bold text-black-800 mb-2'>
+            <h2 className='text-2xl font-bold text-flightdeck-black mb-2'>
               {integrante.nombre}
             </h2>
-            <p className='text-lg text-gray-800'>{integrante.rol}</p>
+            <p className='text-lg text-flightdeck-black'>{integrante.rol}</p>
             <div className='flex justify-center mt-4'>
               <a
                 href={integrante.github}
