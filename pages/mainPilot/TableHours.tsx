@@ -194,20 +194,24 @@ const TableHoursPilot = ({
   };
 
   const handleEditHours = (flight: FlightData) => {
-    setSelectedFlight(flight);
-    editHoursModal.onOpen();
+    if (flight.certifier == null) {
+      setSelectedFlight(flight);
+      editHoursModal.onOpen();
+    } else toast.error("You can't edit hours asked to certify!");
   };
 
   const handleDeleteHours = async (flight: FlightData) => {
-    setIsLoading(true);
-    try {
-      await axios.delete(`/api/flight/${flight.id}`);
-      getFlights(user?.id as string);
-      toast.success('Deleted');
-    } catch (error) {
-      toast.error('Error deleting flight');
-    }
-    setIsLoading(false);
+    if (flight.certifier == null) {
+      setIsLoading(true);
+      try {
+        await axios.delete(`/api/flight/${flight.id}`);
+        getFlights(user?.id as string);
+        toast.success('Deleted');
+      } catch (error) {
+        toast.error('Error deleting flight');
+      }
+      setIsLoading(false);
+    } else toast.error("You can't Delete hours asked to certify");
   };
 
   const seleccionarInstructor = (index: any) => {
@@ -358,7 +362,8 @@ const TableHoursPilot = ({
                             onClick={() => handleDeleteHours(dato)}
                             className='text-red-600 w-5 h-5 cursor-pointer'
                           />
-                          {dato.flightType == 'Escuela' ? (
+                          {dato.certifier == null &&
+                          dato.flightType == 'Escuela' ? (
                             <AiFillSafetyCertificate
                               onClick={() => handlerCertify(dato)}
                               className='text-green-600 w-5 h-5 cursor-pointer'
