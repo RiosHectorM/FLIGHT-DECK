@@ -106,8 +106,8 @@ const About: React.FC = () => {
         ))}
       </div>
 
-      <div className='flex justify-center mt-24'>
-        <div className='w-1/2 p-8 text-lg bg-flightdeck-lightgold text-flightdeck-black transform scaleY(-1) shadow-xl text-center rounded-md bg-opacity-60'>
+      <div className='flex justify-center mt-24 mx-auto'>
+        <div className='md:w-1/2 xl:md:w-1/2 sm:w-full mx-auto p-8 text-lg bg-flightdeck-lightgold text-flightdeck-black transform scaleY(-1) shadow-xl text-center rounded-md bg-opacity-60'>
           <p
             className='
                         first-letter:text-7xl first-letter:font-bold first-letter:text-black
@@ -130,11 +130,11 @@ const About: React.FC = () => {
         Our Team
       </h1>
 
-      <div className='grid grid-cols-3 gap-8'>
+      <div className='grid gap-8 md:grid-cols-3 xl:grid-cols-3 sm:grid-cols-1'>
         {integrantes.map((integrante) => (
           <div
             key={integrante.nombre}
-            className='bg-flightdeck-cream shadow-xl rounded-lg p-6 text-center bg-opacity-60'
+            className='bg-flightdeck-cream shadow-xl rounded-lg p-6 text-center bg-opacity-60 w-full'
           >
             <img
               src={integrante.image}
