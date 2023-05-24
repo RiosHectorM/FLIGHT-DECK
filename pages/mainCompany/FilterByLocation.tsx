@@ -63,10 +63,10 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({ onFilterChange }) =
 
   return (
     <div className="bg-gray-900 rounded-lg p-4 shadow-lg">
-      <h2 className="text-white text-lg font-semibold mb-2">Filtrar por nacionalidad</h2>
+      <h2 className="text-white text-lg font-semibold mb-2">Filter by nationality</h2>
       <input
         type="text"
-        placeholder="Escriba una nacionalidad"
+        placeholder="Write a nationality"
         className="border border-gray-700 bg-gray-800 text-white rounded-md p-2 mb-4 focus:outline-none focus:border-indigo-500"
         value={nationality}
         onChange={handleLocationChange}
@@ -81,21 +81,21 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({ onFilterChange }) =
               >
                 <h3 className="text-xl font-semibold">{pilot.name}</h3>
                 <p className="text-gray-300">{pilot.location}</p>
-                <p className="text-gray-300">Horas de vuelo: {pilot.hoursOfFlight}</p>
-                <p className="text-gray-300">Nacionalidad: {pilot.nationality}</p>
+                <p className="text-gray-300">Flight hours: {pilot.hoursOfFlight}</p>
+                <p className="text-gray-300">Nationality: {pilot.nationality}</p>
               </div>
             ))
           ) : (
             <div className="bg-gray-800 text-white rounded-md p-4">
               <p className="text-xl font-semibold animate-pulse">
-                  No se encontraron pilotos con esa nacionalidad.
-                  </p>
-                  </div>
-                    )}
-                  </div>
-                    )}
-                  </div>
-);
+                No pilots with that nationality were found.
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default FilterByLocation;
