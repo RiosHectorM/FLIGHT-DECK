@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import FormPhoto from '../mainInstructor/form/formphoto';
-import FormCompany from './form/formCompany';
+import FormCompany from './form/FormCompany';
 import FormPassword from '../mainInstructor/form/formpassword';
 import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
