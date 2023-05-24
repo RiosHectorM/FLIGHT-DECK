@@ -25,8 +25,8 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
     name: 'Flight Deck App',
     email: email,
     subject: `${name} wants to contact you`,
-    message: `${name} quiere ponerse en contacto con vos`,
-    html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡${name} te esta buscando!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">${message}</p></div>`,
+    message: `${name} wants to contact you`,
+    html: `<div style="background-color: #f7f7f7; padding: 20px; text-align: center;"><h1 style="color: #333333; font-size: 28px;">¡${name} she is looking for you!</h1><img src="https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png" alt="ImagenFlightDeck" style="width: 300px; margin-bottom: 20px;"><p style="color: #666666; font-size: 18px;">${message}</p></div>`,
   };
 
   const handlerSend = (
@@ -41,11 +41,11 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
   return (
     <div className='flex flex-col items-start space-y-4 bg-gray-700 p-4 rounded-md'>
       <h2 className='text-lg font-semibold text-white mb-2'>
-        Contactar a {pilotName}
+        Contact {pilotName}
       </h2>
       <p className='text-white mb-2'>
-        Póngase en contacto con {pilotName} para concertar una entrevista o
-        coordinar un vuelo de prueba.
+        Keep in contact with {pilotName} to arrange an interview or
+        coordinate a test flight.
       </p>
       <form className='space-y-2 w-full'>
         <div className='flex flex-col items-start'>
@@ -53,7 +53,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             htmlFor='contactName'
             className='text-white font-semibold mb-1'
           >
-            Nombre
+            Name
           </label>
           <input
             type='text'
@@ -67,7 +67,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             htmlFor='contactEmail'
             className='text-white font-semibold mb-1'
           >
-            Correo electrónico
+            Email
           </label>
           <input
             type='email'
@@ -81,11 +81,11 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             htmlFor='contactMessage'
             className='text-white font-semibold mb-1'
           >
-            Mensaje
+            Message
           </label>
           <textarea
             id='contactMessage'
-            placeholder='Ingrese su mensaje'
+            placeholder='Enter your message'
             value={message}
             onChange={handleMessageChange}
             className='w-full h-32 bg-gray-500 border-gray-400 border rounded-md py-2 px-3 text-white'
@@ -95,7 +95,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
           onClick={handlerSend}
           className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
         >
-          Enviar mensaje
+          Send Message
         </button>
       </form>
     </div>

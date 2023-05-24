@@ -60,7 +60,7 @@ const MainCompanyPage: React.FC = () => {
           className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
           onClick={handleTogglePilots}
         >
-          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
+          {showPilots ? "Hide pilots" : "See registered pilots"}
         </button>
         {showPilots && <PilotList />}
     </div>

@@ -87,21 +87,21 @@ const TopPilots: React.FC = () => {
                 className="ml-2 bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
                 onClick={() => handleContactClick(pilot.id)}
               >
-                {selectedPilotId === pilot.id ? 'Cerrar' : 'Contactar'}
+                {selectedPilotId === pilot.id ? 'Close' : 'Contact'}
               </button>
             </div>
           </div>
         ))}
       </div>
-      {selectedPilotId &&(
-<ContactPilot
-name={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
-pilotName={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
-email={topPilots.find((pilot) => pilot.id === selectedPilotId)?.email || ''}
-/>
-)}
-</div>
-);
+      {selectedPilotId && (
+        <ContactPilot
+          name={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
+          pilotName={topPilots.find((pilot) => pilot.id === selectedPilotId)?.name || ''}
+          email={topPilots.find((pilot) => pilot.id === selectedPilotId)?.email || ''}
+        />
+      )}
+    </div>
+  );
 };
 
 export default TopPilots;

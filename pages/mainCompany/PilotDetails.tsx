@@ -53,13 +53,13 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
           onClick={handleContactClick}
           className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
         >
-          Contactar a {name}
+          Contact {name}
         </button>
         <button
           onClick={handleFlightLogClick}
           className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
         >
-          Ver Bitácora de vuelo de {name}
+          See flight log of {name}
         </button>
       </div>
       {showContact && userData?.name && (
