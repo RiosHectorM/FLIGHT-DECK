@@ -1,5 +1,3 @@
-'use client';
-
 import { useCallback, useEffect, useState } from 'react';
 import { IoMdClose } from 'react-icons/io';
 
@@ -81,7 +79,8 @@ const Modal: React.FC<ModalProps> = ({
         z-50 
         outline-none 
         focus:outline-none
-        bg-violet-300/70
+        bg-flightdeck-gold
+        bg-opacity-70
         '
       >
         <div
@@ -96,6 +95,7 @@ const Modal: React.FC<ModalProps> = ({
           h-full 
           lg:h-full
           md:h-5/6
+          bg-flightdeck-cream
           '
         >
           {/*content*/}
@@ -135,7 +135,9 @@ const Modal: React.FC<ModalProps> = ({
                 rounded-t
                 justify-center
                 relative
-                border-b-[1px]                
+                border-b-[1px]  
+                bg-flightdeck-darkgold
+                text-white            
                 '
               >
                 <button
