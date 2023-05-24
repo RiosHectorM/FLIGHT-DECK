@@ -33,7 +33,8 @@ const MainCompanyPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8 p-8" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
-    backgroundPosition: 'center' }}>
+    backgroundPosition: 'center',
+    }}>
 
       <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
       <div className="flex flex-wrap justify-center gap-8">
