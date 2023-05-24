@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { sendContactForm } from '@/lib/api';
+import { toast } from 'react-hot-toast';
 
 interface ContactPilotProps {
   name: string;
@@ -34,7 +35,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
     event.preventDefault();
     sendContactForm(values);
     setMessage('');
-    alert('Mail Enviado');
+    toast.success('Email OK');
   };
 
   return (

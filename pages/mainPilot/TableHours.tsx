@@ -238,6 +238,7 @@ const TableHoursPilot = ({
         user={user?.id as string}
         name={user?.name + ' ' + user?.lastName}
         image={user?.image as string}
+        setIsLoading={setIsLoading}
       />
       <FilterPilotBar updateFilters={updateFilters} />
 
@@ -248,6 +249,7 @@ const TableHoursPilot = ({
         getFlights={getFlights}
         id={user?.id as string}
         seleccionarInstructor={seleccionarInstructor}
+        setIsLoading={setIsLoading}
       />
       <AddHoursModal
         selectedFolio={selectedFolio as string}

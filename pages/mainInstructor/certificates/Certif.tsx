@@ -90,7 +90,9 @@ const Certif = ({
               {cert?.certificateDescription && (
                 <div className='flex'>
                   <TbLicense className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2 my-2'>{cert?.certificateDescription}</span>
+                  <span className='ml-2 my-2'>
+                    {cert?.certificateDescription}
+                  </span>
                 </div>
               )}
             </div>

@@ -3,9 +3,9 @@ import ProtectedRoute from "../components/AuxComponents/ProtectedRoute";
 
 const Index = () => {
   return (
-    <ProtectedRoute allowedRoles={["PILOT"]}>
+    //<ProtectedRoute allowedRoles={["PILOT"]}>
         <MainPiloto />
-    </ProtectedRoute>
+    //</ProtectedRoute>
   );
 };
 

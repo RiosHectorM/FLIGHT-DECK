@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
+
 import { validateField } from '../../../utils/libs/validate';
 import countries from '../../../utils/countries.json';
+
 
 type User = {
   id?: string;
   name?: string | null;
-  lastName?: string | null;
   role?: string | null;
   email?: string | null;
   emailVerified?: string | null;
@@ -16,16 +17,13 @@ type User = {
   hashedPassword?: string | null;
   phoneNumber?: string | null;
   address?: string | null;
-  city?: string | null;
   nationality?: string | null;
 };
 
 type FormData = {
   name: string;
-  lastName: string;
   phoneNumber: string;
   address: string;
-  city: string;
   nationality: string;
 };
 
@@ -50,21 +48,6 @@ const validationRules = {
       message: 'Name cannot exceed 50 characters.',
     },
   },
-  lastName: {
-    required: 'Last Name is required.',
-    pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
-      message: 'Last Name can only contain letters and spaces.',
-    },
-    minLength: {
-      value: 3,
-      message: 'Last Name must have at least 3 characters.',
-    },
-    maxLength: {
-      value: 50,
-      message: 'Last Name cannot exceed 50 characters.',
-    },
-  },
   phoneNumber: {
     required: 'Phone Number is required.',
     pattern: {
@@ -81,21 +64,6 @@ const validationRules = {
     maxLength: {
       value: 60,
       message: 'Address cannot exceed 60 characters.',
-    },
-  },
-  city: {
-    required: 'City is required.',
-    pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
-      message: 'City can only contain letters and spaces.',
-    },
-    minLength: {
-      value: 3,
-      message: 'City must have at least 3 characters.',
-    },
-    maxLength: {
-      value: 50,
-      message: 'City cannot exceed 50 characters.',
     },
   },
   nationality: {
@@ -115,7 +83,7 @@ const validationRules = {
   },
 };
 
-export default function FromInstructor({
+export default function FormCompany({
   setShowInfo,
   setShowFormInstructor,
 }: Props) {
@@ -128,10 +96,8 @@ export default function FromInstructor({
   } = useForm<FormData>({
     defaultValues: {
       name: user?.name || '',
-      lastName: user?.lastName || '',
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
-      city: user?.city || '',
       nationality: user?.nationality || '',
     },
   });
@@ -144,7 +110,6 @@ export default function FromInstructor({
     const errors: Record<string, any> = {};
 
     validateField('name', data.name, validationRules.name, errors);
-    validateField('lastName', data.lastName, validationRules.lastName, errors);
     validateField(
       'phoneNumber',
       data.phoneNumber,
@@ -152,7 +117,6 @@ export default function FromInstructor({
       errors
     );
     validateField('address', data.address, validationRules.address, errors);
-    validateField('city', data.city, validationRules.city, errors);
     validateField(
       'nationality',
       data.nationality,
@@ -168,16 +132,14 @@ export default function FromInstructor({
       let newUserState: User = {
         ...user,
         name: data.name,
-        lastName: data.lastName,
         phoneNumber: data.phoneNumber,
         address: data.address,
-        city: data.city,
         nationality: data.nationality,
       };
       updateUser(newUserState as any);
+      toast.success('Info Updated');
       setShowInfo(true);
       setShowFormInstructor(false);
-      toast.success('Info Updated');
     }
   });
 
@@ -211,26 +173,6 @@ export default function FromInstructor({
             {formErrors.name && (
               <p className='text-red-500 text-xs italic'>
                 {formErrors.name.message}
-              </p>
-            )}
-          </div>
-          <div className='mb-4'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2'
-              htmlFor='lastName'
-            >
-              Last Name
-            </label>
-            <input
-              {...register('lastName', { required: true })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='lastName'
-              type='text'
-              placeholder='Last Name'
-            />
-            {formErrors.lastName && (
-              <p className='text-red-500 text-xs italic'>
-                {formErrors.lastName.message}
               </p>
             )}
           </div>
@@ -277,26 +219,6 @@ export default function FromInstructor({
           <div className='mb-4'>
             <label
               className='block text-gray-700 text-sm font-bold mb-2'
-              htmlFor='city'
-            >
-              City
-            </label>
-            <input
-              {...register('city', { required: true })}
-              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-              id='city'
-              type='text'
-              placeholder='City'
-            />
-            {formErrors.city && (
-              <p className='text-red-500 text-xs italic'>
-                {formErrors.city.message}
-              </p>
-            )}
-          </div>
-          <div className='mb-4'>
-            <label
-              className='block text-gray-700 text-sm font-bold mb-2'
               htmlFor='nationality'
             >
               Nationality
@@ -321,16 +243,16 @@ export default function FromInstructor({
           </div>
           <div className='flex items-center justify-between'>
             <button
-              className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               type='submit'
             >
-              UPDATE
+              Update
             </button>
             <button
-              className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+              className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
               onClick={handleCancel}
             >
-              CANCEL
+              Cancel
             </button>
           </div>
         </form>
