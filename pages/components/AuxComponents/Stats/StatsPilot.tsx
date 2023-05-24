@@ -68,6 +68,11 @@ const StatsPilot = ({ userId }: Props) => {
         subtext: "Including all flights",
         left: "center",
       },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
       legend: {
         data: ["Flight Hours"],
         bottom: 0, // Set the bottom position of the legend
@@ -110,6 +115,11 @@ const StatsPilot = ({ userId }: Props) => {
         subtext: "Including all flights",
         left: "center",
       },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
       tooltip: {
         trigger: "item",
       },
@@ -126,7 +136,10 @@ const StatsPilot = ({ userId }: Props) => {
           data: [
             { value: dataFlightCondition.dayHours, name: "Day Hours" },
             { value: dataFlightCondition.nightHours, name: "Night Hours" },
-            { value: dataFlightCondition.InstrumentsHours, name: "Instrument Hours" },
+            {
+              value: dataFlightCondition.InstrumentsHours,
+              name: "Instrument Hours",
+            },
           ],
           emphasis: {
             itemStyle: {
@@ -148,20 +161,22 @@ const StatsPilot = ({ userId }: Props) => {
           option={options_flightTypeHours}
           style={{
             marginTop: "1rem",
-            marginBottom: "1rem",
-            marginLeft: "0.5rem",
+            marginBottom: "0.5rem",
+            paddingLeft: "0.75rem",
+            paddingRight: "0.75rem",
             width: "100%",
             height: "400px",
           }}
-          />
+        />
       </div>
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
           option={options_flightConditionHours}
           style={{
             marginTop: "1rem",
-            marginBottom: "1rem",
-            marginLeft: "0.5rem",
+            marginBottom: "0.5rem",
+            paddingLeft: "0.75rem",
+            paddingRight: "0.75rem",
             width: "100%",
             height: "400px",
           }}
