@@ -97,16 +97,17 @@ const TableHoursPilot = ({
   setShowTableHours,
   buttonDisabledII,
 }: Props) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [instructor, setInstructor] = useState({});
   const [filters, setFilters] = useState<FilterState>({
     filter: {
-      userId: undefined,
-      date: undefined,
-      aircraftId: undefined,
-      folio: (selectedFolio as string) || undefined,
-      estado: undefined,
-      tipo: 'Todas',
+      userId: '',
+      date: '',
+      aircraftId: '',
+      folio: (selectedFolio as string) || '',
+      estado: '',
+      //aca para enconrar este tipo pinchila
+      tipo: '',
     },
   });
   const { data: session } = useSession();
@@ -132,7 +133,7 @@ const TableHoursPilot = ({
   });
 
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.localStorage) {
+    if (typeof window !== undefined && window.localStorage) {
       const filter = localStorage.getItem('filters');
       if (filter) {
         setFilters(JSON.parse(filter));
@@ -141,22 +142,22 @@ const TableHoursPilot = ({
   }, []);
 
   useEffect(() => {
+    setIsLoading(true);
     if (session?.user?.email) {
       setIsLoading(true);
       const email = session.user.email;
       fetchUserByEmail(email);
       setIsLoading(false);
     }
+    setIsLoading(false);
   }, [session, fetchUserByEmail]);
 
   useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      user?.email !== undefined &&
-      user?.id
-    ) {
+    setIsLoading(true);
+    if (typeof window !== undefined && user?.email !== undefined && user?.id) {
       getFlights(user?.id);
     }
+    setIsLoading(false);
   }, [user?.id, filters, selectedFolio]);
 
   const updateFilters = () => {
@@ -168,23 +169,25 @@ const TableHoursPilot = ({
 
   const getFlights = async (idF: string) => {
     setIsLoading(true);
-    let folioFinal = '';
-    if (selectedFolio) folioFinal = `&folio=${selectedFolio}`;
-    else folioFinal = '';
-    try {
-      const response = await axios.get(
-        `/api/flight/getFilteredFlights?userId=${idF}&date=${
-          filters.filter?.date
-        }&aircraftId=${filters.filter?.aircraftId}${folioFinal}&myStatus=${
-          filters.filter?.estado
-        }&flightType=${
-          filters.filter?.tipo === undefined ? 'Todas' : filters.filter?.tipo
-        }`
-      );
-      setFlight(response.data);
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
+    if (idF !== undefined) {
+      let folioFinal = '';
+      if (selectedFolio) folioFinal = `&folio=${selectedFolio}`;
+      else folioFinal = '';
+      try {
+        const response = await axios.get(
+          `/api/flight/getFilteredFlights?userId=${idF}&date=${
+            filters.filter?.date
+          }&aircraftId=${filters.filter?.aircraftId}${folioFinal}&flightType=${
+            filters.filter?.tipo
+          }&myStatus=${
+            filters.filter?.estado === '' ? 'Todas' : filters.filter?.estado
+          }`
+        );
+        setFlight(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
     setIsLoading(false);
   };
