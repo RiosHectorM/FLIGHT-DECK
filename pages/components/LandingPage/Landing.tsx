@@ -27,7 +27,7 @@ const LandingPage = () => {
       >
         <div
           className={`${
-            startAnimation ? 'animate-spin' : ''
+            startAnimation ? 'animate-spin-reverse' : ''
           } z-10 flex flex-col items-center mb-1`}
         >
           <div className='animate-pulse'>
