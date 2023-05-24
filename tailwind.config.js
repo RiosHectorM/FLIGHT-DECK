@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   //darkMode: 'class',---------------------> temas oscuro
   content: [
@@ -9,10 +8,10 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        'primary': '#2F3E46',
-        'secondary': '#36474F',
-        'tertiary': '#F4F4F4',
-        'accent': '#4CAF50',
+        primary: '#2F3E46',
+        secondary: '#36474F',
+        tertiary: '#F4F4F4',
+        accent: '#4CAF50',
         'flightdeck-gold': '#CBB26A',
         'flightdeck-lightgold': '#d8c690',
         'flightdeck-black': '#000000',
@@ -21,10 +20,10 @@ module.exports = {
         'flightdeck-cream': '#e5d9b6',
       },
       textColor: {
-        'primary': '#2F3E46',
-        'secondary': '#36474F',
-        'tertiary': '#F4F4F4',
-        'accent': '#4CAF50',
+        primary: '#2F3E46',
+        secondary: '#36474F',
+        tertiary: '#F4F4F4',
+        accent: '#4CAF50',
         'flightdeck-gold': '#CBB26A',
         'flightdeck-lightgold': '#d8c690',
         'flightdeck-black': '#000000',
@@ -36,6 +35,9 @@ module.exports = {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      animation: {
+        'spin-reverse': 'spin 1s linear reverse',
       },
     },
   },
