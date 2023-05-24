@@ -165,17 +165,25 @@ const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
                 confirmPassword === '' ||
                 oldPassword === '' ? null : (
                   <button
-                    className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+                    className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
                     type='submit'
+                    style={{
+                      backgroundColor: '#1a1a1a', // flightdeck-dark
+                      color: '#e5d9b6', // flightdeck-cream
+                    }}
                   >
-                    Save
+                    SAVE
                   </button>
                 )}
                 <button
-                  className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+                  className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
                   onClick={handleCancel}
+                  style={{
+                    backgroundColor: '#1a1a1a', // flightdeck-dark
+                    color: '#e5d9b6', // flightdeck-cream
+                  }}
                 >
-                  Cancel
+                  CANCEL
                 </button>
               </div>
             </div>

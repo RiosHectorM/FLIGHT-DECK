@@ -243,16 +243,24 @@ export default function FormCompany({
           </div>
           <div className='flex items-center justify-between'>
             <button
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
               type='submit'
+              style={{
+                backgroundColor: '#1a1a1a', // flightdeck-dark
+                color: '#e5d9b6', // flightdeck-cream
+              }}
             >
-              Update
+              UPDATE
             </button>
             <button
-              className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
               onClick={handleCancel}
+              style={{
+                backgroundColor: '#1a1a1a', // flightdeck-dark
+                color: '#e5d9b6', // flightdeck-cream
+              }}
             >
-              Cancel
+              CANCEL
             </button>
           </div>
         </form>

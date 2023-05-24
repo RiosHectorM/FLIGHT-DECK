@@ -91,12 +91,12 @@ const DashboardCompany: FC = () => {
                           </p>
                           {user.nationality}
                         </p>
-                        <p className='font-semibold italic mb-2 mt-2 flex'>
+                        {/* <p className='font-semibold italic mb-2 mt-2 flex'>
                           <p className='font-normal mr-2 not-italic'>
                             City:{' '}
                           </p>{' '}
                           {user.city}
-                        </p>
+                        </p> */}
                         <p className='font-semibold italic mb-2 mt-2 flex'>
                           <p className='font-normal mr-2 not-italic'>
                             Address:{' '}
