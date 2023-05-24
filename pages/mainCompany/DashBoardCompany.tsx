@@ -66,7 +66,7 @@ const DashboardCompany: FC = () => {
             <div className='flex justify-center'>
               <div className='bg-white bg-opacity-70 rounded-lg shadow-lg p-6 w-11/12  md:w-4/5 justify-center'>
                 <h2 className='text-xl font-bold mb-10 w-full text-center'>
-                  INSTRUCTOR INFORMATION
+                  COMPANY INFORMATION
                 </h2>
                 <div className='flex flex-col lg:flex-row gap-4 max-w-full items-center '>
                   <div className='flex flex-col lg:flex-row w-full'>
@@ -91,12 +91,12 @@ const DashboardCompany: FC = () => {
                           </p>
                           {user.nationality}
                         </p>
-                        {/* <p className='font-semibold italic mb-2 mt-2 flex'>
+                        <p className='font-semibold italic mb-2 mt-2 flex'>
                           <p className='font-normal mr-2 not-italic'>
                             City:{' '}
                           </p>{' '}
                           {user.city}
-                        </p> */}
+                        </p>
                         <p className='font-semibold italic mb-2 mt-2 flex'>
                           <p className='font-normal mr-2 not-italic'>
                             Address:{' '}

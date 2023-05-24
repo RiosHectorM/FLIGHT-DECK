@@ -16,6 +16,7 @@ type User = {
   hashedPassword?: string | null;
   phoneNumber?: string | null;
   address?: string | null;
+  city?: string | null;
   nationality?: string | null;
 };
 
@@ -23,6 +24,7 @@ type FormData = {
   name: string;
   phoneNumber: string;
   address: string;
+  city: string;
   nationality: string;
 };
 
@@ -65,8 +67,23 @@ const validationRules = {
   address: {
     required: 'Address is required.',
     maxLength: {
-      value: 60,
+      value: 80,
       message: 'Address cannot exceed 60 characters.',
+    },
+  },
+  city: {
+    required: 'City is required.',
+    pattern: {
+      value: /^[a-zA-Z\u00C0-\u017F\s]*$/,
+      message: 'City can only contain letters and spaces.',
+    },
+    minLength: {
+      value: 3,
+      message: 'City must have at least 3 characters.',
+    },
+    maxLength: {
+      value: 50,
+      message: 'City cannot exceed 50 characters.',
     },
   },
   nationality: {
@@ -101,6 +118,7 @@ export default function FormCompany({
       name: user?.name || '',
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
+      city: user?.city || '',
       nationality: user?.nationality || '',
     },
   });
@@ -120,6 +138,7 @@ export default function FormCompany({
       errors
     );
     validateField('address', data.address, validationRules.address, errors);
+    validateField('city', data.city, validationRules.city, errors);
     validateField(
       'nationality',
       data.nationality,
@@ -137,6 +156,7 @@ export default function FormCompany({
         name: data.name,
         phoneNumber: data.phoneNumber,
         address: data.address,
+        city: data.city,
         nationality: data.nationality,
       };
       updateUser(newUserState as any);
@@ -164,7 +184,7 @@ export default function FormCompany({
               className='block text-gray-700 text-sm font-bold mb-2'
               htmlFor='name'
             >
-              Name
+              Name of the company
             </label>
             <input
               {...register('name', { required: true })}
@@ -216,6 +236,26 @@ export default function FormCompany({
             {formErrors.address && (
               <p className='text-red-500 text-xs italic'>
                 {formErrors.address.message}
+              </p>
+            )}
+          </div>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='city'
+            >
+              City
+            </label>
+            <input
+              {...register('city', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='city'
+              type='text'
+              placeholder='City'
+            />
+            {formErrors.city && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.city.message}
               </p>
             )}
           </div>
