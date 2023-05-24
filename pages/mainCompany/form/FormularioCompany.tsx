@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-
 import { validateField } from '../../../utils/libs/validate';
 import countries from '../../../utils/countries.json';
 
@@ -36,8 +35,8 @@ const validationRules = {
   name: {
     required: 'Name is required.',
     pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
-      message: 'Name can only contain letters and spaces.',
+      value: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>_+\-=\[\]\\;'`~\s]+$/,
+      message: 'Name can only contain letters, numbers, and special characters.',
     },
     minLength: {
       value: 3,
@@ -45,7 +44,7 @@ const validationRules = {
     },
     maxLength: {
       value: 50,
-      message: 'Name cannot exceed 50 characters.',
+      message: 'The company name can exceed 50 characters.',
     },
   },
   phoneNumber: {
@@ -54,9 +53,13 @@ const validationRules = {
       value: /^\+?\d+$/, // Solo números y un signo de +
       message: 'Phone Number must be a valid number.',
     },
+    minLength: {
+      value: 9,
+      message: 'The phone number must contain at least 9 digits',
+    },
     maxLength: {
-      value: 15,
-      message: 'Phone Number cannot exceed 15 characters.',
+      value: 18,
+      message: 'The phone number must contain a maximum of 18 digits',
     },
   },
   address: {
