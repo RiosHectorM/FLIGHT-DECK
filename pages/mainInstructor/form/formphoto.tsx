@@ -1,6 +1,7 @@
 import { TbPhotoPlus } from 'react-icons/tb';
 import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
+import { toast } from 'react-hot-toast';
 
 import axios from 'axios';
 import { useUserStore } from '@/store/userStore';
@@ -18,9 +19,21 @@ export const FormPhoto = () => {
 
   let value: string | null = user?.image || null;
   const handleUpload = async (response: any) => {
-    console.log(response.info.secure_url);
+    const { secure_url } = response.info;
+    console.log(secure_url);
     console.log(`/api/user/${user?.id}`);
-    value = response.info.secure_url;
+
+    // Validar el tipo de archivo en el backend
+    const fileExtension = secure_url.split('.').pop()?.toLowerCase();
+    const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+
+    if (!allowedExtensions.includes(fileExtension)) {
+      toast.error('The selected file is not a valid image.');
+      return;
+    }
+
+
+    value = secure_url;
     updateUserImage(value?.toString() ?? '');
     await axios.put(`/api/user/${user?.id}`, { image: value?.toString() });
   };
@@ -42,7 +55,7 @@ export const FormPhoto = () => {
           return (
             <div
               title='Profile Picture'
-              onClick={() => open?.()}
+              onClick={() => open && open()}
               className='
                 relative
                 cursor-pointer
@@ -61,6 +74,7 @@ export const FormPhoto = () => {
                 rounded-full
                 w-full 
                 h-full
+                my-auto
               '
             >
               <TbPhotoPlus size={20} />
@@ -76,6 +90,7 @@ export const FormPhoto = () => {
                 >
                   <Image
                     fill
+                    sizes="(max-width: 640px) 100vw, 640px"
                     style={{ objectFit: 'cover' }}
                     src={value}
                     alt='ProfileImage'

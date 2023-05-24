@@ -55,19 +55,17 @@ const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
         updateUserHashedPasword(hashedNewPassword);
 
         if (response.status === 200) {
-          toast.success('La contraseña se ha actualizado correctamente.');
+          toast.success('The password has been updated correctly.');
           signOut({ redirect: false });
           router.push('/home');
         }
       } else {
-        toast.error(
-          'No se pudo actualizar la contraseña. Por favor, intente de nuevo.'
-        );
+        toast.error('Could not update password. Please try again.');
       }
     } catch (error) {
       console.error(error);
       toast.error(
-        'Ocurrió un error al actualizar la contraseña. Por favor, intente de nuevo.'
+        'An error occurred while updating the password. Please try again.'
       );
     }
 
@@ -167,14 +165,14 @@ const FormPassword = ({ setShowInfo, setShowFormPassword }: Props) => {
                 confirmPassword === '' ||
                 oldPassword === '' ? null : (
                   <button
-                    className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded'
+                    className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
                     type='submit'
                   >
                     Save
                   </button>
                 )}
                 <button
-                  className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded'
+                  className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
                   onClick={handleCancel}
                 >
                   Cancel
