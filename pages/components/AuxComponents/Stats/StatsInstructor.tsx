@@ -1,52 +1,64 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactECharts from "echarts-for-react";
+import { DateTime } from "luxon";
 
 interface Props {
   userId?: string;
 }
 
 interface flightConditionSeries {
-  dayHours: number;
-  nightHours: number;
-  InstrumentsHours: number;
+  dayHours: number[];
+  nightHours: number[];
+  instHours: number[];
 }
 
-let options_certifiedHours = {};
-let options_flightConditionHours = {};
+const now = DateTime.now();
+const monthCountToShow: number = 6; // Set the number of previous months to show in chart
+const monthYears: (string | null)[] = []; // Array to set in the xAxis
+const startDates: DateTime[] = []; // Array with start dates to query
+const endDates: DateTime[] = []; // Array with end dates to query
+
+// Populate monthYears, startDates, and endDates arrays
+for (let i = 0; i < monthCountToShow; i++) {
+  monthYears.unshift(
+    now.minus({ months: i }).toLocaleString({ month: "short" }) + "'" + now.minus({ months: i }).toLocaleString({ year: "2-digit" })
+  );
+  startDates.unshift(now.minus({ months: i }).startOf("month"));
+  endDates.unshift(now.minus({ months: i - 1 }).startOf("month"));
+}
+
+let options_certifiedHoursByPilot = {};
+let options_certifiedHoursByDate = {};
 
 const StatsInstructor = ({ userId }: Props) => {
+  // State variables for 'Certified Hours by Pilot' chart
   const [certifiedHoursPilot, setCertifiedHoursPilot] = useState<string[]>([]);
   const [certifiedDayHours, setCertifiedDayHours] = useState<number[]>([]);
   const [certifiedNightHours, setCertifiedNightHours] = useState<number[]>([]);
-  const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<
-    number[]
-  >([]);
+  const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<number[]>([]);
 
-  const [dataFlightCondition, setDataFlightCondition] =
-    useState<flightConditionSeries>({
-      dayHours: 0,
-      nightHours: 0,
-      InstrumentsHours: 0,
-    });
+  // State variable for 'Certified Hours by Dates' chart
+  const [certifiedHoursByDate, setcertifiedHoursByDate] = useState<flightConditionSeries>({
+    dayHours: [],
+    nightHours: [],
+    instHours: [],
+  });
 
+  // Initially get data from DB, to feed charts
   useEffect(() => {
     async function fetchData() {
       try {
-        console.log("Getting certified hours");
-
         if (userId !== undefined) {
           // Get certified hours by pilot
-          let response = await axios.get(
-            `/api/flight/getCertifiedFlightsByInstructorId/${userId}`
-          );
+          let response = await axios.get(`/api/flight/getCertifiedFlightsByInstructorId/${userId}`);
           let pilots: string[] = [];
           let dayHours: number[] = [];
           let nightHours: number[] = [];
           let instrumentsHours: number[] = [];
 
           for (let i = 0; i < response.data.length; i++) {
-            pilots[i] = response.data[i].pilotName + ' ' + response.data[i].pilotLastName + '\n' + response.data[i].pilotMail;
+            pilots[i] = response.data[i].pilotName + " " + response.data[i].pilotLastName + "\n" + response.data[i].pilotMail;
             dayHours[i] = response.data[i].dayCertifiedHours;
             nightHours[i] = response.data[i].nightCertifiedHours;
             instrumentsHours[i] = response.data[i].instrumentsCertifiedHours;
@@ -57,11 +69,26 @@ const StatsInstructor = ({ userId }: Props) => {
           setCertifiedNightHours(nightHours);
           setCertifiedInstrumentsHours(instrumentsHours);
 
-          // Get flights data by condition
-          response = await axios.get(
-            `/api/pilot/getFlightConditionHoursByUserId/${userId}`
-          );
-          setDataFlightCondition(response.data);
+          // Get certified hours by date
+          let auxData: flightConditionSeries = {
+            dayHours: [],
+            nightHours: [],
+            instHours: [],
+          };
+
+          for (let i = 0; i < monthCountToShow; i++) {
+            let response = await axios.get(
+              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[
+                i
+              ]?.toISODate()}`
+            );
+            // Load retrieved values in auxData before setting state variables
+            auxData.dayHours[i] = response.data.dayHours;
+            auxData.nightHours[i] = response.data.nightHours;
+            auxData.instHours[i] = response.data.instHours;
+          }
+
+          setcertifiedHoursByDate(auxData);
         }
       } catch (error) {
         console.error(error);
@@ -70,9 +97,11 @@ const StatsInstructor = ({ userId }: Props) => {
     fetchData();
   }, []);
 
-  // Set certified hours chart options on data's change
+  // Set 'certified hours by pilot' chart options on data's change
   useEffect(() => {
-    options_certifiedHours = {
+    console.log("--------ENTERING CERT BY PILOT CHART OPTIONS--------");
+
+    options_certifiedHoursByPilot = {
       title: {
         text: "Certified Hours By Pilot",
         subtext: "Disaggregated by Condition",
@@ -88,15 +117,21 @@ const StatsInstructor = ({ userId }: Props) => {
       legend: {
         bottom: 0,
       },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
       grid: {
         left: "3%",
         right: "4%",
-        bottom: "3%",
+        bottom: "9%",
         containLabel: true,
       },
       xAxis: {
         type: "value",
         padding: 14,
+        sort: 'descending',
       },
       yAxis: {
         type: "category",
@@ -108,10 +143,10 @@ const StatsInstructor = ({ userId }: Props) => {
           type: "bar",
           stack: "total",
           label: {
-            show: true
+            show: true,
           },
           emphasis: {
-            focus: 'series'
+            focus: "series",
           },
           data: certifiedDayHours,
           // showBackground: true,
@@ -122,10 +157,10 @@ const StatsInstructor = ({ userId }: Props) => {
           type: "bar",
           stack: "total",
           label: {
-            show: true
+            show: true,
           },
           emphasis: {
-            focus: 'series'
+            focus: "series",
           },
           data: certifiedNightHours,
           // showBackground: true,
@@ -136,10 +171,10 @@ const StatsInstructor = ({ userId }: Props) => {
           type: "bar",
           stack: "total",
           label: {
-            show: true
+            show: true,
           },
           emphasis: {
-            focus: 'series'
+            focus: "series",
           },
           data: certifiedInstrumentsHours,
           // showBackground: true,
@@ -149,57 +184,96 @@ const StatsInstructor = ({ userId }: Props) => {
     };
   }, [certifiedDayHours, certifiedNightHours, certifiedInstrumentsHours]);
 
-  // Set flight condition chart options on data's change
+  // Set 'certified hours by date' chart options on data's change
   useEffect(() => {
-    options_flightConditionHours = {
+    options_certifiedHoursByDate = {
       title: {
-        text: "Hours By Flight Condition",
-        subtext: "Including all flights",
+        text: "Certified Hours in Last " + monthCountToShow + " Months",
+        subtext: "Disaggregated by Condition",
         left: "center",
       },
       tooltip: {
-        trigger: "item",
+        trigger: "axis",
+        axisPointer: {
+          type: "cross",
+          label: {
+            backgroundColor: "#6a7985",
+          },
+        },
       },
       legend: {
-        orient: "vertical",
-        left: 30,
+        data: ["Day Hours", "Night Hours", "Instruments Hours"],
         bottom: 0,
       },
+      toolbox: {
+        feature: {
+          saveAsImage: {},
+        },
+      },
+      grid: {
+        left: "3%",
+        right: "8%",
+        bottom: "9%",
+        containLabel: true,
+      },
+      xAxis: [
+        {
+          type: "category",
+          boundaryGap: false,
+          data: monthYears,
+        },
+      ],
+      yAxis: [
+        {
+          type: "value",
+        },
+      ],
       series: [
         {
-          // name: "Flight Hours",
-          type: "pie",
-          radius: "50%",
-          data: [
-            { value: dataFlightCondition.dayHours, name: "Day Hours" },
-            { value: dataFlightCondition.nightHours, name: "Night Hours" },
-            {
-              value: dataFlightCondition.InstrumentsHours,
-              name: "Instrument Hours",
-            },
-          ],
+          name: "Day Hours",
+          type: "line",
+          stack: "Total",
+          areaStyle: {},
           emphasis: {
-            itemStyle: {
-              shadowBlur: 10,
-              shadowOffsetX: 0,
-              shadowColor: "rgba(0, 0, 0, 0.5)",
-            },
+            focus: "series",
           },
+          data: certifiedHoursByDate.dayHours,
+        },
+        {
+          name: "Night Hours",
+          type: "line",
+          stack: "Total",
+          areaStyle: {},
+          emphasis: {
+            focus: "series",
+          },
+          data: certifiedHoursByDate.nightHours,
+        },
+        {
+          name: "Instruments Hours",
+          type: "line",
+          stack: "Total",
+          areaStyle: {},
+          emphasis: {
+            focus: "series",
+          },
+          data: certifiedHoursByDate.instHours,
         },
       ],
     };
-  }, [dataFlightCondition]);
+  }, [certifiedHoursByDate]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
-          option={options_certifiedHours}
+          option={options_certifiedHoursByPilot}
           style={{
             marginTop: "1rem",
-            marginBottom: "1rem",
-            marginLeft: "0.5rem",
+            marginBottom: "0.5rem",
+            paddingLeft: "0.75rem",
+            paddingRight: "0.75rem",
             width: "100%",
             height: "400px",
           }}
@@ -207,11 +281,12 @@ const StatsInstructor = ({ userId }: Props) => {
       </div>
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
-          option={options_flightConditionHours}
+          option={options_certifiedHoursByDate}
           style={{
             marginTop: "1rem",
-            marginBottom: "1rem",
-            marginLeft: "0.5rem",
+            marginBottom: "0.5rem",
+            paddingLeft: "0.75rem",
+            paddingRight: "0.75rem",
             width: "100%",
             height: "400px",
           }}
