@@ -25,15 +25,16 @@ const SelectFlightInstructorModal = ({
   selectedFlight,
   getFlights,
   id,
-  seleccionarInstructor
+  seleccionarInstructor,
+  setIsLoading,
 }: {
   selectedFlight: any;
   getFlights: any;
   id: string;
-  seleccionarInstructor:(index:string)=>void
+  seleccionarInstructor: (index: string) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }) => {
   const { data: userData } = useSession();
-  const [isLoading, setIsLoading] = useState(false);
   const [instructors, setInstructors] = useState<Instructor[]>([]);
 
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
@@ -60,7 +61,8 @@ const SelectFlightInstructorModal = ({
     const flightId = Array.isArray(selectedFlight.id)
       ? selectedFlight.id[0]
       : selectedFlight.id;
-seleccionarInstructor(instructorId)
+    seleccionarInstructor(instructorId);
+    selectFlightInstructorModal.onClose();
     await axios
       .put(`/api/flight/setCertifier/${flightId}`, {
         certifierId: instructorId.id,
@@ -68,7 +70,6 @@ seleccionarInstructor(instructorId)
       })
       .then(() => {
         toast.success('Certification Requirement Saved');
-        selectFlightInstructorModal.onClose();
         rateInstructorModal.onOpen();
         getFlights(id);
       })
@@ -79,6 +80,7 @@ seleccionarInstructor(instructorId)
   };
 
   useEffect(() => {
+    setIsLoading(true)
     axios
       .get('/api/instructor')
       .then((response) => {
@@ -86,7 +88,8 @@ seleccionarInstructor(instructorId)
       })
       .catch((err) => {
         throw new Error(err);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const bodyContent = (
@@ -137,7 +140,7 @@ seleccionarInstructor(instructorId)
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={false}
       isOpen={selectFlightInstructorModal.isOpen}
       title='Select INSTRUCTOR'
       onClose={selectFlightInstructorModal.onClose}
