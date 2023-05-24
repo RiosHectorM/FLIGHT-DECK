@@ -2,63 +2,82 @@
 
 import axios from 'axios';
 //import { signIn } from 'next-auth/react';
-import { SetStateAction, useCallback, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
-import StarRating from "../../AuxComponents/StarRating"
+import StarRating from '../../AuxComponents/StarRating';
 import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Input from '../../../../InputsGenerator/Input';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
-
-
-const RateInstructorModal = ({ instructor, user, name, image }: { instructor: any; user: string; name: string;  image:string}) => {
-
-
+const RateInstructorModal = ({
+  instructor,
+  user,
+  name,
+  image,
+  setIsLoading,
+}: {
+  instructor: any;
+  user: string;
+  name: string;
+  image: string;
+  setIsLoading: (isLoading: boolean) => void;
+}) => {
   const rateInstructor = useRateInstructorModal();
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldValues>();
 
+  useEffect(() => {
+    reset();
+  }, [user, instructor]);
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data)
+    reset();
+    rateInstructor.onClose();
+    setIsLoading(true);
+    console.log(data);
     await axios
       .post(`/api/qualify`, {
         ...data,
         pilotId: user,
-        pilotName:name,
-        pilotImage:image,
+        pilotName: name,
+        pilotImage: image,
         instructorId: instructor.id,
         qualificationNum: rating,
       })
       .then(() => {
-        toast.success('Rating aved');
-        rateInstructor.onClose();
+        toast.success('Rating Saved');
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
   const [rating, setRating] = useState(0);
 
-  const rankear=(index: SetStateAction<number>)=>{setRating(index)
- }
+  const rankear = (index: SetStateAction<number>) => {
+    setRating(index);
+  };
   const bodyContent = (
     <div className='flex flex-col gap-4 overflow-x-scroll'>
       <Heading
         title='Rate Instructor'
-        subtitle={`Rate instructor ${instructor?.name} ${instructor?.lastName && instructor?.lastName} for his qualities as a pilot instructor`}
+        subtitle={`Rate instructor ${instructor?.name} ${
+          instructor?.lastName && instructor?.lastName
+        } for his qualities as a pilot instructor`}
       />
 
-      <StarRating rating={rating} rankear={rankear}/>
+      <StarRating rating={rating} rankear={rankear} />
       <Input
         id='comment'
         label='Review'
-        disabled={isLoading}
+        disabled={false}
         register={register}
         errors={errors}
         required
@@ -84,7 +103,7 @@ const RateInstructorModal = ({ instructor, user, name, image }: { instructor: an
 
   return (
     <Modal
-      disabled={isLoading}
+      disabled={false}
       isOpen={rateInstructor.isOpen}
       title='Rate Instructor'
       actionLabel='Send Rate'

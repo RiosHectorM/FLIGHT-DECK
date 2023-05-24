@@ -89,7 +89,7 @@ const MainInstructor = () => {
                     <div className='ml-4'>
                       <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                         <span className='whitespace-nowrap'>
-                          Waiting pilots
+                          Waiting Flights
                         </span>
                       </dt>
                       <dd>
