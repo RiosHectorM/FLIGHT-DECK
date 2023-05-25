@@ -5,6 +5,7 @@ import { DateTime } from "luxon";
 
 interface Props {
   userId?: string;
+  toggleRerenderCharts: () => void;
 }
 
 interface flightConditionSeries {
@@ -31,7 +32,7 @@ for (let i = 0; i < monthCountToShow; i++) {
 let options_certifiedHoursByPilot = {};
 let options_certifiedHoursByDate = {};
 
-const StatsInstructor = ({ userId }: Props) => {
+const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
   // State variables for 'Certified Hours by Pilot' chart
   const [certifiedHoursPilot, setCertifiedHoursPilot] = useState<string[]>([]);
   const [certifiedDayHours, setCertifiedDayHours] = useState<number[]>([]);
@@ -39,7 +40,7 @@ const StatsInstructor = ({ userId }: Props) => {
   const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<number[]>([]);
 
   // State variable for 'Certified Hours by Dates' chart
-  const [certifiedHoursByDate, setcertifiedHoursByDate] = useState<flightConditionSeries>({
+  const [certifiedHoursByDate, setCertifiedHoursByDate] = useState<flightConditionSeries>({
     dayHours: [],
     nightHours: [],
     instHours: [],
@@ -68,7 +69,18 @@ const StatsInstructor = ({ userId }: Props) => {
           setCertifiedDayHours(dayHours);
           setCertifiedNightHours(nightHours);
           setCertifiedInstrumentsHours(instrumentsHours);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (userId !== undefined) {
           // Get certified hours by date
           let auxData: flightConditionSeries = {
             dayHours: [],
@@ -76,42 +88,37 @@ const StatsInstructor = ({ userId }: Props) => {
             instHours: [],
           };
 
+          // // Parallelized version
+          // const requests: any[] = [];
+          // // Create array of promises
           // for (let i = 0; i < monthCountToShow; i++) {
-          //   let response = await axios.get(
-          //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[
-          //       i
-          //     ]?.toISODate()}`
+          //   requests.push(
+          //     await axios.get(
+          //       `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+          //     )
           //   );
-          //   // Load retrieved values in auxData before setting state variables
-          //   auxData.dayHours[i] = response.data.dayHours;
-          //   auxData.nightHours[i] = response.data.nightHours;
-          //   auxData.instHours[i] = response.data.instHours;
+          // }
+          // const responses = await Promise.all(requests);
+
+          // // Load retrieved values in auxData before setting state variable
+          // for (let i = 0; i < monthCountToShow; i++) {
+          //   auxData.dayHours[i] = responses[i].data.dayHours;
+          //   auxData.nightHours[i] = responses[i].data.nightHours;
+          //   auxData.instHours[i] = responses[i].data.instHours;
           // }
 
-          // Parallelized version
-          console.time("gettimer");
+          // setCertifiedHoursByDate(auxData);
 
-          const requests: any[] = [];
-          // Create array of promises
           for (let i = 0; i < monthCountToShow; i++) {
-            requests.push(
-              await axios.get(
-                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
-              )
+            const responses = await axios.get(
+              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
             );
-          }
-          const responses = await Promise.all(requests);
-          
-          // Load retrieved values in auxData before setting state variables
-          for (let i = 0; i < monthCountToShow; i++) {
-            auxData.dayHours[i] = responses[i].data.dayHours;
-            auxData.nightHours[i] = responses[i].data.nightHours;
-            auxData.instHours[i] = responses[i].data.instHours;
+            auxData.dayHours[i] = responses.data.dayHours;
+            auxData.nightHours[i] = responses.data.nightHours;
+            auxData.instHours[i] = responses.data.instHours;
 
-            setcertifiedHoursByDate(auxData);
+            setCertifiedHoursByDate(auxData);
           }
-
-          console.timeEnd("gettimer");
 
         }
       } catch (error) {
@@ -123,8 +130,6 @@ const StatsInstructor = ({ userId }: Props) => {
 
   // Set 'certified hours by pilot' chart options on data's change
   useEffect(() => {
-    console.log("--------ENTERING CERT BY PILOT CHART OPTIONS--------");
-
     options_certifiedHoursByPilot = {
       title: {
         text: "Certified Hours By Pilot",
@@ -210,6 +215,10 @@ const StatsInstructor = ({ userId }: Props) => {
 
   // Set 'certified hours by date' chart options on data's change
   useEffect(() => {
+    console.log("--------ENTERING CERT BY DATE CHART OPTIONS--------");
+
+    if (certifiedHoursByDate?.dayHours.length === 6) toggleRerenderCharts();
+
     options_certifiedHoursByDate = {
       title: {
         text: "Certified Hours in Last " + monthCountToShow + " Months",
@@ -285,6 +294,11 @@ const StatsInstructor = ({ userId }: Props) => {
         },
       ],
     };
+
+    console.log('USEEFFECT THAT SETS CHART STATUS FINISHED');
+    console.log(certifiedHoursByDate);
+
+
   }, [certifiedHoursByDate]);
 
   return (
@@ -303,6 +317,8 @@ const StatsInstructor = ({ userId }: Props) => {
           }}
         />
       </div>
+      {/* (LEO: didn't like it): Check if data was completely retrieved from backend before rendering */}
+      {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
           option={options_certifiedHoursByDate}
@@ -316,10 +332,11 @@ const StatsInstructor = ({ userId }: Props) => {
           }}
         />
       </div>
+      {/* } */}
     </div>
   );
 };
 
 export default StatsInstructor;
 
-// version 2023.05.25 13:20
+// version 2023.05.25 17:30
