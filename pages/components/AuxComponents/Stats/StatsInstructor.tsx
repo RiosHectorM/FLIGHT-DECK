@@ -76,19 +76,43 @@ const StatsInstructor = ({ userId }: Props) => {
             instHours: [],
           };
 
+          // for (let i = 0; i < monthCountToShow; i++) {
+          //   let response = await axios.get(
+          //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[
+          //       i
+          //     ]?.toISODate()}`
+          //   );
+          //   // Load retrieved values in auxData before setting state variables
+          //   auxData.dayHours[i] = response.data.dayHours;
+          //   auxData.nightHours[i] = response.data.nightHours;
+          //   auxData.instHours[i] = response.data.instHours;
+          // }
+
+          // Parallelized version
+          console.time("gettimer");
+
+          const requests: any[] = [];
+          // Create array of promises
           for (let i = 0; i < monthCountToShow; i++) {
-            let response = await axios.get(
-              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[
-                i
-              ]?.toISODate()}`
+            requests.push(
+              await axios.get(
+                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+              )
             );
-            // Load retrieved values in auxData before setting state variables
-            auxData.dayHours[i] = response.data.dayHours;
-            auxData.nightHours[i] = response.data.nightHours;
-            auxData.instHours[i] = response.data.instHours;
+          }
+          const responses = await Promise.all(requests);
+          
+          // Load retrieved values in auxData before setting state variables
+          for (let i = 0; i < monthCountToShow; i++) {
+            auxData.dayHours[i] = responses[i].data.dayHours;
+            auxData.nightHours[i] = responses[i].data.nightHours;
+            auxData.instHours[i] = responses[i].data.instHours;
+
+            setcertifiedHoursByDate(auxData);
           }
 
-          setcertifiedHoursByDate(auxData);
+          console.timeEnd("gettimer");
+
         }
       } catch (error) {
         console.error(error);
@@ -131,7 +155,7 @@ const StatsInstructor = ({ userId }: Props) => {
       xAxis: {
         type: "value",
         padding: 14,
-        sort: 'descending',
+        sort: "descending",
       },
       yAxis: {
         type: "category",
@@ -297,3 +321,5 @@ const StatsInstructor = ({ userId }: Props) => {
 };
 
 export default StatsInstructor;
+
+// version 2023.05.25 13:20
