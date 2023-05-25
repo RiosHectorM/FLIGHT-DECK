@@ -247,6 +247,7 @@ const TableHoursPilot = ({
   const handlerCertify = async (flight: FlightData) => {
     setIsLoading(true);
     const response = await axios.get(`/api/pilot/pilotCanCertify/${user?.id}`);
+    
     if (response.data.canCertify === false) {
       youCantCertifyModal.onOpen();
     } else {

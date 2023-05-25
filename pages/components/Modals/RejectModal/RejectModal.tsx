@@ -40,18 +40,16 @@ const RejectModal: React.FC<RejectModalProps> = ({ email }) => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
-
     const values = {
       name: 'Flight Deck App',
       email: email,
       subject: 'Hours Rejected',
-      message:
-        'The instructor has rejected the Hour you have sent for certification',
+      message: `The instructor has rejected the Hour you have sent for certification. ${data.reason}`,
     };
-
-    await sendContactForm(values);
-
+    toast.success('Sending...');
     rejectModal.onClose();
+    await sendContactForm(values);
+    toast.success('Sent');
   };
 
   const bodyContent = (
@@ -62,21 +60,23 @@ const RejectModal: React.FC<RejectModalProps> = ({ email }) => {
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col '>
-        <div className='grid md:grid-cols-2 md:gap-6'>
+        <div className='flex w-full md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
             <textarea
               rows={2}
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               {...register('reason')}
             />
-            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
+            <label className='peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-black peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6'>
               Reject Reson:
             </label>
             <p className='text-red-600'>{errors.reason?.message}</p>
           </div>
         </div>
-        <button>SEND</button>
+        <button className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black mt-4'>
+          SEND
+        </button>
       </form>
     </div>
   );
@@ -92,7 +92,7 @@ const RejectModal: React.FC<RejectModalProps> = ({ email }) => {
           font-light
         '
       >
-        <p>reject form</p>
+        <p>Rejection form to send email to the requesting Pilot.</p>
       </div>
     </div>
   );
