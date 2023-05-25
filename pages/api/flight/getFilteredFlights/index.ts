@@ -26,6 +26,8 @@ export default async function handler(
         flightType,
       } = req.query;
 
+      console.log('QUERY: ',req.query)
+
       const filters = {
         userId: userId ? (userId as string) : undefined,
         flightType: flightType? (flightType as string): undefined,
