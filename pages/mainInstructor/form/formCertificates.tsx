@@ -72,7 +72,7 @@ const FormCertificates = ({
         descrip={descrip}
       />
       {isLoading && <Loader />}
-      <div className='border border-gray-300 bg-white  rounded-lg shadow-lg p-6 flex flex-col justify-center w-full'>
+      <div className='border border-y-yellow-400 bg-flightdeck-black  rounded-xl shadow-lg p-6 flex flex-col justify-center w-full'>
         {allCertificates.length > 0 ? (
           <div className=' gap-4'>
             {allCertificates.map((cert, index) => (
@@ -89,7 +89,7 @@ const FormCertificates = ({
             ))}
           </div>
         ) : (
-          <div className='bg-gray-200 rounded-xl shadow-md mb-2'>
+          <div className='bg-flightdeck-lightgold rounded-xl shadow-md mb-2'>
             <div className='px-2 py-2 sm:p-4'>
               <div className='flex lg:flex-row flex-col flex-1 justify-between'>
                 <div className='flex flex-col w-full'>

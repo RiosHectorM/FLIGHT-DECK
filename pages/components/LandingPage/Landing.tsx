@@ -48,7 +48,7 @@ const LandingPage = () => {
           />
         </div>
         <div
-          className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
+          className='z-10 max-w-md mb-48 p-6 rounded-lg shadow-xl'
           style={{
             backgroundColor: 'rgba(229, 217, 182, 0.1)', // Cambia los valores RGB y la transparencia según tus preferencias
           }}

@@ -101,7 +101,7 @@ export const CertificatePhoto = ({
         <h2 className='font-semibold text-lg mb-2'>Certificate Name</h2>
         <input
           type='text'
-          className='text-gray-500 border-2 border-blue-500 rounded-md p-2 shadow-md mb-4'
+          className='text-black border-2 border-yellow-400 rounded-md p-2 shadow-md mb-4'
           value={nameCertificate as string}
           onChange={handlerNameChange}
         />
@@ -181,7 +181,7 @@ export const CertificatePhoto = ({
         <h2 className='font-semibold text-lg mb-2'>Certificate Description</h2>
         <input
           type='text'
-          className='text-gray-500 border-2 border-blue-500 rounded-md p-2 shadow-md mb-4'
+          className='text-black border-2 border-yellow-400 rounded-md p-2 shadow-md mb-4'
           value={description as string}
           onChange={handlerDescriptionChange}
         />
@@ -197,22 +197,22 @@ export const CertificatePhoto = ({
           showMonthDropdown
           showYearDropdown
           dropdownMode='select'
-          className='text-gray-500 border-2 border-blue-500 rounded-md p-2 shadow-md mb-4'
+          className='text-black border-2 border-yellow-400 rounded-md p-2 shadow-md mb-4'
           placeholderText='Enter Date'
         />
 
         <div className='flex justify-around w-full'>
           <button
-            className='bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-6 rounded'
+            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
             onClick={handlerClickSave}
           >
-            Save
+            SAVE
           </button>
           <button
-            className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-6 rounded'
+            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
             onClick={handlerClickCancel}
           >
-            Cancel
+            CANCEL
           </button>
         </div>
       </div>
