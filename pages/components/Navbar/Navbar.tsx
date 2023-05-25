@@ -73,7 +73,7 @@ const Navbar = () => {
               </div>
               <div className='ml-4'>
                 <Link href='/membership'>
-                  <span className='block text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
+                  <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
                     Pricing
                   </span>
                 </Link>

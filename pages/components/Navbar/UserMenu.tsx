@@ -95,7 +95,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           }}
           className='
           block
-          text-sm 
+          
           font-semibold 
           py-3 
           px-4 
@@ -105,6 +105,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
           hover:bg-flightdeck-darkgold 
           transition 
           cursor-pointer
+          text-xs sm:text-base
         '
         >
           {currentUser

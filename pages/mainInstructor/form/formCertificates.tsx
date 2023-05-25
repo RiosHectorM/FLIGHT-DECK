@@ -104,13 +104,13 @@ const FormCertificates = ({
       </div>
       <div className='flex justify-around w-full mt-4'>
         <button
-          className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+          className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-6'
           onClick={handleADD}
         >
           ADD CERTIFICATE
         </button>
         <button
-          className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+          className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-6'
           onClick={handleCancel}
         >
           CANCEL

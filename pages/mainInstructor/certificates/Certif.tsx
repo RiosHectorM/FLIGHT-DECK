@@ -102,7 +102,7 @@ const Certif = ({
                 onClick={() => handlerImageShow(cert?.certificateImageUrl)}
               >
                 <AiFillEye title='View' className='w-5 h-5 my-2 ' />
-                <p className='ml-4 block lg:hidden'>View Certify</p>
+                <p className='ml-4 hidden md:block lg:hidden'>View Certify</p>
               </div>
               <div
                 className='flex justify-center align-middle items-center cursor-pointer md:hover:scale-125 hover:text-green-600'
@@ -116,14 +116,14 @@ const Certif = ({
                 }
               >
                 <AiFillEdit title='Edit' className='w-5 h-5 my-2 ' />
-                <p className='ml-4 block lg:hidden'>Edit Certify</p>
+                <p className='ml-4 hidden md:block lg:hidden'>Edit Certify</p>
               </div>
               <div
                 className='flex justify-center align-middle items-center cursor-pointer md:hover:scale-125 hover:text-red-600'
                 onClick={() => handlerDelete(cert?.certificateName)}
               >
                 <AiFillCloseCircle title='Delete' className='w-5 h-5 my-2 ' />
-                <p className='ml-4 block lg:hidden'>Delete Certify</p>
+                <p className='ml-4 hidden md:block lg:hidden'>Delete Certify</p>
               </div>
             </div>
           </div>
