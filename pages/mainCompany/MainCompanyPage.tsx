@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PilotProfile from './PilotProfile';
 import PilotList from './PilotList';
 import FlightLog, { FlightLogProps } from './FlightLog';
@@ -7,6 +7,7 @@ import ContactPilot from './ContactPilot';
 import FilterByLocation from './FilterByLocation';
 import PilotDetails from './PilotDetails';
 import TopPilots from './TopPilots';
+import Loader from '../../pages/components/Loader/index'; // Importa tu archivo Loader
 
 const MainCompanyPage: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState<string>('');
@@ -15,6 +16,7 @@ const MainCompanyPage: React.FC = () => {
     setLocationFilter(newLocation);
   };
   const [showPilots, setShowPilots] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Agrega el estado de isLoading
 
   const handleTogglePilots = () => {
     setShowPilots(!showPilots);
@@ -29,7 +31,14 @@ const MainCompanyPage: React.FC = () => {
     aircraft: "Boeing 777 ",
     flightLogUrl: "/flight-log.pdf"
   };
-  
+
+  useEffect(() => {
+    // Simular una carga de datos
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
+
   return (
     <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
@@ -37,26 +46,16 @@ const MainCompanyPage: React.FC = () => {
     }}>
 
       <h1 className="text-3xl font-semibold" style={{ color: '#CBB26A' }}>Main Company</h1>
-      <div className="flex flex-wrap justify-center gap-8">
-        <TopPilots/>
-        
-      </div>
+      {isLoading ? (
+        <Loader /> // Mostrar el loader si isLoading es true
+      ) : (
+        <div className="flex flex-wrap justify-center gap-8">
+          <TopPilots/>
+        </div>
+      )}
       <FilterByLocation onFilterChange={handleLocationFilterChange} />
       
-      {/* <div className="flex flex-wrap justify-center gap-8">
-        <RequestFlightLog pilotName="John Doe" />
-        <PilotDetails
-        name="John Doe"
-        photoUrl="/images/pilot1.jpg"
-        location="Miami, FL"
-        hoursOfFlight={2500}
-        aircraftType="Boeing 737"
-        availability="Disponible"
-        bio="Soy un piloto experimentado con más de 2500 horas de vuelo acumuladas en una variedad de aviones de pasajeros y carga. Me encanta volar y estoy siempre buscando nuevas oportunidades y desafíos. Si está interesado en contratarme, por favor no dude en ponerse en contacto conmigo."
-        flightLogUrl="/john-doe-flight-log.pdf"
-        email="john.doe@example.com"
-      />
-      </div> */}
+
       <button
           className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
           onClick={handleTogglePilots}
