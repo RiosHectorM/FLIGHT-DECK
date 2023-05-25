@@ -33,7 +33,7 @@ const Index = () => {
   return (
     //<ProtectedRoute allowedRoles={['PILOT']}>
     <div
-      className="flex flex-col min-h-screen"
+      className='flex flex-col min-h-screen'
       style={{
         backgroundImage: "url('/images/mainpiloto.jpg')",
         backgroundSize: 'cover',
@@ -46,6 +46,7 @@ const Index = () => {
         <PilotFolioViewer
           setFolio={setFolio}
           setShowTableHours={setShowTableHours}
+          isLoading={isLoading}
           setIsLoading={setIsLoading}
           buttonDisabled={buttonDisabled}
         />

@@ -159,6 +159,7 @@ const TableHoursPilot = ({
     }
     setIsLoading(false);
   }, [filters, selectedFolio]);
+  //}, [user?.id, filters, selectedFolio]);XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   const updateFilters = () => {
     const filter = localStorage.getItem('filters');
@@ -234,9 +235,8 @@ const TableHoursPilot = ({
         toast.success('Deleted');
       } catch (error) {
         toast.error('Error deleting flight');
-      } finally {
-        setIsLoading(false);
       }
+      setIsLoading(false);
     } else toast.error("You can't Delete hours asked to certify");
   };
 
@@ -310,7 +310,7 @@ const TableHoursPilot = ({
           <div ref={componentPDF as any} style={{ width: '100' }}>
             <div className='flex flex-row'>
               <img
-                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1684972725/uhzk9runywzvondur2pm.png'
+                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png'
                 height={150}
                 width={150}
                 alt={'pdfImage'}

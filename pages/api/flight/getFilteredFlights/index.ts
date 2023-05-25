@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import prisma from '@/utils/libs/prismadb';
 
-
 // type Filters = {
 //   userId?: string;
 //   date?: string;
@@ -17,8 +16,18 @@ export default async function handler(
   if (req.method === 'GET') {
     try {
       // const { userId, date, aircraftId, folio }: Filters = req.body;
-      const { userId, date, aircraftId, folio, certified, myStatus, flightType } = req.query;
-        console.log("Status",myStatus)
+      const {
+        userId,
+        date,
+        aircraftId,
+        folio,
+        certified,
+        myStatus,
+        flightType,
+      } = req.query;
+
+      console.log('QUERY: ',req.query)
+
       const filters = {
         userId: userId ? (userId as string) : undefined,
         flightType: flightType? (flightType as string): undefined,
@@ -32,8 +41,7 @@ export default async function handler(
             ? false
             : undefined,
       };
-let flights
-      console.log(myStatus);
+      let flights;
       switch (myStatus) {
         case 'Todas':
           flights = await prisma.flight.findMany({
@@ -46,57 +54,56 @@ let flights
             },
           });
           break;
-          case 'Cargadas':
-            flights = await prisma.flight.findMany({
-              where: {
-                ...filters,
-              certifier:null,
-              },
-              include: {
-                user: true,
-                certifier: true,
-              },
-              // include: {
-              //   user: true,
-              // },
-            });
-            break;
-            case 'Pedidas':
-              filters.certified=false  
-            flights = await prisma.flight.findMany({
-              where: {
-                ...filters,
-                NOT:{certifier:null},
-              },
-              include: {
-                user: true,
-                certifier: true,
-              },
-              // include: {
-              //   user: true,
-              // },
-            });
-            break;
+        case 'Cargadas':
+          flights = await prisma.flight.findMany({
+            where: {
+              ...filters,
+              certifier: null,
+            },
+            include: {
+              user: true,
+              certifier: true,
+            },
+            // include: {
+            //   user: true,
+            // },
+          });
+          break;
+        case 'Pedidas':
+          filters.certified = false;
+          flights = await prisma.flight.findMany({
+            where: {
+              ...filters,
+              NOT: { certifier: null },
+            },
+            include: {
+              user: true,
+              certifier: true,
+            },
+            // include: {
+            //   user: true,
+            // },
+          });
+          break;
 
-            case 'Certificadas':
-              filters.certified=true  
-            flights = await prisma.flight.findMany({
-              where: {
-                ...filters,
-                NOT:{certifier:null},
-              },
-              include: {
-                user: true,
-                certifier: true,
-              },
-              // include: {
-              //   user: true,
-              // },
-            });
-            break;
-          }
+        case 'Certificadas':
+          filters.certified = true;
+          flights = await prisma.flight.findMany({
+            where: {
+              ...filters,
+              NOT: { certifier: null },
+            },
+            include: {
+              user: true,
+              certifier: true,
+            },
+            // include: {
+            //   user: true,
+            // },
+          });
+          break;
+      }
       // Use the Prisma Client to fetch all flights according to received filters
-
       res.status(200).json(flights);
     } catch (error) {
       return res.status(500).json({ error });

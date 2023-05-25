@@ -85,73 +85,73 @@ const PilotList: React.FC = () => {
 
   return (
     <div className="mx-auto w-3/4 bg-gray-900 bg-opacity-70 rounded-lg shadow-lg p-6">
-      <h2 className="text-center font-bold mb-10 text-white uppercase">Lista de pilotos</h2>
+      <h2 className="text-center font-bold mb-10 text-white uppercase">List of pilots</h2>
       <div className="flex mb-4">
         <div className="mr-4">
-          <label className="block font-medium mb-2 text-white">Filtrar por horas de vuelo:</label>
+          <label className="block font-medium mb-2 text-white">Filter by flight hours:</label>
           <input
             type="number"
             className="border py-1 px-2 rounded text-black"
             value={filterHours || ''}
             onChange={handleFilterChange}
-            placeholder="Ingresa las horas de vuelo"
+            placeholder="Enter the flight hours"
           />
         </div>
         <div>
-          <label className="block font-medium mb-2 text-white">Filtrar por nacionalidad:</label>
+          <label className="block font-medium mb-2 text-white">Filter by nationality:</label>
           <input
             type="text"
             className="border py-1 px-2 roundedtext-black"
             value={filterLocation}
             onChange={handleLocationFilterChange}
-            placeholder="Ingresa la nacionalidad"
-            />
-            </div>
-            </div>
-            <table className="table-auto w-full">
-            <thead>
-            <tr className="text-left">
-            <th className="px-4 py-2 font-medium text-white">Nombre</th>
-            <th className="px-4 py-2 font-medium text-white">Nacionalidad</th>
-            <th className="px-4 py-2 font-medium text-white">Horas de vuelo</th>
-            <th className="px-4 py-2 font-medium text-white">Detalles</th>
-            </tr>
-            </thead>
-            <tbody>
-            {filteredPilots.map((pilot) => (
+            placeholder="Enter the nationality"
+          />
+        </div>
+      </div>
+      <table className="table-auto w-full">
+        <thead>
+          <tr className="text-left">
+            <th className="px-4 py-2 font-medium text-white">Name</th>
+            <th className="px-4 py-2 font-medium text-white">Nationality</th>
+            <th className="px-4 py-2 font-medium text-white">Flight hours</th>
+            <th className="px-4 py-2 font-medium text-white">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredPilots.map((pilot) => (
             <React.Fragment key={pilot.id}>
-            <tr>
-            <td className="border px-4 py-2 text-white">{pilot.name}</td>
-            <td className="border px-4 py-2 text-white">{pilot.location}</td>
-            <td className="border px-4 py-2 text-white">{pilot.hoursOfFlight}</td>
-            <td className="border px-4 py-2">
-            <button
-            className="text-blue-500"
-            onClick={() => {
-            if (expandedPilots.includes(pilot.id)) {
-            setExpandedPilots(expandedPilots.filter((id) => id !== pilot.id));
-            } else {
-            setExpandedPilots([...expandedPilots, pilot.id]);
-            }
-            }}
-            >
-            {expandedPilots.includes(pilot.id) ? 'Cerrar detalles' : 'Ver detalles'}
-            </button>
-            </td>
-            </tr>
-            {expandedPilots.includes(pilot.id) && (
-            <tr>
-            <td colSpan={4}>
-            <PilotDetails {...pilot} />
-            </td>
-            </tr>
-            )}
+              <tr>
+                <td className="border px-4 py-2 text-white">{pilot.name}</td>
+                <td className="border px-4 py-2 text-white">{pilot.location}</td>
+                <td className="border px-4 py-2 text-white">{pilot.hoursOfFlight}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    className="text-blue-500"
+                    onClick={() => {
+                      if (expandedPilots.includes(pilot.id)) {
+                        setExpandedPilots(expandedPilots.filter((id) => id !== pilot.id));
+                      } else {
+                        setExpandedPilots([...expandedPilots, pilot.id]);
+                      }
+                    }}
+                  >
+                    {expandedPilots.includes(pilot.id) ? 'Close details' : 'See details'}
+                  </button>
+                </td>
+              </tr>
+              {expandedPilots.includes(pilot.id) && (
+                <tr>
+                  <td colSpan={4}>
+                    <PilotDetails {...pilot} />
+                  </td>
+                </tr>
+              )}
             </React.Fragment>
-            ))}
-            </tbody>
-            </table>
-            </div>
-            );
-            };
-            
-            export default PilotList;
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default PilotList;
