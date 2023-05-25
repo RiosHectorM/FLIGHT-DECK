@@ -18,7 +18,7 @@ const FlightLog: React.FC<FlightLogProps> = ({ flightNumber, date, duration, ori
       <p>{date} | {duration}</p>
       <p>{origin} - {destination}</p>
       <p>{aircraft}</p>
-      <p>Piloto: {pilotName}</p>
+      <p>Pilot: {pilotName}</p>
     </div>
   );
 };
