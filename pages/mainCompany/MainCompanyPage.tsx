@@ -31,11 +31,12 @@ const MainCompanyPage: React.FC = () => {
   };
   
   return (
-    <div className="flex flex-col items-center space-y-8 p-8" style={{ backgroundImage: 'url("/images/company.jpg")',
+    <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
-    backgroundPosition: 'center' }}>
+    backgroundPosition: 'center',
+    }}>
 
-      <h1 className="text-3xl font-semibold" style={{ color: 'red' }}>Main Company</h1>
+      <h1 className="text-3xl font-semibold" style={{ color: '#CBB26A' }}>Main Company</h1>
       <div className="flex flex-wrap justify-center gap-8">
         <TopPilots/>
         
@@ -60,7 +61,7 @@ const MainCompanyPage: React.FC = () => {
           className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
           onClick={handleTogglePilots}
         >
-          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
+          {showPilots ? "Hide pilots" : "See registered pilots"}
         </button>
         {showPilots && <PilotList />}
     </div>

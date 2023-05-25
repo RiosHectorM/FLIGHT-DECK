@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useUserStore } from '@/store/userStore';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-
 import { validateField } from '../../../utils/libs/validate';
 import countries from '../../../utils/countries.json';
 
@@ -17,6 +16,7 @@ type User = {
   hashedPassword?: string | null;
   phoneNumber?: string | null;
   address?: string | null;
+  city?: string | null;
   nationality?: string | null;
 };
 
@@ -24,6 +24,7 @@ type FormData = {
   name: string;
   phoneNumber: string;
   address: string;
+  city: string;
   nationality: string;
 };
 
@@ -36,8 +37,8 @@ const validationRules = {
   name: {
     required: 'Name is required.',
     pattern: {
-      value: /^[a-zA-Z\s]*$/, // Solo letras y espacios
-      message: 'Name can only contain letters and spaces.',
+      value: /^[a-zA-Z0-9!@#$%^&*(),.?":{}|<>_+\-=\[\]\\;'`~\s]+$/,
+      message: 'Name can only contain letters, numbers, and special characters.',
     },
     minLength: {
       value: 3,
@@ -45,7 +46,7 @@ const validationRules = {
     },
     maxLength: {
       value: 50,
-      message: 'Name cannot exceed 50 characters.',
+      message: 'The company name can exceed 50 characters.',
     },
   },
   phoneNumber: {
@@ -54,16 +55,35 @@ const validationRules = {
       value: /^\+?\d+$/, // Solo números y un signo de +
       message: 'Phone Number must be a valid number.',
     },
+    minLength: {
+      value: 9,
+      message: 'The phone number must contain at least 9 digits',
+    },
     maxLength: {
-      value: 15,
-      message: 'Phone Number cannot exceed 15 characters.',
+      value: 18,
+      message: 'The phone number must contain a maximum of 18 digits',
     },
   },
   address: {
     required: 'Address is required.',
     maxLength: {
-      value: 60,
+      value: 80,
       message: 'Address cannot exceed 60 characters.',
+    },
+  },
+  city: {
+    required: 'City is required.',
+    pattern: {
+      value: /^[a-zA-Z\u00C0-\u017F\s]*$/,
+      message: 'City can only contain letters and spaces.',
+    },
+    minLength: {
+      value: 3,
+      message: 'City must have at least 3 characters.',
+    },
+    maxLength: {
+      value: 50,
+      message: 'City cannot exceed 50 characters.',
     },
   },
   nationality: {
@@ -98,6 +118,7 @@ export default function FormCompany({
       name: user?.name || '',
       phoneNumber: user?.phoneNumber || '',
       address: user?.address || '',
+      city: user?.city || '',
       nationality: user?.nationality || '',
     },
   });
@@ -117,6 +138,7 @@ export default function FormCompany({
       errors
     );
     validateField('address', data.address, validationRules.address, errors);
+    validateField('city', data.city, validationRules.city, errors);
     validateField(
       'nationality',
       data.nationality,
@@ -134,6 +156,7 @@ export default function FormCompany({
         name: data.name,
         phoneNumber: data.phoneNumber,
         address: data.address,
+        city: data.city,
         nationality: data.nationality,
       };
       updateUser(newUserState as any);
@@ -161,7 +184,7 @@ export default function FormCompany({
               className='block text-gray-700 text-sm font-bold mb-2'
               htmlFor='name'
             >
-              Name
+              Name of the company
             </label>
             <input
               {...register('name', { required: true })}
@@ -219,6 +242,26 @@ export default function FormCompany({
           <div className='mb-4'>
             <label
               className='block text-gray-700 text-sm font-bold mb-2'
+              htmlFor='city'
+            >
+              City
+            </label>
+            <input
+              {...register('city', { required: true })}
+              className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+              id='city'
+              type='text'
+              placeholder='City'
+            />
+            {formErrors.city && (
+              <p className='text-red-500 text-xs italic'>
+                {formErrors.city.message}
+              </p>
+            )}
+          </div>
+          <div className='mb-4'>
+            <label
+              className='block text-gray-700 text-sm font-bold mb-2'
               htmlFor='nationality'
             >
               Nationality
@@ -243,16 +286,24 @@ export default function FormCompany({
           </div>
           <div className='flex items-center justify-between'>
             <button
-              className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
               type='submit'
+              style={{
+                backgroundColor: '#1a1a1a', // flightdeck-dark
+                color: '#e5d9b6', // flightdeck-cream
+              }}
             >
-              Update
+              UPDATE
             </button>
             <button
-              className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+              className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black px-8'
               onClick={handleCancel}
+              style={{
+                backgroundColor: '#1a1a1a', // flightdeck-dark
+                color: '#e5d9b6', // flightdeck-cream
+              }}
             >
-              Cancel
+              CANCEL
             </button>
           </div>
         </form>
