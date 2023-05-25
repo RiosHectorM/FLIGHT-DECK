@@ -33,17 +33,7 @@ type FormData = {
 };
 
 export default function Form() {
-  const userByRole = async (email: string) => {
-    return axios
-      .get(`/api/getUserByEmail/${email}`)
-      .then((result) => result.data)
-      .catch(() => {
-        console.error('Error User Search');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+
   const [roleNoExist, setRoleNoExist] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
