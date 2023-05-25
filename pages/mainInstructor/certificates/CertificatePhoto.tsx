@@ -69,6 +69,23 @@ export const CertificatePhoto = ({
       toast.error('Incomplete Fields');
       return;
     }
+  
+    // Verificar si el certificateName ya existe
+    try {
+      const response = await axios.get(`/api/certificate/getCertificateByUserAndName?userId=${userId}&certificateName=${nameCertificate}`);
+      const certificateExists = response.data; // Suponiendo que la API devuelve un objeto con los datos del certificado si existe
+  
+      if (certificateExists) {
+        toast.error('Certificate Name already exists');
+        return;
+      }
+    } catch (error) {
+      // Manejar el error de la solicitud
+      console.error('Error checking certificate existence:', error);
+      toast.error('Error checking certificate existence');
+      return;
+    }
+  
     setIsLoading(true);
     await axios
       .post(`/api/certificate`, {
@@ -89,6 +106,7 @@ export const CertificatePhoto = ({
       })
       .finally(() => setIsLoading(false));
   };
+  
 
   const handlerClickCancel = () => {
     onClose();
