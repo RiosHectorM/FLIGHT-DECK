@@ -33,21 +33,23 @@ const SearchFlightInstructorModal = () => {
   /*  const matriculas = aviones.map(
     (avion: { registrationId: string }) => avion.registrationId
   ); */
-
-  const userByRole = async (email: string) => {
-    setIsLoading(true);
-    return axios
-      .get(`/api/getUserByEmail/${email}`)
-      .then((result) => {
-        return result.data;
-      })
-      .catch(() => {
-        toast.error('Error User Search');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
+  
+    //POR LAS DUDAS ELIMINAR ESTE COMPONENTE
+  
+  // const userByRole = async (email: string) => {
+  //   setIsLoading(true);
+  //   return axios
+  //     .get(`/api/getUserByEmail/${email}`)
+  //     .then((result) => {
+  //       return result.data;
+  //     })
+  //     .catch(() => {
+  //       toast.error('Error User Search');
+  //     })
+  //     .finally(() => {
+  //       setIsLoading(false);
+  //     });
+  // };
   // let result = userByRole(userData?.email);
 
   useEffect(() => {

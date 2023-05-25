@@ -10,6 +10,8 @@ import useApproveModal from '@/utils/hooks/useApproveModal';
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 
+//POR LAS DUDAS ELIMINAR ESTE COMPONENTE
+
 interface ProfileData {
   name: string;
   email: string;

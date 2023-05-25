@@ -10,8 +10,6 @@ import useRateInstructorModal from '@/utils/hooks/useRateInstructorModal';
 
 import Modal from '../../AuxComponents/ModalsGenerator/Modal';
 import { toast } from 'react-hot-toast';
-import { useSession } from 'next-auth/react';
-import RateInstructorModal from '../InstHours/RateInstructorModal';
 
 interface Instructor {
   id: string | null;
@@ -34,26 +32,10 @@ const SelectFlightInstructorModal = ({
   seleccionarInstructor: (index: string) => void;
   setIsLoading: (isLoading: boolean) => void;
 }) => {
-  const { data: userData } = useSession();
   const [instructors, setInstructors] = useState<Instructor[]>([]);
 
   const selectFlightInstructorModal = useSelectFlightInstructorModal();
   const rateInstructorModal = useRateInstructorModal();
-
-  const userByRole = async (email: string) => {
-    setIsLoading(true);
-    return axios
-      .get(`/api/getUserByEmail/${email}`)
-      .then((result) => {
-        return result.data;
-      })
-      .catch(() => {
-        toast.error('Error User select');
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  };
 
   const handleSelect = async (instructorId: any) => {
     setIsLoading(true);
@@ -111,7 +93,7 @@ const SelectFlightInstructorModal = ({
             {usuario?.id ? (
               <button
                 onClick={() => handleSelect(usuario!)}
-                className='bg-blue-500 text-white py-1 px-2 rounded mt-2'
+                className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black px-4'
               >
                 Select
               </button>
