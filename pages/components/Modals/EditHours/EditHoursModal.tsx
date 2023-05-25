@@ -208,6 +208,7 @@ const EditHoursModal = ({
   };
 
   const aircraftId = watch('aircraftId');
+  let hourCount = watch('hourCount');
 
   const userByRole = async (email: string) => {
     setIsLoading(true);
@@ -278,7 +279,7 @@ const EditHoursModal = ({
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.folio}
               required
@@ -292,7 +293,7 @@ const EditHoursModal = ({
           <div className='relative z-0 w-full mb-6 group'>
             <input
               type='date'
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={formattedDate}
               required
@@ -307,7 +308,7 @@ const EditHoursModal = ({
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.aircraftId}
               required
@@ -320,14 +321,19 @@ const EditHoursModal = ({
           </div>
           <div className='relative z-0 w-full mb-6 group flex justify-center'>
             {!matriculas.includes(aircraftId as string) && (
-              <button onClick={openRegisterAirplane}>Register Airplane</button>
+              <button
+                className=' px-4 font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'
+                onClick={openRegisterAirplane}
+              >
+                Register Airplane
+              </button>
             )}
           </div>
         </div>
         <div className='relative z-0 w-full mb-6 group'>
           <div className='flex justify-between'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.stages}
               required
@@ -342,7 +348,7 @@ const EditHoursModal = ({
         <div className='relative z-0 w-full mb-6 group'>
           <textarea
             rows={2}
-            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+            className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
             placeholder=' '
             defaultValue={selectedFlight?.remarks}
             {...register('remarks')}
@@ -356,7 +362,7 @@ const EditHoursModal = ({
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
             <select
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.flightType}
               {...register('flightType')}
@@ -371,9 +377,9 @@ const EditHoursModal = ({
             </label>
           </div>
 
-          <div className='relative z-0 w-full mb-6 group'>
+          <div className='relative z-0 w-full mb-6 group hidden'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.hourCount}
               required
@@ -388,7 +394,7 @@ const EditHoursModal = ({
         <div className='grid md:grid-cols-2 md:gap-6'>
           <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.dayHours}
               {...register('dayHours')}
@@ -401,7 +407,7 @@ const EditHoursModal = ({
           </div>
           <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.nightHours}
               {...register('nightHours')}
@@ -414,7 +420,7 @@ const EditHoursModal = ({
           </div>
           <div className='relative z-0 w-full mb-6 group'>
             <input
-              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              className='block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-yellow-500 peer'
               placeholder=' '
               defaultValue={selectedFlight?.instHours}
               {...register('instHours')}
@@ -425,8 +431,16 @@ const EditHoursModal = ({
             </label>
             <p className='text-red-600'>{errors.instHours?.message}</p>
           </div>
+          <div className='relative z-0 w-full mb-6 group'>
+            <p className='text-xl font-bold'>
+              TOTAL HOURS: {'  '}
+              {Number.isNaN(hourCount) ? 'Check Inputs' : hourCount}
+            </p>
+          </div>
         </div>
-        <button>SEND</button>
+        <button className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'>
+          SEND
+        </button>
       </form>
     </div>
   );
@@ -442,7 +456,7 @@ const EditHoursModal = ({
           font-light
         '
       >
-        <p>Add a Flight record to your Database to record your Flight Hours</p>
+        <p>Edit a Flight record to your Database to record your Flight Hours</p>
       </div>
     </div>
   );

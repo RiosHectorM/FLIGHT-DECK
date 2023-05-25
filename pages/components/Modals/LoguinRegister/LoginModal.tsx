@@ -5,8 +5,6 @@ import { toast } from 'react-hot-toast';
 import { signIn } from 'next-auth/react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook } from 'react-icons/fa';
-import { AiFillGithub } from 'react-icons/ai';
 import { useRouter } from 'next/navigation';
 
 import useRegisterModal from '@/utils/hooks/useRegisterModal';

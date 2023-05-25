@@ -108,19 +108,19 @@ const DashboardInstructor: FC = () => {
                           {user.phoneNumber}
                         </p>
                         <button
-                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold mt-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black hover:border hover:border-black"
+                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold mt-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black"
                           onClick={handleFormInstructor}
                         >
                           Edit Information
                         </button>
                         <button
-                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black hover:border hover:border-black"
+                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black"
                           onClick={handleCertifications}
                         >
                           Edit Certifications
                         </button>
                         <button
-                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black hover:border hover:border-black"
+                          className="font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black"
                           onClick={handleFormPassword}
                         >
                           Change Password

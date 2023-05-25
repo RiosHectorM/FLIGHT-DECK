@@ -34,10 +34,6 @@ const RateInstructorModal = ({
     formState: { errors },
   } = useForm<FieldValues>();
 
-  useEffect(() => {
-    reset();
-  }, [user, instructor]);
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     reset();
     rateInstructor.onClose();
@@ -57,6 +53,7 @@ const RateInstructorModal = ({
       })
       .finally(() => {
         setIsLoading(false);
+        setRating(0)
       });
   };
   const [rating, setRating] = useState(0);
@@ -70,10 +67,12 @@ const RateInstructorModal = ({
         title='Rate Instructor'
         subtitle={`Rate instructor ${instructor?.name} ${
           instructor?.lastName && instructor?.lastName
-        } for his qualities as a pilot instructor`}
+        } for his qualities as a Pilot Instructor`}
       />
 
-      <StarRating rating={rating} rankear={rankear} />
+      <div className='flex w-full justify-around'>
+        <StarRating rating={rating} rankear={rankear} />
+      </div>
       <Input
         id='comment'
         label='Review'
@@ -96,7 +95,7 @@ const RateInstructorModal = ({
           font-light
         '
       >
-        <p>Footer de esta ventana</p>
+        <p>Rate the Instructor according to your flight experience</p>
       </div>
     </div>
   );

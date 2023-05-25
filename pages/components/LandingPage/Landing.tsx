@@ -14,9 +14,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div className='relative h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'>
+    <div className='relative min-h-screen bg-gradient-to-r from-flightdeck-dark to-flightdeck-black'>
       <div
-        className='relative flex flex-col items-center justify-center h-full '
+        className='relative flex flex-col items-center justify-center h-full min-h-screen'
         style={{
           backgroundImage:
             "url('/images/desenfoque-lujo-abstracto-degradado-gris-oscuro-negro-utilizado-como-pared-estudio-fondo-exhibir-sus-productos.jpg')", // Ruta de la imagen de fondo
@@ -48,7 +48,7 @@ const LandingPage = () => {
           />
         </div>
         <div
-          className='z-10 max-w-md mb-8 p-6 rounded-lg shadow-xl'
+          className='z-10 max-w-md mb-24 md:mb-6 p-6 rounded-lg shadow-xl'
           style={{
             backgroundColor: 'rgba(229, 217, 182, 0.1)', // Cambia los valores RGB y la transparencia según tus preferencias
           }}

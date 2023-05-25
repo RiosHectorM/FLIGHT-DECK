@@ -1,10 +1,8 @@
 'use client';
 
 import axios from 'axios';
-import { AiFillGithub } from 'react-icons/ai';
 //import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
-import { FaFacebook } from 'react-icons/fa';
 import { useCallback, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import {
@@ -52,11 +50,8 @@ const RegisterModal = () => {
       .post('/api/register', data)
       .then(() => {
         toast.success('Registered!');
-        //redirecciona una cuenta creada
         signIn('credentials', data);
         registerModal.onClose();
-        //ya no seria necesario abrir el loginModal
-        // loginModal.onOpen();
       })
       .catch((error) => {
         toast.error('Email in Use');
