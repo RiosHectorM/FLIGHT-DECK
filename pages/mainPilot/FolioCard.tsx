@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   AiOutlinePaperClip,
   AiOutlineFolderOpen,
@@ -12,9 +12,7 @@ import { CldUploadWidget } from 'next-cloudinary';
 import { useUserStore } from '../../store/userStore';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-import { format, parseISO } from 'date-fns';
 import { toast } from 'react-hot-toast';
-import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   item: number;
@@ -163,7 +161,7 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
-    setIsLoading(faLessThanEqual);
+    setIsLoading(false);
   };
 
   const handlerSetFolio = () => {
