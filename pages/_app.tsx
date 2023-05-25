@@ -24,7 +24,7 @@ export default function App({
       <LoginModal />
       <RegisterModal />
       {showNavbar && (
-        <nav className='flex items-center justify-between bg-white shadow-sm h-16 w-full'>
+        <nav className='flex items-center justify-between bg-black shadow-sm h-16 w-full'>
           <div className='flex items-center w-full justify-between'>
             <Navbar />
           </div>

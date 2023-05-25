@@ -17,7 +17,7 @@ const PilotProfile: React.FC<PilotProfileProps> = ({ name, photoUrl, location, h
       <h2 className="text-lg font-semibold text-white">{name}</h2>
       <div className="text-white">
         <p>{location}</p>
-        <p>Horas de vuelo acumuladas: {hoursOfFlight}</p>
+        <p>Accumulated flight hours: {hoursOfFlight}</p>
       </div>
     </div>
   );

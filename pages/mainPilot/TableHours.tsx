@@ -158,7 +158,7 @@ const TableHoursPilot = ({
       getFlights(user?.id);
     }
     setIsLoading(false);
-  }, [user?.id, filters, selectedFolio]);
+  }, [filters, selectedFolio]);
 
   const updateFilters = () => {
     const filter = localStorage.getItem('filters');
@@ -173,20 +173,42 @@ const TableHoursPilot = ({
       let folioFinal = '';
       if (selectedFolio) folioFinal = `&folio=${selectedFolio}`;
       else folioFinal = '';
-      try {
-        const response = await axios.get(
-          `/api/flight/getFilteredFlights?userId=${idF}&date=${
-            filters.filter?.date
-          }&aircraftId=${filters.filter?.aircraftId}${folioFinal}&flightType=${
-            filters.filter?.tipo
-          }&myStatus=${
-            filters.filter?.estado === '' ? 'Todas' : filters.filter?.estado
-          }`
-        );
-        setFlight(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.error(error);
+      if (typeof window !== undefined && window.localStorage) {
+        const filters = localStorage.getItem('filters');
+        var myfilters;
+        if (filters) {
+          myfilters = JSON.parse(filters);
+        }
+        if (myfilters && myfilters.filter && !myfilters.filter.date) {
+          myfilters.filter.date = '';
+        }
+        if (myfilters && myfilters.filter && !myfilters.filter.aircraftId) {
+          myfilters.filter.aircraftId = '';
+        }
+        if (myfilters && myfilters.filter && !myfilters.filter.tipo) {
+          myfilters.filter.tipo = '';
+        }
+        if (myfilters && myfilters.filter && !myfilters.filter.estado) {
+          myfilters.filter.estado = '';
+        }
+
+        try {
+          const response = await axios.get(
+            `/api/flight/getFilteredFlights?userId=${idF}&date=${
+              myfilters.filter?.date
+            }&aircraftId=${
+              myfilters.filter?.aircraftId
+            }${folioFinal}&flightType=${myfilters.filter?.tipo}&myStatus=${
+              myfilters.filter?.estado === ''
+                ? 'Todas'
+                : myfilters.filter?.estado
+            }`
+          );
+          setFlight(response.data);
+          console.log(response.data);
+        } catch (error) {
+          console.error(error);
+        }
       }
     }
     setIsLoading(false);
@@ -212,8 +234,9 @@ const TableHoursPilot = ({
         toast.success('Deleted');
       } catch (error) {
         toast.error('Error deleting flight');
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } else toast.error("You can't Delete hours asked to certify");
   };
 
@@ -287,7 +310,7 @@ const TableHoursPilot = ({
           <div ref={componentPDF as any} style={{ width: '100' }}>
             <div className='flex flex-row'>
               <img
-                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1683420911/yq7qmpvsenhmxgrtjpyd.png'
+                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1684972725/uhzk9runywzvondur2pm.png'
                 height={150}
                 width={150}
                 alt={'pdfImage'}
