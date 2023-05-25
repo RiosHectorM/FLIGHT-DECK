@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
 import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
+import BarraPaginacion from './BarraPaginacion';
 
 interface FlightData {
   id?: string;
@@ -62,6 +63,42 @@ export default function PilotFolioViewer({
   const [isLoadingFlights, setIsLoadingFlights] = useState(false);
   const folioFlightRef = useRef<FlightData[]>([]);
   const [folioFlight, setFolioFlight] = useState<FlightData[]>([]);
+  //PAGINACION
+  const [currenPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(5);
+  const pages = [];
+  const indexOfLastItem = currenPage * cardsPerPage;
+  const indexOfFirstItem = indexOfLastItem - cardsPerPage;
+  let currentCards = [];
+
+  if (currenPage === 1) {
+    currentCards = folioFlight.slice(0, cardsPerPage);
+  } else {
+    currentCards = folioFlight.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  for (let i = 1; i <= Math.ceil(folioFlight.length / cardsPerPage); i++) {
+    pages.push(i);
+  }
+
+  useEffect(() => {
+    if (pages.length === 1) {
+      setCurrentPage(1);
+    }
+  }, [folioFlight, currenPage]);
+
+  function handleClick(e) {
+    const num = parseInt(e);
+    setCurrentPage(num);
+  }
+  const renderBarraPaginacion = pages.map((e) => {
+    return (
+      <p>
+        <BarraPaginacion number={e} handleClick={handleClick} />
+      </p>
+    );
+  });
+  //FIN PAGINACION
 
   useEffect(() => {
     if (session?.user?.email) {
@@ -170,9 +207,9 @@ export default function PilotFolioViewer({
                         </span>
                       </dt>
                       <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
+                        <div className="text-lg font-medium text-white flex items-center">
                           <p>{totalHours.totalHours}</p>
-                          <p className='ml-2'>Hrs</p>
+                          <p className="ml-2">Hrs</p>
                         </div>
                       </dd>
                     </div>
@@ -190,9 +227,9 @@ export default function PilotFolioViewer({
                           Total Certified Hours
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className="text-lg font-medium text-white flex items-center">
                             <p>{totalHours.CertifiedHours}</p>
-                            <p className='ml-2'>Hrs</p>
+                            <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -211,9 +248,9 @@ export default function PilotFolioViewer({
                           Total Pending Hours to Certify
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className="text-lg font-medium text-white flex items-center">
                             <p>{totalHours.toCertifyHours}</p>
-                            <p className='ml-2'>Hrs</p>
+                            <p className="ml-2">Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -248,7 +285,10 @@ export default function PilotFolioViewer({
             <Loader />
           ) : folioFlight.length > 0 ? (
             <div>
-              {folioFlight.map((dato, index) => (
+              <div className="mt-10 bg-indigo-600 text-white ml-96  h-8 w-12 flex flex-row  justify-center items-center">
+                {renderBarraPaginacion}
+              </div>
+              {currentCards.map((dato, index) => (
                 <FolioCard
                   key={index}
                   item={index + 1}
