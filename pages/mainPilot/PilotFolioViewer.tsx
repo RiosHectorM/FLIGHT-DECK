@@ -90,13 +90,13 @@ export default function PilotFolioViewer({
     }
   }, [folioFlight, currenPage]);
 
-  function handleClick(e) {
-    const num = parseInt(e);
+  function handleClick(e: number) {
+    const num = e;
     setCurrentPage(num);
   }
-  const renderBarraPaginacion = pages.map((e) => {
+  const renderBarraPaginacion = pages.map((e, index) => {
     return (
-      <p>
+      <p key={index}>
         <BarraPaginacion number={e} handleClick={handleClick} />
       </p>
     );
@@ -217,9 +217,9 @@ export default function PilotFolioViewer({
                         </span>
                       </dt>
                       <dd>
-                        <div className="text-lg font-medium text-white flex items-center">
+                        <div className='text-lg font-medium text-white flex items-center'>
                           <p>{totalHours.totalHours}</p>
-                          <p className="ml-2">Hrs</p>
+                          <p className='ml-2'>Hrs</p>
                         </div>
                       </dd>
                     </div>
@@ -237,9 +237,9 @@ export default function PilotFolioViewer({
                           Total Certified Hours
                         </dt>
                         <dd>
-                          <div className="text-lg font-medium text-white flex items-center">
+                          <div className='text-lg font-medium text-white flex items-center'>
                             <p>{totalHours.CertifiedHours}</p>
-                            <p className="ml-2">Hrs</p>
+                            <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -258,9 +258,9 @@ export default function PilotFolioViewer({
                           Total Pending Hours to Certify
                         </dt>
                         <dd>
-                          <div className="text-lg font-medium text-white flex items-center">
+                          <div className='text-lg font-medium text-white flex items-center'>
                             <p>{totalHours.toCertifyHours}</p>
-                            <p className="ml-2">Hrs</p>
+                            <p className='ml-2'>Hrs</p>
                           </div>
                         </dd>
                       </div>
@@ -295,7 +295,7 @@ export default function PilotFolioViewer({
             <Loader />
           ) : folioFlight.length > 0 ? (
             <div>
-              <div className="mt-10 bg-indigo-600 text-white ml-96  h-8 w-12 flex flex-row  justify-center items-center">
+              <div className='mt-10 bg-indigo-600 text-white ml-96  h-8 w-12 flex flex-row  justify-center items-center'>
                 {renderBarraPaginacion}
               </div>
               {currentCards.map((dato, index) => (

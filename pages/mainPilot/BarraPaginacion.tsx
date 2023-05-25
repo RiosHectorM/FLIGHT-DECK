@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
-const BarraPaginacion = (props) => {
+interface BarraPaginacionProps {
+  number: number;
+  handleClick: (number: number) => void;
+}
+
+const BarraPaginacion: React.FC<BarraPaginacionProps> = (props) => {
+  const handleClick = (e: MouseEvent<HTMLDivElement>) => {
+    const num = Number(e.currentTarget.innerText);
+    props.handleClick(num);
+  };
+
   return (
     <div
-      id="numbersContainer"
-      className="bg-gray-800 h-8 w-12 flex flex-row  justify-center items-center"
+      id='numbersContainer'
+      className='bg-gray-800 h-8 w-12 flex flex-row justify-center items-center'
     >
       <div
-        id="numbers"
-        className="w-8 h-8 rounded-full bg-azure flex flex-row flex-wrap justify-center items-center cursor-pointer"
-        onClick={(e) => {
-          props.handleClick(e.target.innerText);
-        }}
+        id='numbers'
+        className='w-8 h-8 rounded-full bg-azure flex flex-row flex-wrap justify-center items-center cursor-pointer'
+        onClick={handleClick}
       >
-        {props.number}{' '}
+        {props.number}
       </div>
     </div>
   );
