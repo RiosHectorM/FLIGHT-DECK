@@ -201,7 +201,7 @@ export default function PilotFolioViewer({
     <>
       {isLoading && <Loader />}
       <div className='flex flex-col lg:flex-row w-full'>
-        <div className='w-full'>
+        <div className='w-full lg:w-1/3 lg:mr-4'>
           <div className='lg:px-0'>
             <div className='flex mt-6 mx-auto'>
               {/* 3 dibujistos */}
@@ -271,7 +271,7 @@ export default function PilotFolioViewer({
             </div>
           </div>
         </div>
-        <div className='w-full justify-center items center'>
+        <div className='w-full justify-center items center mx-2'>
           {isLoadingFlights ? (
             <Loader />
           ) : folioFlight.length > 0 ? (
