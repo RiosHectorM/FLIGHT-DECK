@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useSession } from 'next-auth/react';
 import Loader from '../components/Loader';
 import useAddHoursModal from '@/utils/hooks/useAddHoursModal';
+import BarraPaginacion from './BarraPaginacion';
 
 interface FlightData {
   id?: string;
@@ -65,6 +66,42 @@ export default function PilotFolioViewer({
   const [isLoading, setIsLoading] = useState(false);
   const folioFlightRef = useRef<FlightData[]>([]);
   const [folioFlight, setFolioFlight] = useState<FlightData[]>([]);
+  //PAGINACION
+  const [currenPage, setCurrentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(5);
+  const pages = [];
+  const indexOfLastItem = currenPage * cardsPerPage;
+  const indexOfFirstItem = indexOfLastItem - cardsPerPage;
+  let currentCards = [];
+
+  if (currenPage === 1) {
+    currentCards = folioFlight.slice(0, cardsPerPage);
+  } else {
+    currentCards = folioFlight.slice(indexOfFirstItem, indexOfLastItem);
+  }
+
+  for (let i = 1; i <= Math.ceil(folioFlight.length / cardsPerPage); i++) {
+    pages.push(i);
+  }
+
+  useEffect(() => {
+    if (pages.length === 1) {
+      setCurrentPage(1);
+    }
+  }, [folioFlight, currenPage]);
+
+  function handleClick(e: number) {
+    const num = e;
+    setCurrentPage(num);
+  }
+  const renderBarraPaginacion = pages.map((e, index) => {
+    return (
+      <p key={index}>
+        <BarraPaginacion number={e} handleClick={handleClick} />
+      </p>
+    );
+  });
+  //FIN PAGINACION
 
   useEffect(() => {
     setIsLoading(true);
@@ -258,7 +295,10 @@ export default function PilotFolioViewer({
             <Loader />
           ) : folioFlight.length > 0 ? (
             <div>
-              {folioFlight.map((dato, index) => (
+              <div className='mt-10 bg-indigo-600 text-white ml-96  h-8 w-12 flex flex-row  justify-center items-center'>
+                {renderBarraPaginacion}
+              </div>
+              {currentCards.map((dato, index) => (
                 <FolioCard
                   key={index}
                   item={index + 1}
