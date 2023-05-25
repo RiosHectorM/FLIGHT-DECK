@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/userStore";
 //import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import ToasterProvider from "../providers/ToasterProvider";
-import StatsInstructor from "../components/AuxComponents/Stats/StatsInstructor";
 import StatsCompany from "../components/AuxComponents/Stats/StatsCompany";
 
 const DashboardCompany: FC = () => {

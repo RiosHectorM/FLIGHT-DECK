@@ -9,7 +9,7 @@ interface pilotsByNationalityObj {
 
 let options_numPilotsByNationality = {};
 
-const StatsPilot = () => {
+const StatsCompany = () => {
   // state variable for 'pilots by nationality' chart
   const [dataPilotsByNationality, setDataPilotsByNationality] = useState<pilotsByNationalityObj[]>([]);
 
@@ -101,6 +101,6 @@ const StatsPilot = () => {
   );
 };
 
-export default StatsPilot;
+export default StatsCompany;
 
 // version 2023.05.25 13:20
