@@ -52,11 +52,8 @@ const RegisterModal = () => {
       .post('/api/register', data)
       .then(() => {
         toast.success('Registered!');
-        //redirecciona una cuenta creada
         signIn('credentials', data);
         registerModal.onClose();
-        //ya no seria necesario abrir el loginModal
-        // loginModal.onOpen();
       })
       .catch((error) => {
         toast.error('Email in Use');
