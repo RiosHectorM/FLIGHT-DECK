@@ -14,6 +14,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'react-hot-toast';
+import { faLessThanEqual } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   item: number;
@@ -24,6 +25,7 @@ interface Props {
   setFolio: (folio: string | number) => void;
   setShowTableHours: (show: boolean) => void;
   buttonDisabled: (show: boolean) => void;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 declare global {
@@ -41,6 +43,7 @@ export default function FolioCard({
   setFolio,
   setShowTableHours,
   buttonDisabled,
+  setIsLoading,
 }: Props) {
   const { user, updateUserImage } = useUserStore();
   const [color, setColor] = useState(false);
@@ -51,6 +54,7 @@ export default function FolioCard({
 
   // console.log('user', user);
   useEffect(() => {
+    setIsLoading(true);
     const result = axios
       .get(
         `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
@@ -63,11 +67,13 @@ export default function FolioCard({
       .catch((err) => {
         console.log(err);
       });
+    setIsLoading(false);
   }, [color]);
 
   let value: string | null = user?.image || null;
 
   const handleUpload = async (response: any) => {
+    setIsLoading(true);
     try {
       const result = await axios.get(
         `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
@@ -90,9 +96,11 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const handleChange = async (response: any) => {
+    setIsLoading(true);
     try {
       //console.log(response.info.secure_url);
       //console.log(`/api/user/${user?.id}`);
@@ -106,9 +114,11 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const handleDelete = async () => {
+    setIsLoading(true);
     try {
       const result = await axios.get(
         `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
@@ -124,9 +134,11 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const handleDownload = async () => {
+    setIsLoading(true);
     try {
       const result = await axios.get(
         `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
@@ -137,9 +149,11 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(false);
   };
 
   const handlePreview = async () => {
+    setIsLoading(true);
     try {
       const result = await axios.get(
         `/api/folio/getFolioByUserAndNum?userId=${user?.id}&folioNum=${folioNumber}`
@@ -149,6 +163,7 @@ export default function FolioCard({
     } catch (error) {
       console.log(error);
     }
+    setIsLoading(faLessThanEqual);
   };
 
   const handlerSetFolio = () => {
@@ -222,9 +237,7 @@ export default function FolioCard({
               }}
             </CldUploadWidget>
             {!color && (
-              <p className='py-2 px-3 hover:cursor-default'>
-                Attach Folio{' '}
-              </p>
+              <p className='py-2 px-3 hover:cursor-default'>Attach Folio </p>
             )}
             {color && (
               <CldUploadWidget

@@ -234,8 +234,9 @@ const TableHoursPilot = ({
         toast.success('Deleted');
       } catch (error) {
         toast.error('Error deleting flight');
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     } else toast.error("You can't Delete hours asked to certify");
   };
 
