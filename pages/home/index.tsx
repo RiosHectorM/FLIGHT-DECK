@@ -51,7 +51,15 @@ const HomePage = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen' style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/fondo-pantalla-patron-fondo-abstracto-grunge-negro-foto-gratis (1).jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className='flex flex-col items-center justify-center min-h-screen'
+      style={{
+        backgroundImage:
+          'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/fondo-pantalla-patron-fondo-abstracto-grunge-negro-foto-gratis (1).jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {isLoading && <Loader />}
       <ToasterProvider />
       <RegisterModal />
@@ -99,7 +107,7 @@ const HomePage = () => {
                 variants={zoomIn(0, 0.6)}
                 initial='hidden'
                 whileInView='show'
-                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform cursor-pointer mx-6 my-6'
+                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
                 onClick={handlerGoProfile}
               >
                 <Image
