@@ -96,9 +96,7 @@ const StatsInstructor = ({ userId }: Props) => {
           for (let i = 0; i < monthCountToShow; i++) {
             requests.push(
               await axios.get(
-                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
-                  i
-                ]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
               )
             );
           }
@@ -109,11 +107,12 @@ const StatsInstructor = ({ userId }: Props) => {
             auxData.dayHours[i] = responses[i].data.dayHours;
             auxData.nightHours[i] = responses[i].data.nightHours;
             auxData.instHours[i] = responses[i].data.instHours;
+
+            setcertifiedHoursByDate(auxData);
           }
 
           console.timeEnd("gettimer");
 
-          setcertifiedHoursByDate(auxData);
         }
       } catch (error) {
         console.error(error);
@@ -322,3 +321,5 @@ const StatsInstructor = ({ userId }: Props) => {
 };
 
 export default StatsInstructor;
+
+// version 2023.05.25 13:20
