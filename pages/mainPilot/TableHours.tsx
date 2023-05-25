@@ -430,12 +430,11 @@ const TableHoursPilot = ({
             />
 
             <h3 className='text-3xl font-bold text-white mb-4'>
-              No se encontraron vuelos
+              No flights found
             </h3>
             <p className='text-lg text-white mb-8'>
-              Lo sentimos, no se encontraron vuelos que coincidan con sus
-              criterios de búsqueda. Por favor, ajuste sus criterios de búsqueda
-              e inténtelo de nuevo.
+              Sorry, no flights were found matching your search criteria. Please
+              adjust your search criteria and try again.
             </p>
           </div>
         </div>
