@@ -71,7 +71,7 @@ export const FormPhoto = () => {
                 items-center
                 gap-4
                 text-neutral-600
-                rounded-full
+                rounded-xl
                 w-full 
                 h-full
                 my-auto
@@ -84,7 +84,7 @@ export const FormPhoto = () => {
               {value ? (
                 <div
                   className='
-                    absolute inset-0 w-full h-full rounded-full
+                    absolute inset-0 w-full h-full rounded-xl
                     overflow-hidden
                   '
                 >
@@ -99,7 +99,7 @@ export const FormPhoto = () => {
               ) : (
                 <div
                   className='
-                    absolute inset-0 w-full h-full rounded-full
+                    absolute inset-0 w-full h-full rounded-xl
                     overflow-hidden
                   '
                 >
