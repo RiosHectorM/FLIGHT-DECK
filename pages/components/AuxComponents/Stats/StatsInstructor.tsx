@@ -119,7 +119,6 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
 
             setCertifiedHoursByDate(auxData);
           }
-
         }
       } catch (error) {
         console.error(error);
