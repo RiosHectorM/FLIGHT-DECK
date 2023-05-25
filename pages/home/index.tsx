@@ -17,7 +17,7 @@ const HomePage = () => {
   const registerModal = useRegisterModal();
   const router = useRouter();
 
-  const handleRole = (myRole:string) => {
+  const handleRole = (myRole: string) => {
     console.log(myRole);
     registerModal.onOpen();
   };
@@ -89,7 +89,7 @@ const HomePage = () => {
                 variants={zoomIn(0, 0.6)}
                 initial='hidden'
                 whileInView='show'
-                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform cursor-pointer mx-6 my-6'
+                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
                 onClick={handlerGoMain}
               >
                 <Image

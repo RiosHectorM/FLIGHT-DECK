@@ -24,8 +24,6 @@ const CloudinaryUploadWidget: React.FC<CloudinaryUploadWidgetProps> = ({
   const handleImageUpload = async (response: { info: { secure_url: any } }) => {
     try {
       const imageUrl = response.info.secure_url;
-      console.log(imageUrl);
-      console.log(`/api/user/${userId}`);
       updateUserImage(imageUrl);
       await axios.put(`/api/user/${userId}`, { image: imageUrl });
     } catch (error) {
