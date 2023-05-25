@@ -269,6 +269,7 @@ export default function PilotFolioViewer({
                   setFolio={setFolio}
                   setShowTableHours={setShowTableHours}
                   buttonDisabled={buttonDisabled}
+                  setIsLoading={setIsLoading}
                 />
               ))}
             </div>
