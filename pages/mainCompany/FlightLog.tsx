@@ -10,7 +10,7 @@ interface FlightLogProps {
   flightDate: string;
   planeBrandAndModel: string;
   pilotFullName: string;
-  origin:string
+  origin: string;
   userId: string;
   destination: string;
   aircraft: string;
@@ -33,7 +33,9 @@ const FlightLog: React.FC<FlightLogProps> = ({
   useEffect(() => {
     const fetchFlightData = async () => {
       try {
-        const response = await axios.get(`/api/flight/getMiniLogByUserId?userId=${userId}`);
+        const response = await axios.get(
+          `/api/flight/getMiniLogByUserId?id=${userId}`
+        );
         const data = response.data;
         setFlightData(data);
         setLoading(false);
@@ -47,16 +49,38 @@ const FlightLog: React.FC<FlightLogProps> = ({
   }, [pilotFullName]);
 
   if (loading) {
-    return <p>Loading flight data...</p>;
+    return (
+      <div className='bg-flightdeck-lightgold mt-4 p-8'>Loading flight data...</div>
+    );
   }
 
   return (
-    <div className="bg-white p-4 rounded-md shadow-md">
-      <h2 className="text-lg font-semibold">{flightData?.registrationId || flightNumber}</h2>
-      <p>{flightData?.flightDate || flightDate} | {flightData?.hourCount || hourCount}</p>
-      <p>{flightData?.flightDate || flightDate}</p>
-      <p>{flightData?.planeBrandAndModel || planeBrandAndModel}</p>
-      <p>{flightData?.pilotFullName || pilotFullName}</p>
+    <div className='bg-white p-4 rounded-md shadow-md w-full lg:w-2/3 mt-4'>
+      <h2 className='text-lg font-extrabold w-full text-center'>
+        {flightData?.pilotFullName || pilotFullName}
+      </h2>
+      <h2 className='text-lg font-bold mt-2'>Last Flight:</h2>
+      <p className='font-semibold flex w-full justify-between'>
+        Class Airplain:{' '}
+        <p className='italic'>
+          {flightData?.planeBrandAndModel || planeBrandAndModel}
+        </p>
+      </p>
+      <p className='font-semibold flex w-full justify-between'>
+        Airplain ID:
+        <p className='italic'>{flightData?.registrationId || flightNumber} </p>
+      </p>
+
+      <p className='font-semibold flex w-full justify-between'>
+        Date Last Fligth:
+        <p className='italic'>
+          {flightData?.flightDate.split('T')[0] || flightDate}
+        </p>
+      </p>
+      <p className='font-semibold flex w-full justify-between'>
+        Duration:{' '}
+        <p className='italic'>{flightData?.hourCount || hourCount} </p>
+      </p>
     </div>
   );
 };

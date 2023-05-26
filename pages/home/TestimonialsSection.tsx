@@ -29,7 +29,7 @@ const TestimonialsSection = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center my-16 sm:h-[80vh]">
+    <div className="flex flex-col items-center justify-center my-16 sm:h-[100vh]">
       <h2 className="text-4xl font-bold text-flightdeck-cream mb-8">Testimonials</h2>
       <div className="flex flex-col md:flex-row items-center justify-center w-full space-y-8 md:space-y-0 md:space-x-8">
         {testimonials.map((testimonial, index) => (

@@ -73,9 +73,10 @@ export const CertificatePhoto = ({
     // Verificar si el certificateName ya existe
     try {
       const response = await axios.get(`/api/certificate/getCertificateByUserAndName?userId=${userId}&certificateName=${nameCertificate}`);
+      console.log(response.data)
       const certificateExists = response.data; // Suponiendo que la API devuelve un objeto con los datos del certificado si existe
   
-      if (certificateExists) {
+      if (certificateExists?.length > 0) {
         toast.error('Certificate Name already exists');
         return;
       }

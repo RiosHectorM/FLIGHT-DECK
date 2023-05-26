@@ -99,7 +99,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   GO TO MAIN
                 </h3>
               </motion.div>
@@ -117,7 +117,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   SET YOUR PROFILE
                 </h3>
               </motion.div>
@@ -136,7 +136,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   {role}
                 </h3>
               </div>
