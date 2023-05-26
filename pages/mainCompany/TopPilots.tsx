@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import PilotProfile from './PilotProfile';
 import ContactPilot from './ContactPilot';
+import Loader from '../components/Loader';
 
 interface Pilot {
   id: string;
@@ -15,9 +16,11 @@ interface Pilot {
 const TopPilots: React.FC = () => {
   const [topPilots, setTopPilots] = useState<Pilot[]>([]);
   const [selectedPilotId, setSelectedPilotId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchTopPilots = async () => {
+      setIsLoading(true)
       try {
         const response = await fetch('/api/pilot/getPilotsOrderedByTotalHours?numPilots=4');
         const data = await response.json();
@@ -47,6 +50,7 @@ const TopPilots: React.FC = () => {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
 
     fetchTopPilots();
@@ -62,6 +66,7 @@ const TopPilots: React.FC = () => {
 
   return (
     <div className="bg-flightdeck-darkgold bg-opacity-100 p-4 rounded-lg">
+      {isLoading && <Loader />}
       <h2 className="text-black text-3xl font-bold mb-4 text-center">Top Pilots</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {topPilots.map((pilot) => (

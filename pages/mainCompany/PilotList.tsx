@@ -3,6 +3,7 @@ import axios from 'axios';
 import PilotDetails from './PilotDetails';
 import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import Loader from '../components/Loader';
 
 interface Pilot {
   name: string;
@@ -22,10 +23,12 @@ const PilotList: React.FC = () => {
   const [expandedPilots, setExpandedPilots] = useState<string[]>([]);
   const [filteredPilots, setFilteredPilots] = useState<Pilot[]>([]);
   const [filterHours, setFilterHours] = useState<number | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [filterLocation, setFilterLocation] = useState<string>('');
 
   useEffect(() => {
     const fetchPilots = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           '/api/pilot/getPilotsOrderedByTotalHours?numPilots=10'
@@ -53,11 +56,13 @@ const PilotList: React.FC = () => {
             };
           })
         );
-
+        setIsLoading(false);
         setPilots(pilotsWithDetails);
       } catch (error) {
         console.error(error);
+         setIsLoading(false);
       }
+      setIsLoading(false);
     };
 
     fetchPilots();
@@ -95,6 +100,7 @@ const PilotList: React.FC = () => {
 
   return (
     <div className='mx-auto w-full lg:w-3/4  bg-flighTd  eck-dark bg-opacity-70 rounded-lg shadow-lg p-6'>
+      {isLoading && <Loader />}
       <h2 className='text-center font-bold mb-10 text-white uppercase'>
         List of pilots
       </h2>
