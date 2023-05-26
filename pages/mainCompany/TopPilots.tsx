@@ -61,13 +61,13 @@ const TopPilots: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-900 p-8">
-      <h2 className="text-white text-2xl font-bold mb-4 text-center">Top Pilots</h2>
+    <div className="bg-flightdeck-darkgold bg-opacity-100 p-4 rounded-lg">
+      <h2 className="text-black text-3xl font-bold mb-4 text-center">Top Pilots</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {topPilots.map((pilot) => (
           <div
             key={pilot.id}
-            className="bg-gray-800 rounded-lg shadow-md p-4 flex flex-col justify-between"
+            className="bg-flightdeck-black rounded-lg shadow-md p-4 flex flex-col justify-between"
           >
             <div>
               <PilotProfile
@@ -80,11 +80,11 @@ const TopPilots: React.FC = () => {
             <div className="flex items-center justify-center mt-4">
               <div className="flex items-center">
                 {[1, 2, 3, 4].map((star) => (
-                  <FaStar key={star} className="text-yellow-400 h-6 w-6" />
+                  <FaStar key={star} className="text-flightdeck-gold h-6 w-6" />
                 ))}
               </div>
               <button
-                className="ml-2 bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+                className="ml-2 bg-flightdeck-lightgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-darkgold"
                 onClick={() => handleContactClick(pilot.id)}
               >
                 {selectedPilotId === pilot.id ? 'Close' : 'Contact'}
