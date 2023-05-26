@@ -80,11 +80,11 @@ const SelectFlightInstructorModal = ({
         title='Ask your flight instructor to certify your hours...'
         subtitle='All of them'
       />
-      <div className='grid grid-cols-3 gap-4 p-4 border rounded-lg bg-white shadow-md mx-auto my-auto text-center'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 p-4 border rounded-lg bg-white shadow-md mx-auto my-auto text-center'>
         {instructors.map((usuario, index) => (
           <div
             key={index}
-            className='p-4 border rounded-lg bg-white shadow-md mx-auto my-auto items-center flex-col text-center '
+            className='p-4 border w-full  rounded-lg bg-white shadow-md m-4 items-center flex-col text-center '
           >
             <div className='font-bold mb-2'>
               {usuario.name} {usuario.lastName}
