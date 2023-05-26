@@ -50,12 +50,12 @@ const FlightLog: React.FC<FlightLogProps> = ({
 
   if (loading) {
     return (
-      <div className='bg-flightdeck-lightgold p-8'>Loading flight data...</div>
+      <div className='bg-flightdeck-lightgold mt-4 p-8'>Loading flight data...</div>
     );
   }
 
   return (
-    <div className='bg-white p-4 rounded-md shadow-md w-full lg:w-2/3'>
+    <div className='bg-white p-4 rounded-md shadow-md w-full lg:w-2/3 mt-4'>
       <h2 className='text-lg font-extrabold w-full text-center'>
         {flightData?.pilotFullName || pilotFullName}
       </h2>

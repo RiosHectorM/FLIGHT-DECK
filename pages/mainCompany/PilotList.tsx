@@ -84,62 +84,77 @@ const PilotList: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto w-3/4 bg-flightdeck-dark bg-opacity-70 rounded-lg shadow-lg p-6">
-      <h2 className="text-center font-bold mb-10 text-white uppercase">List of pilots</h2>
-      <div className="flex mb-4">
-        <div className="mr-4 flex justify-center">
-          <label className="block font-medium mb-2 text-white">Filter by flight hours:</label>
-          <div>
+    <div className='mx-auto w-3/4 bg-flightdeck-dark bg-opacity-70 rounded-lg shadow-lg p-6'>
+      <h2 className='text-center font-bold mb-10 text-white uppercase'>
+        List of pilots
+      </h2>
+      <div className='flex mb-4 flex-col lg:flex-row w-full justify-around'>
+        <div className='flex justify-between flex-col sm:flex-row lg:justify-center w-full '>
+          <label className='block font-medium mb-2 text-white'>
+            Filter by flight hours:
+          </label>
+          <div className='w-full'>
             <input
-              type="number"
-              className="border py-1 px-2 rounded text-black"
+              type='number'
+              className='border py-1 mx-2 rounded text-black'
               value={filterHours || ''}
               onChange={handleFilterChange}
-              placeholder="Enter the flight hours"
+              placeholder='Enter the flight hours'
             />
           </div>
         </div>
-        <div className="flex justify-center">
-          <label className="block font-medium mb-2 text-white">Filter by nationality:</label>
-          <div>
+        <div className='flex justify-between flex-col sm:flex-row lg:justify-center'>
+          <label className='block font-medium mb-2 text-white'>
+            Filter by nationality:
+          </label>
+          <div className='w-full'>
             <input
-              type="text"
-              className="border py-1 px-2 rounded text-black"
+              type='text'
+              className='border py-1 mx-2 rounded text-black'
               value={filterLocation}
               onChange={handleLocationFilterChange}
-              placeholder="Enter the nationality"
+              placeholder='Enter the nationality'
             />
           </div>
         </div>
       </div>
-      <table className="table-auto w-full">
+
+      <table className='table-auto w-full'>
         <thead>
-          <tr className="text-left">
-            <th className="px-4 py-2 font-medium text-white">Name</th>
-            <th className="px-4 py-2 font-medium text-white">Nationality</th>
-            <th className="px-4 py-2 font-medium text-white">Flight hours</th>
-            <th className="px-4 py-2 font-medium text-white">Details</th>
+          <tr className='text-left'>
+            <th className='px-4 py-2 font-medium text-white'>Name</th>
+            <th className='px-4 py-2 font-medium text-white'>Nationality</th>
+            <th className='px-4 py-2 font-medium text-white'>Flight hours</th>
+            <th className='px-4 py-2 font-medium text-white'>Details</th>
           </tr>
         </thead>
         <tbody>
           {filteredPilots.map((pilot) => (
             <React.Fragment key={pilot.id}>
               <tr>
-                <td className="border px-4 py-2 text-white">{pilot.name}</td>
-                <td className="border px-4 py-2 text-white">{pilot.location}</td>
-                <td className="border px-4 py-2 text-white">{pilot.hoursOfFlight}</td>
-                <td className="border px-4 py-2">
+                <td className='border px-4 py-2 text-white'>{pilot.name}</td>
+                <td className='border px-4 py-2 text-white'>
+                  {pilot.location}
+                </td>
+                <td className='border px-4 py-2 text-white'>
+                  {pilot.hoursOfFlight}
+                </td>
+                <td className='border px-4 py-2'>
                   <button
-                    className="text-flightdeck-lightgold"
+                    className='text-flightdeck-lightgold'
                     onClick={() => {
                       if (expandedPilots.includes(pilot.id)) {
-                        setExpandedPilots(expandedPilots.filter((id) => id !== pilot.id));
+                        setExpandedPilots(
+                          expandedPilots.filter((id) => id !== pilot.id)
+                        );
                       } else {
                         setExpandedPilots([...expandedPilots, pilot.id]);
                       }
                     }}
                   >
-                    {expandedPilots.includes(pilot.id) ? 'Close details' : 'See details'}
+                    {expandedPilots.includes(pilot.id)
+                      ? 'Close details'
+                      : 'See details'}
                   </button>
                 </td>
               </tr>
