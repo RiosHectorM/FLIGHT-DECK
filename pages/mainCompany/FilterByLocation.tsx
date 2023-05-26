@@ -68,16 +68,18 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
 
   return (
     <div className='bg-flightdeck-dark p-8 rounded-lg shadow-lg'>
-      <h2 className='text-flightdeck-lightgold text-lg font-semibold mb-2'>
-        Filter by nationality
-      </h2>
-      <input
-        type='text'
-        placeholder='Write a nationality'
-        className='border border-gray-700 bg-flightdeck-black text-white rounded-md p-2 mb-4 focus:outline-none focus:border-yellow-500'
-        value={nationality}
-        onChange={handleLocationChange}
-      />
+      <div className='w-full flex flex-col justify-center items-center'>
+        <h2 className='text-flightdeck-lightgold text-lg font-semibold mb-2'>
+          Filter by Nationality
+        </h2>
+        <input
+          type='text'
+          placeholder='Write a nationality'
+          className='border border-gray-700 bg-flightdeck-black text-white rounded-md p-2 mb-4 focus:outline-none focus:border-yellow-500'
+          value={nationality}
+          onChange={handleLocationChange}
+        />
+      </div>
       {nationality !== '' && (
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
           {filteredPilots.length > 0 ? (
