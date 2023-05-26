@@ -32,7 +32,7 @@ const GraphInstructor: FC = () => {
       {isLoading && <Loader />}
       {user?.id && (
         <main>
-          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+          <div className="max-w-8xl mx-auto py-6 sm:px-6 lg:px-8">
             <div className="flex justify-center">
               <div className="bg-white bg-opacity-70 rounded-lg shadow-lg px-6 pt-6 pb-14 w-11/12  md:w-4/5 justify-center">
                 <h2 className="text-xl font-bold mb-10 w-full text-center">
