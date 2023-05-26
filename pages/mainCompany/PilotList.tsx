@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PilotDetails from './PilotDetails';
-import { Table, Tbody, Td  , Th, Thead, Tr } from 'react-super-responsive-table';
+import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 interface Pilot {
@@ -27,7 +27,9 @@ const PilotList: React.FC = () => {
   useEffect(() => {
     const fetchPilots = async () => {
       try {
-        const response = await axios.get('/api/pilot/getPilotsOrderedByTotalHours?numPilots=10');
+        const response = await axios.get(
+          '/api/pilot/getPilotsOrderedByTotalHours?numPilots=10'
+        );
         const data = response.data;
 
         const pilotsWithDetails = await Promise.all(
@@ -38,6 +40,7 @@ const PilotList: React.FC = () => {
 
             const name = userData.name;
             const photoUrl = userData.image;
+            const email = userData.email;
             const location = userData.nationality;
 
             return {
@@ -45,6 +48,7 @@ const PilotList: React.FC = () => {
               name,
               photoUrl,
               location,
+              email,
               hoursOfFlight: item._sum.hourCount.toFixed(2), // Formateamos a dos decimales
             };
           })
@@ -64,7 +68,9 @@ const PilotList: React.FC = () => {
     let filteredPilots = pilots;
 
     if (filterHours) {
-      filteredPilots = filteredPilots.filter((pilot) => pilot.hoursOfFlight >= filterHours);
+      filteredPilots = filteredPilots.filter(
+        (pilot) => pilot.hoursOfFlight >= filterHours
+      );
     }
 
     if (filterLocation) {
@@ -81,7 +87,9 @@ const PilotList: React.FC = () => {
     setFilterHours(Number(e.target.value));
   };
 
-  const handleLocationFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLocationFilterChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFilterLocation(e.target.value);
   };
 
@@ -91,37 +99,33 @@ const PilotList: React.FC = () => {
         List of pilots
       </h2>
       <div className='flex mb-4 flex-col lg:flex-row w-full justify-around'>
-        <div className='flex justify-between flex-col sm:flex-row lg:justify-center w-full '>
-          <label className='block font-medium mb-2 text-white'>
+        <div className='flex justify-between flex-col sm:flex-row sm:justify-center w-full bg-flightdeck-lightgold mx-0 lg:mx-2 my-2 rounded-md py-1'>
+          <label className='block font-medium p-2 text-black'>
             Filter by flight hours:
           </label>
-          <div className='w-full'>
-            <input
-              type='number'
-              className='border py-1 mx-2 rounded text-black'
-              value={filterHours || ''}
-              onChange={handleFilterChange}
-              placeholder='Enter the flight hours'
-            />
-          </div>
+          <input
+            type='number'
+            className='border py-1 mx-2 rounded text-black text-center border-black'
+            value={filterHours || ''}
+            onChange={handleFilterChange}
+            placeholder='Enter the flight hours'
+          />
         </div>
-        <div className='flex justify-between flex-col sm:flex-row lg:justify-center'>
-          <label className='block font-medium mb-2 text-white'>
+        <div className='flex justify-between flex-col sm:flex-row sm:justify-center w-full bg-flightdeck-lightgold mx-0 lg:mx-2 my-2 rounded-md py-1'>
+          <label className='block font-medium p-2 text-black'>
             Filter by nationality:
           </label>
-          <div className='w-full'>
-            <input
-              type='text'
-              className='border py-1 mx-2 rounded text-black'
-              value={filterLocation}
-              onChange={handleLocationFilterChange}
-              placeholder='Enter the nationality'
-            />
-          </div>
+          <input
+            type='text'
+            className='border py-1 mx-2 rounded text-black text-center border-black'
+            value={filterLocation}
+            onChange={handleLocationFilterChange}
+            placeholder='Enter the nationality'
+          />
         </div>
       </div>
 
-      <Table className='table-auto w-full bg-flightdeck-lightgold '>
+      <Table className='table-auto w-full bg-flightdeck-lightgold rounded-md'>
         <Thead>
           <Tr className='text-left'>
             <Th className='px-4 py-2 font-bold text-black text-center'>Name</Th>

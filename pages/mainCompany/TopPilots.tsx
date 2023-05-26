@@ -84,7 +84,7 @@ const TopPilots: React.FC = () => {
                 ))}
               </div>
               <button
-                className="ml-2 bg-flightdeck-lightgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-darkgold"
+                className="ml-2 bg-flightdeck-lightgold text-black rounded-md py-2 px-4 hover:bg-flightdeck-darkgold"
                 onClick={() => handleContactClick(pilot.id)}
               >
                 {selectedPilotId === pilot.id ? 'Close' : 'Contact'}

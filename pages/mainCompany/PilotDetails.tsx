@@ -30,12 +30,12 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
   const [showFlightLog, setShowFlightLog] = React.useState(false);
 
   const handleContactClick = () => {
-    setShowContact(true);
+    setShowContact(!showContact);
     setShowFlightLog(false);
   };
 
   const handleFlightLogClick = () => {
-    setShowFlightLog(true);
+    setShowFlightLog(!showFlightLog);
     setShowContact(false);
   };
 
