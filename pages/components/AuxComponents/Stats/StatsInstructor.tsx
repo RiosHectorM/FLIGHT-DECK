@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactECharts from "echarts-for-react";
 import { DateTime } from "luxon";
+import { BeatLoader } from "react-spinners";
 
 interface Props {
   userId?: string;
-  // toggleRerenderCharts: () => void;
 }
 
 interface flightConditionSeries {
@@ -46,10 +46,16 @@ const StatsInstructor = ({ userId }: Props) => {
     instHours: [],
   });
 
-  // State variable to track if the delay has elapsed
-  const [shouldRenderCharts, setShouldRenderCharts] = useState(false);
+  // State variable to track if complete data was loaded from DB
+  const [dataLoaded, setDataLoaded] = useState(false);
 
 
+  // Check if data was loaded
+  useEffect(() => {
+    console.log('oooooo DATA LENGTH: ' + certifiedHoursByDate.dayHours.length);
+
+    if (certifiedHoursByDate.dayHours.length === monthCountToShow) setDataLoaded(true);
+  }, [certifiedHoursByDate.dayHours.length]);
 
   // Initially get data from DB, to feed charts
   useEffect(() => {
@@ -100,39 +106,41 @@ const StatsInstructor = ({ userId }: Props) => {
             instHours: [],
           };
 
-          // // Parallelized version
-          // const requests: any[] = [];
-          // // Create array of promises
-          // for (let i = 0; i < monthCountToShow; i++) {
-          //   requests.push(
-          //     await axios.get(
-          //       `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
-          //     )
-          //   );
-          // }
-          // const responses = await Promise.all(requests);
-
-          // // Load retrieved values in auxData before setting state variable
-          // for (let i = 0; i < monthCountToShow; i++) {
-          //   auxData.dayHours[i] = responses[i].data.dayHours;
-          //   auxData.nightHours[i] = responses[i].data.nightHours;
-          //   auxData.instHours[i] = responses[i].data.instHours;
-          // }
-
-          // setCertifiedHoursByDate(auxData);
-
+          // Parallelized version
+          const requests: any[] = [];
+          // Create array of promises
           for (let i = 0; i < monthCountToShow; i++) {
-            const responses = await axios.get(
-              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
-                i
-              ]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+            requests.push(
+              await axios.get(
+                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+              )
             );
-            auxData.dayHours[i] = responses.data.dayHours;
-            auxData.nightHours[i] = responses.data.nightHours;
-            auxData.instHours[i] = responses.data.instHours;
-
-            setCertifiedHoursByDate(auxData);
           }
+          const responses = await Promise.all(requests);
+
+          // Load retrieved values in auxData before setting state variable
+          for (let i = 0; i < monthCountToShow; i++) {
+            auxData.dayHours[i] = responses[i].data.dayHours;
+            auxData.nightHours[i] = responses[i].data.nightHours;
+            auxData.instHours[i] = responses[i].data.instHours;
+          }
+
+          setCertifiedHoursByDate(auxData);
+
+          // for (let i = 0; i < monthCountToShow; i++) {
+          //   const responses = await axios.get(
+          //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
+          //       i
+          //     ]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+          //   );
+          //   auxData.dayHours[i] = responses.data.dayHours;
+          //   auxData.nightHours[i] = responses.data.nightHours;
+          //   auxData.instHours[i] = responses.data.instHours;
+
+          //   setCertifiedHoursByDate(auxData);
+          // }
+
+
         }
       } catch (error) {
         console.error(error);
@@ -140,13 +148,13 @@ const StatsInstructor = ({ userId }: Props) => {
     }
     fetchData();
 
-    // Set a timeout to render the charts after 100ms
-    const timeoutId = setTimeout(() => {
-      setShouldRenderCharts(true);
-    }, 2000);
+    // // Set a timeout to render the charts
+    // const timeoutId = setTimeout(() => {
+    //   setShouldRenderCharts(true);
+    // }, 20000);
 
-    // Cleanup the timeout on component unmount
-    return () => clearTimeout(timeoutId);
+    // // Cleanup the timeout on component unmount
+    // return () => clearTimeout(timeoutId);
 
   }, []);
 
@@ -240,7 +248,7 @@ const StatsInstructor = ({ userId }: Props) => {
     console.log("--------SETTING DATE CHART OPTIONS--------");
     console.log('DATES CHART DATA: ');
     console.log(certifiedHoursByDate);
-    console.log('Data length: '+ certifiedHoursByDate.dayHours.length);
+    console.log('Data length: ' + certifiedHoursByDate.dayHours.length);
 
     options_certifiedHoursByDate = {
       title: {
@@ -339,7 +347,11 @@ const StatsInstructor = ({ userId }: Props) => {
       {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
       {/* Render the charts only if the delay has elapsed */}
-      {shouldRenderCharts && (
+      {!dataLoaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
             option={options_certifiedHoursByDate}
@@ -353,7 +365,7 @@ const StatsInstructor = ({ userId }: Props) => {
             }}
           />
         </div>
-      )}
+      }
     </div>
   );
 };
