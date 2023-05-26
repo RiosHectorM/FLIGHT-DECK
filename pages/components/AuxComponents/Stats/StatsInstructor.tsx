@@ -47,15 +47,15 @@ const StatsInstructor = ({ userId }: Props) => {
   });
 
   // State variable to track if complete data was loaded from DB
-  const [dataLoaded, setDataLoaded] = useState(false);
+  const [dataChart1Loaded, setDataChart1Loaded] = useState(false);
+  const [dataChart2Loaded, setDataChart2Loaded] = useState(false);
 
 
-  // Check if data was loaded
+  // Check if data was loaded (only for slower chart)
   useEffect(() => {
-    console.log('oooooo DATA LENGTH: ' + certifiedHoursByDate.dayHours.length);
-
-    if (certifiedHoursByDate.dayHours.length === monthCountToShow) setDataLoaded(true);
+    if (certifiedHoursByDate.dayHours.length === monthCountToShow) setDataChart2Loaded(true);
   }, [certifiedHoursByDate.dayHours.length]);
+
 
   // Initially get data from DB, to feed charts
   useEffect(() => {
@@ -87,6 +87,8 @@ const StatsInstructor = ({ userId }: Props) => {
           setCertifiedDayHours(dayHours);
           setCertifiedNightHours(nightHours);
           setCertifiedInstrumentsHours(instrumentsHours);
+
+          setDataChart1Loaded(true);
         }
       } catch (error) {
         console.error(error);
@@ -127,6 +129,7 @@ const StatsInstructor = ({ userId }: Props) => {
 
           setCertifiedHoursByDate(auxData);
 
+          // ---Serialized version--- retrieves one month after the other
           // for (let i = 0; i < monthCountToShow; i++) {
           //   const responses = await axios.get(
           //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
@@ -147,14 +150,6 @@ const StatsInstructor = ({ userId }: Props) => {
       }
     }
     fetchData();
-
-    // // Set a timeout to render the charts
-    // const timeoutId = setTimeout(() => {
-    //   setShouldRenderCharts(true);
-    // }, 20000);
-
-    // // Cleanup the timeout on component unmount
-    // return () => clearTimeout(timeoutId);
 
   }, []);
 
@@ -330,24 +325,28 @@ const StatsInstructor = ({ userId }: Props) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-      <div className='bg-white rounded-xl shadow-md'>
-        <ReactECharts
-          option={options_certifiedHoursByPilot}
-          style={{
-            marginTop: '1rem',
-            marginBottom: '0.5rem',
-            paddingLeft: '0.75rem',
-            paddingRight: '0.75rem',
-            width: '100%',
-            height: '400px',
-          }}
-        />
-      </div>
-      {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
-      {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
-      {/* Render the charts only if the delay has elapsed */}
-      {!dataLoaded ?
+      {/* Render this chart only if data loaded */}
+      {!dataChart1Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className='bg-white rounded-xl shadow-md'>
+          <ReactECharts
+            option={options_certifiedHoursByPilot}
+            style={{
+              marginTop: '1rem',
+              marginBottom: '0.5rem',
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              width: '100%',
+              height: '400px',
+            }}
+          />
+        </div>
+      }
+      {/* Render this chart only if data loaded */}
+      {!dataChart2Loaded ?
         <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
           <BeatLoader color={"black"} loading={true} />
         </div>

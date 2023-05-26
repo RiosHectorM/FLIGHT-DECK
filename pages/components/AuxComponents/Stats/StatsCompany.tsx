@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactECharts from "echarts-for-react";
+import { BeatLoader } from "react-spinners";
 
 interface pilotsByNationalityObj {
   name: string; // nationality
@@ -12,6 +13,15 @@ let options_numPilotsByNationality = {};
 const StatsCompany = () => {
   // state variable for 'pilots by nationality' chart
   const [dataPilotsByNationality, setDataPilotsByNationality] = useState<pilotsByNationalityObj[]>([]);
+
+  // State variable to track if complete data was loaded from DB
+  const [dataChart1Loaded, setDataChart1Loaded] = useState(false);
+
+  // Check if data was loaded (only for slower chart)
+  useEffect(() => {
+    if (dataPilotsByNationality.length > 0) setDataChart1Loaded(true);
+  }, [dataPilotsByNationality.length]);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -84,19 +94,26 @@ const StatsCompany = () => {
   return (
     // <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div className="grid grid-cols-1 gap-4">
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_numPilotsByNationality}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
+      {/* Render this chart only if data loaded */}
+      {!dataChart1Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className="bg-white rounded-xl shadow-md">
+          <ReactECharts
+            option={options_numPilotsByNationality}
+            style={{
+              marginTop: "1rem",
+              marginBottom: "0.5rem",
+              paddingLeft: "0.75rem",
+              paddingRight: "0.75rem",
+              width: "100%",
+              height: "400px",
+            }}
+          />
+        </div>
+      }
     </div>
   );
 };

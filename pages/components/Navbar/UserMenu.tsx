@@ -82,7 +82,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   };
 
   const handlerProfilesStats = () => {
-    if (role === 'PILOT') router.push('/GraphPilot');
+    if (role === 'PILOT') router.push('/mainPilot/GraphPilot');
     else if (role === 'INSTRUCTOR')
       router.push('/mainInstructor/GraphInstructor');
     else if (role === 'COMPANY') router.push('/mainCompany/GraphCompany');
