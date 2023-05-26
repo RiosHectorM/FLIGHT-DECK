@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
 
 interface FilterByLocationProps {
   onFilterChange: (newLocation: string) => void;
@@ -24,6 +25,9 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
 
   useEffect(() => {
     const fetchPilots = async () => {
+      const response = await fetch('https://api.spacexdata.com/v3/pilots');
+      const data = await response.json();
+      setPilots(data.results);
       try {
         const response = await fetch('/api/pilot');
         const pilotData = await response.json();
@@ -40,7 +44,6 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
             };
           })
         );
-
         setPilots(updatedPilots);
       } catch (error) {
         console.error(error);
