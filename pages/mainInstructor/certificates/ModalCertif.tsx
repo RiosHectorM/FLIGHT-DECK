@@ -30,7 +30,7 @@ const ModalCertif: React.FC<Props> = ({ userId, setAllCertificates, image,  name
     <>
       <div className='flex flex-col gap-4'>
         {isLoading && <Loader />}
-        <Heading title='Instructor Certificates' subtitle='Fill all fields' />
+        <Heading title='Certificates' subtitle='Fill all fields' />
       </div>
       <div>
         <CertificatePhoto
