@@ -40,7 +40,7 @@ const MainCompanyPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
+    <div className="flex flex-col items-center space-y-8 p-2 lg:p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center', 
     }}>
@@ -57,7 +57,7 @@ const MainCompanyPage: React.FC = () => {
       
 
       <button
-          className="bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-black"
+          className="bg-flightdeck-darkgold text-black font-bold rounded-md py-2 px-4 hover:bg-flightdeck-lightgold "
           onClick={handleTogglePilots}
         >
           {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}

@@ -183,7 +183,6 @@ export default function FolioCard({
     >
       <Thead>
         <Tr className='border-b border-gray-200 '>
-          <Th className='py-2 px-3 text-center'>Item:</Th>
           <Th className='py-2 px-3 text-center'>Folio:</Th>
           <Th className='py-2 px-3 text-center'>Start date:</Th>
           <Th className='py-2 px-3 text-center'>End date:</Th>
@@ -194,9 +193,6 @@ export default function FolioCard({
       </Thead>
       <Tbody>
         <Tr className='hover:bg-gray-100 hover:text-black'>
-          <Td className=' text-center'>
-            <p className='py-2 px-3'>{item} </p>
-          </Td>
           <Td className=' text-center'>
             <p className='py-2 px-3'>{folioNumber} </p>
           </Td>
@@ -214,7 +210,7 @@ export default function FolioCard({
             onClick={handleClickStopPropagation}
           >
             <div className='flex'>
-              <CldUploadWidget
+              {!color && <CldUploadWidget
                 uploadPreset={uploadPreset}
                 onUpload={handleUpload}
               >
@@ -234,7 +230,7 @@ export default function FolioCard({
                     </button>
                   );
                 }}
-              </CldUploadWidget>
+              </CldUploadWidget>}
               {!color && (
                 <p className='py-2 px-3 hover:cursor-default'>Attach Folio </p>
               )}
