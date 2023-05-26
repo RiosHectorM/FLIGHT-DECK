@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Loader from '../components/Loader';
 
 interface FlightLogProps {
   flightNumber: string;
@@ -28,27 +29,28 @@ const FlightLog: React.FC<FlightLogProps> = ({
   userId,
 }) => {
   const [flightData, setFlightData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchFlightData = async () => {
+      setIsLoading(true);
       try {
         const response = await axios.get(
           `/api/flight/getMiniLogByUserId?id=${userId}`
         );
         const data = response.data;
         setFlightData(data);
-        setLoading(false);
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchFlightData();
   }, [pilotFullName]);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className='bg-flightdeck-lightgold mt-4 p-8'>Loading flight data...</div>
     );
