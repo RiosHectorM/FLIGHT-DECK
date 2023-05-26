@@ -203,7 +203,7 @@ export default function PilotFolioViewer({
       <div className='flex flex-col lg:flex-row w-full'>
         <div className='w-full lg:w-1/3 lg:mr-4'>
           <div className='lg:px-0'>
-            <div className='flex mt-6 mx-auto'>
+            <div className='flex mt-6 mx-auto flex-col'>
               {/* 3 dibujistos */}
               <div className='flex flex-col md:flex-row lg:flex-col w-full justify-around'>
                 <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-4'>
@@ -266,7 +266,26 @@ export default function PilotFolioViewer({
                     </div>
                   </div>
                 </div>
-                {/* boton de add */}
+              </div>
+              {/* boton de add */}
+              <div className='flex justify-center text-center'>
+                <button
+                  className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md mt-8 py-2 px-4 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black flex '
+                  onClick={handlerAdd}
+                >
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    viewBox='0 0 20 20'
+                    fill='currentColor'
+                  >
+                    <path
+                      fillRule='evenodd'
+                      d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z'
+                    />
+                  </svg>
+                  ADD NEW FOLIO
+                </button>
               </div>
             </div>
           </div>
@@ -302,12 +321,12 @@ export default function PilotFolioViewer({
                 access the following link to start adding your flights
               </p>
               <button
-                className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg'
+                className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 px-4 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'
                 onClick={() => {
                   setShowTableHours(true);
                 }}
               >
-                Go to Home
+                Let`s Start
               </button>
             </div>
           )}

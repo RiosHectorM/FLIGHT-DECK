@@ -132,14 +132,16 @@ const TableHoursPilot = ({
     onAfterPrint: () => toast.success('PDF Generated'),
   });
 
-  useEffect(() => {
-    if (typeof window !== undefined && window.localStorage) {
-      const filter = localStorage.getItem('filters');
-      if (filter) {
-        setFilters(JSON.parse(filter));
-      }
+useEffect(() => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const filter = localStorage.getItem('filters');
+    if (filter) {
+      setFilters(JSON.parse(filter));
+    } else {
+      localStorage.setItem('filters', JSON.stringify(filters));
     }
-  }, []);
+  }
+}, []);
 
   useEffect(() => {
     setIsLoading(true);

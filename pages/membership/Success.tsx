@@ -66,12 +66,14 @@ const Success = () => {
       ) : (
         <div className='flex flex-col justify-items-start'>
           <ToasterProvider />
-          <h1 className='text-6xl font-bold mb-10 text-center text-white'>Success!</h1>
+          <h1 className='text-6xl font-bold mb-10 text-center text-white'>
+            Success!
+          </h1>
           <p className='text-lg text-gray-300 mb-12 text-center'>
             Congratulations! Your action has been completed successfully.
           </p>
           <button
-            className='bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105 self-center'
+            className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'
             onClick={() => {
               // Redireccionar al home
               window.location.href = '/home';
