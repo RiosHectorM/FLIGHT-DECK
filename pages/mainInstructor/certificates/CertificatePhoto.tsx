@@ -37,14 +37,14 @@ export const CertificatePhoto = ({
   onClose,
   setAllCertificates,
 }: PropsPhoto) => {
-
+  
   const dateString = expiration as string;
   const dateObject = new Date(dateString);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [nameCertificate, setNameCertificate] = useState(name || null);
-  const [description, setDescription] = useState(descrip || null);
-  const [valueImage, setValueImage] = useState(image || null);
+  const [nameCertificate, setNameCertificate] = useState(name || '');
+  const [description, setDescription] = useState(descrip || '');
+  const [valueImage, setValueImage] = useState(image || '');
   const [expirationDate, setExpirationDate] = useState<Date | null>(
     isNaN(dateObject.getTime()) ? null : dateObject
   );
@@ -69,44 +69,43 @@ export const CertificatePhoto = ({
       toast.error('Incomplete Fields');
       return;
     }
-  
-    // Verificar si el certificateName ya existe
+
+    setIsLoading(true);
+
     try {
       const response = await axios.get(`/api/certificate/getCertificateByUserAndName?userId=${userId}&certificateName=${nameCertificate}`);
       const certificateExists = response.data; // Suponiendo que la API devuelve un objeto con los datos del certificado si existe
-  
-      if (certificateExists) {
+
+      console.log('Certificado Existente', certificateExists)
+
+      if (certificateExists.length !== 0) {
         toast.error('Certificate Name already exists');
         return;
       }
-    } catch (error) {
-      // Manejar el error de la solicitud
-      console.error('Error checking certificate existence:', error);
-      toast.error('Error checking certificate existence');
-      return;
-    }
-  
-    setIsLoading(true);
-    await axios
-      .post(`/api/certificate`, {
+      // Si el certificado no existe, guarda el certificado
+      await axios.post(`/api/certificate`, {
         userId: userId,
         certificateName: nameCertificate,
         certificateDescription: description,
         certificateExpirationDate: expirationDate?.toISOString(),
         certificateImageUrl: valueImage,
-      })
-      .then((response) => {
-        const newCertificate: CertificationType = response.data;
-        toast.success('Certificate Saved Successfully');
-        setAllCertificates((prevCertificates) => [
-          newCertificate,
-          ...prevCertificates,
-        ]);
-        onClose();
-      })
-      .finally(() => setIsLoading(false));
+      });
+
+      const newCertificate: CertificationType = response.data;
+      toast.success('Certificate Saved Successfully');
+      setAllCertificates((prevCertificates) => [
+        newCertificate,
+        ...prevCertificates,
+      ]);
+      onClose();
+    } catch (error) {
+      console.error('Error checking certificate existence:', error);
+      toast.error('Error checking certificate existence');
+    } finally {
+      setIsLoading(false);
+    }
   };
-  
+
 
   const handlerClickCancel = () => {
     onClose();
@@ -219,20 +218,21 @@ export const CertificatePhoto = ({
           placeholderText='Enter Date'
         />
 
-        <div className='flex justify-around w-full'>
+        <div className='flex justify-between w-full'>
           <button
-            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8 block'
             onClick={handlerClickSave}
           >
             SAVE
           </button>
           <button
-            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8'
+            className='font-sans bg-flightdeck-black text-flightdeck-lightgold my-4 rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black px-8 block'
             onClick={handlerClickCancel}
           >
             CANCEL
           </button>
         </div>
+
       </div>
     </div>
   );
