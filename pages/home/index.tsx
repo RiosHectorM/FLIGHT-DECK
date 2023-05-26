@@ -82,9 +82,9 @@ const HomePage = () => {
             </motion.span>
           ))}
         </div>
-        <div className='flex flex-wrap justify-center md:justify-between items-center mt-0 mb-5 w-full'>
+        <div className='flex flex-wrap justify-center md:justify-center items-center mt-0 mb-5 w-full'>
           {session?.user?.email ? (
-            <div className='flex justify-around w-full'>
+            <div className='flex flex-col lg:flex-row justify-center items-center w-full'>
               <motion.div
                 variants={zoomIn(0, 0.6)}
                 initial='hidden'
