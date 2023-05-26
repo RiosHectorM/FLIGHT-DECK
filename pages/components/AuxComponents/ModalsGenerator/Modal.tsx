@@ -156,7 +156,7 @@ const Modal: React.FC<ModalProps> = ({
                 <div className='text-lg font-semibold'>{title}</div>
               </div>
               {/*body*/}
-              <div className='relative p-6 flex-auto'>{body}</div>
+              <div className='relative p-6 flex-auto h-full overflow-y-auto'>{body}</div>
               {/*footer*/}
               <div className='flex flex-col gap-2 p-6'>
                 <div
