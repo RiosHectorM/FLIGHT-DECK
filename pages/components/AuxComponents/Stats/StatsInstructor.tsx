@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 
 interface Props {
   userId?: string;
-  toggleRerenderCharts: () => void;
+  // toggleRerenderCharts: () => void;
 }
 
 interface flightConditionSeries {
@@ -32,7 +32,7 @@ for (let i = 0; i < monthCountToShow; i++) {
 let options_certifiedHoursByPilot = {};
 let options_certifiedHoursByDate = {};
 
-const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
+const StatsInstructor = ({ userId }: Props) => {
   // State variables for 'Certified Hours by Pilot' chart
   const [certifiedHoursPilot, setCertifiedHoursPilot] = useState<string[]>([]);
   const [certifiedDayHours, setCertifiedDayHours] = useState<number[]>([]);
@@ -217,8 +217,6 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
   useEffect(() => {
     console.log("--------ENTERING CERT BY DATE CHART OPTIONS--------");
 
-    if (certifiedHoursByDate?.dayHours.length === 6) toggleRerenderCharts();
-
     options_certifiedHoursByDate = {
       title: {
         text: "Certified Hours in Last " + monthCountToShow + " Months",
@@ -302,7 +300,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
   }, [certifiedHoursByDate]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
@@ -317,7 +315,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
           }}
           />
       </div>
-      {/* (LEO: didn't like it): Check if data was completely retrieved from backend before rendering */}
+      {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
       <div className="bg-white rounded-xl shadow-md">
         <ReactECharts
@@ -339,4 +337,4 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
 
 export default StatsInstructor;
 
-// version 2023.05.25 17:30
+// version 2023.05.26 01:30
