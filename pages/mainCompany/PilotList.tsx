@@ -84,7 +84,7 @@ const PilotList: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto w-3/4 bg-gray-900 bg-opacity-70 rounded-lg shadow-lg p-6">
+    <div className="mx-auto w-3/4 bg-flightdeck-dark bg-opacity-70 rounded-lg shadow-lg p-6">
       <h2 className="text-center font-bold mb-10 text-white uppercase">List of pilots</h2>
       <div className="flex mb-4">
         <div className="mr-4">
@@ -101,7 +101,7 @@ const PilotList: React.FC = () => {
           <label className="block font-medium mb-2 text-white">Filter by nationality:</label>
           <input
             type="text"
-            className="border py-1 px-2 roundedtext-black"
+            className="border py-1 px-2 rounded text-black"
             value={filterLocation}
             onChange={handleLocationFilterChange}
             placeholder="Enter the nationality"
