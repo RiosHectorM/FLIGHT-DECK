@@ -38,13 +38,18 @@ const StatsInstructor = ({ userId }: Props) => {
   const [certifiedDayHours, setCertifiedDayHours] = useState<number[]>([]);
   const [certifiedNightHours, setCertifiedNightHours] = useState<number[]>([]);
   const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<number[]>([]);
- const [bandera, setBandera] = useState(false);
+
   // State variable for 'Certified Hours by Dates' chart
   const [certifiedHoursByDate, setCertifiedHoursByDate] = useState<flightConditionSeries>({
     dayHours: [],
     nightHours: [],
     instHours: [],
   });
+
+  // State variable to track if the delay has elapsed
+  const [shouldRenderCharts, setShouldRenderCharts] = useState(false);
+
+
 
   // Initially get data from DB, to feed charts
   useEffect(() => {
@@ -82,7 +87,7 @@ const StatsInstructor = ({ userId }: Props) => {
       }
     }
     fetchData();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -134,7 +139,16 @@ const StatsInstructor = ({ userId }: Props) => {
       }
     }
     fetchData();
-  }, [userId]);
+
+    // Set a timeout to render the charts after 100ms
+    const timeoutId = setTimeout(() => {
+      setShouldRenderCharts(true);
+    }, 2000);
+
+    // Cleanup the timeout on component unmount
+    return () => clearTimeout(timeoutId);
+
+  }, []);
 
   // Set 'certified hours by pilot' chart options on data's change
   useEffect(() => {
@@ -219,11 +233,14 @@ const StatsInstructor = ({ userId }: Props) => {
         },
       ],
     };
-  }, [userId, certifiedDayHours, certifiedNightHours, certifiedInstrumentsHours]);
+  }, [certifiedDayHours, certifiedNightHours, certifiedInstrumentsHours]);
 
   // Set 'certified hours by date' chart options on data's change
   useEffect(() => {
-    console.log("--------ENTERING CERT BY DATE CHART OPTIONS--------");
+    console.log("--------SETTING DATE CHART OPTIONS--------");
+    console.log('DATES CHART DATA: ');
+    console.log(certifiedHoursByDate);
+    console.log('Data length: '+ certifiedHoursByDate.dayHours.length);
 
     options_certifiedHoursByDate = {
       title: {
@@ -301,29 +318,28 @@ const StatsInstructor = ({ userId }: Props) => {
       ],
     };
 
-    console.log('USEEFFECT THAT SETS CHART STATUS FINISHED');
-    console.log(certifiedHoursByDate);
-    setBandera(true)
-  }, [userId, certifiedHoursByDate]);
+  }, [certifiedHoursByDate]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-        <div className='bg-white rounded-xl shadow-md'>
-          <ReactECharts
-            option={options_certifiedHoursByPilot}
-            style={{
-              marginTop: '1rem',
-              marginBottom: '0.5rem',
-              paddingLeft: '0.75rem',
-              paddingRight: '0.75rem',
-              width: '100%',
-              height: '400px',
-            }}
-            />
+      <div className='bg-white rounded-xl shadow-md'>
+        <ReactECharts
+          option={options_certifiedHoursByPilot}
+          style={{
+            marginTop: '1rem',
+            marginBottom: '0.5rem',
+            paddingLeft: '0.75rem',
+            paddingRight: '0.75rem',
+            width: '100%',
+            height: '400px',
+          }}
+        />
       </div>
       {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
+      {/* Render the charts only if the delay has elapsed */}
+      {shouldRenderCharts && (
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
             option={options_certifiedHoursByDate}
@@ -337,12 +353,9 @@ const StatsInstructor = ({ userId }: Props) => {
             }}
           />
         </div>
-      
-      {/* } */}
+      )}
     </div>
   );
 };
 
 export default StatsInstructor;
-
-// version 2023.05.26 01:30
