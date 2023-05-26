@@ -38,7 +38,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
   const [certifiedDayHours, setCertifiedDayHours] = useState<number[]>([]);
   const [certifiedNightHours, setCertifiedNightHours] = useState<number[]>([]);
   const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<number[]>([]);
-
+ const [bandera, setBandera] = useState(false);
   // State variable for 'Certified Hours by Dates' chart
   const [certifiedHoursByDate, setCertifiedHoursByDate] = useState<flightConditionSeries>({
     dayHours: [],
@@ -297,41 +297,44 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
 
     console.log('USEEFFECT THAT SETS CHART STATUS FINISHED');
     console.log(certifiedHoursByDate);
-
-
+    setBandera(true)
   }, [certifiedHoursByDate]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_certifiedHoursByDate}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
+      {bandera && (
+        <div className='bg-white rounded-xl shadow-md'>
+          <ReactECharts
+            option={options_certifiedHoursByDate}
+            style={{
+              marginTop: '1rem',
+              marginBottom: '0.5rem',
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              width: '100%',
+              height: '400px',
+            }}
           />
-      </div>
+        </div>
+      )}
       {/* (LEO: didn't like it): Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_certifiedHoursByPilot}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
+      {bandera && (
+        <div className='bg-white rounded-xl shadow-md'>
+          <ReactECharts
+            option={options_certifiedHoursByPilot}
+            style={{
+              marginTop: '1rem',
+              marginBottom: '0.5rem',
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              width: '100%',
+              height: '400px',
+            }}
+          />
+        </div>
+      )}
       {/* } */}
     </div>
   );
