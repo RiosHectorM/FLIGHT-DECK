@@ -49,13 +49,13 @@ const StatsInstructor = ({ userId }: Props) => {
   // State variable to track if complete data was loaded from DB
   const [dataLoaded, setDataLoaded] = useState(false);
 
-
-  // Check if data was loaded
+  // Check if data was loaded (only for slower chart)
   useEffect(() => {
     console.log('oooooo DATA LENGTH: ' + certifiedHoursByDate.dayHours.length);
 
     if (certifiedHoursByDate.dayHours.length === monthCountToShow) setDataLoaded(true);
   }, [certifiedHoursByDate.dayHours.length]);
+
 
   // Initially get data from DB, to feed charts
   useEffect(() => {
@@ -127,6 +127,7 @@ const StatsInstructor = ({ userId }: Props) => {
 
           setCertifiedHoursByDate(auxData);
 
+          // ---Serialized version--- retrieves one month after the other
           // for (let i = 0; i < monthCountToShow; i++) {
           //   const responses = await axios.get(
           //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
@@ -344,9 +345,7 @@ const StatsInstructor = ({ userId }: Props) => {
           }}
         />
       </div>
-      {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
-      {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
-      {/* Render the charts only if the delay has elapsed */}
+      {/* Render this chart only if the delay has elapsed */}
       {!dataLoaded ?
         <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
           <BeatLoader color={"black"} loading={true} />
