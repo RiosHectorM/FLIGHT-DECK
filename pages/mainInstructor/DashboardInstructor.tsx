@@ -21,14 +21,6 @@ const DashboardInstructor: FC = () => {
   const [showCertificates, setShowCertificates] = useState(false);
   const [showInfo, setShowInfo] = useState(true);
 
-  // Toggle this state to re-render charts
-  // By changing this state variable a re-render of the page is issued
-  const [rerenderCharts, setRerenderCharts] = useState(false);
-
-  const toggleRerenderCharts = () => {
-    setRerenderCharts(!rerenderCharts);
-  };
-
   const handleFormInstructor = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -163,14 +155,9 @@ const DashboardInstructor: FC = () => {
                 </div>
               </div>
             </div>
-            {user?.id && (
-              <div className='mt-6 mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
-                <StatsInstructor
-                  userId={user.id}
-                  toggleRerenderCharts={toggleRerenderCharts}
-                />
-              </div>
-            )}
+            <div className="mt-6 mx-auto max-w-full px-4 sm:px-6 lg:px-8">
+              <StatsInstructor userId={user.id} />
+            </div>
           </div>
         </main>
       )}

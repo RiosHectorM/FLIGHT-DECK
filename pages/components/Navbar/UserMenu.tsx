@@ -81,6 +81,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
     else if (role === 'COMPANY') router.push('/mainCompany/DashBoardCompany');
   };
 
+  const handlerProfilesStats = () => {
+    if (role === 'PILOT') router.push('/GraphPilot');
+    else if (role === 'INSTRUCTOR')
+      router.push('/mainInstructor/GraphInstructor');
+    else if (role === 'COMPANY') router.push('/mainCompany/GraphCompany');
+  };
+
   const handleMenuItemClick = () => {
     window.open('https://chat-f-deck.vercel.app/', '_blank');
     toggleOpen(); // Asegúrate de tener definida la función toggleOpen para cerrar el menú si es necesario.
@@ -175,6 +182,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                   label='Dashboard'
                   onClick={() => {
                     handlerProfiles();
+                    toggleOpen();
+                  }}
+                />
+                <MenuItem
+                  label='Statistics'
+                  onClick={() => {
+                    handlerProfilesStats();
                     toggleOpen();
                   }}
                 />
