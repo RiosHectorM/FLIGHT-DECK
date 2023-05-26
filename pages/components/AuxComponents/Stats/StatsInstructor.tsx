@@ -311,7 +311,7 @@ const StatsInstructor = ({ userId }: Props) => {
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
-            option={options_certifiedHoursByDate}
+            option={options_certifiedHoursByPilot}
             style={{
               marginTop: '1rem',
               marginBottom: '0.5rem',
@@ -320,13 +320,13 @@ const StatsInstructor = ({ userId }: Props) => {
               width: '100%',
               height: '400px',
             }}
-          />
+            />
       </div>
       {/* (LEO: didn't like it, so commented) Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
-            option={options_certifiedHoursByPilot}
+            option={options_certifiedHoursByDate}
             style={{
               marginTop: '1rem',
               marginBottom: '0.5rem',
