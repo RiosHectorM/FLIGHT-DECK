@@ -43,11 +43,11 @@ const StatsPilot = ({ userId }: Props) => {
   // Check if data was loaded
   // Chart1
   useEffect(() => {
-    if (dataFlightType.InstructorHours) setDataChart1Loaded(true);
+    if (dataFlightType.InstructorHours !== null) setDataChart1Loaded(true);
   }, [dataFlightType.InstructorHours]);
   // Chart2
   useEffect(() => {
-    if (dataFlightCondition.dayHours) setDataChart2Loaded(true);
+    if (dataFlightCondition.dayHours !== null) setDataChart2Loaded(true);
   }, [dataFlightCondition.dayHours]);
 
 
@@ -203,7 +203,7 @@ const StatsPilot = ({ userId }: Props) => {
         </div>
       }
       {/* Render this chart only if data loaded */}
-      {!dataChart1Loaded ?
+      {!dataChart2Loaded ?
         <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
           <BeatLoader color={"black"} loading={true} />
         </div>
@@ -227,5 +227,3 @@ const StatsPilot = ({ userId }: Props) => {
 };
 
 export default StatsPilot;
-
-// version 2023.05.25 13:20
