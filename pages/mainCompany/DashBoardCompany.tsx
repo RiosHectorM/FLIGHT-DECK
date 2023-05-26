@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useUserStore } from "@/store/userStore";
 //import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import ToasterProvider from "../providers/ToasterProvider";
-import StatsCompany from "../components/AuxComponents/Stats/StatsCompany";
 
 const DashboardCompany: FC = () => {
   const { data } = useSession();
@@ -125,11 +124,7 @@ const DashboardCompany: FC = () => {
                 </div>
               </div>
             </div>
-            {/* Statistics Charts */}
-            <div className="mt-6 mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-              <StatsCompany />
-            </div>
-          </div>
+           </div>
         </main>
       )}
     </div>
