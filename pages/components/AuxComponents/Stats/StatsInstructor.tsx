@@ -52,14 +52,21 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
       try {
         if (userId !== undefined) {
           // Get certified hours by pilot
-          let response = await axios.get(`/api/flight/getCertifiedFlightsByInstructorId/${userId}`);
+          let response = await axios.get(
+            `/api/flight/getCertifiedFlightsByInstructorId/${userId}`
+          );
           let pilots: string[] = [];
           let dayHours: number[] = [];
           let nightHours: number[] = [];
           let instrumentsHours: number[] = [];
 
           for (let i = 0; i < response.data.length; i++) {
-            pilots[i] = response.data[i].pilotName + " " + response.data[i].pilotLastName + "\n" + response.data[i].pilotMail;
+            pilots[i] =
+              response.data[i].pilotName +
+              ' ' +
+              response.data[i].pilotLastName +
+              '\n' +
+              response.data[i].pilotMail;
             dayHours[i] = response.data[i].dayCertifiedHours;
             nightHours[i] = response.data[i].nightCertifiedHours;
             instrumentsHours[i] = response.data[i].instrumentsCertifiedHours;
@@ -75,7 +82,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
       }
     }
     fetchData();
-  }, []);
+  }, [userId]);
 
   useEffect(() => {
     async function fetchData() {
@@ -111,7 +118,9 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
 
           for (let i = 0; i < monthCountToShow; i++) {
             const responses = await axios.get(
-              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
+                i
+              ]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
             );
             auxData.dayHours[i] = responses.data.dayHours;
             auxData.nightHours[i] = responses.data.nightHours;
@@ -119,14 +128,13 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
 
             setCertifiedHoursByDate(auxData);
           }
-
         }
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
-  }, []);
+  }, [userId]);
 
   // Set 'certified hours by pilot' chart options on data's change
   useEffect(() => {
@@ -211,7 +219,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
         },
       ],
     };
-  }, [certifiedDayHours, certifiedNightHours, certifiedInstrumentsHours]);
+  }, [userId, certifiedDayHours, certifiedNightHours, certifiedInstrumentsHours]);
 
   // Set 'certified hours by date' chart options on data's change
   useEffect(() => {
@@ -298,12 +306,11 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
     console.log('USEEFFECT THAT SETS CHART STATUS FINISHED');
     console.log(certifiedHoursByDate);
     setBandera(true)
-  }, [certifiedHoursByDate]);
+  }, [userId, certifiedHoursByDate]);
 
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-      {bandera && (
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
             option={options_certifiedHoursByDate}
@@ -317,10 +324,9 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
             }}
           />
         </div>
-      )}
+      
       {/* (LEO: didn't like it): Check if data was completely retrieved from backend before rendering */}
       {/* {certifiedHoursByDate?.dayHours.length === 6 && */}
-      {bandera && (
         <div className='bg-white rounded-xl shadow-md'>
           <ReactECharts
             option={options_certifiedHoursByPilot}
@@ -334,7 +340,7 @@ const StatsInstructor = ({ userId, toggleRerenderCharts }: Props) => {
             }}
           />
         </div>
-      )}
+      
       {/* } */}
     </div>
   );
