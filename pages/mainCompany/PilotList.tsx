@@ -25,7 +25,7 @@ const PilotList: React.FC = () => {
   useEffect(() => {
     const fetchPilots = async () => {
       try {
-        const response = await axios.get('/api/pilot/getPilotsOrderedByTotalHours?numPilots=7');
+        const response = await axios.get('/api/pilot/getPilotsOrderedByTotalHours?numPilots=10');
         const data = response.data;
 
         const pilotsWithDetails = await Promise.all(
@@ -87,25 +87,29 @@ const PilotList: React.FC = () => {
     <div className="mx-auto w-3/4 bg-flightdeck-dark bg-opacity-70 rounded-lg shadow-lg p-6">
       <h2 className="text-center font-bold mb-10 text-white uppercase">List of pilots</h2>
       <div className="flex mb-4">
-        <div className="mr-4">
+        <div className="mr-4 flex justify-center">
           <label className="block font-medium mb-2 text-white">Filter by flight hours:</label>
-          <input
-            type="number"
-            className="border py-1 px-2 rounded text-black"
-            value={filterHours || ''}
-            onChange={handleFilterChange}
-            placeholder="Enter the flight hours"
-          />
+          <div>
+            <input
+              type="number"
+              className="border py-1 px-2 rounded text-black"
+              value={filterHours || ''}
+              onChange={handleFilterChange}
+              placeholder="Enter the flight hours"
+            />
+          </div>
         </div>
-        <div>
+        <div className="flex justify-center">
           <label className="block font-medium mb-2 text-white">Filter by nationality:</label>
-          <input
-            type="text"
-            className="border py-1 px-2 rounded text-black"
-            value={filterLocation}
-            onChange={handleLocationFilterChange}
-            placeholder="Enter the nationality"
-          />
+          <div>
+            <input
+              type="text"
+              className="border py-1 px-2 rounded text-black"
+              value={filterLocation}
+              onChange={handleLocationFilterChange}
+              placeholder="Enter the nationality"
+            />
+          </div>
         </div>
       </div>
       <table className="table-auto w-full">
@@ -126,7 +130,7 @@ const PilotList: React.FC = () => {
                 <td className="border px-4 py-2 text-white">{pilot.hoursOfFlight}</td>
                 <td className="border px-4 py-2">
                   <button
-                    className="text-blue-500"
+                    className="text-flightdeck-lightgold"
                     onClick={() => {
                       if (expandedPilots.includes(pilot.id)) {
                         setExpandedPilots(expandedPilots.filter((id) => id !== pilot.id));
