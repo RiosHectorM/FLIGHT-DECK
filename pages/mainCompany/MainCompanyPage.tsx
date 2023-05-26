@@ -40,7 +40,7 @@ const MainCompanyPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
+    <div className="flex flex-col items-center space-y-8 p-2 lg:p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
     backgroundPosition: 'center', 
     }}>

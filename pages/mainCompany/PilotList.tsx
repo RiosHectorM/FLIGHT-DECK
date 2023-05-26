@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import PilotDetails from './PilotDetails';
+import { Table, Tbody, Td  , Th, Thead, Tr } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 
 interface Pilot {
   name: string;
@@ -84,7 +86,7 @@ const PilotList: React.FC = () => {
   };
 
   return (
-    <div className='mx-auto w-3/4 bg-flightdeck-dark bg-opacity-70 rounded-lg shadow-lg p-6'>
+    <div className='mx-auto w-full lg:w-3/4  bg-flighTd  eck-dark bg-opacity-70 rounded-lg shadow-lg p-6'>
       <h2 className='text-center font-bold mb-10 text-white uppercase'>
         List of pilots
       </h2>
@@ -119,29 +121,37 @@ const PilotList: React.FC = () => {
         </div>
       </div>
 
-      <table className='table-auto w-full'>
-        <thead>
-          <tr className='text-left'>
-            <th className='px-4 py-2 font-medium text-white'>Name</th>
-            <th className='px-4 py-2 font-medium text-white'>Nationality</th>
-            <th className='px-4 py-2 font-medium text-white'>Flight hours</th>
-            <th className='px-4 py-2 font-medium text-white'>Details</th>
-          </tr>
-        </thead>
+      <Table className='table-auto w-full bg-flightdeck-lightgold '>
+        <Thead>
+          <Tr className='text-left'>
+            <Th className='px-4 py-2 font-bold text-black text-center'>Name</Th>
+            <Th className='px-4 py-2 font-bold text-black text-center'>
+              Nationality
+            </Th>
+            <Th className='px-4 py-2 font-bold text-black text-center'>
+              Flight hours
+            </Th>
+            <Th className='px-4 py-2 font-bold text-black text-center'>
+              Details
+            </Th>
+          </Tr>
+        </Thead>
         <tbody>
           {filteredPilots.map((pilot) => (
             <React.Fragment key={pilot.id}>
-              <tr>
-                <td className='border px-4 py-2 text-white'>{pilot.name}</td>
-                <td className='border px-4 py-2 text-white'>
+              <Tr>
+                <Td className='border px-4 py-2 font-semibold text-black'>
+                  {pilot.name}
+                </Td>
+                <Td className='border px-4 py-2 italic text-black text-center'>
                   {pilot.location}
-                </td>
-                <td className='border px-4 py-2 text-white'>
+                </Td>
+                <Td className='border px-4 py-2 text-black italic text-center'>
                   {pilot.hoursOfFlight}
-                </td>
-                <td className='border px-4 py-2'>
+                </Td>
+                <Td className='border px-4 py-2 text-center flex justify-center'>
                   <button
-                    className='text-flightdeck-lightgold'
+                    className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md px-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black flex '
                     onClick={() => {
                       if (expandedPilots.includes(pilot.id)) {
                         setExpandedPilots(
@@ -156,19 +166,19 @@ const PilotList: React.FC = () => {
                       ? 'Close details'
                       : 'See details'}
                   </button>
-                </td>
-              </tr>
+                </Td>
+              </Tr>
               {expandedPilots.includes(pilot.id) && (
-                <tr>
-                  <td colSpan={4}>
+                <Tr>
+                  <Td colSpan={4}>
                     <PilotDetails {...pilot} />
-                  </td>
-                </tr>
+                  </Td>
+                </Tr>
               )}
             </React.Fragment>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   );
 };
