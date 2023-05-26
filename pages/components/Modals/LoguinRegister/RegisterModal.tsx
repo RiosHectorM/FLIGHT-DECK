@@ -22,11 +22,13 @@ import Heading from '../../AuxComponents/ModalsGenerator/Heading';
 import Button from '../../AuxComponents/Button';
 import { signIn } from 'next-auth/react';
 import Loader from '../../Loader';
+import countries from '../../../../utils/countries.json';
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
+  const countryList = countries.countries;
 
   const {
     control,
@@ -37,6 +39,8 @@ const RegisterModal = () => {
   } = useForm<FieldValues>({
     defaultValues: {
       name: '',
+      lastName: '',
+      nationality: '',
       email: '',
       password: '',
       role: '',
@@ -84,14 +88,6 @@ const RegisterModal = () => {
         required
       />
       <Input
-        id='name'
-        label='Name'
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      <Input
         id='password'
         label='Password'
         type='password'
@@ -100,6 +96,52 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
+      <Input
+        id='name'
+        label='First Name'
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      <Input
+        id='lastName'
+        label='Last Name'
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      {/* <Input
+        id='nationality'
+        label='Nationality'
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      /> */}
+<div>
+  <label htmlFor='nationality' className='block text-gray-700'>
+    Nationality
+  </label>
+  <select
+    id='nationality'
+    className='form-input'
+    disabled={isLoading}
+    {...register('nationality', { required: true })}
+  >
+    <option value=''>Select Nationality</option>
+    {countryList.map((country) => (
+      <option key={country.id} value={country.name}>
+        {country.name}
+      </option>
+    ))}
+  </select>
+  {errors.nationality && (
+    <p className='text-red-600 text-center'>Nationality is required</p>
+  )}
+</div>
+
       <div>
         <h1 className='text-2xl font-bold pb-2'>Choose Your Role to Join Us</h1>
         <div
