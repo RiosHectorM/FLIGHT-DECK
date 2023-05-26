@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import ToasterProvider from '../providers/ToasterProvider';
 import FormCertificates from '../mainInstructor/form/formCertificates';
-import StatsPilot from '../components/AuxComponents/Stats/StatsPilot';
 
 const MainPiloto: FC = () => {
   const { data } = useSession();
@@ -153,9 +152,6 @@ const MainPiloto: FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className='mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
-            <StatsPilot userId={user.id} />
           </div>
         </main>
       )}
