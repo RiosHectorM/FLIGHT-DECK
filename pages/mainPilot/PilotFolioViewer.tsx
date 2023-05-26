@@ -271,11 +271,11 @@ export default function PilotFolioViewer({
             </div>
           </div>
         </div>
-        <div className='w-full justify-center items center mx-2'>
+        <div className='w-full justify-center '>
           {isLoadingFlights ? (
             <Loader />
           ) : folioFlight.length > 0 ? (
-            <div className='w-full'>
+            <div className='w-full mb-8'>
               <div className='mt-6 text-black flex justify-center'>
                 {renderBarraPaginacion}
               </div>
