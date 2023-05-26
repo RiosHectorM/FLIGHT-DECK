@@ -22,12 +22,11 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
   const [pilots, setPilots] = useState<Pilot[]>([]);
   const [filteredPilots, setFilteredPilots] = useState<Pilot[]>([]);
   const [nationality, setNationality] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchPilots = async () => {
-      const response = await fetch('https://api.spacexdata.com/v3/pilots');
-      const data = await response.json();
-      setPilots(data.results);
+      setIsLoading(true)
       try {
         const response = await fetch('/api/pilot');
         const pilotData = await response.json();
@@ -44,10 +43,12 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
             };
           })
         );
+
         setPilots(updatedPilots);
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
 
     fetchPilots();
@@ -71,6 +72,7 @@ const FilterByLocation: React.FC<FilterByLocationProps> = ({
 
   return (
     <div className='bg-flightdeck-dark p-8 rounded-lg shadow-lg'>
+     {isLoading && <Loader />}
       <div className='w-full flex flex-col justify-center items-center'>
         <h2 className='text-flightdeck-lightgold text-lg font-semibold mb-2'>
           Filter by Nationality
