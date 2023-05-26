@@ -100,7 +100,7 @@ const PilotList: React.FC = () => {
       </h2>
       <div className='flex mb-4 flex-col lg:flex-row w-full justify-around'>
         <div className='flex justify-between flex-col sm:flex-row sm:justify-center w-full bg-flightdeck-lightgold mx-0 lg:mx-2 my-2 rounded-md py-1'>
-          <label className='block font-medium p-2 text-black'>
+          <label className='block font-medium p-2 my-auto text-black'>
             Filter by flight hours:
           </label>
           <input
@@ -112,7 +112,7 @@ const PilotList: React.FC = () => {
           />
         </div>
         <div className='flex justify-between flex-col sm:flex-row sm:justify-center w-full bg-flightdeck-lightgold mx-0 lg:mx-2 my-2 rounded-md py-1'>
-          <label className='block font-medium p-2 text-black'>
+          <label className='block font-medium p-2 my-auto text-black'>
             Filter by nationality:
           </label>
           <input
