@@ -51,55 +51,53 @@ const Navbar = () => {
       }`}
     >
       <div className={`py-0 ${isVisible ? '' : 'border-b-0'}`}>
-        <Container>
-          <div className='flex flex-row items-center justify-between md:gap-0'>
-            <div className='flex items-center'>
-              <div className='md:block hidden'>
-                <Logo />
-              </div>
-              <div className='ml-'>
-                <Link href='/home'>
-                  <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
-                    Home
-                  </span>
-                </Link>
-              </div>
-              <div className='ml-4'>
-                <Link href='/about'>
-                  <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
-                    About
-                  </span>
-                </Link>
-              </div>
-              <div className='ml-4'>
-                <Link href='/membership'>
-                  <span className='block text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
-                    Pricing
-                  </span>
-                </Link>
-              </div>
+        <div className='flex flex-row items-center justify-between md:gap-0'>
+          <div className='flex items-center'>
+            <div className='md:block hidden'>
+              <Logo />
             </div>
-            <div className='flex items-end'>
-              {data?.user && user?.premium ? (
-                <div className='relative flex justify-center my-auto'>
-                  {isHovered && (
-                    <div className='absolute  top-12 bg-flightdeck-gold text-flightdeck-dark px-2 py-1 rounded-md text-xs'>
-                      Premium
-                    </div>
-                  )}
-                  <MdWorkspacePremium
-                    className='sm:text-5xl text-2xl text-flightdeck-gold hover:text-flightdeck-lightgold'
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                  />
-                </div>
-              ) : null}
-              <div>
-                <UserMenu currentUser={data?.user} />
-              </div>
+            <div className='ml-'>
+              <Link href='/home'>
+                <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
+                  Home
+                </span>
+              </Link>
+            </div>
+            <div className='ml-4'>
+              <Link href='/about'>
+                <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
+                  About
+                </span>
+              </Link>
+            </div>
+            <div className='ml-4'>
+              <Link href='/membership'>
+                <span className='block text-xs sm:text-base text-flightdeck-gold font-bold py-4 px-1 sm:px-5 rounded-full hover:bg-flightdeck-black transition cursor-pointer'>
+                  Pricing
+                </span>
+              </Link>
             </div>
           </div>
-        </Container>
+          <div className='flex items-end'>
+            {data?.user && user?.premium ? (
+              <div className='relative flex justify-center my-auto'>
+                {isHovered && (
+                  <div className='absolute  top-12 bg-flightdeck-gold text-flightdeck-dark px-2 py-1 rounded-md text-xs'>
+                    Premium
+                  </div>
+                )}
+                <MdWorkspacePremium
+                  className='sm:text-5xl text-2xl text-flightdeck-gold hover:text-flightdeck-lightgold'
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                />
+              </div>
+            ) : null}
+            <div>
+              <UserMenu currentUser={data?.user} />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

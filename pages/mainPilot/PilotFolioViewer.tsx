@@ -199,45 +199,45 @@ export default function PilotFolioViewer({
 
   return (
     <>
-      <div className='flex flex-col sm:flex-row'>
-        {isLoading && <Loader />}
-        <div className='w-full sm:w-2/6'>
-          <div className='px-4 sm:px-6 lg:px-0'>
-            <div className='px-4 py-6 sm:p-0'>
-              <div className='grid grid-cols-1 sm:grid-cols-3 md:grid-cols-1 gap-4 mt-6'>
-                <div className='bg-gray-800 rounded-xl shadow-md p-6'>
-                  <div className='flex items-center'>
-                    <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                      <FaClock className='text-white w-6 h-6' />
-                    </div>
-                    <div className='ml-4'>
-                      <dt className='text-sm font-medium text-white truncate'>
-                        <span className='whitespace-nowrap'>
+      {isLoading && <Loader />}
+      <div className='flex flex-col lg:flex-row w-full'>
+        <div className='w-full lg:w-1/3 lg:mr-4'>
+          <div className='lg:px-0'>
+            <div className='flex mt-6 mx-auto'>
+              {/* 3 dibujistos */}
+              <div className='flex flex-col md:flex-row lg:flex-col w-full justify-around'>
+                <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-4'>
+                  <div className='px-2 py-2 sm:p-2'>
+                    <div className='flex items-center'>
+                      <div className='flex-shrink-0 bg-flightdeck-black rounded-md p-3'>
+                        <FaClock className='text-flightdeck-darkgold w-6 h-6' />
+                      </div>
+                      <div className='ml-4'>
+                        <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                           Total Recorded Hours
-                        </span>
-                      </dt>
-                      <dd>
-                        <div className='text-lg font-medium text-white flex items-center'>
-                          <p>{totalHours.totalHours}</p>
-                          <p className='ml-2'>Hrs</p>
-                        </div>
-                      </dd>
+                        </dt>
+                        <dd>
+                          <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
+                            <p>{totalHours.totalHours}</p>
+                            <p className='ml-2'>Hrs</p>
+                          </div>
+                        </dd>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div className='bg-gray-800 rounded-xl shadow-md'>
-                  <div className='px-4 py-5 sm:p-6'>
+                <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-4'>
+                  <div className='px-2 py-2 sm:p-2'>
                     <div className='flex items-center'>
-                      <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                        <FaRegFileAlt className='text-white w-6 h-6' />
+                      <div className='flex-shrink-0 bg-flightdeck-black rounded-md p-3'>
+                        <FaRegFileAlt className='text-flightdeck-darkgold w-6 h-6' />
                       </div>
                       <div className='ml-4'>
-                        <dt className='text-sm font-medium text-white truncate'>
+                        <dt className='text-sm font-medium text-flightdeck-dark truncate'>
                           Total Certified Hours
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
                             <p>{totalHours.CertifiedHours}</p>
                             <p className='ml-2'>Hrs</p>
                           </div>
@@ -246,19 +246,18 @@ export default function PilotFolioViewer({
                     </div>
                   </div>
                 </div>
-
-                <div className='bg-gray-800 rounded-xl shadow-md'>
-                  <div className='px-4 py-5 sm:p-6'>
+                <div className='bg-flightdeck-darkgold rounded-xl shadow-md my-4'>
+                  <div className='px-2 py-2 sm:p-2'>
                     <div className='flex items-center'>
-                      <div className='flex-shrink-0 bg-indigo-500 rounded-md p-3'>
-                        <FaClipboardCheck className='text-white w-6 h-6' />
+                      <div className='flex-shrink-0 bg-flightdeck-black rounded-md p-3'>
+                        <FaClipboardCheck className='text-flightdeck-darkgold w-6 h-6' />
                       </div>
-                      <div className='ml-5 w-0 flex-1'>
-                        <dt className='text-sm font-medium text-white truncate'>
-                          Total Pending Hours to Certify
+                      <div className='ml-4'>
+                        <dt className='text-sm font-medium text-flightdeck-dark truncate'>
+                          Total Pending Hours
                         </dt>
                         <dd>
-                          <div className='text-lg font-medium text-white flex items-center'>
+                          <div className='text-lg font-medium text-flightdeck-dark flex items-center'>
                             <p>{totalHours.toCertifyHours}</p>
                             <p className='ml-2'>Hrs</p>
                           </div>
@@ -267,35 +266,17 @@ export default function PilotFolioViewer({
                     </div>
                   </div>
                 </div>
-                <div className='flex justify-center text-center'>
-                  <button
-                    className='flex mt-16 bg-indigo-600 text-white px-6 py-4 rounded-full hover:bg-indigo-700 transition-colors duration-300 ease-in-out'
-                    onClick={handlerAdd}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      className='h-6 w-6'
-                      viewBox='0 0 20 20'
-                      fill='currentColor'
-                    >
-                      <path
-                        fillRule='evenodd'
-                        d='M16 11h-5v5h-2v-5H4V9h5V4h2v5h5z'
-                      />
-                    </svg>
-                    ADD NEW FOLIO
-                  </button>
-                </div>
+                {/* boton de add */}
               </div>
             </div>
           </div>
         </div>
-        <div className='w-full sm:w-3/4 mx-auto'>
+        <div className='w-full justify-center items center mx-2'>
           {isLoadingFlights ? (
             <Loader />
           ) : folioFlight.length > 0 ? (
-            <div>
-              <div className='mt-10 bg-indigo-600 text-white ml-96  h-8 w-12 flex flex-row  justify-center items-center'>
+            <div className='w-full'>
+              <div className='mt-6 text-black flex justify-center'>
                 {renderBarraPaginacion}
               </div>
               {currentCards.map((dato, index) => (

@@ -14,11 +14,10 @@ const BarraPaginacion: React.FC<BarraPaginacionProps> = (props) => {
   return (
     <div
       id='numbersContainer'
-      className='bg-gray-800 h-10 w-12 flex flex-row justify-center items-center'
+      className='bg-flightdeck-darkgold h-12 w-12 flex flex-row rounded-full mx-2 flex-wrap'
     >
       <div
-        id='numbers'
-        className='w-8 h-8 rounded-full bg-azure flex flex-row flex-wrap justify-center items-center cursor-pointer hover:bg-white'
+        className='flex flex-row justify-center items-center cursor-pointer hover:bg-flightdeck-lightgold w-full rounded-full'
         onClick={handleClick}
       >
         {props.number}
