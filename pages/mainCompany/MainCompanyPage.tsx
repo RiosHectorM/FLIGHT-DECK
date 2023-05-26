@@ -42,7 +42,7 @@ const MainCompanyPage: React.FC = () => {
   return (
     <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center', 
     }}>
 
       <h1 className="text-3xl font-semibold" style={{ color: '#CBB26A' }}>Main Company</h1>
@@ -57,10 +57,10 @@ const MainCompanyPage: React.FC = () => {
       
 
       <button
-          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+          className="bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-black"
           onClick={handleTogglePilots}
         >
-          {showPilots ? "Hide pilots" : "See registered pilots"}
+          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
         </button>
         {showPilots && <PilotList />}
     </div>

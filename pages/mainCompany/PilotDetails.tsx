@@ -13,7 +13,7 @@ interface PilotDetailsProps {
   availability: string;
   bio: string;
   flightLogUrl: string;
-  email:string;
+  email: string;
 }
 
 const PilotDetails: React.FC<PilotDetailsProps> = ({
@@ -37,27 +37,27 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
     setShowContact(false);
   };
 
-  const { data } = useSession()
+  const { data } = useSession();
   const userData = data?.user;
 
   return (
-    <div className='flex flex-col items-center bg-gray-700 p-4 rounded-md'>
+    <div className="flex flex-col items-center bg-flightdeck-dark bg-opacity-70 p-4 rounded-md">
       <PilotProfile
         name={name}
         photoUrl={photoUrl}
         location={location}
         hoursOfFlight={hoursOfFlight}
       />
-      <div className='space-x-2 mt-4'>
+      <div className="space-x-2 mt-4">
         <button
           onClick={handleContactClick}
-          className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
+          className="bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-lightgold"
         >
           Contact {name}
         </button>
         <button
           onClick={handleFlightLogClick}
-          className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
+          className="bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-lightgold"
         >
           See flight log of {name}
         </button>
@@ -68,12 +68,12 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
       {showFlightLog && (
         <FlightLog
           pilotName={name}
-          flightNumber='AC1234'
-          date='2023-05-01'
-          duration='2 horas 30 minutos'
-          origin='Toronto, Canada'
-          destination='London, UK'
-          aircraft='Boeing 777'
+          flightNumber="AC1234"
+          date="2023-05-01"
+          duration="2 horas 30 minutos"
+          origin="Toronto, Canada"
+          destination="London, UK"
+          aircraft="Boeing 777"
           flightLogUrl={flightLogUrl}
         />
       )}
