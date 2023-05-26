@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import { Qualification, Request } from '@/types/globalTypes';
 import PilotProfile from './PilotProfile';
 
+
 const MainInstructor = () => {
   const [requests, setRequests] = useState<Request[] | undefined>(undefined);
   const [qualifys, setQualifys] = useState<Qualification[] | undefined>(
