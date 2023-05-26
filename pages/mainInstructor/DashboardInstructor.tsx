@@ -8,7 +8,6 @@ import ProtectedRoute from '../components/AuxComponents/ProtectedRoute';
 import ToasterProvider from '../providers/ToasterProvider';
 import FormCertificates from './form/formCertificates';
 import Loader from '../components/Loader';
-import StatsInstructor from '../components/AuxComponents/Stats/StatsInstructor';
 
 const DashboardInstructor: FC = () => {
   const { data } = useSession();
@@ -154,9 +153,6 @@ const DashboardInstructor: FC = () => {
                   )}
                 </div>
               </div>
-            </div>
-            <div className="mt-6 mx-auto max-w-full px-4 sm:px-6 lg:px-8">
-              <StatsInstructor userId={user.id} />
             </div>
           </div>
         </main>
