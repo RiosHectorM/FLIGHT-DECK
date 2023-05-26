@@ -74,8 +74,7 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
           origin="Toronto, Canada"
           destination="London, UK"
           aircraft="Boeing 777"
-          flightLogUrl={flightLogUrl}
-        />
+          flightLogUrl={flightLogUrl} hourCount={''} flightDate={''} planeBrandAndModel={''} pilotFullName={''} userId={''}        />
       )}
     </div>
   );

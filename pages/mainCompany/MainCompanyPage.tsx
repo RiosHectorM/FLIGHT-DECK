@@ -22,15 +22,15 @@ const MainCompanyPage: React.FC = () => {
     setShowPilots(!showPilots);
   };
 
-  const flightData: Omit<FlightLogProps, 'pilotName'> = {
-    flightNumber: "AC1234",
-    date: "2023-05-01",
-    duration: "2 horas 30 minutos",
-    origin: "Toronto, Canada",
-    destination: "London, UK",
-    aircraft: "Boeing 777 ",
-    flightLogUrl: "/flight-log.pdf"
-  };
+  // const flightData: Omit<FlightLogProps, 'pilotName'> = {
+  //   flightNumber: "AC1234",
+  //   date: "2023-05-01",
+  //   duration: "2 horas 30 minutos",
+  //   origin: "Toronto, Canada",
+  //   destination: "London, UK",
+  //   aircraft: "Boeing 777 ",
+  //   flightLogUrl: "/flight-log.pdf"
+  // };
 
   useEffect(() => {
     // Simular una carga de datos

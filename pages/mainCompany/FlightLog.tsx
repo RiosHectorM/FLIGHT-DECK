@@ -3,18 +3,25 @@ import axios from 'axios';
 
 interface FlightLogProps {
   flightNumber: string;
+  pilotName: string;
   date: string;
   hourCount: string;
+  duration: string;
   flightDate: string;
   planeBrandAndModel: string;
   pilotFullName: string;
-  userId:string;
+  origin:string
+  userId: string;
+  destination: string;
+  aircraft: string;
+  flightLogUrl: string;
 }
 
 const FlightLog: React.FC<FlightLogProps> = ({
   flightNumber,
   date,
   hourCount,
+  origin,
   flightDate,
   planeBrandAndModel,
   pilotFullName,
