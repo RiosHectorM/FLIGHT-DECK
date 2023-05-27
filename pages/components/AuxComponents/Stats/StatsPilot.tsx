@@ -1,21 +1,22 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactECharts from "echarts-for-react";
+import { BeatLoader } from "react-spinners";
 
 interface Props {
   userId?: string;
 }
 
 interface flightTypeSeries {
-  InstructorHours: number;
-  SimulatorHours: number;
-  CopilotHours: number;
-  PilotHours: number;
+  InstructorHours: number | null;
+  SimulatorHours: number | null;
+  CopilotHours: number | null;
+  PilotHours: number | null;
 }
 interface flightConditionSeries {
-  dayHours: number;
-  nightHours: number;
-  InstrumentsHours: number;
+  dayHours: number | null;
+  nightHours: number | null;
+  InstrumentsHours: number | null;
 }
 
 let options_flightTypeHours = {};
@@ -23,32 +24,58 @@ let options_flightConditionHours = {};
 
 const StatsPilot = ({ userId }: Props) => {
   const [dataFlightType, setDataFlightType] = useState<flightTypeSeries>({
-    InstructorHours: 0,
-    SimulatorHours: 0,
-    CopilotHours: 0,
-    PilotHours: 0,
+    InstructorHours: null,
+    SimulatorHours: null,
+    CopilotHours: null,
+    PilotHours: null,
   });
   const [dataFlightCondition, setDataFlightCondition] =
     useState<flightConditionSeries>({
-      dayHours: 0,
-      nightHours: 0,
-      InstrumentsHours: 0,
+      dayHours: null,
+      nightHours: null,
+      InstrumentsHours: null,
     });
 
+  // State variable to track if complete data was loaded from DB
+  const [dataChart1Loaded, setDataChart1Loaded] = useState(false);
+  const [dataChart2Loaded, setDataChart2Loaded] = useState(false);
+
+  // Check if data was loaded
+  // Chart1
+  useEffect(() => {
+    if (dataFlightType.InstructorHours !== null) setDataChart1Loaded(true);
+  }, [dataFlightType.InstructorHours]);
+  // Chart2
+  useEffect(() => {
+    if (dataFlightCondition.dayHours !== null) setDataChart2Loaded(true);
+  }, [dataFlightCondition.dayHours]);
+
+
+
+  // Initially get data from DB, to feed charts
   useEffect(() => {
     async function fetchData() {
       try {
-        console.log("Getting flight hours");
-
         if (userId !== undefined) {
           // Get flights data by type
           let response = await axios.get(
             `/api/pilot/getFlightTypeHoursByUserId/${userId}`
           );
           setDataFlightType(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (userId !== undefined) {
           // Get flights data by condition
-          response = await axios.get(
+          let response = await axios.get(
             `/api/pilot/getFlightConditionHoursByUserId/${userId}`
           );
           setDataFlightCondition(response.data);
@@ -155,33 +182,46 @@ const StatsPilot = ({ userId }: Props) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_flightTypeHours}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_flightConditionHours}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
+      {/* Render this chart only if data loaded */}
+      {!dataChart1Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className="bg-white rounded-xl shadow-md">
+          <ReactECharts
+            option={options_flightTypeHours}
+            style={{
+              marginTop: "1rem",
+              marginBottom: "0.5rem",
+              paddingLeft: "0.75rem",
+              paddingRight: "0.75rem",
+              width: "100%",
+              height: "400px",
+            }}
+          />
+        </div>
+      }
+      {/* Render this chart only if data loaded */}
+      {!dataChart2Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className="bg-white rounded-xl shadow-md">
+          <ReactECharts
+            option={options_flightConditionHours}
+            style={{
+              marginTop: "1rem",
+              marginBottom: "0.5rem",
+              paddingLeft: "0.75rem",
+              paddingRight: "0.75rem",
+              width: "100%",
+              height: "400px",
+            }}
+          />
+        </div>
+      }
     </div>
   );
 };

@@ -13,7 +13,8 @@ interface PilotDetailsProps {
   availability: string;
   bio: string;
   flightLogUrl: string;
-  email:string;
+  email: string;
+  id: string;
 }
 
 const PilotDetails: React.FC<PilotDetailsProps> = ({
@@ -23,25 +24,26 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
   hoursOfFlight,
   flightLogUrl,
   email,
+  id,
 }) => {
   const [showContact, setShowContact] = React.useState(false);
   const [showFlightLog, setShowFlightLog] = React.useState(false);
 
   const handleContactClick = () => {
-    setShowContact(true);
+    setShowContact(!showContact);
     setShowFlightLog(false);
   };
 
   const handleFlightLogClick = () => {
-    setShowFlightLog(true);
+    setShowFlightLog(!showFlightLog);
     setShowContact(false);
   };
 
-  const { data } = useSession()
+  const { data } = useSession();
   const userData = data?.user;
 
   return (
-    <div className='flex flex-col items-center bg-gray-700 p-4 rounded-md'>
+    <div className='flex flex-col items-center bg-flightdeck-dark bg-opacity-70 p-4 rounded-md'>
       <PilotProfile
         name={name}
         photoUrl={photoUrl}
@@ -51,13 +53,13 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
       <div className='space-x-2 mt-4'>
         <button
           onClick={handleContactClick}
-          className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
+          className='bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-lightgold'
         >
           Contact {name}
         </button>
         <button
           onClick={handleFlightLogClick}
-          className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
+          className='bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-lightgold'
         >
           See flight log of {name}
         </button>
@@ -75,6 +77,11 @@ const PilotDetails: React.FC<PilotDetailsProps> = ({
           destination='London, UK'
           aircraft='Boeing 777'
           flightLogUrl={flightLogUrl}
+          hourCount={''}
+          flightDate={''}
+          planeBrandAndModel={''}
+          pilotFullName={''}
+          userId={id}
         />
       )}
     </div>

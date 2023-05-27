@@ -71,7 +71,7 @@ const Certif = ({
   return (
     <>
       {isLoading && <Loader />}
-      <div className='bg-gray-200 rounded-xl shadow-md mb-2'>
+      <div className='bg-flightdeck-lightgold rounded-xl shadow-md mb-2'>
         <div className='px-2 py-1 sm:p-4'>
           <div className='flex lg:flex-row flex-col flex-1 justify-between'>
             <div className='flex flex-col w-full justify-between'>
@@ -79,18 +79,18 @@ const Certif = ({
                 {cert?.certificateName}
               </div>
               {cert?.certificateExpirationDate && (
-                <div className='flex'>
-                  <FaCalendarAlt className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2 my-2'>
+                <div className='flex my-auto mb-2'>
+                  <FaCalendarAlt className='text-black w-6 h-6' />
+                  <span className='ml-2 font-semibold'>
                     Expiration Date:{' '}
                     {cert?.certificateExpirationDate.split('T')[0]}
                   </span>
                 </div>
               )}
               {cert?.certificateDescription && (
-                <div className='flex'>
-                  <TbLicense className='text-indigo-500 w-6 h-6' />
-                  <span className='ml-2 my-2'>
+                <div className='flex my-auto'>
+                  <TbLicense className='text-black w-6 h-6' />
+                  <span className='ml-2 font-semibold'>
                     {cert?.certificateDescription}
                   </span>
                 </div>
@@ -98,28 +98,14 @@ const Certif = ({
             </div>
             <div className='flex flex-row lg:flex-col justify-around w-full lg:w-auto mx-auto'>
               <div
-                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'
+                className='flex justify-center align-middle items-center cursor-pointer md:hover:scale-125 hover:text-green-600'
                 onClick={() => handlerImageShow(cert?.certificateImageUrl)}
               >
                 <AiFillEye title='View' className='w-5 h-5 my-2 ' />
                 <p className='ml-4 block lg:hidden'>View Certify</p>
               </div>
               <div
-                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-green-600'
-                onClick={() =>
-                  handlerEditCert(
-                    cert?.certificateImageUrl,
-                    cert?.certificateName,
-                    cert?.certificateExpirationDate,
-                    cert?.certificateDescription
-                  )
-                }
-              >
-                <AiFillEdit title='Edit' className='w-5 h-5 my-2 ' />
-                <p className='ml-4 block lg:hidden'>Edit Certify</p>
-              </div>
-              <div
-                className='flex justify-center align-middle items-center cursor-pointer hover:scale-125 hover:text-red-600'
+                className='flex justify-center align-middle items-center cursor-pointer md:hover:scale-125 hover:text-red-600'
                 onClick={() => handlerDelete(cert?.certificateName)}
               >
                 <AiFillCloseCircle title='Delete' className='w-5 h-5 my-2 ' />

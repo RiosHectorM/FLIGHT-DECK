@@ -17,7 +17,7 @@ const HomePage = () => {
   const registerModal = useRegisterModal();
   const router = useRouter();
 
-  const handleRole = (myRole:string) => {
+  const handleRole = (myRole: string) => {
     console.log(myRole);
     registerModal.onOpen();
   };
@@ -51,7 +51,15 @@ const HomePage = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen' style={{ backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/fondo-pantalla-patron-fondo-abstracto-grunge-negro-foto-gratis (1).jpg")', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <div
+      className='flex flex-col items-center justify-center min-h-screen'
+      style={{
+        backgroundImage:
+          'linear-gradient(to top, rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url("/images/fondo-pantalla-patron-fondo-abstracto-grunge-negro-foto-gratis (1).jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       {isLoading && <Loader />}
       <ToasterProvider />
       <RegisterModal />
@@ -74,14 +82,14 @@ const HomePage = () => {
             </motion.span>
           ))}
         </div>
-        <div className='flex flex-wrap justify-center md:justify-between items-center mt-0 mb-5 w-full'>
+        <div className='flex flex-wrap justify-center md:justify-center items-center mt-0 mb-5 w-full'>
           {session?.user?.email ? (
-            <div className='flex justify-around w-full'>
+            <div className='flex flex-col lg:flex-row justify-center items-center w-full'>
               <motion.div
                 variants={zoomIn(0, 0.6)}
                 initial='hidden'
                 whileInView='show'
-                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform cursor-pointer mx-6 my-6'
+                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
                 onClick={handlerGoMain}
               >
                 <Image
@@ -91,7 +99,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   GO TO MAIN
                 </h3>
               </motion.div>
@@ -99,7 +107,7 @@ const HomePage = () => {
                 variants={zoomIn(0, 0.6)}
                 initial='hidden'
                 whileInView='show'
-                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform cursor-pointer mx-6 my-6'
+                className='relative w-64 h-64 md:w-96 md:h-96 flex flex-col items-center justify-center transform hover:z-10 hover:scale-110 cursor-pointer transition-all duration-300 mx-6 my-6'
                 onClick={handlerGoProfile}
               >
                 <Image
@@ -109,7 +117,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover transform hover:scale-110'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   SET YOUR PROFILE
                 </h3>
               </motion.div>
@@ -128,7 +136,7 @@ const HomePage = () => {
                   height={500}
                   className='rounded-full shadow-md object-cover'
                 />
-                <h3 className='absolute bottom-2 text-xl font-bold text-flightdeck-cream bg-flightdeck-gold p-2 rounded-lg'>
+                <h3 className='absolute bottom-2 text-xl font-bold text-black bg-flightdeck-gold p-2 rounded-lg'>
                   {role}
                 </h3>
               </div>

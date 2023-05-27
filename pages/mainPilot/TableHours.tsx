@@ -133,10 +133,12 @@ const TableHoursPilot = ({
   });
 
   useEffect(() => {
-    if (typeof window !== undefined && window.localStorage) {
+    if (typeof window !== 'undefined' && window.localStorage) {
       const filter = localStorage.getItem('filters');
       if (filter) {
         setFilters(JSON.parse(filter));
+      } else {
+        localStorage.setItem('filters', JSON.stringify(filters));
       }
     }
   }, []);
@@ -247,6 +249,7 @@ const TableHoursPilot = ({
   const handlerCertify = async (flight: FlightData) => {
     setIsLoading(true);
     const response = await axios.get(`/api/pilot/pilotCanCertify/${user?.id}`);
+
     if (response.data.canCertify === false) {
       youCantCertifyModal.onOpen();
     } else {
@@ -310,11 +313,11 @@ const TableHoursPilot = ({
           <div ref={componentPDF as any} style={{ width: '100' }}>
             <div className='flex flex-row'>
               <img
-                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1684972725/uhzk9runywzvondur2pm.png'
+                src='https://res.cloudinary.com/dvm47pxdm/image/upload/v1685052374/atjiikhnpi3u1najnoq2.png'
                 height={150}
                 width={150}
                 alt={'pdfImage'}
-                className='hidden print:block  bg-slate-500 mt-5 ml-5'
+                className='hidden print:block  bg-white mt-5 ml-5'
               ></img>
               <h1>
                 <h1 className='hidden print:block ml-40 text-xl mt-10'>
@@ -325,9 +328,9 @@ const TableHoursPilot = ({
                 </h1>
               </h1>
             </div>
-            <Table className='rounded-2xl overflow-hidden p-4 mb-28'>
-              <Thead className='bg-gray-50'>
-                <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
+            <Table className='bg-flightdeck-lightgold rounded-2xl overflow-hidden p-4 mb-28 divide-black'>
+              <Thead className=''>
+                <Tr className='text-black text-xs uppercase tracking-wide font-medium'>
                   <Th className='px-2 py-3 text-center mx-2 my-4'>FOLIO</Th>
                   <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
                   <Th className='px-2 py-3 text-center mx-2 my-4'>AIRPLANE</Th>
@@ -347,37 +350,37 @@ const TableHoursPilot = ({
                   </Th>
                 </Tr>
               </Thead>
-              <Tbody className='bg-white divide-y divide-gray-200'>
+              <Tbody className='bg-flightdeck-lightgold divide-y divide-black'>
                 {flight.length === 0 ? (
                   <h1>LOADING....</h1>
                 ) : (
                   flight.map((dato, index) => (
-                    <Tr key={index} className='hover:bg-gray-100'>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                    <Tr key={index} className='hover:bg-flightdeck-darkgold'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.folio}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.date?.split('T')[0]}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.aircraftId} {dato.marca} {dato.clase} {dato.tipo}{' '}
                         {dato.matricula} {dato.marcaMotor} {dato.hp}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.flightType}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.certifier
                           ? dato.certifier.name + ' ' + dato.certifier?.lastName
                           : ''}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.stages}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.hourCount}
                       </Td>
-                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                      <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                         {dato.remarks}
                       </Td>
                       <Td className=' print:hidden px-2 py-4 whitespace-nowrap text-sm font-medium'>
@@ -429,12 +432,11 @@ const TableHoursPilot = ({
             />
 
             <h3 className='text-3xl font-bold text-white mb-4'>
-              No se encontraron vuelos
+              No flights found
             </h3>
             <p className='text-lg text-white mb-8'>
-              Lo sentimos, no se encontraron vuelos que coincidan con sus
-              criterios de búsqueda. Por favor, ajuste sus criterios de búsqueda
-              e inténtelo de nuevo.
+              Sorry, no flights were found matching your search criteria. Please
+              adjust your search criteria and try again.
             </p>
           </div>
         </div>

@@ -6,17 +6,17 @@ const FeaturesSection = () => {
 
   const features = [
     {
-      img: '/images/feature1.jpg',
+      img: '/images/home1.jpg',
       title: 'LogBook',
       fullText: 'Manage your flight hours efficiently! Record your flight hours, search for instructors, rate their services, and request certifications. Generate a PDF document with your hour logs instantly! Download our application today.',
     },
     {
-      img: '/images/feature2.png',
+      img: '/images/home2.jpg',
       title: 'Register as an instructor today',
       fullText: 'Verify your flight hours with the truthfulness of your instructors, and communicate with them directly. Access statistics from your daily, weekly, or monthly trainings with our flight log application. Perfect your flying skills and become the best pilot you can be. Download our application today and take off to success!',
     },
     {
-      img: '/images/feature3.png',
+      img: '/images/home3.jpg',
       title: 'For companies',
       fullText: "Optimize the management of your pilots' flight hours with our flight log application for businesses. Approve pilot flight hours and access the database of registered pilots to download a history of certified and non-certified flight hours. Download our business flight log application today and take your pilot management to the next level.",
     },

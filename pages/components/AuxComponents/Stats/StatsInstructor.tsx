@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ReactECharts from "echarts-for-react";
 import { DateTime } from "luxon";
+import { BeatLoader } from "react-spinners";
 
 interface Props {
   userId?: string;
@@ -39,11 +40,22 @@ const StatsInstructor = ({ userId }: Props) => {
   const [certifiedInstrumentsHours, setCertifiedInstrumentsHours] = useState<number[]>([]);
 
   // State variable for 'Certified Hours by Dates' chart
-  const [certifiedHoursByDate, setcertifiedHoursByDate] = useState<flightConditionSeries>({
+  const [certifiedHoursByDate, setCertifiedHoursByDate] = useState<flightConditionSeries>({
     dayHours: [],
     nightHours: [],
     instHours: [],
   });
+
+  // State variable to track if complete data was loaded from DB
+  const [dataChart1Loaded, setDataChart1Loaded] = useState(false);
+  const [dataChart2Loaded, setDataChart2Loaded] = useState(false);
+
+
+  // Check if data was loaded (only for slower chart)
+  useEffect(() => {
+    if (certifiedHoursByDate.dayHours.length === monthCountToShow) setDataChart2Loaded(true);
+  }, [certifiedHoursByDate.dayHours.length]);
+
 
   // Initially get data from DB, to feed charts
   useEffect(() => {
@@ -51,14 +63,21 @@ const StatsInstructor = ({ userId }: Props) => {
       try {
         if (userId !== undefined) {
           // Get certified hours by pilot
-          let response = await axios.get(`/api/flight/getCertifiedFlightsByInstructorId/${userId}`);
+          let response = await axios.get(
+            `/api/flight/getCertifiedFlightsByInstructorId/${userId}`
+          );
           let pilots: string[] = [];
           let dayHours: number[] = [];
           let nightHours: number[] = [];
           let instrumentsHours: number[] = [];
 
           for (let i = 0; i < response.data.length; i++) {
-            pilots[i] = response.data[i].pilotName + " " + response.data[i].pilotLastName + "\n" + response.data[i].pilotMail;
+            pilots[i] =
+              response.data[i].pilotName +
+              ' ' +
+              response.data[i].pilotLastName +
+              '\n' +
+              response.data[i].pilotMail;
             dayHours[i] = response.data[i].dayCertifiedHours;
             nightHours[i] = response.data[i].nightCertifiedHours;
             instrumentsHours[i] = response.data[i].instrumentsCertifiedHours;
@@ -69,26 +88,7 @@ const StatsInstructor = ({ userId }: Props) => {
           setCertifiedNightHours(nightHours);
           setCertifiedInstrumentsHours(instrumentsHours);
 
-          // Get certified hours by date
-          let auxData: flightConditionSeries = {
-            dayHours: [],
-            nightHours: [],
-            instHours: [],
-          };
-
-          for (let i = 0; i < monthCountToShow; i++) {
-            let response = await axios.get(
-              `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[
-                i
-              ]?.toISODate()}`
-            );
-            // Load retrieved values in auxData before setting state variables
-            auxData.dayHours[i] = response.data.dayHours;
-            auxData.nightHours[i] = response.data.nightHours;
-            auxData.instHours[i] = response.data.instHours;
-          }
-
-          setcertifiedHoursByDate(auxData);
+          setDataChart1Loaded(true);
         }
       } catch (error) {
         console.error(error);
@@ -97,10 +97,64 @@ const StatsInstructor = ({ userId }: Props) => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (userId !== undefined) {
+          // Get certified hours by date
+          let auxData: flightConditionSeries = {
+            dayHours: [],
+            nightHours: [],
+            instHours: [],
+          };
+
+          // Parallelized version
+          const requests: any[] = [];
+          // Create array of promises
+          for (let i = 0; i < monthCountToShow; i++) {
+            requests.push(
+              await axios.get(
+                `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[i]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+              )
+            );
+          }
+          const responses = await Promise.all(requests);
+
+          // Load retrieved values in auxData before setting state variable
+          for (let i = 0; i < monthCountToShow; i++) {
+            auxData.dayHours[i] = responses[i].data.dayHours;
+            auxData.nightHours[i] = responses[i].data.nightHours;
+            auxData.instHours[i] = responses[i].data.instHours;
+          }
+
+          setCertifiedHoursByDate(auxData);
+
+          // ---Serialized version--- retrieves one month after the other
+          // for (let i = 0; i < monthCountToShow; i++) {
+          //   const responses = await axios.get(
+          //     `/api/flight/getCertifiedFlightsByInstructorIdAndDates?certifierId=${userId}&startDate=${startDates[
+          //       i
+          //     ]?.toISODate()}&endDate=${endDates[i]?.toISODate()}`
+          //   );
+          //   auxData.dayHours[i] = responses.data.dayHours;
+          //   auxData.nightHours[i] = responses.data.nightHours;
+          //   auxData.instHours[i] = responses.data.instHours;
+
+          //   setCertifiedHoursByDate(auxData);
+          // }
+
+
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+
+  }, []);
+
   // Set 'certified hours by pilot' chart options on data's change
   useEffect(() => {
-    console.log("--------ENTERING CERT BY PILOT CHART OPTIONS--------");
-
     options_certifiedHoursByPilot = {
       title: {
         text: "Certified Hours By Pilot",
@@ -131,7 +185,7 @@ const StatsInstructor = ({ userId }: Props) => {
       xAxis: {
         type: "value",
         padding: 14,
-        sort: 'descending',
+        sort: "descending",
       },
       yAxis: {
         type: "category",
@@ -186,6 +240,11 @@ const StatsInstructor = ({ userId }: Props) => {
 
   // Set 'certified hours by date' chart options on data's change
   useEffect(() => {
+    console.log("--------SETTING DATE CHART OPTIONS--------");
+    console.log('DATES CHART DATA: ');
+    console.log(certifiedHoursByDate);
+    console.log('Data length: ' + certifiedHoursByDate.dayHours.length);
+
     options_certifiedHoursByDate = {
       title: {
         text: "Certified Hours in Last " + monthCountToShow + " Months",
@@ -261,37 +320,51 @@ const StatsInstructor = ({ userId }: Props) => {
         },
       ],
     };
+
   }, [certifiedHoursByDate]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"> */}
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_certifiedHoursByPilot}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
-      <div className="bg-white rounded-xl shadow-md">
-        <ReactECharts
-          option={options_certifiedHoursByDate}
-          style={{
-            marginTop: "1rem",
-            marginBottom: "0.5rem",
-            paddingLeft: "0.75rem",
-            paddingRight: "0.75rem",
-            width: "100%",
-            height: "400px",
-          }}
-        />
-      </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      {/* Render this chart only if data loaded */}
+      {!dataChart1Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className='bg-white rounded-xl shadow-md'>
+          <ReactECharts
+            option={options_certifiedHoursByPilot}
+            style={{
+              marginTop: '1rem',
+              marginBottom: '0.5rem',
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              width: '100%',
+              height: '400px',
+            }}
+          />
+        </div>
+      }
+      {/* Render this chart only if data loaded */}
+      {!dataChart2Loaded ?
+        <div className="mx-auto p-8 rounded-3xl shadow-xl my-auto bg-flightdeck-cream">
+          <BeatLoader color={"black"} loading={true} />
+        </div>
+        :
+        <div className='bg-white rounded-xl shadow-md'>
+          <ReactECharts
+            option={options_certifiedHoursByDate}
+            style={{
+              marginTop: '1rem',
+              marginBottom: '0.5rem',
+              paddingLeft: '0.75rem',
+              paddingRight: '0.75rem',
+              width: '100%',
+              height: '400px',
+            }}
+          />
+        </div>
+      }
     </div>
   );
 };

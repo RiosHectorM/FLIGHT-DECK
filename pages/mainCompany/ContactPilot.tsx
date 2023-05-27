@@ -13,7 +13,7 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
   pilotName,
   email,
 }) => {
-  let [message, setMessage] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleMessageChange = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -39,19 +39,18 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
   };
 
   return (
-    <div className='flex flex-col items-start space-y-4 bg-gray-700 p-4 rounded-md'>
-      <h2 className='text-lg font-semibold text-white mb-2'>
+    <div className='bg-flightdeck-dark p-4 rounded-md'>
+      <h2 className='text-flightdeck-lightgold text-lg font-semibold mb-2'>
         Contact {pilotName}
       </h2>
       <p className='text-white mb-2'>
-        Keep in contact with {pilotName} to arrange an interview or
-        coordinate a test flight.
+        Keep in contact with {pilotName} to arrange an interview or coordinate a test flight.
       </p>
       <form className='space-y-2 w-full'>
         <div className='flex flex-col items-start'>
           <label
             htmlFor='contactName'
-            className='text-white font-semibold mb-1'
+            className='text-flightdeck-lightgold font-semibold mb-1'
           >
             Name
           </label>
@@ -59,13 +58,13 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             type='text'
             id='contactName'
             value={pilotName}
-            className='w-full bg-gray-500 border-gray-400 border rounded-md py-2 px-3 text-white'
+            className='w-full bg-flightdeck-black border-flightdeck-lightgold border rounded-md py-2 px-3 text-white'
           />
         </div>
         <div className='flex flex-col items-start'>
           <label
             htmlFor='contactEmail'
-            className='text-white font-semibold mb-1'
+            className='text-flightdeck-lightgold font-semibold mb-1'
           >
             Email
           </label>
@@ -73,13 +72,13 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             type='email'
             id='contactEmail'
             value={email}
-            className='w-full bg-gray-500 border-gray-400 border rounded-md py-2 px-3 text-white'
+            className='w-full bg-flightdeck-black border-flightdeck-lightgold border rounded-md py-2 px-3 text-white'
           />
         </div>
         <div className='flex flex-col items-start'>
           <label
             htmlFor='contactMessage'
-            className='text-white font-semibold mb-1'
+            className='text-flightdeck-lightgold font-semibold mb-1'
           >
             Message
           </label>
@@ -88,12 +87,12 @@ const ContactPilot: React.FC<ContactPilotProps> = ({
             placeholder='Enter your message'
             value={message}
             onChange={handleMessageChange}
-            className='w-full h-32 bg-gray-500 border-gray-400 border rounded-md py-2 px-3 text-white'
+            className='w-full h-32 bg-flightdeck-black border-flightdeck-lightgold border rounded-md py-2 px-3 text-white'
           ></textarea>
         </div>
         <button
           onClick={handlerSend}
-          className='bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600'
+          className='bg-flightdeck-darkgold text-white rounded-md py-2 px-4 hover:bg-flightdeck-gold'
         >
           Send Message
         </button>

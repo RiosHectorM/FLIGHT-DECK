@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import { useUserStore } from '@/store/userStore';
 import ToasterProvider from '../providers/ToasterProvider';
 import FormCertificates from '../mainInstructor/form/formCertificates';
-import StatsPilot from '../components/AuxComponents/Stats/StatsPilot';
 
 const MainPiloto: FC = () => {
   const { data } = useSession();
@@ -92,9 +91,7 @@ const MainPiloto: FC = () => {
                           {user.nationality}
                         </p>
                         <p className='font-semibold italic mb-2 mt-2 flex'>
-                          <p className='font-normal mr-2 not-italic'>
-                            City:{' '}
-                          </p>{' '}
+                          <p className='font-normal mr-2 not-italic'>City: </p>{' '}
                           {user.city}
                         </p>
                         <p className='font-semibold italic mb-2 mt-2 flex'>
@@ -104,38 +101,24 @@ const MainPiloto: FC = () => {
                           {user.address}
                         </p>
                         <p className='font-semibold italic mb-2 mt-2 flex'>
-                          <p className='font-normal mr-2 not-italic'>
-                            Phone:{' '}
-                          </p>
+                          <p className='font-normal mr-2 not-italic'>Phone: </p>
                           {user.phoneNumber}
                         </p>
                         <button
-                          className='font-sans bg-gray-800 text-white my-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                          className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'
                           onClick={handleFormInstructor}
-                          style={{
-                            backgroundColor: '#1a1a1a', // flightdeck-dark
-                            color: '#e5d9b6', // flightdeck-cream
-                          }}
                         >
                           Edit Information
                         </button>
                         <button
-                          className='font-sans bg-gray-800 text-white mb-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                          className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black my-2'
                           onClick={handleCertifications}
-                          style={{
-                            backgroundColor: '#1a1a1a', // flightdeck-dark
-                            color: '#e5d9b6', // flightdeck-cream
-                          }}
                         >
                           Edit Certifications
                         </button>
                         <button
-                          className='font-sans bg-gray-800 text-white mb-4 rounded-md py-2 hover:bg-gray-400 hover:text-black hover:font-bold hover:border hover:border-black'
+                          className='font-sans bg-flightdeck-black text-flightdeck-lightgold  rounded-md py-2 hover:bg-flightdeck-darkgold hover:text-black border hover:border-black'
                           onClick={handleFormPassword}
-                          style={{
-                            backgroundColor: '#1a1a1a', // flightdeck-dark
-                            color: '#e5d9b6', // flightdeck-cream
-                          }}
                         >
                           Change Password
                         </button>
@@ -169,9 +152,6 @@ const MainPiloto: FC = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className='mx-auto max-w-full px-4 sm:px-6 lg:px-8'>
-            <StatsPilot userId={user.id} />
           </div>
         </main>
       )}

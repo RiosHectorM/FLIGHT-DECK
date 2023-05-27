@@ -22,15 +22,15 @@ const MainCompanyPage: React.FC = () => {
     setShowPilots(!showPilots);
   };
 
-  const flightData: Omit<FlightLogProps, 'pilotName'> = {
-    flightNumber: "AC1234",
-    date: "2023-05-01",
-    duration: "2 horas 30 minutos",
-    origin: "Toronto, Canada",
-    destination: "London, UK",
-    aircraft: "Boeing 777 ",
-    flightLogUrl: "/flight-log.pdf"
-  };
+  // const flightData: Omit<FlightLogProps, 'pilotName'> = {
+  //   flightNumber: "AC1234",
+  //   date: "2023-05-01",
+  //   duration: "2 horas 30 minutos",
+  //   origin: "Toronto, Canada",
+  //   destination: "London, UK",
+  //   aircraft: "Boeing 777 ",
+  //   flightLogUrl: "/flight-log.pdf"
+  // };
 
   useEffect(() => {
     // Simular una carga de datos
@@ -40,9 +40,9 @@ const MainCompanyPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center space-y-8 p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
+    <div className="flex flex-col items-center space-y-8 p-2 lg:p-8 min-h-screen" style={{ backgroundImage: 'url("/images/company.jpg")',
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: 'center', 
     }}>
 
       <h1 className="text-3xl font-semibold" style={{ color: '#CBB26A' }}>Main Company</h1>
@@ -57,10 +57,10 @@ const MainCompanyPage: React.FC = () => {
       
 
       <button
-          className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600"
+          className="bg-flightdeck-darkgold text-black font-bold rounded-md py-2 px-4 hover:bg-flightdeck-lightgold "
           onClick={handleTogglePilots}
         >
-          {showPilots ? "Hide pilots" : "See registered pilots"}
+          {showPilots ? "Ocultar pilotos" : "Ver pilotos registrados"}
         </button>
         {showPilots && <PilotList />}
     </div>

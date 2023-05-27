@@ -4,9 +4,11 @@ import axios from 'axios';
 import RejectModal from '../components/Modals/RejectModal/RejectModal';
 import useRejectModal from '../../utils/hooks/useRejectModal';
 import { Request } from '@/types/globalTypes';
-import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { MdDoneOutline } from 'react-icons/md';
+import { Table, Tbody, Td, Th, Thead, Tr } from 'react-super-responsive-table';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+
 
 type CertificationRequestsProps = {
   requests: Request[] | undefined;
@@ -58,13 +60,13 @@ const CertificationRequests = ({
     <div className='flex flex-col items-center justify-center'>
       <RejectModal email={selectedRequest?.user.email as string} />
       {requests?.length ? (
-        <div >
+        <div className='w-full'>
           <h2 className='text-xl font-bold mb-4 text-red-600 animate-bounce text-center'>
             Certification Requests
           </h2>
-          <Table className='rounded-2xl p-4 mb-10 overflow-x-scroll'>
-            <Thead className='bg-gray-50' >
-              <Tr className='text-gray-500 text-xs uppercase tracking-wide font-medium'>
+          <Table className='rounded-2xl p-4 mb-10 overflow-x-scroll bg-flightdeck-lightgold'>
+            <Thead className='bg-flightdeck-lightgold'>
+              <Tr className='text-black text-xs uppercase tracking-wide font-medium'>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>NAME</Th>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>DATE</Th>
                 <Th className='px-2 py-3 text-center mx-2 my-4'>EMAIL</Th>
@@ -74,25 +76,25 @@ const CertificationRequests = ({
                 <Th className='px-2 py-3 text-center mx-2 my-4'>OK / REJECT</Th>
               </Tr>
             </Thead>
-            <Tbody className='bg-white divide-y divide-gray-200'>
+            <Tbody className='bg-flightdeck-lightgold divide-y divide-gray-200'>
               {requests?.map((dato, index) => (
                 <Tr key={index} className='hover:bg-gray-100'>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                     {dato.user.name} {dato.user.lastName}
                   </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                     {dato.date?.split('T')[0]}
                   </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center truncate'>
                     {dato.user.email}
                   </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                     {dato.stages}
                   </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                     {dato.remarks}
                   </Td>
-                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-gray-500 text-center'>
+                  <Td className='px-2 py-4 whitespace-nowrap text-sm text-black text-center'>
                     {dato.hourCount}
                   </Td>
                   <Td className=' print:hidden px-2 py-4 whitespace-nowrap text-sm font-medium'>
